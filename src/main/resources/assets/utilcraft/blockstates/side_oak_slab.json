@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "type=east": { "model": "minecraft:block/oak_slab", "x": 90, "y": 270},
+    "type=north": { "model": "minecraft:block/oak_slab", "x": 270},
+    "type=west": { "model": "minecraft:block/oak_slab", "x": 270, "y": 270},
+    "type=south": { "model": "minecraft:block/oak_slab", "x": 90},
+    "type=double": { "model": "minecraft:block/oak_planks" }
+  }
+}

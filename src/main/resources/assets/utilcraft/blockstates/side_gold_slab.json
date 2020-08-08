@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "type=east": { "model": "utilcraft:block/goldslab", "x": 90, "y": 270},
+    "type=north": { "model": "utilcraft:block/goldslab", "x": 270},
+    "type=west": { "model": "utilcraft:block/goldslab", "x": 270, "y": 270},
+    "type=south": { "model": "utilcraft:block/goldslab", "x": 90},
+    "type=double": { "model": "utilcraft:block/goldbrick" }
+  }
+}

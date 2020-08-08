@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    " # ",
+    "-*-"
+  ],
+  "key": {
+    "#": {
+      "item": "utilcraft:rose_quartz"
+    },
+    "*": {
+      "item": "minecraft:stick"
+    },
+    "-": {
+      "item": "minecraft:rose_bush"
+    }
+  },
+  "result": {
+    "item": "utilcraft:rose_quartz_sword"
+  }
+}
