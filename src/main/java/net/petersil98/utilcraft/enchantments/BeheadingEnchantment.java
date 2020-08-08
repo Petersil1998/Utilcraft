@@ -19,7 +19,7 @@ public class BeheadingEnchantment extends LootBonusEnchantment {
      * Returns the maximum level that the enchantment can have.
      */
     public int getMaxLevel() {
-        return 1;
+        return 2;
     }
 
     public boolean canApplyTogether(@Nonnull Enchantment enchantment) {
@@ -29,5 +29,9 @@ public class BeheadingEnchantment extends LootBonusEnchantment {
     @Override
     public void onEntityDamaged(@Nonnull LivingEntity user, @Nonnull Entity target, int level) {
         super.onEntityDamaged(user, target, level);
+    }
+
+    public static int getHeadDropChance(int level){
+        return level*10;
     }
 }

@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Util;
 import net.minecraft.util.datafix.TypeReferences;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -30,6 +31,7 @@ import net.petersil98.utilcraft.blocks.sakura.SakuraPlanks;
 import net.petersil98.utilcraft.blocks.sakura.SakuraSapling;
 import net.petersil98.utilcraft.blocks.sideslabs.*;
 import net.petersil98.utilcraft.enchantments.BeheadingEnchantment;
+import net.petersil98.utilcraft.enchantments.BeheadingModifier;
 import net.petersil98.utilcraft.food.Applejuice;
 import net.petersil98.utilcraft.food.Baguette;
 import net.petersil98.utilcraft.food.SweetBerryjuice;
@@ -41,6 +43,8 @@ import net.petersil98.utilcraft.proxies.ServerProxy;
 import net.petersil98.utilcraft.utils.ModSetup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.annotation.Nonnull;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("utilcraft")
@@ -78,7 +82,7 @@ public class Main {
     @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
+        public static void registerBlocks(final RegistryEvent.Register<Block> blockRegistryEvent) {
             blockRegistryEvent.getRegistry().register(new MyBlock().setRegistryName("myblock"));
             blockRegistryEvent.getRegistry().register(new GoldBrick().setRegistryName("goldbrick"));
             blockRegistryEvent.getRegistry().register(new GoldStairs().setRegistryName("goldstairs"));
@@ -105,7 +109,7 @@ public class Main {
         }
 
         @SubscribeEvent
-        public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
+        public static void registerItems(final RegistryEvent.Register<Item> itemRegistryEvent) {
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.MYBLOCK, new Item.Properties().group(setup.itemGroup)).setRegistryName("myblock"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLDBRICK, new Item.Properties().group(setup.itemGroup)).setRegistryName("goldbrick"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLDSTAIRS, new Item.Properties().group(setup.itemGroup)).setRegistryName("goldstairs"));
@@ -150,23 +154,28 @@ public class Main {
         }
 
         @SubscribeEvent
-        public static void onEnchantmentsRegistry(final RegistryEvent.Register<Enchantment> enchantmentRegister) {
+        public static void registerEnchantments(final RegistryEvent.Register<Enchantment> enchantmentRegister) {
             enchantmentRegister.getRegistry().register(new BeheadingEnchantment().setRegistryName("beheading_enchantment"));
         }
 
         @SubscribeEvent
-        public static void onTileEntitiesRegistry(final RegistryEvent.Register<TileEntityType<?>> tileEntityRegister) {
+        public static void registerModifierSerializers(@Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+            event.getRegistry().register(new BeheadingModifier.Serializer().setRegistryName("beheading"));
+        }
+
+        @SubscribeEvent
+        public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> tileEntityRegister) {
             Type<?> type = Util.attemptDataFix(TypeReferences.BLOCK_ENTITY, "disenchantment_table");
             tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(DisenchantmentTableTile::new, ModBlocks.DISENCHANTMENTTABLE).build(type).setRegistryName("disenchantment_table"));
         }
 
         @SubscribeEvent
-        public static void onContainersRegistry(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
+        public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
             containerRegister.getRegistry().register(new ContainerType<>(DisenchantmentTableContainer::new).setRegistryName("disenchantment_table"));
         }
 
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
+        public static void clientSetup(FMLClientSetupEvent event) {
             ScreenManager.registerFactory(ModContainer.DISENCHANTMENTBLOCKCONTAINER, DisenchantmentTableScreen::new);
             RenderTypeLookup.setRenderLayer(ModBlocks.SAKURASAPLING, RenderType.getCutout());
         }
