@@ -6,7 +6,7 @@
   "block.utilcraft.goldwall": "Gold Wall",
   "block.utilcraft.compressedcobblestone": "Compressed Cobblestone",
   "block.utilcraft.silver_ore": "Silver Ore",
-  "block.utilcraft.rose_quartz_ore": "Zaya's Ore",
+  "block.utilcraft.rose_quartz_ore": "Rose Quartz Ore",
   "block.utilcraft.rose_quartz_block": "Rose Quartz Block",
   "block.utilcraft.side_stone_slab": "Side Stone Slab",
   "block.utilcraft.side_cobblestone_slab": "Side Cobblestone Slab",
@@ -35,7 +35,7 @@
   "item.utilcraft.rose_quartz_boots": "Rose Quartz Boots",
   "item.utilcraft.rose_quartz_pickaxe": "Rose Quartz Pickaxe",
   "item.utilcraft.rose_quartz_shovel": "Rose Quartz Shovel",
-  "item.utilcraft.rose_quartz_hoe": "Zaya",
+  "item.utilcraft.rose_quartz_hoe": "Rose Quartz Hoe",
   "item.utilcraft.rose_quartz_sword": "Rose Quartz Sword",
   "item.utilcraft.rose_quartz_axe": "Rose Quartz Axe",
   "item.utilcraft.rose_quartz_super_hammer": "Rose Quartz Super Hammer",
@@ -52,5 +52,8 @@
   "advancements.utilcraft.root.title": "Green Thumb",
   "advancements.utilcraft.root.description": "Place a Sakura Sapling",
 
-  "screen.utilcraft.disenchantment_table": "Disenchantment Table"
+  "screen.utilcraft.disenchantment_table": "Disenchantment Table",
+
+  "command.utilcraft.refill.health": "Refilled health",
+  "command.utilcraft.refill.hunger": "Refilled hunger"
 }

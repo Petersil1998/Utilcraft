@@ -1,5 +1,6 @@
 package net.petersil98.utilcraft;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.types.Type;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
@@ -15,6 +16,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.datafix.TypeReferences;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -22,6 +24,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.petersil98.utilcraft.blocks.*;
@@ -30,6 +33,7 @@ import net.petersil98.utilcraft.blocks.sakura.SakuraLog;
 import net.petersil98.utilcraft.blocks.sakura.SakuraPlanks;
 import net.petersil98.utilcraft.blocks.sakura.SakuraSapling;
 import net.petersil98.utilcraft.blocks.sideslabs.*;
+import net.petersil98.utilcraft.commands.ModCommands;
 import net.petersil98.utilcraft.enchantments.BeheadingEnchantment;
 import net.petersil98.utilcraft.enchantments.BeheadingModifier;
 import net.petersil98.utilcraft.food.Applejuice;
@@ -178,6 +182,14 @@ public class Main {
         public static void clientSetup(FMLClientSetupEvent event) {
             ScreenManager.registerFactory(ModContainer.DISENCHANTMENTBLOCKCONTAINER, DisenchantmentTableScreen::new);
             RenderTypeLookup.setRenderLayer(ModBlocks.SAKURASAPLING, RenderType.getCutout());
+        }
+    }
+    @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.FORGE)
+    public static class RegistryCommands {
+
+        @SubscribeEvent
+        public static void registerCommands(RegisterCommandsEvent event){
+            ModCommands.register(event.getDispatcher());
         }
     }
 }
