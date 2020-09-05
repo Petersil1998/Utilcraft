@@ -55,6 +55,9 @@
   "screen.utilcraft.disenchantment_table": "Disenchantment Table",
 
   "owner_capability.utilcraft.block_protected": "This block is protected, you cannot break it!",
+  "player_trusted.utilcraft.player_added": "Player %s can now access your protected TileEntities",
+  "player_trusted.utilcraft.player_removed": "Player %s can no longer access your protected TileEntities",
+  "player_trusted.utilcraft.list": "You trust the following Players: %s",
 
   "command.utilcraft.refill.health": "Refilled health",
   "command.utilcraft.refill.hunger": "Refilled hunger"

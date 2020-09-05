@@ -1,10 +1,10 @@
 package net.petersil98.utilcraft.data.tileEntityOwner;
 
-import net.minecraft.entity.player.PlayerEntity;
+import java.util.UUID;
 
 public interface ITileEntityOwner {
 
-    void setOwner(PlayerEntity player);
+    void setOwner(UUID player);
 
-    PlayerEntity getOwner();
+    UUID getOwner();
 }

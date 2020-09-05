@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.RedstoneOreBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -20,12 +20,12 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.data.ModWorldSavedData;
 import net.petersil98.utilcraft.data.tileEntityOwner.CapabilityTileEntityOwner;
 import net.petersil98.utilcraft.data.tileEntityOwner.TileEntityOwnerProvider;
-import net.petersil98.utilcraft.data.trustedPlayers.CapabilityTrustedPlayers;
-import net.petersil98.utilcraft.data.trustedPlayers.TrustedPlayersProvider;
-
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static net.petersil98.utilcraft.utils.VeinMinerUtils.*;
 
@@ -66,20 +66,23 @@ public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void blockProtector(final BlockEvent.BreakEvent event) {
-        TileEntity te = event.getPlayer().getEntityWorld().getTileEntity(event.getPos());
-        PlayerEntity player = event.getPlayer();
-        if(te != null){
-            te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
-                PlayerEntity owner = iTileEntityOwner.getOwner();
-                if(owner != null && !owner.equals(player)) {
-                    owner.getCapability(CapabilityTrustedPlayers.TRUSTED_PLAYERS_CAPABILITY).ifPresent(iTrustedPlayers -> {
-                        if (!iTrustedPlayers.getTrustedPlayers().contains(player)) {
+        if(event.getPlayer() instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity)event.getPlayer();
+            TileEntity te = player.getEntityWorld().getTileEntity(event.getPos());
+            if (te != null) {
+                te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
+                    UUID ownerUUID = iTileEntityOwner.getOwner();
+                    UUID playerUUID = player.getGameProfile().getId();
+                    if (ownerUUID != null && !ownerUUID.equals(playerUUID)) {
+                        ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
+                        List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
+                        if(!trustedPlayers.contains(playerUUID)){
                             player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
                             event.setCanceled(true);
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
         }
     }
 
@@ -91,15 +94,6 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void attachTrustedPlayersToPlayers(AttachCapabilitiesEvent<Entity> event){
-        if(event.getObject() instanceof PlayerEntity) {
-            TrustedPlayersProvider provider = new TrustedPlayersProvider();
-            event.addCapability(new ResourceLocation(Main.MOD_ID, "trusted_players"), provider);
-            event.addListener(provider::invalidate);
-        }
-    }
-
-    @SubscribeEvent
     public static void onPlayerPlacesTileEntity(BlockEvent.EntityPlaceEvent event){
         if(event.getEntity() instanceof PlayerEntity){
             PlayerEntity player = (PlayerEntity)event.getEntity();
@@ -107,26 +101,28 @@ public class EventHandler {
             TileEntity te = player.getEntityWorld().getTileEntity(pos);
             if(te != null){
                 te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
-                    iTileEntityOwner.setOwner(player);
+                    iTileEntityOwner.setOwner(player.getGameProfile().getId());
                 });
             }
         }
     }
 
+    @SubscribeEvent
     public static void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event){
-        if(event.getEntity() instanceof PlayerEntity){
-            PlayerEntity player = (PlayerEntity)event.getEntity();
-            TileEntity te = player.getEntityWorld().getTileEntity(event.getPos());
+        if(event.getEntity() instanceof ServerPlayerEntity){
+            ServerPlayerEntity player = (ServerPlayerEntity)event.getEntity();
+            TileEntity te = player.getServerWorld().getTileEntity(event.getPos());
             if(te != null){
                 te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
-                    PlayerEntity owner = iTileEntityOwner.getOwner();
-                    if(owner != null && !owner.equals(player)) {
-                        owner.getCapability(CapabilityTrustedPlayers.TRUSTED_PLAYERS_CAPABILITY).ifPresent(iTrustedPlayers -> {
-                            if (!iTrustedPlayers.getTrustedPlayers().contains(player)) {
-                                player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
-                                event.setUseBlock(Event.Result.DENY);
-                            }
-                        });
+                    UUID ownerUUID = iTileEntityOwner.getOwner();
+                    UUID playerUUID = player.getGameProfile().getId();
+                    if(ownerUUID != null && !ownerUUID.equals(playerUUID)) {
+                        ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
+                        List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
+                        if(!trustedPlayers.contains(playerUUID)){
+                            player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
+                            event.setUseBlock(Event.Result.DENY);
+                        }
                     }
                 });
             }

@@ -1,18 +1,18 @@
 package net.petersil98.utilcraft.data.tileEntityOwner;
 
-import net.minecraft.entity.player.PlayerEntity;
+import java.util.UUID;
 
 public class DefaultTileEntityOwner implements ITileEntityOwner {
 
-    private PlayerEntity owner;
+    private UUID owner;
 
     @Override
-    public void setOwner(PlayerEntity player) {
+    public void setOwner(UUID player) {
         this.owner = player;
     }
 
     @Override
-    public PlayerEntity getOwner() {
+    public UUID getOwner() {
         return this.owner;
     }
 }

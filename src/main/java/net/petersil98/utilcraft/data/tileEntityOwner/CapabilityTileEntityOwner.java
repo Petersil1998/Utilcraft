@@ -1,9 +1,12 @@
 package net.petersil98.utilcraft.data.tileEntityOwner;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -27,7 +30,7 @@ public class CapabilityTileEntityOwner {
         public INBT writeNBT(Capability<ITileEntityOwner> capability, ITileEntityOwner instance, Direction side) {
             CompoundNBT tag = new CompoundNBT();
             if(instance.getOwner() != null) {
-                tag.putUniqueId("owner", instance.getOwner().getGameProfile().getId());
+                tag.putUniqueId("owner", instance.getOwner());
             }
             return tag;
         }
@@ -36,8 +39,7 @@ public class CapabilityTileEntityOwner {
         public void readNBT(Capability<ITileEntityOwner> capability, ITileEntityOwner instance, Direction side, INBT nbt) {
             try {
                 UUID playerUUID = ((CompoundNBT) nbt).getUniqueId("owner");
-                PlayerEntity player = Minecraft.getInstance().world.getServer().getPlayerList().getPlayerByUUID(playerUUID);
-                instance.setOwner(player);
+                instance.setOwner(playerUUID);
             } catch (Exception e){
                 instance.setOwner(null);
             }
