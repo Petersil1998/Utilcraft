@@ -35,6 +35,7 @@ import net.petersil98.utilcraft.blocks.sakura.SakuraSapling;
 import net.petersil98.utilcraft.blocks.sideslabs.*;
 import net.petersil98.utilcraft.commands.ModCommands;
 import net.petersil98.utilcraft.data.tileEntityOwner.CapabilityTileEntityOwner;
+import net.petersil98.utilcraft.data.trustedPlayers.CapabilityTrustedPlayers;
 import net.petersil98.utilcraft.enchantments.BeheadingEnchantment;
 import net.petersil98.utilcraft.enchantments.BeheadingModifier;
 import net.petersil98.utilcraft.food.Applejuice;
@@ -68,8 +69,11 @@ public class Main {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+        ScreenManager.registerFactory(ModContainer.DISENCHANTMENTBLOCKCONTAINER, DisenchantmentTableScreen::new);
+        RenderTypeLookup.setRenderLayer(ModBlocks.SAKURASAPLING, RenderType.getCutout());
 
         CapabilityTileEntityOwner.register();
+        CapabilityTrustedPlayers.register();
 
         DeferredWorkQueue.runLater(() -> {
             for (Biome biome : ForgeRegistries.BIOMES) {
@@ -78,6 +82,7 @@ public class Main {
                 WorldGeneration.addSakuraTrees(biome);
             }
         });
+
         setup.init();
         proxy.init();
     }
@@ -182,12 +187,6 @@ public class Main {
         @SubscribeEvent
         public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
             containerRegister.getRegistry().register(new ContainerType<>(DisenchantmentTableContainer::new).setRegistryName("disenchantment_table"));
-        }
-
-        @SubscribeEvent
-        public static void clientSetup(FMLClientSetupEvent event) {
-            ScreenManager.registerFactory(ModContainer.DISENCHANTMENTBLOCKCONTAINER, DisenchantmentTableScreen::new);
-            RenderTypeLookup.setRenderLayer(ModBlocks.SAKURASAPLING, RenderType.getCutout());
         }
     }
     @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.FORGE)

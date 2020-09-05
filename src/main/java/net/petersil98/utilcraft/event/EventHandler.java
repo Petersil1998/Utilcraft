@@ -13,7 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -106,6 +108,26 @@ public class EventHandler {
             if(te != null){
                 te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
                     iTileEntityOwner.setOwner(player);
+                });
+            }
+        }
+    }
+
+    public static void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event){
+        if(event.getEntity() instanceof PlayerEntity){
+            PlayerEntity player = (PlayerEntity)event.getEntity();
+            TileEntity te = player.getEntityWorld().getTileEntity(event.getPos());
+            if(te != null){
+                te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
+                    PlayerEntity owner = iTileEntityOwner.getOwner();
+                    if(owner != null && !owner.equals(player)) {
+                        owner.getCapability(CapabilityTrustedPlayers.TRUSTED_PLAYERS_CAPABILITY).ifPresent(iTrustedPlayers -> {
+                            if (!iTrustedPlayers.getTrustedPlayers().contains(player)) {
+                                player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
+                                event.setUseBlock(Event.Result.DENY);
+                            }
+                        });
+                    }
                 });
             }
         }

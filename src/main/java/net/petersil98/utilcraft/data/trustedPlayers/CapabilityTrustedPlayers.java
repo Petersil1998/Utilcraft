@@ -21,36 +21,37 @@ public class CapabilityTrustedPlayers {
     public static Capability<ITrustedPlayers> TRUSTED_PLAYERS_CAPABILITY;
 
     public static void register(){
-        CapabilityManager.INSTANCE.register(ITrustedPlayers.class, new Capability.IStorage<ITrustedPlayers>() {
+        CapabilityManager.INSTANCE.register(ITrustedPlayers.class, new Storage(), DefaultTrustedPlayers::new);
+    }
 
-            @Nonnull
-            @Override
-            public INBT writeNBT(Capability<ITrustedPlayers> capability, ITrustedPlayers instance, Direction side) {
-                CompoundNBT compound = new CompoundNBT(); //your main compound
-                ListNBT owners = new ListNBT(); //list which will store your data
-                for(PlayerEntity player: instance.getTrustedPlayers()){
-                    CompoundNBT tag = new CompoundNBT();
-                    tag.putUniqueId("player", player.getGameProfile().getId());
-                    owners.add(tag);
-                }
-                compound.put("trustedPlayers", owners);
-                return compound;
+    public static class Storage implements Capability.IStorage<ITrustedPlayers> {
+        @Nonnull
+        @Override
+        public INBT writeNBT(Capability<ITrustedPlayers> capability, ITrustedPlayers instance, Direction side) {
+            CompoundNBT compound = new CompoundNBT();
+            ListNBT owners = new ListNBT();
+            for(PlayerEntity player: instance.getTrustedPlayers()){
+                CompoundNBT tag = new CompoundNBT();
+                tag.putUniqueId("player", player.getGameProfile().getId());
+                owners.add(tag);
             }
+            compound.put("trustedPlayers", owners);
+            return compound;
+        }
 
-            @Override
-            public void readNBT(Capability<ITrustedPlayers> capability, ITrustedPlayers instance, Direction side, INBT nbt) {
-                try {
-                    ArrayList<PlayerEntity> players = new ArrayList<>();
-                    ListNBT owners = (ListNBT)((CompoundNBT) nbt).get("trustedPlayers");
-                    for (INBT owner: owners) {
-                        UUID playerUuid = ((CompoundNBT) owner).getUniqueId("player");
-                        players.add(Minecraft.getInstance().world.getServer().getPlayerList().getPlayerByUUID(playerUuid));
-                    }
-                    instance.setTrustedPlayers(players);
-                } catch (Exception e){
-                    instance.setTrustedPlayers(Lists.newArrayList());
+        @Override
+        public void readNBT(Capability<ITrustedPlayers> capability, ITrustedPlayers instance, Direction side, INBT nbt) {
+            try {
+                ArrayList<PlayerEntity> players = new ArrayList<>();
+                ListNBT owners = (ListNBT)((CompoundNBT) nbt).get("trustedPlayers");
+                for (INBT owner: owners) {
+                    UUID playerUuid = ((CompoundNBT) owner).getUniqueId("player");
+                    players.add(Minecraft.getInstance().world.getServer().getPlayerList().getPlayerByUUID(playerUuid));
                 }
+                instance.setTrustedPlayers(players);
+            } catch (Exception e){
+                instance.setTrustedPlayers(Lists.newArrayList());
             }
-        }, DefaultTrustedPlayers::new);
+        }
     }
 }

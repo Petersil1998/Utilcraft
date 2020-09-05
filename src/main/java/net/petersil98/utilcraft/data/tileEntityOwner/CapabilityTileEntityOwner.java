@@ -18,28 +18,29 @@ public class CapabilityTileEntityOwner {
     public static Capability<ITileEntityOwner> OWNER_CAPABILITY;
 
     public static void register(){
-        CapabilityManager.INSTANCE.register(ITileEntityOwner.class, new Capability.IStorage<ITileEntityOwner>() {
+        CapabilityManager.INSTANCE.register(ITileEntityOwner.class, new Storage(), DefaultTileEntityOwner::new);
+    }
 
-            @Nonnull
-            @Override
-            public INBT writeNBT(Capability<ITileEntityOwner> capability, ITileEntityOwner instance, Direction side) {
-                CompoundNBT tag = new CompoundNBT();
-                if(instance.getOwner() != null) {
-                    tag.putUniqueId("owner", instance.getOwner().getGameProfile().getId());
-                }
-                return tag;
+    public static class Storage implements Capability.IStorage<ITileEntityOwner> {
+        @Nonnull
+        @Override
+        public INBT writeNBT(Capability<ITileEntityOwner> capability, ITileEntityOwner instance, Direction side) {
+            CompoundNBT tag = new CompoundNBT();
+            if(instance.getOwner() != null) {
+                tag.putUniqueId("owner", instance.getOwner().getGameProfile().getId());
             }
+            return tag;
+        }
 
-            @Override
-            public void readNBT(Capability<ITileEntityOwner> capability, ITileEntityOwner instance, Direction side, INBT nbt) {
-                try {
-                    UUID playerUUID = ((CompoundNBT) nbt).getUniqueId("owner");
-                    PlayerEntity player = Minecraft.getInstance().world.getServer().getPlayerList().getPlayerByUUID(playerUUID);
-                    instance.setOwner(player);
-                } catch (Exception e){
-                    instance.setOwner(null);
-                }
+        @Override
+        public void readNBT(Capability<ITileEntityOwner> capability, ITileEntityOwner instance, Direction side, INBT nbt) {
+            try {
+                UUID playerUUID = ((CompoundNBT) nbt).getUniqueId("owner");
+                PlayerEntity player = Minecraft.getInstance().world.getServer().getPlayerList().getPlayerByUUID(playerUUID);
+                instance.setOwner(player);
+            } catch (Exception e){
+                instance.setOwner(null);
             }
-        }, DefaultTileEntityOwner::new);
+        }
     }
 }
