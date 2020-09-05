@@ -11,6 +11,8 @@ public class ModSetup {
         public ItemStack createIcon() {
             return new ItemStack(ModBlocks.GOLDBRICK);
         }
+
+
     };
 
     public void init(){

@@ -4,35 +4,34 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.RedstoneOreBlock;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.petersil98.utilcraft.items.AbstractSuperTool;
-import net.petersil98.utilcraft.items.RoseQuartzSuperHammer;
-import net.petersil98.utilcraft.items.RoseQuartzSuperShovel;
+import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.data.tileEntityOwner.CapabilityTileEntityOwner;
+import net.petersil98.utilcraft.data.tileEntityOwner.TileEntityOwnerProvider;
+import net.petersil98.utilcraft.data.trustedPlayers.CapabilityTrustedPlayers;
+import net.petersil98.utilcraft.data.trustedPlayers.TrustedPlayersProvider;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static net.petersil98.utilcraft.utils.VeinMinerUtils.*;
 
 @Mod.EventBusSubscriber(modid = "utilcraft")
 public class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onBlockBreak(final BlockEvent.BreakEvent event) {
+    public static void veinMiner(final BlockEvent.BreakEvent event) {
         Block minedBlock = event.getState().getBlock();
         PlayerEntity player = event.getPlayer();
         World world = event.getWorld().getWorld();
@@ -63,86 +62,52 @@ public class EventHandler {
         }
     }
 
-    private static boolean isSuperTool(Item mainItem){
-        return mainItem instanceof RoseQuartzSuperHammer || mainItem instanceof RoseQuartzSuperShovel;
-    }
-
-    private static void get3x3FieldAroundTargetedBlock(final PlayerEntity player, ArrayList<BlockPos> affectedBlocks)
-    {
-        final BlockRayTraceResult rayTrace = AbstractSuperTool.rayTracer(player.world, player, RayTraceContext.FluidMode.ANY);
-        final BlockPos center = rayTrace.getPos();
-        switch (rayTrace.getFace()) {
-            case DOWN:
-            case UP:
-                affectedBlocks.add(center.west());
-                affectedBlocks.add(center.east());
-                affectedBlocks.add(center.north());
-                affectedBlocks.add(center.south());
-
-                affectedBlocks.add(center.west().north());
-                affectedBlocks.add(center.west().south());
-                affectedBlocks.add(center.east().north());
-                affectedBlocks.add(center.east().south());
-                break;
-            case NORTH:
-            case SOUTH:
-                affectedBlocks.add(center.up());
-                affectedBlocks.add(center.down());
-                affectedBlocks.add(center.west());
-                affectedBlocks.add(center.east());
-
-                affectedBlocks.add(center.west().up());
-                affectedBlocks.add(center.west().down());
-                affectedBlocks.add(center.east().up());
-                affectedBlocks.add(center.east().down());
-                break;
-            case EAST:
-            case WEST:
-                affectedBlocks.add(center.up());
-                affectedBlocks.add(center.down());
-                affectedBlocks.add(center.north());
-                affectedBlocks.add(center.south());
-
-                affectedBlocks.add(center.north().up());
-                affectedBlocks.add(center.north().down());
-                affectedBlocks.add(center.south().up());
-                affectedBlocks.add(center.south().down());
-                break;
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void blockProtector(final BlockEvent.BreakEvent event) {
+        TileEntity te = event.getPlayer().getEntityWorld().getTileEntity(event.getPos());
+        PlayerEntity player = event.getPlayer();
+        if(te != null){
+            te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
+                PlayerEntity owner = iTileEntityOwner.getOwner();
+                if(owner != null && !owner.equals(player)) {
+                    owner.getCapability(CapabilityTrustedPlayers.TRUSTED_PLAYERS_CAPABILITY).ifPresent(iTrustedPlayers -> {
+                        if (!iTrustedPlayers.getTrustedPlayers().contains(player)) {
+                            player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
+                            event.setCanceled(true);
+                        }
+                    });
+                }
+            });
         }
     }
 
-    private static void getVein(BlockPos pos, ArrayList<BlockPos> vein, World world){
-        if (!vein.contains(pos.south()) && areSameBlock(pos, pos.south(), world)) {
-            vein.add(pos.south());
-            getVein(pos.south(), vein, world);
-        }
-        if (!vein.contains(pos.east()) && areSameBlock(pos, pos.east(), world)) {
-            vein.add(pos.east());
-            getVein(pos.east(), vein, world);
-        }
-        if (!vein.contains(pos.north()) && areSameBlock(pos, pos.north(), world)) {
-            vein.add(pos.north());
-            getVein(pos.north(), vein, world);
-        }
-        if (!vein.contains(pos.west()) && areSameBlock(pos, pos.west(), world)) {
-            vein.add(pos.west());
-            getVein(pos.west(), vein, world);
-        }
-        if (!vein.contains(pos.up()) && areSameBlock(pos, pos.up(), world)) {
-            vein.add(pos.up());
-            getVein(pos.up(), vein, world);
-        }
-        if (!vein.contains(pos.down()) && areSameBlock(pos, pos.down(), world)) {
-            vein.add(pos.down());
-            getVein(pos.down(), vein, world);
+    @SubscribeEvent
+    public static void attachOwnerToTileEntities(AttachCapabilitiesEvent<TileEntity> event){
+        TileEntityOwnerProvider provider = new TileEntityOwnerProvider();
+        event.addCapability(new ResourceLocation(Main.MOD_ID, "owner"), provider);
+        event.addListener(provider::invalidate);
+    }
+
+    @SubscribeEvent
+    public static void attachTrustedPlayersToPlayers(AttachCapabilitiesEvent<Entity> event){
+        if(event.getObject() instanceof PlayerEntity) {
+            TrustedPlayersProvider provider = new TrustedPlayersProvider();
+            event.addCapability(new ResourceLocation(Main.MOD_ID, "trusted_players"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 
-    private static boolean playerCanHarvestBlock(BlockState block, ItemStack item, BlockPos pos, World world){
-        return ForgeHooks.canToolHarvestBlock(world, pos, item) || item.canHarvestBlock(block);
-    }
-
-    private static boolean areSameBlock(BlockPos pos1, BlockPos po2, World world){
-        return world.getBlockState(pos1).getBlock().equals(world.getBlockState(po2).getBlock());
+    @SubscribeEvent
+    public static void onPlayerPlacesTileEntity(BlockEvent.EntityPlaceEvent event){
+        if(event.getEntity() instanceof PlayerEntity){
+            PlayerEntity player = (PlayerEntity)event.getEntity();
+            BlockPos pos = event.getBlockSnapshot().getPos();
+            TileEntity te = player.getEntityWorld().getTileEntity(pos);
+            if(te != null){
+                te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
+                    iTileEntityOwner.setOwner(player);
+                });
+            }
+        }
     }
 }

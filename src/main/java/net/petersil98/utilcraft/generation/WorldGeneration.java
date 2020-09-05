@@ -9,8 +9,8 @@ import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.petersil98.utilcraft.biomes.features.ModBiomeFeatures;
 import net.petersil98.utilcraft.blocks.ModBlocks;
-import net.petersil98.utilcraft.blocks.custom.ModBiomeFeatures;
 
 public class WorldGeneration {
 

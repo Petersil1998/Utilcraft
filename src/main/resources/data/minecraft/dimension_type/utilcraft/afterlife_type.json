@@ -1,0 +1,16 @@
+{
+  "name": "utilcraft:afterlife_type",
+  "ultrawarm": false,
+  "natural": false,
+  "shrunk": false,
+  "piglin_safe": false,
+  "respawn_anchor_works": false,
+  "bed_works": false,
+  "has_raids": false,
+  "has_skylight": false,
+  "has_ceiling": false,
+  "ambient_light": 0.1,
+  "fixed_time": 18000,
+  "logical_height": 256,
+  "infiniburn": "minecraft:infiniburn_overworld"
+}

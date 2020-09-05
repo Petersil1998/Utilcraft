@@ -4,7 +4,7 @@ import net.minecraft.block.trees.Tree;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
-import net.petersil98.utilcraft.blocks.custom.ModBiomeFeatures;
+import net.petersil98.utilcraft.biomes.features.ModBiomeFeatures;
 
 import javax.annotation.Nullable;
 import java.util.Random;

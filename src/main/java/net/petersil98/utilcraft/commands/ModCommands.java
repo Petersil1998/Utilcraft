@@ -12,5 +12,10 @@ public class ModCommands {
                 Commands.literal("utilcraft").requires(source -> source.hasPermissionLevel(2))
                         .then(RefillCommand.register())
         );
+
+        LiteralCommandNode<CommandSource> command2 = dispatcher.register(
+                Commands.literal("utilcraft").requires(source -> source.hasPermissionLevel(2))
+                        .then(TrustedPlayersCommand.register())
+        );
     }
 }

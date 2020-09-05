@@ -54,6 +54,8 @@
 
   "screen.utilcraft.disenchantment_table": "Disenchantment Table",
 
+  "owner_capability.utilcraft.block_protected": "This block is protected, you cannot break it!",
+
   "command.utilcraft.refill.health": "Refilled health",
   "command.utilcraft.refill.hunger": "Refilled hunger"
 }

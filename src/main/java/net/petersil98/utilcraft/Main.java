@@ -1,13 +1,12 @@
 package net.petersil98.utilcraft;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.types.Type;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.command.Commands;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -15,6 +14,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Util;
 import net.minecraft.util.datafix.TypeReferences;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -24,9 +24,9 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.petersil98.utilcraft.biomes.GraveyardBiome;
 import net.petersil98.utilcraft.blocks.*;
 import net.petersil98.utilcraft.blocks.sakura.SakuraLeaves;
 import net.petersil98.utilcraft.blocks.sakura.SakuraLog;
@@ -34,6 +34,7 @@ import net.petersil98.utilcraft.blocks.sakura.SakuraPlanks;
 import net.petersil98.utilcraft.blocks.sakura.SakuraSapling;
 import net.petersil98.utilcraft.blocks.sideslabs.*;
 import net.petersil98.utilcraft.commands.ModCommands;
+import net.petersil98.utilcraft.data.tileEntityOwner.CapabilityTileEntityOwner;
 import net.petersil98.utilcraft.enchantments.BeheadingEnchantment;
 import net.petersil98.utilcraft.enchantments.BeheadingModifier;
 import net.petersil98.utilcraft.food.Applejuice;
@@ -50,7 +51,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod("utilcraft")
 public class Main {
 
@@ -69,6 +69,8 @@ public class Main {
 
     private void setup(final FMLCommonSetupEvent event) {
 
+        CapabilityTileEntityOwner.register();
+
         DeferredWorkQueue.runLater(() -> {
             for (Biome biome : ForgeRegistries.BIOMES) {
                 WorldGeneration.addSilverOre(biome);
@@ -76,7 +78,6 @@ public class Main {
                 WorldGeneration.addSakuraTrees(biome);
             }
         });
-
         setup.init();
         proxy.init();
     }
@@ -155,6 +156,11 @@ public class Main {
             itemRegistryEvent.getRegistry().register(new RoseQuartzAxe().setRegistryName("rose_quartz_axe"));
             itemRegistryEvent.getRegistry().register(new RoseQuartzSuperHammer().setRegistryName("rose_quartz_super_hammer"));
             itemRegistryEvent.getRegistry().register(new RoseQuartzSuperShovel().setRegistryName("rose_quartz_super_shovel"));
+        }
+
+        @SubscribeEvent
+        public static void registerBiomes(final RegistryEvent.Register<Biome> event){
+            event.getRegistry().register(new GraveyardBiome().setRegistryName("graveyard"));
         }
 
         @SubscribeEvent
