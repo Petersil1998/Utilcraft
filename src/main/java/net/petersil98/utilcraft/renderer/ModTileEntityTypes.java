@@ -1,9 +1,9 @@
 package net.petersil98.utilcraft.renderer;
 
-import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.blocks.DisenchantmentTableTile;
+import net.petersil98.utilcraft.blocks.sakura.SignTileEntity;
 
 public class ModTileEntityTypes {
     @ObjectHolder("utilcraft:mod_sign")
