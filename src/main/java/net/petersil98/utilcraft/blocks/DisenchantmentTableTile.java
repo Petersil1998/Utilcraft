@@ -30,7 +30,7 @@ public class DisenchantmentTableTile extends TileEntity implements INameable {
     public void read(BlockState state, CompoundNBT nbt) {
         super.read(state, nbt);
         if (nbt.contains("CustomName", 8)) {
-            this.customname = ITextComponent.Serializer.func_240643_a_(nbt.getString("CustomName"));
+            this.customname = ITextComponent.Serializer.getComponentFromJson(nbt.getString("CustomName"));
         }
 
     }

@@ -1,5 +1,4 @@
 {
-  "block.utilcraft.myblock": "My Block",
   "block.utilcraft.goldbrick": "Gold Brick",
   "block.utilcraft.goldstairs": "Gold Stairs",
   "block.utilcraft.goldslab": "Gold Slab",
@@ -16,11 +15,22 @@
   "block.utilcraft.side_jungle_slab": "Side Jungle Slab",
   "block.utilcraft.side_acacia_slab": "Side Acacia Slab",
   "block.utilcraft.side_dark_oak_slab": "Side Dark Oak Slab",
+  "block.utilcraft.side_sakura_slab": "Side Sakura Slab",
   "block.utilcraft.side_gold_slab": "Side Gold Slab",
   "block.utilcraft.sakura_leaves": "Sakura Leaves",
   "block.utilcraft.sakura_log": "Sakura Log",
   "block.utilcraft.sakura_planks": "Sakura Planks",
   "block.utilcraft.sakura_sapling": "Sakura Sapling",
+  "block.utilcraft.sakura_slab": "Sakura Slab",
+  "block.utilcraft.sakura_stairs": "Sakura Stairs",
+  "block.utilcraft.sakura_fence": "Sakura Fence",
+  "block.utilcraft.sakura_fence_gate": "Sakura Fence Gate",
+  "block.utilcraft.sakura_pressure_plate": "Sakura Pressure Plate",
+  "block.utilcraft.sakura_trapdoor": "Sakura Trapdoor",
+  "block.utilcraft.sakura_sign": "Sakura Sign",
+  "block.utilcraft.sakura_wall_sign": "Sakura Wall Sign",
+  "block.utilcraft.sakura_button": "Sakura Button",
+  "block.utilcraft.sakura_door": "Sakura Door",
   "block.utilcraft.disenchantment_table": "Disenchantment Table",
 
   "item.utilcraft.juicer": "Juicer",
@@ -54,7 +64,7 @@
 
   "screen.utilcraft.disenchantment_table": "Disenchantment Table",
 
-  "owner_capability.utilcraft.block_protected": "This block is protected, you cannot break it!",
+  "owner_capability.utilcraft.block_protected": "This block is protected, you cannot break or use it!",
   "player_trusted.utilcraft.player_added": "Player %s can now access your protected TileEntities",
   "player_trusted.utilcraft.player_removed": "Player %s can no longer access your protected TileEntities",
   "player_trusted.utilcraft.list": "You trust the following Players: %s",

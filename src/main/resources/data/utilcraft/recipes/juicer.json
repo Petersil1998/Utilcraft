@@ -3,11 +3,14 @@
   "pattern": [
     "   ",
     " # ",
-    "###"
+    "___"
   ],
   "key": {
     "#": {
       "item": "minecraft:iron_ingot"
+    },
+    "_": {
+      "item": "minecraft:smooth_stone_slab"
     }
   },
   "result": {

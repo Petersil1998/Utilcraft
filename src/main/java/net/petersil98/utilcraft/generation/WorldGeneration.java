@@ -1,63 +1,46 @@
 package net.petersil98.utilcraft.generation;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.petersil98.utilcraft.biomes.features.ModBiomeFeatures;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
+import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 
 public class WorldGeneration {
 
-    public static void addSilverOre(Biome biome) {
-        biome.addFeature(
+    public static void addSilverOre(BiomeGenerationSettings.Builder biome) {
+        biome.withFeature(
                 GenerationStage.Decoration.UNDERGROUND_ORES,
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                OreFeatureConfig.FillerBlockType.field_241882_a,
                                 ModBlocks.SILVERORE.getDefaultState(),
                                 17
                         )
-                ).withPlacement(
-                        Placement.COUNT_RANGE.configure(
-                                new CountRangeConfig(20, 0, 0, 128)
-                        )
-                )
+                ).func_242733_d(128).func_242728_a()
         );
     }
 
-    public static void addRoseQuartzOre(Biome biome) {
-        biome.addFeature(
+    public static void addRoseQuartzOre(BiomeGenerationSettings.Builder biome) {
+        biome.withFeature(
                 GenerationStage.Decoration.UNDERGROUND_ORES,
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                OreFeatureConfig.FillerBlockType.field_241882_a,
                                 ModBlocks.ROSEQUARTZORE.getDefaultState(),
                                 4
                         )
-                ).withPlacement(
-                        Placement.COUNT_RANGE.configure(
-                                new CountRangeConfig(5, 10, 0, 20)
-                        )
-                )
+                ).func_242733_d(20).func_242728_a()
         );
     }
 
-    public static void addSakuraTrees(Biome biome) {
-        biome.addFeature(
+    public static void addSakuraTrees(BiomeGenerationSettings.Builder biome) {
+        biome.withFeature(
                 GenerationStage.Decoration.VEGETAL_DECORATION,
-                Feature.RANDOM_SELECTOR.withConfiguration(
-                        new MultipleRandomFeatureConfig(
-                                ImmutableList.of(Feature.field_236291_c_.withConfiguration(ModBiomeFeatures.FANCY_SAKURA_TREE_CONFIG).withChance(0.1F)),
-                                Feature.field_236291_c_.withConfiguration(ModBiomeFeatures.SAKURA_TREE_CONFIG)))
-                        .withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.1F, 1)
-                        )
-                )
+                Feature.TREE.withConfiguration(
+                        (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.SAKURALOG.getDefaultState()), new SimpleBlockStateProvider(ModBlocks.SAKURALEAVES.getDefaultState()), new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), new StraightTrunkPlacer(4, 2, 0), new TwoLayerFeature(1, 0, 1))).setIgnoreVines().build())
         );
     }
 }

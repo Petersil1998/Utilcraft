@@ -14,8 +14,7 @@ public class ModCommands {
         );
 
         LiteralCommandNode<CommandSource> command2 = dispatcher.register(
-                Commands.literal("utilcraft").requires(source -> source.hasPermissionLevel(2))
-                        .then(TrustedPlayersCommand.register())
+                Commands.literal("utilcraft").then(TrustedPlayersCommand.register())
         );
     }
 }

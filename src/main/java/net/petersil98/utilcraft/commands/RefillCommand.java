@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public class RefillCommand {
@@ -27,6 +28,7 @@ public class RefillCommand {
 
     private static void refillHealth(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
+        //source.sendFeedback(new StringTextComponent("Level:"+player.world.getSeaLevel()), false);
         player.setHealth(player.getMaxHealth());
         source.sendFeedback(new TranslationTextComponent("command.utilcraft.refill.health"), false);
     }

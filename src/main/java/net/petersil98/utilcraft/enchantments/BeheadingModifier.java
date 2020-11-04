@@ -85,5 +85,10 @@ public class BeheadingModifier extends LootModifier {
         public BeheadingModifier read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
             return new BeheadingModifier(conditionsIn);
         }
+
+        @Override
+        public JsonObject write(BeheadingModifier instance) {
+            return new JsonObject();
+        }
     }
 }

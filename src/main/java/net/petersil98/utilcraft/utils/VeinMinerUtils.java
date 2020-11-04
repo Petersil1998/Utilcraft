@@ -1,12 +1,16 @@
 package net.petersil98.utilcraft.utils;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.trees.Tree;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.petersil98.utilcraft.items.AbstractSuperTool;
@@ -14,6 +18,9 @@ import net.petersil98.utilcraft.items.RoseQuartzSuperHammer;
 import net.petersil98.utilcraft.items.RoseQuartzSuperShovel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.PriorityQueue;
 
 public class VeinMinerUtils {
     public static boolean isSuperTool(Item mainItem){
@@ -91,11 +98,151 @@ public class VeinMinerUtils {
         }
     }
 
-    public static boolean playerCanHarvestBlock(BlockState block, ItemStack item, BlockPos pos, World world){
-        return ForgeHooks.canToolHarvestBlock(world, pos, item) || item.canHarvestBlock(block);
+    public static void getTree(BlockPos pos, ArrayList<BlockPos> tree, World world){
+        BlockPos posToCheck = pos.south();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.east();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.west();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+
+        posToCheck = pos.north().east();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north().west();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north().east().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north().east().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north().west().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.north().west().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+
+        posToCheck = pos.south().east();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.south().west();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.south().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.south().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.south().east().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.south().east().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.south().west().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.south().west().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+
+        posToCheck = pos.east().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.east().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.west().up();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
+        posToCheck = pos.west().down();
+        if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
+            tree.add(posToCheck);
+            getTree(posToCheck, tree, world);
+        }
     }
 
-    public static boolean areSameBlock(BlockPos pos1, BlockPos po2, World world){
-        return world.getBlockState(pos1).getBlock().equals(world.getBlockState(po2).getBlock());
+    public static boolean playerCanHarvestBlock(BlockState block, ItemStack item, BlockPos pos, World world, PlayerEntity player){
+        return ForgeHooks.canHarvestBlock(block, player, world, pos) || item.canHarvestBlock(block);
+    }
+
+    public static boolean areSameBlock(BlockPos pos1, BlockPos pos2, World world){
+        return world.getBlockState(pos1).getBlock().equals(world.getBlockState(pos2).getBlock());
+    }
+
+    public static boolean isLogBlock(Block block){
+        return block.isIn(BlockTags.LOGS);
     }
 }

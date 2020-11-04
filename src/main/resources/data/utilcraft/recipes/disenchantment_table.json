@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "+*+",
+    "***"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:book"
+    },
+    "+": {
+      "item": "utilcraft:rose_quartz"
+    },
+    "*": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "utilcraft:disenchantment_table",
+    "count": 1
+  }
+}

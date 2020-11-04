@@ -28,6 +28,9 @@ public class ModSlabs {
     @ObjectHolder("utilcraft:side_dark_oak_slab")
     public static SideDarkOakSlab SIDEDARKOAKSLAB;
 
+    @ObjectHolder("utilcraft:side_sakura_slab")
+    public static SideSakuraSlab SIDESAKURASLAB;
+
     @ObjectHolder("utilcraft:side_gold_slab")
     public static SideGoldSlab SIDEGOLDSLAB;
 }

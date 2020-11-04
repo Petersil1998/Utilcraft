@@ -20,7 +20,7 @@ public class GravestoneFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_230362_a_(ISeedReader world, StructureManager manager, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config) {
+    public boolean func_241855_a(ISeedReader world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config) {
         int i = 0;
 
         for(int j = 0; j < 128; ++j)

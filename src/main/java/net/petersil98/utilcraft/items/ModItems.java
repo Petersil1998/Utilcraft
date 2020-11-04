@@ -45,4 +45,7 @@ public class ModItems {
 
     @ObjectHolder("utilcraft:rose_quartz_super_shovel")
     public static RoseQuartzSuperShovel ROSEQUARTZSUPERSHOVEL;
+
+    @ObjectHolder("utilcraft:sakura_sign")
+    public static SakuraSignItem SAKURASIGN;
 }

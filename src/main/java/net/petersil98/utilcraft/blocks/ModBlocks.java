@@ -1,15 +1,9 @@
 package net.petersil98.utilcraft.blocks;
 
 import net.minecraftforge.registries.ObjectHolder;
-import net.petersil98.utilcraft.blocks.sakura.SakuraLeaves;
-import net.petersil98.utilcraft.blocks.sakura.SakuraLog;
-import net.petersil98.utilcraft.blocks.sakura.SakuraPlanks;
-import net.petersil98.utilcraft.blocks.sakura.SakuraSapling;
+import net.petersil98.utilcraft.blocks.sakura.*;
 
 public class ModBlocks {
-
-    @ObjectHolder("utilcraft:myblock")
-    public static MyBlock MYBLOCK;
 
     @ObjectHolder("utilcraft:goldbrick")
     public static GoldBrick GOLDBRICK;
@@ -46,6 +40,36 @@ public class ModBlocks {
 
     @ObjectHolder("utilcraft:sakura_sapling")
     public static SakuraSapling SAKURASAPLING;
+
+    @ObjectHolder("utilcraft:sakura_slab")
+    public static SakuraSlab SAKURASLAB;
+
+    @ObjectHolder("utilcraft:sakura_stairs")
+    public static SakuraStairs SAKURASTAIRS;
+
+    @ObjectHolder("utilcraft:sakura_fence")
+    public static SakuraFence SAKURAFENCE;
+
+    @ObjectHolder("utilcraft:sakura_fence_gate")
+    public static SakuraFenceGate SAKURAFENCEGATE;
+
+    @ObjectHolder("utilcraft:sakura_pressure_plate")
+    public static SakuraPressurePlate SAKURAPRESSUREPLATE;
+
+    @ObjectHolder("utilcraft:sakura_trapdoor")
+    public static SakuraTrapdoor SAKURATRAPDOOR;
+
+    @ObjectHolder("utilcraft:sakura_sign")
+    public static SakuraSign SAKURASIGN;
+
+    @ObjectHolder("utilcraft:sakura_wall_sign")
+    public static SakuraWallSign SAKURAWALLSIGN;
+
+    @ObjectHolder("utilcraft:sakura_button")
+    public static SakuraButton SAKURABUTTON;
+
+    @ObjectHolder("utilcraft:sakura_door")
+    public static SakuraDoor SAKURADOOR;
 
     @ObjectHolder("utilcraft:disenchantment_table")
     public static DisenchantmentTable DISENCHANTMENTTABLE;

@@ -16,12 +16,12 @@ import javax.annotation.Nonnull;
 public class AfterlifeChunkGenerator extends ChunkGenerator {
 
     public AfterlifeChunkGenerator(BiomeProvider biomeProvider){
-        super(biomeProvider, DimensionSettings.Preset.OVERWORLD.getSettings().getStructures());
+        super(biomeProvider, DimensionSettings.func_242746_i().getStructures());
     }
 
     public static final Codec<AfterlifeChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
             instance.group(
-                    BiomeProvider.PROVIDER_CODEC.fieldOf("biome_source")
+                    BiomeProvider.CODEC.fieldOf("biome_source")
                             .forGetter((generator) -> generator.biomeProvider)
             ).apply(instance, instance.stable(AfterlifeChunkGenerator::new))
     );

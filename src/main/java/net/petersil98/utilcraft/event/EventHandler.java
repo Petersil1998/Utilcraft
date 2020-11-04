@@ -1,9 +1,8 @@
 package net.petersil98.utilcraft.event;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
-import net.minecraft.block.RedstoneOreBlock;
+import net.minecraft.block.*;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -36,26 +35,33 @@ public class EventHandler {
     public static void veinMiner(final BlockEvent.BreakEvent event) {
         Block minedBlock = event.getState().getBlock();
         PlayerEntity player = event.getPlayer();
-        World world = event.getWorld().getWorld();
-        ItemStack mainItem = player.getHeldItemMainhand();
-        if(playerCanHarvestBlock(event.getState(), mainItem, event.getPos(), world)){
-            ArrayList<BlockPos> blocksToHarvest = new ArrayList<>();
-            if(isSuperTool(mainItem.getItem())){
-                get3x3FieldAroundTargetedBlock(player, blocksToHarvest);
-            }
-            if(minedBlock instanceof OreBlock || minedBlock instanceof RedstoneOreBlock) {
-                getVein(event.getPos(), blocksToHarvest, world);
-            }
-            for (BlockPos blockpos: blocksToHarvest) {
-                BlockState blockstate = world.getBlockState(blockpos);
-                if(playerCanHarvestBlock(blockstate, mainItem, blockpos, world)) {
-                    if (mainItem.getMaxDamage() > mainItem.getDamage() + 1) {
-                        if (blockstate.removedByPlayer(world, blockpos, player, true, world.getFluidState(blockpos))) {
-                            Block block = blockstate.getBlock();
-                            block.harvestBlock(world, player, blockpos, blockstate, null, player.getHeldItemMainhand());
-                            block.onBlockHarvested(world, blockpos, blockstate, player);
-                            if (!blockpos.equals(event.getPos())) {
-                                player.getHeldItemMainhand().damageItem(1, player, (onBroken) -> onBroken.sendBreakAnimation(player.getActiveHand()));
+        if(player.isSneaking()) {
+            World world = player.getEntityWorld();
+            ItemStack mainItem = player.getHeldItemMainhand();
+            if (playerCanHarvestBlock(event.getState(), mainItem, event.getPos(), world, player)) {
+                ArrayList<BlockPos> blocksToHarvest = new ArrayList<>();
+                if (isSuperTool(mainItem.getItem())) {
+                    get3x3FieldAroundTargetedBlock(player, blocksToHarvest);
+                }
+                if (minedBlock instanceof OreBlock || minedBlock instanceof RedstoneOreBlock) {
+                    getVein(event.getPos(), blocksToHarvest, world);
+                } else if(isLogBlock(minedBlock)) {
+                     getTree(event.getPos(), blocksToHarvest, world);
+                }
+                for (BlockPos blockpos : blocksToHarvest) {
+                    BlockState blockstate = world.getBlockState(blockpos);
+                    if (playerCanHarvestBlock(blockstate, mainItem, blockpos, world, player)) {
+                        if (mainItem.getMaxDamage() > mainItem.getDamage() + 1) {
+                            if (blockstate.removedByPlayer(world, blockpos, player, true, world.getFluidState(blockpos))) {
+                                Block block = blockstate.getBlock();
+                                block.harvestBlock(world, player, blockpos, blockstate, null, player.getHeldItemMainhand());
+                                block.onBlockHarvested(world, blockpos, blockstate, player);
+                                int bonusLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, mainItem);
+                                int silklevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, mainItem);
+                                event.setExpToDrop(blockstate.getExpDrop(world, blockpos, bonusLevel, silklevel));
+                                if (!blockpos.equals(event.getPos())) {
+                                    player.getHeldItemMainhand().damageItem(1, player, (onBroken) -> onBroken.sendBreakAnimation(player.getActiveHand()));
+                                }
                             }
                         }
                     }
