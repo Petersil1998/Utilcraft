@@ -9,6 +9,7 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> {
@@ -18,7 +19,7 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
     }
 
     @Override
-    public void buildSurface(Random random, IChunk chunkIn, Biome biomeIn, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config) {
+    public void buildSurface(@Nonnull Random random, @Nonnull IChunk chunkIn, @Nonnull Biome biomeIn, int x, int z, int startHeight, double noise, @Nonnull BlockState defaultBlock, @Nonnull BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config) {
         this.buildRealSurface(random, chunkIn, biomeIn, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTop(), config.getUnder(), config.getUnderWaterMaterial(), seaLevel);
     }
 

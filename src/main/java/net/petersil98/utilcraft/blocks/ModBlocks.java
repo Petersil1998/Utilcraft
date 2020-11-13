@@ -73,4 +73,7 @@ public class ModBlocks {
 
     @ObjectHolder("utilcraft:disenchantment_table")
     public static DisenchantmentTable DISENCHANTMENTTABLE;
+
+    @ObjectHolder("utilcraft:secure_chest")
+    public static SecureChest SECURECHEST;
 }

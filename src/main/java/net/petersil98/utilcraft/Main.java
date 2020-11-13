@@ -4,10 +4,15 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
@@ -22,6 +27,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.petersil98.utilcraft.blocks.*;
+import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
+import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
+import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
+import net.petersil98.utilcraft.tile_entities.ModSignTileEntity;
+import net.petersil98.utilcraft.tile_entities.ModTileEntities;
 import net.petersil98.utilcraft.blocks.sakura.*;
 import net.petersil98.utilcraft.blocks.sideslabs.*;
 import net.petersil98.utilcraft.commands.ModCommands;
@@ -36,8 +46,7 @@ import net.petersil98.utilcraft.items.*;
 import net.petersil98.utilcraft.proxies.ClientProxy;
 import net.petersil98.utilcraft.proxies.IProxy;
 import net.petersil98.utilcraft.proxies.ServerProxy;
-import net.petersil98.utilcraft.renderer.SignTileEntityRenderer;
-import net.petersil98.utilcraft.renderer.ModTileEntityTypes;
+import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.utils.ModSetup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,6 +74,7 @@ public class Main {
     private void setup(final FMLCommonSetupEvent event) {
 
         CapabilityTileEntityOwner.register();
+        //PacketHandler.registerMessages();
         setup.init();
         proxy.init();
     }
@@ -74,7 +84,8 @@ public class Main {
         RenderTypeLookup.setRenderLayer(ModBlocks.SAKURATRAPDOOR, RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.SAKURADOOR, RenderType.getCutout());
         ScreenManager.registerFactory(ModContainer.DISENCHANTMENTBLOCKCONTAINER, DisenchantmentTableScreen::new);
-        ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.MOD_SIGN, SignTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.MOD_SIGN, SignTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
@@ -83,6 +94,9 @@ public class Main {
     public static class RegistryEvents {
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> blockRegistryEvent) {
+            SakuraSign sign = new SakuraSign();
+            sign.setRegistryName("sakura_sign");
+
             blockRegistryEvent.getRegistry().register(new GoldBrick().setRegistryName("goldbrick"));
             blockRegistryEvent.getRegistry().register(new GoldStairs().setRegistryName("goldstairs"));
             blockRegistryEvent.getRegistry().register(new GoldSlab().setRegistryName("goldslab"));
@@ -111,11 +125,12 @@ public class Main {
             blockRegistryEvent.getRegistry().register(new SakuraFenceGate().setRegistryName("sakura_fence_gate"));
             blockRegistryEvent.getRegistry().register(new SakuraPressurePlate().setRegistryName("sakura_pressure_plate"));
             blockRegistryEvent.getRegistry().register(new SakuraTrapdoor().setRegistryName("sakura_trapdoor"));
-            blockRegistryEvent.getRegistry().register(new SakuraSign().setRegistryName("sakura_sign"));
-            blockRegistryEvent.getRegistry().register(new SakuraWallSign().setRegistryName("sakura_wall_sign"));
+            blockRegistryEvent.getRegistry().register(sign);
+            blockRegistryEvent.getRegistry().register(new SakuraWallSign(sign).setRegistryName("sakura_wall_sign"));
             blockRegistryEvent.getRegistry().register(new SakuraButton().setRegistryName("sakura_button"));
             blockRegistryEvent.getRegistry().register(new SakuraDoor().setRegistryName("sakura_door"));
             blockRegistryEvent.getRegistry().register(new DisenchantmentTable().setRegistryName("disenchantment_table"));
+            blockRegistryEvent.getRegistry().register(new SecureChest().setRegistryName("secure_chest"));
         }
 
         @SubscribeEvent
@@ -151,6 +166,7 @@ public class Main {
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURABUTTON, new Item.Properties().group(setup.itemGroup)).setRegistryName("sakura_button"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURADOOR, new Item.Properties().group(setup.itemGroup)).setRegistryName("sakura_door"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.DISENCHANTMENTTABLE, new Item.Properties().group(setup.itemGroup)).setRegistryName("disenchantment_table"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SECURECHEST, new Item.Properties().setISTER(() -> SecureChestItemTileEntityRenderer::new).group(setup.itemGroup)).setRegistryName("secure_chest"));
 
             itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
             itemRegistryEvent.getRegistry().register(new Applejuice().setRegistryName("applejuice"));
@@ -189,8 +205,9 @@ public class Main {
 
         @SubscribeEvent
         public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> tileEntityRegister) {
-            tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(DisenchantmentTableTile::new, ModBlocks.DISENCHANTMENTTABLE).build(null).setRegistryName("disenchantment_table"));
-            tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(SignTileEntity::new, ModBlocks.SAKURASIGN, ModBlocks.SAKURAWALLSIGN).build(null).setRegistryName("mod_sign"));
+            tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(DisenchantmentTableTileEntity::new, ModBlocks.DISENCHANTMENTTABLE).build(null).setRegistryName("disenchantment_table"));
+            tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(ModSignTileEntity::new, ModBlocks.SAKURASIGN, ModBlocks.SAKURAWALLSIGN).build(null).setRegistryName("mod_sign"));
+            tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(SecureChestTileEntity::new, ModBlocks.SECURECHEST).build(null).setRegistryName("secure_chest"));
         }
 
         @SubscribeEvent

@@ -10,6 +10,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class GravestoneFeature extends Feature<NoFeatureConfig> {
@@ -20,7 +21,7 @@ public class GravestoneFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(ISeedReader world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random random, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         int i = 0;
 
         for(int j = 0; j < 128; ++j)

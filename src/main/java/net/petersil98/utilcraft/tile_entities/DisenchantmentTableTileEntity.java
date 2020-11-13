@@ -1,4 +1,4 @@
-package net.petersil98.utilcraft.blocks;
+package net.petersil98.utilcraft.tile_entities;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -10,12 +10,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class DisenchantmentTableTile extends TileEntity implements INameable {
+public class DisenchantmentTableTileEntity extends TileEntity implements INameable {
 
     private ITextComponent customname;
 
-    public DisenchantmentTableTile() {
-        super(ModTileEntities.DISENCHANTMENTBLOCKTILEENTITY);
+    public DisenchantmentTableTileEntity() {
+        super(ModTileEntities.DISENCHANTMENT_BLOCK);
     }
 
     public CompoundNBT write(CompoundNBT compound) {

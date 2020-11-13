@@ -25,11 +25,11 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
         this.func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
-    public void renderBackground(MatrixStack matrixStack) {
+    public void renderBackground(@Nonnull MatrixStack matrixStack) {
         this.renderBackground(matrixStack, 0);
     }
 
-    public void renderBackground(MatrixStack matrixStack, int vOffset) {
+    public void renderBackground(@Nonnull MatrixStack matrixStack, int vOffset) {
         if (this.minecraft.world != null) {
             this.fillGradient(matrixStack, 0, 0, this.width, this.height, -1072689136, -804253680);
             net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.BackgroundDrawnEvent(this, matrixStack));

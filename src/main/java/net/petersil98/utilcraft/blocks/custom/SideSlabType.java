@@ -3,6 +3,8 @@ package net.petersil98.utilcraft.blocks.custom;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 
+import javax.annotation.Nonnull;
+
 public enum SideSlabType implements IStringSerializable {
     EAST("east"),
     NORTH("north"),
@@ -12,7 +14,7 @@ public enum SideSlabType implements IStringSerializable {
 
     private final String name;
 
-    private SideSlabType(String name) {
+    SideSlabType(String name) {
         this.name = name;
     }
 
@@ -20,6 +22,7 @@ public enum SideSlabType implements IStringSerializable {
         return this.name;
     }
 
+    @Nonnull
     public String getString() {
         return this.name;
     }

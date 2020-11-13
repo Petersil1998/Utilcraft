@@ -15,11 +15,11 @@ public class WorldGeneration {
                 GenerationStage.Decoration.UNDERGROUND_ORES,
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.field_241882_a,
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
                                 ModBlocks.SILVERORE.getDefaultState(),
                                 17
                         )
-                ).func_242733_d(128).func_242728_a()
+                ).range(128).square()
         );
     }
 
@@ -28,11 +28,11 @@ public class WorldGeneration {
                 GenerationStage.Decoration.UNDERGROUND_ORES,
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.field_241882_a,
+                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
                                 ModBlocks.ROSEQUARTZORE.getDefaultState(),
                                 4
                         )
-                ).func_242733_d(20).func_242728_a()
+                ).range(20).square()
         );
     }
 
