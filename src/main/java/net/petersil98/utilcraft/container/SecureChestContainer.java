@@ -18,6 +18,10 @@ public class SecureChestContainer extends Container {
     private final ModItemStackHandler inventory;
     private final int numRows;
 
+    public SecureChestContainer(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new ModItemStackHandler(27));
+    }
+
     public SecureChestContainer(int id, PlayerInventory playerInventory, ModItemStackHandler inventory) {
         super(ModContainer.SECURE_CHEST_CONTAINER, id);
         this.inventory = inventory;

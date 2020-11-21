@@ -67,6 +67,7 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     @Override
     public Container createMenu(int id, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
+        markDirty();
         return new SecureChestContainer(id, playerInventory, inventory);
     }
 
