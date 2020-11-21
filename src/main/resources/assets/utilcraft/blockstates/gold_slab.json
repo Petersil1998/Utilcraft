@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "utilcraft:block/gold_slab" },
+    "type=top": { "model": "utilcraft:block/gold_slab_top" },
+    "type=double": { "model": "utilcraft:block/gold_brick" }
+  }
+}

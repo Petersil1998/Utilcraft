@@ -7,6 +7,6 @@ import net.petersil98.utilcraft.items.custom.ModArmorMaterial;
 
 public class RoseQuartzHelmet extends ArmorItem {
     public RoseQuartzHelmet() {
-        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.HEAD, (new Item.Properties()).group(Main.setup.itemGroup));
+        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.HEAD, (new Item.Properties()).group(Main.itemGroup));
     }
 }

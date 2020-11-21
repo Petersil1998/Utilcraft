@@ -1,14 +1,10 @@
 package net.petersil98.utilcraft.network;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
-
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class MyPacket {

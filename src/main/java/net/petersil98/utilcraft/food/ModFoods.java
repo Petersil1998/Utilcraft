@@ -4,11 +4,11 @@ import net.minecraftforge.registries.ObjectHolder;
 
 public class ModFoods {
 
-    @ObjectHolder("utilcraft:applejuice")
-    public static Applejuice APPLEJUICE;
+    @ObjectHolder("utilcraft:apple_juice")
+    public static AppleJuice APPLE_JUICE;
 
-    @ObjectHolder("utilcraft:sweetberryjuice")
-    public static SweetBerryjuice SWEETBERRYJUICE;
+    @ObjectHolder("utilcraft:sweet_berry_juice")
+    public static SweetBerryJuice SWEET_BERRY_JUICE;
 
     @ObjectHolder("utilcraft:baguette")
     public static Baguette BAGUETTE;

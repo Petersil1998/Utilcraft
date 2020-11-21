@@ -10,11 +10,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.petersil98.utilcraft.items.ModItems;
 
+import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements IArmorMaterial {
     ROSE_QUARTZ("utilcraft:rose_quartz", 40, new int[]{4, 7, 9, 4}, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 5.0F, 0.1F, () -> {
-        return Ingredient.fromItems(ModItems.ROSEQUARTZ);
+        return Ingredient.fromItems(ModItems.ROSE_QUARTZ);
     });
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
@@ -27,7 +28,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
     private final float knockbackResistance;
     private final LazyValue<Ingredient> repairMaterial;
 
-    private ModArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, float toughness, float knockbackResistance, Supplier<Ingredient> repairMaterial) {
+    ModArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, float toughness, float knockbackResistance, Supplier<Ingredient> repairMaterial) {
         this.name = name;
         this.maxDamageFactor = maxDamageFactor;
         this.damageReductionAmountArray = damageReductionAmountArray;
@@ -53,6 +54,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
         return this.enchantability;
     }
 
+    @Nonnull
     @Override
     public SoundEvent getSoundEvent() {
         return this.soundEvent;
@@ -63,6 +65,7 @@ public enum ModArmorMaterial implements IArmorMaterial {
         return this.repairMaterial.getValue();
     }
 
+    @Nonnull
     @Override
     @OnlyIn(Dist.CLIENT)
     public String getName() {

@@ -7,7 +7,7 @@ public class Flour extends Item {
 
     public Flour() {
         super(new Properties()
-                .group(Main.setup.itemGroup)
+                .group(Main.itemGroup)
         );
     }
 }

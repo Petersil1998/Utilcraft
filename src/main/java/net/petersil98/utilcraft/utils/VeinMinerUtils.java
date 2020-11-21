@@ -2,7 +2,6 @@ package net.petersil98.utilcraft.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.trees.Tree;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,7 +9,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.petersil98.utilcraft.items.AbstractSuperTool;
@@ -18,9 +16,6 @@ import net.petersil98.utilcraft.items.RoseQuartzSuperHammer;
 import net.petersil98.utilcraft.items.RoseQuartzSuperShovel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.PriorityQueue;
 
 public class VeinMinerUtils {
     public static boolean isSuperTool(Item mainItem){

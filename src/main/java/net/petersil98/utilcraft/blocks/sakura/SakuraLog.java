@@ -8,6 +8,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.util.Direction;
 
 public class SakuraLog extends RotatedPillarBlock {
+
     public SakuraLog() {
         super(AbstractBlock.Properties
                 .create(Material.WOOD, (p_235431_2_) -> p_235431_2_.get(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.PINK : MaterialColor.WOOD)

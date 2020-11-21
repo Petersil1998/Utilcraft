@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "utilcraft:juicer"
+    }
+  ],
+  "result": {
+    "item": "utilcraft:apple_juice"
+  }
+}

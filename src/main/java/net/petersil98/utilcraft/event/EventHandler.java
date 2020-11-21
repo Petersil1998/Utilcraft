@@ -1,48 +1,31 @@
 package net.petersil98.utilcraft.event;
 
 import net.minecraft.block.*;
-import net.minecraft.client.network.play.ClientPlayNetHandler;
-import net.minecraft.command.Commands;
-import net.minecraft.command.impl.WeatherCommand;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SChangeBlockPacket;
-import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
-import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.NetworkHooks;
-import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
-import net.petersil98.utilcraft.data.tileEntityOwner.CapabilityTileEntityOwner;
-import net.petersil98.utilcraft.data.tileEntityOwner.ITileEntityOwner;
-import net.petersil98.utilcraft.data.tileEntityOwner.TileEntityOwnerProvider;
-import net.petersil98.utilcraft.network.MyPacket;
-import net.petersil98.utilcraft.network.PacketHandler;
+import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static net.petersil98.utilcraft.utils.VeinMinerUtils.*;
@@ -95,45 +78,17 @@ public class EventHandler {
         if(event.getPlayer() instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity)event.getPlayer();
             TileEntity te = player.getEntityWorld().getTileEntity(event.getPos());
-            if (te != null) {
-                te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
-                    UUID ownerUUID = iTileEntityOwner.getOwner();
-                    UUID playerUUID = player.getGameProfile().getId();
-                    if (ownerUUID != null && !ownerUUID.equals(playerUUID)) {
-                        ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
-                        List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
-                        if(!trustedPlayers.contains(playerUUID)){
-                            player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
-                            event.setCanceled(true);
-                        }
-                    }
-                });
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void attachOwnerToTileEntities(AttachCapabilitiesEvent<TileEntity> event){
-        TileEntityOwnerProvider provider = new TileEntityOwnerProvider();
-        event.addCapability(new ResourceLocation(Main.MOD_ID, "owner"), provider);
-        event.addListener(provider::invalidate);
-    }
-
-    @SubscribeEvent
-    public static void onPlayerPlacesTileEntity(BlockEvent.EntityPlaceEvent event){
-        if(event.getEntity() instanceof ServerPlayerEntity){
-            ServerPlayerEntity player = (ServerPlayerEntity)event.getEntity();
-            BlockPos pos = event.getBlockSnapshot().getPos();
-            TileEntity te = player.getEntityWorld().getTileEntity(pos);
-            if(te != null){
-                te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
-                    iTileEntityOwner.setOwner(player.getGameProfile().getId());
-                    if(te instanceof ChestTileEntity && !canPlaceChest(pos, player.getEntityWorld(), iTileEntityOwner)) {
+            if (te instanceof SecureChestTileEntity) {
+                UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
+                UUID playerUUID = player.getUniqueID();
+                if (ownerUUID != null && !ownerUUID.equals(playerUUID)) {
+                    ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
+                    List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
+                    if(!trustedPlayers.contains(playerUUID)){
+                        player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
                         event.setCanceled(true);
-                        //PacketHandler.sendToClient(new MyPacket(pos), player);
-                        //player.connection.sendPacket(new SChangeBlockPacket(pos, event.getBlockSnapshot().getCurrentBlock()));
                     }
-                });
+                }
             }
         }
     }
@@ -143,19 +98,17 @@ public class EventHandler {
         if(event.getEntity() instanceof ServerPlayerEntity){
             ServerPlayerEntity player = (ServerPlayerEntity)event.getEntity();
             TileEntity te = player.getServerWorld().getTileEntity(event.getPos());
-            if(te != null){
-                te.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(iTileEntityOwner -> {
-                    UUID ownerUUID = iTileEntityOwner.getOwner();
-                    UUID playerUUID = player.getGameProfile().getId();
-                    if(ownerUUID != null && !ownerUUID.equals(playerUUID)) {
-                        ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
-                        List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
-                        if(!trustedPlayers.contains(playerUUID)){
-                            player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
-                            event.setUseBlock(Event.Result.DENY);
-                        }
+            if(te instanceof SecureChestTileEntity){
+                UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
+                UUID playerUUID = player.getGameProfile().getId();
+                if(ownerUUID != null && !ownerUUID.equals(playerUUID)) {
+                    ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
+                    List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
+                    if(!trustedPlayers.contains(playerUUID)){
+                        player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
+                        event.setUseBlock(Event.Result.DENY);
                     }
-                });
+                }
             }
         }
     }
@@ -181,34 +134,5 @@ public class EventHandler {
                 }
             }
         }
-    }
-
-    private static boolean canPlaceChest(BlockPos blockPos, World world, ITileEntityOwner owner) {
-        ITileEntityOwner blockOwner = getOwnershipOfChest(blockPos.south(), world);
-        if(blockOwner != null && !blockOwner.getOwner().equals(owner.getOwner())){
-            return false;
-        }
-        blockOwner = getOwnershipOfChest(blockPos.north(), world);
-        if(blockOwner != null && !blockOwner.getOwner().equals(owner.getOwner())){
-            return false;
-        }
-        blockOwner = getOwnershipOfChest(blockPos.west(), world);
-        if(blockOwner != null && !blockOwner.getOwner().equals(owner.getOwner())){
-            return false;
-        }
-        blockOwner = getOwnershipOfChest(blockPos.east(), world);
-        if(blockOwner != null && !blockOwner.getOwner().equals(owner.getOwner())){
-            return false;
-        }
-        return true;
-    }
-
-    private static ITileEntityOwner getOwnershipOfChest(BlockPos pos, World world) {
-        TileEntity tileEntity = world.getTileEntity(pos);
-        AtomicReference<ITileEntityOwner> owner = new AtomicReference<>();
-        if(tileEntity instanceof ChestTileEntity) {
-            tileEntity.getCapability(CapabilityTileEntityOwner.OWNER_CAPABILITY).ifPresent(owner::set);
-        }
-        return owner.get();
     }
 }

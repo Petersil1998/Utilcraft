@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "utilcraft:gold_brick"
+    }
+  },
+  "result": {
+    "item": "utilcraft:gold_wall",
+    "count": 6
+  }
+}

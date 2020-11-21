@@ -44,7 +44,7 @@ public class ModWorldSavedData extends WorldSavedData {
                 }
                 this.players.put(playerUUID, trustedPlayersList);
             }
-        } catch (Exception e){
+        } catch (Exception ignored){
         }
     }
 

@@ -11,41 +11,41 @@ public class ModItems {
     public static Flour FLOUR;
 
     @ObjectHolder("utilcraft:rose_quartz")
-    public static RoseQuartz ROSEQUARTZ;
+    public static RoseQuartz ROSE_QUARTZ;
 
     @ObjectHolder("utilcraft:rose_quartz_helmet")
-    public static RoseQuartzHelmet ROSEQUARTZHELMET;
+    public static RoseQuartzHelmet ROSE_QUARTZ_HELMET;
 
     @ObjectHolder("utilcraft:rose_quartz_chestplate")
-    public static RoseQuartzChestplate ROSEQUARTZCHESTPLATE;
+    public static RoseQuartzChestplate ROSE_QUARTZ_CHESTPLATE;
 
     @ObjectHolder("utilcraft:rose_quartz_leggings")
-    public static RoseQuartzLeggings ROSEQUARTZLEGGINGS;
+    public static RoseQuartzLeggings ROSE_QUARTZ_LEGGINGS;
 
     @ObjectHolder("utilcraft:rose_quartz_boots")
-    public static RoseQuartzBoots ROSEQUARTZBOOTS;
+    public static RoseQuartzBoots ROSE_QUARTZ_BOOTS;
 
     @ObjectHolder("utilcraft:rose_quartz_pickaxe")
-    public static RoseQuartzPickaxe ROSEQUARTZPICKAXE;
+    public static RoseQuartzPickaxe ROSE_QUARTZ_PICKAXE;
 
     @ObjectHolder("utilcraft:rose_quartz_sword")
-    public static RoseQuartzSword ROSEQUARTZSWORD;
+    public static RoseQuartzSword ROSE_QUARTZ_SWORD;
 
     @ObjectHolder("utilcraft:rose_quartz_shovel")
-    public static RoseQuartzShovel ROSEQUARTZSHOVEL;
+    public static RoseQuartzShovel ROSE_QUARTZ_SHOVEL;
 
     @ObjectHolder("utilcraft:rose_quartz_hoe")
-    public static RoseQuartzHoe ROSEQUARTZHOE;
+    public static RoseQuartzHoe ROSE_QUARTZ_HOE;
 
     @ObjectHolder("utilcraft:rose_quartz_axe")
-    public static RoseQuartzAxe ROSEQUARTZAXE;
+    public static RoseQuartzAxe ROSE_QUARTZ_AXE;
 
     @ObjectHolder("utilcraft:rose_quartz_super_hammer")
-    public static RoseQuartzSuperHammer ROSEQUARTZSUPERHAMMER;
+    public static RoseQuartzSuperHammer ROSE_QUARTZ_SUPER_HAMMER;
 
     @ObjectHolder("utilcraft:rose_quartz_super_shovel")
-    public static RoseQuartzSuperShovel ROSEQUARTZSUPERSHOVEL;
+    public static RoseQuartzSuperShovel ROSE_QUARTZ_SUPER_SHOVEL;
 
     @ObjectHolder("utilcraft:sakura_sign")
-    public static SakuraSignItem SAKURASIGN;
+    public static SakuraSignItem SAKURA_SIGN;
 }

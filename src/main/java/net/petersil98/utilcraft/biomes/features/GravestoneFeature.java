@@ -7,7 +7,6 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 
 import javax.annotation.Nonnull;
@@ -26,7 +25,7 @@ public class GravestoneFeature extends Feature<NoFeatureConfig> {
 
         for(int j = 0; j < 128; ++j)
         {
-            BlockState state = ModBlocks.GOLDBRICK.getDefaultState();
+            BlockState state = ModBlocks.GOLD_BRICK.getDefaultState();
             BlockPos blockpos = pos.add(random.nextInt(4) - random.nextInt(4), random.nextInt(4) - random.nextInt(4), random.nextInt(4) - random.nextInt(4));
 
             if (world.isAirBlock(blockpos))

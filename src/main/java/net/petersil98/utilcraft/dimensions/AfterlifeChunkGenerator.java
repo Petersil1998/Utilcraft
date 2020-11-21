@@ -26,6 +26,7 @@ public class AfterlifeChunkGenerator extends ChunkGenerator {
             ).apply(instance, instance.stable(AfterlifeChunkGenerator::new))
     );
 
+    @Nonnull
     @Override
     protected Codec<? extends ChunkGenerator> func_230347_a_() {
         return CODEC;
@@ -38,20 +39,21 @@ public class AfterlifeChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public void generateSurface(WorldGenRegion p_225551_1_, IChunk p_225551_2_) {
+    public void generateSurface(@Nonnull WorldGenRegion p_225551_1_, @Nonnull IChunk p_225551_2_) {
 
     }
 
     @Override
-    public void func_230352_b_(IWorld p_230352_1_, StructureManager p_230352_2_, IChunk p_230352_3_) {
+    public void func_230352_b_(@Nonnull IWorld p_230352_1_, @Nonnull StructureManager p_230352_2_, @Nonnull IChunk p_230352_3_) {
 
     }
 
     @Override
-    public int getHeight(int x, int z, Heightmap.Type heightmapType) {
+    public int getHeight(int x, int z, @Nonnull Heightmap.Type heightmapType) {
         return 0;
     }
 
+    @Nonnull
     @Override
     public IBlockReader func_230348_a_(int p_230348_1_, int p_230348_2_) {
         return new Blockreader(new BlockState[0]);

@@ -6,7 +6,7 @@ import net.petersil98.utilcraft.Main;
 public class RoseQuartz extends Item {
     public RoseQuartz() {
         super(new Item.Properties()
-                .group(Main.setup.itemGroup)
+                .group(Main.itemGroup)
         );
     }
 }

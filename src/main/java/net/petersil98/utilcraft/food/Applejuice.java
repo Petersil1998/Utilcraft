@@ -4,9 +4,9 @@ import net.minecraft.item.*;
 
 import net.petersil98.utilcraft.Main;
 
-public class Applejuice extends Item {
+public class AppleJuice extends Item {
 
-    public Applejuice(){
+    public AppleJuice(){
         super(new Properties()
             .food(new Food.Builder()
                 .hunger(8)
@@ -15,7 +15,7 @@ public class Applejuice extends Item {
                 //.effect(() -> new EffectInstance(Effects.HUNGER, 600, 0), 1F)
                 .build()
             )
-            .group(Main.setup.itemGroup)
+            .group(Main.itemGroup)
         );
     }
 }

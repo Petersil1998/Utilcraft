@@ -7,6 +7,6 @@ import net.petersil98.utilcraft.items.custom.ModArmorMaterial;
 
 public class RoseQuartzBoots extends ArmorItem {
     public RoseQuartzBoots() {
-        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.FEET, (new Properties()).group(Main.setup.itemGroup));
+        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.FEET, (new Properties()).group(Main.itemGroup));
     }
 }

@@ -117,11 +117,11 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
     }
 
     public boolean receiveFluid(@Nonnull IWorld worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull FluidState fluidStateIn) {
-        return state.get(TYPE) != SideSlabType.DOUBLE ? IWaterLoggable.super.receiveFluid(worldIn, pos, state, fluidStateIn) : false;
+        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.receiveFluid(worldIn, pos, state, fluidStateIn);
     }
 
     public boolean canContainFluid(@Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull Fluid fluidIn) {
-        return state.get(TYPE) != SideSlabType.DOUBLE ? IWaterLoggable.super.canContainFluid(worldIn, pos, state, fluidIn) : false;
+        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.canContainFluid(worldIn, pos, state, fluidIn);
     }
 
     /**
@@ -140,12 +140,8 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
 
     public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
         switch(type) {
-            case LAND:
-                return false;
             case WATER:
                 return worldIn.getFluidState(pos).isTagged(FluidTags.WATER);
-            case AIR:
-                return false;
             default:
                 return false;
         }

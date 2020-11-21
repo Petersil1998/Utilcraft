@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "utilcraft:block/goldbrick",
-    "top": "utilcraft:block/goldbrick",
-    "side": "utilcraft:block/goldbrick"
-  }
-}

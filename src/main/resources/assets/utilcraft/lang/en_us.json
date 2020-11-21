@@ -1,9 +1,9 @@
 {
-  "block.utilcraft.goldbrick": "Gold Brick",
-  "block.utilcraft.goldstairs": "Gold Stairs",
-  "block.utilcraft.goldslab": "Gold Slab",
-  "block.utilcraft.goldwall": "Gold Wall",
-  "block.utilcraft.compressedcobblestone": "Compressed Cobblestone",
+  "block.utilcraft.gold_brick": "Gold Brick",
+  "block.utilcraft.gold_stairs": "Gold Stairs",
+  "block.utilcraft.gold_slab": "Gold Slab",
+  "block.utilcraft.gold_wall": "Gold Wall",
+  "block.utilcraft.compressed_cobblestone": "Compressed Cobblestone",
   "block.utilcraft.silver_ore": "Silver Ore",
   "block.utilcraft.rose_quartz_ore": "Rose Quartz Ore",
   "block.utilcraft.rose_quartz_block": "Rose Quartz Block",
@@ -35,8 +35,8 @@
   "block.utilcraft.secure_chest": "Secure Chest",
 
   "item.utilcraft.juicer": "Juicer",
-  "item.utilcraft.applejuice": "Apple Juice",
-  "item.utilcraft.sweetberryjuice": "Sweet Berry Juice",
+  "item.utilcraft.apple_juice": "Apple Juice",
+  "item.utilcraft.sweet_berry_juice": "Sweet Berry Juice",
   "item.utilcraft.flour": "Flour",
   "item.utilcraft.baguette": "Baguette",
   "item.utilcraft.rose_quartz": "Rose Quartz",
@@ -64,6 +64,7 @@
   "advancements.utilcraft.root.description": "Place a Sakura Sapling",
 
   "screen.utilcraft.disenchantment_table": "Disenchantment Table",
+  "screen.utilcraft.secure_chest": "Secure Chest",
 
   "owner_capability.utilcraft.block_protected": "This block is protected, you cannot break or use it!",
   "player_trusted.utilcraft.player_added": "Player %s can now access your protected TileEntities",

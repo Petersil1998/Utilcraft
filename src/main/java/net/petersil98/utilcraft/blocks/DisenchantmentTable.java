@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
 
 import javax.annotation.Nonnull;

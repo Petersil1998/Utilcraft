@@ -16,7 +16,7 @@ public class WorldGeneration {
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-                                ModBlocks.SILVERORE.getDefaultState(),
+                                ModBlocks.SILVER_ORE.getDefaultState(),
                                 17
                         )
                 ).range(128).square()
@@ -29,7 +29,7 @@ public class WorldGeneration {
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-                                ModBlocks.ROSEQUARTZORE.getDefaultState(),
+                                ModBlocks.ROSE_QUARTZ_ORE.getDefaultState(),
                                 4
                         )
                 ).range(20).square()
@@ -40,7 +40,15 @@ public class WorldGeneration {
         biome.withFeature(
                 GenerationStage.Decoration.VEGETAL_DECORATION,
                 Feature.TREE.withConfiguration(
-                        (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.SAKURALOG.getDefaultState()), new SimpleBlockStateProvider(ModBlocks.SAKURALEAVES.getDefaultState()), new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), new StraightTrunkPlacer(4, 2, 0), new TwoLayerFeature(1, 0, 1))).setIgnoreVines().build())
+                        new BaseTreeFeatureConfig.Builder(
+                                new SimpleBlockStateProvider(ModBlocks.SAKURA_LOG.getDefaultState()),
+                                new SimpleBlockStateProvider(ModBlocks.SAKURA_LEAVES.getDefaultState()),
+                                new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+                                new StraightTrunkPlacer(4, 2, 0),
+                                new TwoLayerFeature(1, 0, 1))
+                                .setIgnoreVines()
+                                .build()
+                )
         );
     }
 }

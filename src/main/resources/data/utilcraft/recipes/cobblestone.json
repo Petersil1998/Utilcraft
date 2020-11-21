@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "utilcraft:compressedcobblestone"
+      "item": "utilcraft:compressed_cobblestone"
     }
   ],
   "result": {

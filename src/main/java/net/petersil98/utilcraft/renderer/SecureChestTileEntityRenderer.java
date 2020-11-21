@@ -2,7 +2,8 @@ package net.petersil98.utilcraft.renderer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -20,7 +21,6 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.BakedItemModel;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
@@ -33,18 +33,12 @@ public class SecureChestTileEntityRenderer<T extends TileEntity & IChestLid> ext
     private final ModelRenderer singleLid;
     private final ModelRenderer singleBottom;
     private final ModelRenderer singleLatch;
-    private final ModelRenderer rightLid;
-    private final ModelRenderer rightBottom;
-    private final ModelRenderer rightLatch;
-    private final ModelRenderer leftLid;
-    private final ModelRenderer leftBottom;
-    private final ModelRenderer leftLatch;
     private boolean isChristmas;
 
     public SecureChestTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);
         Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
             this.isChristmas = true;
         }
 
@@ -57,62 +51,27 @@ public class SecureChestTileEntityRenderer<T extends TileEntity & IChestLid> ext
         this.singleLatch = new ModelRenderer(64, 64, 0, 0);
         this.singleLatch.addBox(7.0F, -1.0F, 15.0F, 2.0F, 4.0F, 1.0F, 0.0F);
         this.singleLatch.rotationPointY = 8.0F;
-        this.rightBottom = new ModelRenderer(64, 64, 0, 19);
-        this.rightBottom.addBox(1.0F, 0.0F, 1.0F, 15.0F, 10.0F, 14.0F, 0.0F);
-        this.rightLid = new ModelRenderer(64, 64, 0, 0);
-        this.rightLid.addBox(1.0F, 0.0F, 0.0F, 15.0F, 5.0F, 14.0F, 0.0F);
-        this.rightLid.rotationPointY = 9.0F;
-        this.rightLid.rotationPointZ = 1.0F;
-        this.rightLatch = new ModelRenderer(64, 64, 0, 0);
-        this.rightLatch.addBox(15.0F, -1.0F, 15.0F, 1.0F, 4.0F, 1.0F, 0.0F);
-        this.rightLatch.rotationPointY = 8.0F;
-        this.leftBottom = new ModelRenderer(64, 64, 0, 19);
-        this.leftBottom.addBox(0.0F, 0.0F, 1.0F, 15.0F, 10.0F, 14.0F, 0.0F);
-        this.leftLid = new ModelRenderer(64, 64, 0, 0);
-        this.leftLid.addBox(0.0F, 0.0F, 0.0F, 15.0F, 5.0F, 14.0F, 0.0F);
-        this.leftLid.rotationPointY = 9.0F;
-        this.leftLid.rotationPointZ = 1.0F;
-        this.leftLatch = new ModelRenderer(64, 64, 0, 0);
-        this.leftLatch.addBox(0.0F, -1.0F, 15.0F, 1.0F, 4.0F, 1.0F, 0.0F);
-        this.leftLatch.rotationPointY = 8.0F;
     }
 
     public void render(T tileEntityIn, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         World world = tileEntityIn.getWorld();
         boolean flag = world != null;
-        BlockState blockstate = flag ? tileEntityIn.getBlockState() : ModBlocks.SECURECHEST.getDefaultState().with(SecureChest.FACING, Direction.SOUTH);
-        ChestType chesttype = blockstate.hasProperty(SecureChest.TYPE) ? blockstate.get(SecureChest.TYPE) : ChestType.SINGLE;
+        BlockState blockstate = flag ? tileEntityIn.getBlockState() : ModBlocks.SECURE_CHEST.getDefaultState().with(SecureChest.FACING, Direction.SOUTH);
         Block block = blockstate.getBlock();
         if (block instanceof SecureChest) {
-            SecureChest secureChest = (SecureChest) block;
-            boolean flag1 = chesttype != ChestType.SINGLE;
             matrixStackIn.push();
             float f = blockstate.get(SecureChest.FACING).getHorizontalAngle();
             matrixStackIn.translate(0.5D, 0.5D, 0.5D);
             matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-f));
             matrixStackIn.translate(-0.5D, -0.5D, -0.5D);
-            TileEntityMerger.ICallbackWrapper<? extends SecureChestTileEntity> icallbackwrapper;
-            if (flag) {
-                icallbackwrapper = secureChest.combineSecure(blockstate, world, tileEntityIn.getPos(), true);
-            } else {
-                icallbackwrapper = TileEntityMerger.ICallback::func_225537_b_;
-            }
-
+            TileEntityMerger.ICallbackWrapper<? extends SecureChestTileEntity> icallbackwrapper = TileEntityMerger.ICallback::func_225537_b_;
             float f1 = icallbackwrapper.apply(SecureChest.getLidRotationCallback(tileEntityIn)).get(partialTicks);
             f1 = 1.0F - f1;
             f1 = 1.0F - f1 * f1 * f1;
             int i = icallbackwrapper.apply(new DualBrightnessCallback<>()).applyAsInt(combinedLightIn);
-            RenderMaterial rendermaterial = this.getMaterial(tileEntityIn, chesttype);
+            RenderMaterial rendermaterial = this.getMaterial(tileEntityIn);
             IVertexBuilder ivertexbuilder = rendermaterial.getBuffer(bufferIn, RenderType::getEntityCutout);
-            if (flag1) {
-                if (chesttype == ChestType.LEFT) {
-                    this.renderModels(matrixStackIn, ivertexbuilder, this.leftLid, this.leftLatch, this.leftBottom, f1, i, combinedOverlayIn);
-                } else {
-                    this.renderModels(matrixStackIn, ivertexbuilder, this.rightLid, this.rightLatch, this.rightBottom, f1, i, combinedOverlayIn);
-                }
-            } else {
-                this.renderModels(matrixStackIn, ivertexbuilder, this.singleLid, this.singleLatch, this.singleBottom, f1, i, combinedOverlayIn);
-            }
+            this.renderModels(matrixStackIn, ivertexbuilder, this.singleLid, this.singleLatch, this.singleBottom, f1, i, combinedOverlayIn);
 
             matrixStackIn.pop();
         }
@@ -126,7 +85,7 @@ public class SecureChestTileEntityRenderer<T extends TileEntity & IChestLid> ext
         chestBottom.render(matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
     }
 
-    protected RenderMaterial getMaterial(T tileEntity, ChestType chestType) {
-        return Atlases.getChestMaterial(tileEntity, chestType, this.isChristmas);
+    protected RenderMaterial getMaterial(T tileEntity) {
+        return Atlases.getChestMaterial(tileEntity, ChestType.SINGLE, this.isChristmas);
     }
 }

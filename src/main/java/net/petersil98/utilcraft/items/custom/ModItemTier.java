@@ -9,10 +9,10 @@ import java.util.function.Supplier;
 
 public enum ModItemTier implements IItemTier {
     ROSE_QUARTZ(5,3021,10.0F,5.0F, 20,()-> {
-        return Ingredient.fromItems(ModItems.ROSEQUARTZ);
+        return Ingredient.fromItems(ModItems.ROSE_QUARTZ);
     }),
     SUPER_ROSE_QUARTZ(5,3021*9,10.0F,5.0F, 20,()-> {
-        return Ingredient.fromItems(ModItems.ROSEQUARTZ);
+        return Ingredient.fromItems(ModItems.ROSE_QUARTZ);
     });
 
     private final int harvestLevel;
