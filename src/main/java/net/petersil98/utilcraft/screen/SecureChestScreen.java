@@ -7,10 +7,13 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.petersil98.utilcraft.container.SecureChestContainer;
 
 import javax.annotation.Nonnull;
 
+@OnlyIn(Dist.CLIENT)
 public class SecureChestScreen extends ContainerScreen<SecureChestContainer> implements IHasContainer<SecureChestContainer> {
     /**
      * The ResourceLocation containing the chest GUI texture.

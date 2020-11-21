@@ -3,10 +3,9 @@ package net.petersil98.utilcraft.tile_entities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
@@ -19,7 +18,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
-import net.petersil98.utilcraft.blocks.SecureChest;
+import net.petersil98.utilcraft.container.ModItemStackHandler;
+import net.petersil98.utilcraft.container.SecureChestContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,7 +29,7 @@ import java.util.UUID;
         value = Dist.CLIENT,
         _interface = IChestLid.class
 )
-public class SecureChestTileEntity extends TileEntity implements IChestLid, ITickableTileEntity, INameable {
+public class SecureChestTileEntity extends TileEntity implements IChestLid, ITickableTileEntity, INameable, INamedContainerProvider {
     ItemStackHandler handler = new ItemStackHandler(27);
     /** The current angle of the lid (between 0 and 1) */
     protected float lidAngle;
@@ -37,6 +37,8 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     protected float prevLidAngle;
     /** The number of players currently using this chest */
     protected int numPlayersUsing;
+
+    private final ModItemStackHandler inventory;
 
     protected UUID owner;
     /**
@@ -50,6 +52,7 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     protected SecureChestTileEntity(TileEntityType<?> typeIn) {
         super(typeIn);
+        inventory = new ModItemStackHandler(27);
     }
 
     public SecureChestTileEntity() {
@@ -62,11 +65,9 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
         return ModTileEntities.SECURE_CHEST;
     }
 
-    /**
-     * Returns the number of slots in the inventory.
-     */
-    public int getSizeInventory() {
-        return handler.getSlots();
+    @Override
+    public Container createMenu(int id, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
+        return new SecureChestContainer(id, playerInventory, inventory);
     }
 
     public void read(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
@@ -98,13 +99,23 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
         return this.customName != null ? this.customName : new TranslationTextComponent("screen.utilcraft.secure_chest");
     }
 
-    public void setCustomName(@Nullable ITextComponent name) {
-        this.customName = name;
+    @Nullable
+    @Override
+    public ITextComponent getCustomName()
+    {
+        return this.customName;
     }
 
-    @Nullable
-    public ITextComponent getCustomName() {
-        return this.customName;
+    public void setCustomName(@Nullable ITextComponent customName)
+    {
+        this.customName = customName;
+    }
+
+    @Nonnull
+    @Override
+    public ITextComponent getDisplayName()
+    {
+        return INameable.super.getDisplayName();
     }
 
     public void tick() {
@@ -156,44 +167,6 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
         }
     }
 
-    public void openInventory(PlayerEntity player) {
-        if (!player.isSpectator()) {
-            if (this.numPlayersUsing < 0) {
-                this.numPlayersUsing = 0;
-            }
-
-            ++this.numPlayersUsing;
-            this.onOpenOrClose();
-        }
-
-    }
-
-    public void closeInventory(PlayerEntity player) {
-        if (!player.isSpectator()) {
-            --this.numPlayersUsing;
-            this.onOpenOrClose();
-        }
-
-    }
-
-    protected void onOpenOrClose() {
-        Block block = this.getBlockState().getBlock();
-        if (block instanceof SecureChest) {
-            this.world.addBlockEvent(this.pos, block, 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(this.pos, block);
-        }
-
-    }
-
-    @Nonnull
-    public ItemStackHandler getItems() {
-        return this.handler;
-    }
-
-    protected void setItems(@Nonnull ItemStackHandler itemsIn) {
-        this.handler = itemsIn;
-    }
-
     @OnlyIn(Dist.CLIENT)
     public float getLidAngle(float partialTicks) {
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
@@ -231,5 +204,9 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     public UUID getOwner(){
         return owner;
+    }
+
+    public ModItemStackHandler getInventory() {
+        return inventory;
     }
 }

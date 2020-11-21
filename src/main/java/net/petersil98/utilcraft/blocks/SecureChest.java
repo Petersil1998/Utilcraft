@@ -110,6 +110,7 @@ public class SecureChest extends Block implements IWaterLoggable {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         if (tileentity instanceof SecureChestTileEntity) {
             ((SecureChestTileEntity) tileentity).setOwner(placer.getUniqueID());
+            ((SecureChestTileEntity) tileentity).setCustomName(stack.getDisplayName());
         }
     }
 
@@ -130,24 +131,12 @@ public class SecureChest extends Block implements IWaterLoggable {
         if (worldIn.isRemote) {
             return ActionResultType.SUCCESS;
         } else {
-            INamedContainerProvider inamedcontainerprovider = this.getContainer(state, worldIn, pos);
-            if (inamedcontainerprovider != null) {
-                ((SecureChestTileEntity)worldIn.getTileEntity(pos)).openInventory(player);
-                player.openContainer(inamedcontainerprovider);
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof SecureChestTileEntity)
+            {
+                player.openContainer((INamedContainerProvider) tileEntity);
             }
-
             return ActionResultType.CONSUME;
-        }
-    }
-
-    @Nullable
-    public INamedContainerProvider getContainer(@Nonnull BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-        if (tileentity instanceof SecureChestTileEntity) {
-            ITextComponent itextcomponent = ((INameable)tileentity).getDisplayName();
-            return new SimpleNamedContainerProvider((id, inventory, player) -> new SecureChestContainer(id, inventory/*((SecureChestTileEntity) tileentity).getItems().getSlots())*/), itextcomponent);
-        } else {
-            return null;
         }
     }
 

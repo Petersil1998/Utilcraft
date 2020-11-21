@@ -212,7 +212,7 @@ public class Main {
         @SubscribeEvent
         public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
             containerRegister.getRegistry().register(new ContainerType<>(DisenchantmentTableContainer::new).setRegistryName("disenchantment_table"));
-            containerRegister.getRegistry().register(new ContainerType<>(SecureChestContainer::new).setRegistryName("secure_chest"));
+            //containerRegister.getRegistry().register(new ContainerType<>(SecureChestContainer::new).setRegistryName("secure_chest"));
         }
     }
     @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.FORGE)
