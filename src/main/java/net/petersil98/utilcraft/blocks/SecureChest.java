@@ -26,13 +26,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.petersil98.utilcraft.container.SecureChestContainer;
+import net.minecraftforge.items.ItemStackHandler;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 
 import javax.annotation.Nonnull;
@@ -117,8 +116,11 @@ public class SecureChest extends Block implements IWaterLoggable {
     public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.isIn(newState.getBlock())) {
             TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity instanceof IInventory) {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
+            if (tileentity instanceof SecureChestTileEntity) {
+                ItemStackHandler inventory = ((SecureChestTileEntity)tileentity).getInventory();
+                for(int i = 0; i < inventory.getSlots(); ++i) {
+                    InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), inventory.getStackInSlot(i));
+                }
                 worldIn.updateComparatorOutputLevel(pos, this);
             }
 

@@ -2,27 +2,26 @@ package net.petersil98.utilcraft.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 
 public class SecureChestContainer extends Container {
 
-    private final ModItemStackHandler inventory;
+    private final ItemStackHandler inventory;
     private final int numRows;
 
     public SecureChestContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new ModItemStackHandler(27));
+        this(id, playerInventory, new ItemStackHandler(27));
     }
 
-    public SecureChestContainer(int id, PlayerInventory playerInventory, ModItemStackHandler inventory) {
+    public SecureChestContainer(int id, PlayerInventory playerInventory, ItemStackHandler inventory) {
         super(ModContainer.SECURE_CHEST_CONTAINER, id);
         this.inventory = inventory;
         this.numRows = 3;

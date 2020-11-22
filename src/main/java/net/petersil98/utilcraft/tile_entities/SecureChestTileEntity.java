@@ -18,7 +18,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
-import net.petersil98.utilcraft.container.ModItemStackHandler;
 import net.petersil98.utilcraft.container.SecureChestContainer;
 
 import javax.annotation.Nonnull;
@@ -30,7 +29,7 @@ import java.util.UUID;
         _interface = IChestLid.class
 )
 public class SecureChestTileEntity extends TileEntity implements IChestLid, ITickableTileEntity, INameable, INamedContainerProvider {
-    ItemStackHandler handler = new ItemStackHandler(27);
+    ItemStackHandler inventory = new ItemStackHandler(27);
     /** The current angle of the lid (between 0 and 1) */
     protected float lidAngle;
     /** The angle of the lid last tick */
@@ -38,21 +37,12 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     /** The number of players currently using this chest */
     protected int numPlayersUsing;
 
-    private final ModItemStackHandler inventory;
-
     protected UUID owner;
-    /**
-     * A counter that is incremented once each tick. Used to determine when to recompute ; this is done every 200 ticks
-     * (but staggered between different chests). However, the new value isn't actually sent to clients when it is
-     * changed.
-     */
-    private LazyOptional<IItemHandlerModifiable> chestHandler;
 
     private ITextComponent customName;
 
     protected SecureChestTileEntity(TileEntityType<?> typeIn) {
         super(typeIn);
-        inventory = new ModItemStackHandler(27);
     }
 
     public SecureChestTileEntity() {
@@ -73,7 +63,9 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     public void read(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.read(state, nbt);
-        handler.deserializeNBT((CompoundNBT)nbt.get("items"));
+        if(nbt.contains("items")) {
+            inventory.deserializeNBT((CompoundNBT) nbt.get("items"));
+        }
         if(nbt.hasUniqueId("owner")) {
             owner = nbt.getUniqueId("owner");
         }
@@ -85,7 +77,7 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     @Nonnull
     public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
-        compound.put("items", handler.serializeNBT());
+        compound.put("items", inventory.serializeNBT());
         if(owner != null) {
             compound.putUniqueId("owner", owner);
         }
@@ -173,29 +165,10 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 
-    @Override
-    public void updateContainingBlockInfo() {
-        super.updateContainingBlockInfo();
-        if (this.chestHandler != null) {
-            this.chestHandler.invalidate();
-            this.chestHandler = null;
-        }
-    }
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
         return LazyOptional.empty();
-    }
-
-    /**
-     * invalidates a tile entity
-     */
-    @Override
-    public void remove() {
-        super.remove();
-        if (chestHandler != null)
-            chestHandler.invalidate();
     }
 
     public void setOwner(UUID owner) {
@@ -207,7 +180,11 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
         return owner;
     }
 
-    public ModItemStackHandler getInventory() {
+    public ItemStackHandler getInventory() {
         return inventory;
+    }
+
+    public int getInventorySize() {
+        return inventory.getSlots();
     }
 }

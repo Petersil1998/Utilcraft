@@ -2,7 +2,6 @@ package net.petersil98.utilcraft.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +13,7 @@ import net.petersil98.utilcraft.container.SecureChestContainer;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class SecureChestScreen extends ContainerScreen<SecureChestContainer> implements IHasContainer<SecureChestContainer> {
+public class SecureChestScreen extends ContainerScreen<SecureChestContainer> {
     /**
      * The ResourceLocation containing the chest GUI texture.
      */
