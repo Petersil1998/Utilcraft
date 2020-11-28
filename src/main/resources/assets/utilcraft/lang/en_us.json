@@ -66,11 +66,17 @@
   "screen.utilcraft.disenchantment_table": "Disenchantment Table",
   "screen.utilcraft.secure_chest": "Secure Chest",
 
-  "owner_capability.utilcraft.block_protected": "This block is protected, you cannot break or use it!",
+  "protection.utilcraft.block_protected": "This block is protected, you cannot break or use it!",
   "player_trusted.utilcraft.player_added": "Player %s can now access your protected TileEntities",
   "player_trusted.utilcraft.player_removed": "Player %s can no longer access your protected TileEntities",
   "player_trusted.utilcraft.list": "You trust the following Players: %s",
 
   "command.utilcraft.refill.health": "Refilled health",
-  "command.utilcraft.refill.hunger": "Refilled hunger"
+  "command.utilcraft.refill.hunger": "Refilled hunger",
+
+  "vein_miner.utilcraft.active": "Vein Miner active",
+  "vein_miner.utilcraft.inactive": "Vein Miner inactive",
+
+  "key_bindings.utilcraft.category": "Utilcraft",
+  "key_bindings.utilcraft.vein_miner": "Toggle Vein Miner"
 }

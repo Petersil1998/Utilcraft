@@ -3,8 +3,6 @@ package net.petersil98.utilcraft.data;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -19,7 +17,7 @@ import java.util.*;
 public class ModWorldSavedData extends WorldSavedData {
 
     private static final String DATA_NAME = Main.MOD_ID;
-    private Map<UUID, Map<UUID, String>> players = new HashMap<>();
+    private final Map<UUID, Map<UUID, String>> players = new HashMap<>();
 
     public ModWorldSavedData() {
         this(DATA_NAME);

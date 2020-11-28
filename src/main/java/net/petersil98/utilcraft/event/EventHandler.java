@@ -1,6 +1,9 @@
 package net.petersil98.utilcraft.event;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.block.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -12,6 +15,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -20,9 +27,15 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
+import org.lwjgl.glfw.GLFW;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,11 +46,13 @@ import static net.petersil98.utilcraft.utils.VeinMinerUtils.*;
 @Mod.EventBusSubscriber(modid = "utilcraft")
 public class EventHandler {
 
+    private static final Method resetRainAndThunder = ObfuscationReflectionHelper.findMethod(ServerWorld.class, "func_73051_P");
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void veinMiner(final BlockEvent.BreakEvent event) {
         Block minedBlock = event.getState().getBlock();
         PlayerEntity player = event.getPlayer();
-        if(player.isSneaking() && player.getEntityWorld() instanceof ServerWorld) {
+        if(Main.isVeinMinerActive && player.getEntityWorld() instanceof ServerWorld) {
             ServerWorld world = (ServerWorld) player.getEntityWorld();
             ItemStack mainItem = player.getHeldItemMainhand();
             if (playerCanHarvestBlock(event.getState(), mainItem, event.getPos(), world, player)) {
@@ -45,7 +60,7 @@ public class EventHandler {
                 if (isSuperTool(mainItem.getItem())) {
                     get3x3FieldAroundTargetedBlock(player, blocksToHarvest);
                 }
-                if (minedBlock instanceof OreBlock || minedBlock instanceof RedstoneOreBlock) {
+                if (isOreBlock(minedBlock)) {
                     getVein(event.getPos(), blocksToHarvest, world);
                 } else if(isLogBlock(minedBlock)) {
                      getTree(event.getPos(), blocksToHarvest, world);
@@ -85,7 +100,7 @@ public class EventHandler {
                     ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
-                        player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
+                        player.sendStatusMessage(new TranslationTextComponent("protection.utilcraft.block_protected"), true);
                         event.setCanceled(true);
                     }
                 }
@@ -105,7 +120,7 @@ public class EventHandler {
                     ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
-                        player.sendStatusMessage(new TranslationTextComponent("owner_capability.utilcraft.block_protected"), true);
+                        player.sendStatusMessage(new TranslationTextComponent("protection.utilcraft.block_protected"), true);
                         event.setUseBlock(Event.Result.DENY);
                     }
                 }
@@ -125,14 +140,41 @@ public class EventHandler {
                         world.setDayTime(ForgeEventFactory.onSleepFinished(world, l - l % 24000L, world.getDayTime()));
                     }
 
-                    world.getPlayers().stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> {
-                        p_241131_0_.stopSleepInBed(false, false);
-                    });
                     if (world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE)) {
-                        world.func_241113_a_(6000,0,false, false);
+                        try {
+                            resetRainAndThunder.invoke(world);
+                        } catch (IllegalAccessException | InvocationTargetException ignored) {}
                     }
+
+                    world.getPlayers().stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> p_241131_0_.stopSleepInBed(false, false));
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public static void addElementsToGUI(RenderGameOverlayEvent event) {
+        if(!Minecraft.getInstance().gameSettings.showDebugInfo) {
+            addVeinMinerOverlay(event.getType(), event.getMatrixStack(), 10, event.getWindow().getScaledHeight()-20);
+        }
+    }
+
+    @SubscribeEvent
+    public static void toggleVeinMiner(InputEvent.KeyInputEvent event) {
+        if(event.getKey() == KeyBindings.VEIN_MINER.getKey().getKeyCode() && event.getAction() == GLFW.GLFW_PRESS) {
+            Main.isVeinMinerActive = !Main.isVeinMinerActive;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void addVeinMinerOverlay(RenderGameOverlayEvent.ElementType type, MatrixStack matrixStack, int x, int y) {
+        if (type.equals(RenderGameOverlayEvent.ElementType.ALL)) {
+            AbstractGui.drawString(
+                    matrixStack,
+                    Minecraft.getInstance().fontRenderer,
+                    new TranslationTextComponent(String.format("vein_miner.utilcraft.%s", Main.isVeinMinerActive ? "active" : "inactive")),
+                    x, y, 0xffffff);
         }
     }
 }

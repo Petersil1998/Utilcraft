@@ -27,6 +27,7 @@ import net.petersil98.utilcraft.blocks.*;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 import net.petersil98.utilcraft.container.ModContainer;
 import net.petersil98.utilcraft.container.SecureChestContainer;
+import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
 import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
 import net.petersil98.utilcraft.screen.DisenchantmentTableScreen;
@@ -55,6 +56,8 @@ public class Main {
 
     public static String MOD_ID = "utilcraft";
 
+    public static boolean isVeinMinerActive = false;
+
     public static ItemGroup itemGroup = new ItemGroup("utilcraft") {
         @Override
         public ItemStack createIcon() {
@@ -69,7 +72,8 @@ public class Main {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-    }
+
+        }
 
     private void setup(final FMLCommonSetupEvent event) {
 
@@ -85,6 +89,7 @@ public class Main {
         ScreenManager.registerFactory(ModContainer.SECURE_CHEST_CONTAINER, SecureChestScreen::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.MOD_SIGN, SignTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
+        ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD

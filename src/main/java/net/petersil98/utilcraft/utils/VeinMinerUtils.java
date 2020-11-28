@@ -2,6 +2,7 @@ package net.petersil98.utilcraft.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.Tags;
 import net.petersil98.utilcraft.items.AbstractSuperTool;
 import net.petersil98.utilcraft.items.RoseQuartzSuperHammer;
 import net.petersil98.utilcraft.items.RoseQuartzSuperShovel;
@@ -239,5 +241,9 @@ public class VeinMinerUtils {
 
     public static boolean isLogBlock(Block block){
         return block.isIn(BlockTags.LOGS);
+    }
+
+    public static boolean isOreBlock(Block block) {
+        return block.isIn(Tags.Blocks.ORES);
     }
 }
