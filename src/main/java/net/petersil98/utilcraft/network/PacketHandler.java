@@ -20,14 +20,14 @@ public class PacketHandler {
                 PROTOCOL_VERSION::equals,
                 PROTOCOL_VERSION::equals
         );
-        INSTANCE.messageBuilder(MyPacket.class, id++)
-                .encoder(MyPacket::encode)
-                .decoder(MyPacket::new)
-                .consumer(MyPacket::handle)
+        INSTANCE.messageBuilder(ToggleVeinMiner.class, id++)
+                .encoder(ToggleVeinMiner::encode)
+                .decoder(ToggleVeinMiner::new)
+                .consumer(ToggleVeinMiner::handle)
                 .add();
     }
 
-    public static void sendToClient(MyPacket myPacket, ServerPlayerEntity player){
-        INSTANCE.sendTo(myPacket, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+    public static void sendToServer(ToggleVeinMiner myPacket){
+        INSTANCE.sendToServer(myPacket);
     }
 }

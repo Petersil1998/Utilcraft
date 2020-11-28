@@ -8,10 +8,6 @@ import net.minecraft.block.material.Material;
 public class GoldSlab extends SlabBlock {
 
     public GoldSlab() {
-        super(AbstractBlock.Properties
-                .create(Material.IRON)
-                .sound(SoundType.METAL)
-                .hardnessAndResistance(3,6)
-        );
+        super(AbstractBlock.Properties.from(new GoldBrick()));
     }
 }

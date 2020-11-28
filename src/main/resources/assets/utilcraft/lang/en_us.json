@@ -33,6 +33,9 @@
   "block.utilcraft.sakura_door": "Sakura Door",
   "block.utilcraft.disenchantment_table": "Disenchantment Table",
   "block.utilcraft.secure_chest": "Secure Chest",
+  "block.utilcraft.redstone_stairs": "Redstone Stairs",
+  "block.utilcraft.redstone_slab": "Redstone Slab",
+  "block.utilcraft.side_redstone_slab": "Side Redstone Slab",
 
   "item.utilcraft.juicer": "Juicer",
   "item.utilcraft.apple_juice": "Apple Juice",

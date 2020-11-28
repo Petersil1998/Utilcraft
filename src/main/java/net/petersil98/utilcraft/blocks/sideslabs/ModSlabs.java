@@ -33,4 +33,7 @@ public class ModSlabs {
 
     @ObjectHolder("utilcraft:side_gold_slab")
     public static SideGoldSlab SIDE_GOLD_SLAB;
+
+    @ObjectHolder("utilcraft:side_redstone_slab")
+    public static SideRedstoneSlab SIDE_REDSTONE_SLAB;
 }

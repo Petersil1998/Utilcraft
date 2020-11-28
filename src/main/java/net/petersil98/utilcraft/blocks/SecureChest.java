@@ -42,11 +42,7 @@ public class SecureChest extends Block implements IWaterLoggable {
     protected static final VoxelShape SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
     public SecureChest() {
-        super(AbstractBlock.Properties
-                .create(Material.WOOD)
-                .hardnessAndResistance(2.5F)
-                .sound(SoundType.WOOD)
-        );
+        super(AbstractBlock.Properties.from(Blocks.CHEST));
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.FALSE));
     }
 

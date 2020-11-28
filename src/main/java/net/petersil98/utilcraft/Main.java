@@ -28,6 +28,7 @@ import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 import net.petersil98.utilcraft.container.ModContainer;
 import net.petersil98.utilcraft.container.SecureChestContainer;
 import net.petersil98.utilcraft.data.KeyBindings;
+import net.petersil98.utilcraft.network.PacketHandler;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
 import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
 import net.petersil98.utilcraft.screen.DisenchantmentTableScreen;
@@ -54,7 +55,7 @@ import javax.annotation.Nonnull;
 @Mod("utilcraft")
 public class Main {
 
-    public static String MOD_ID = "utilcraft";
+    public static final String MOD_ID = "utilcraft";
 
     public static boolean isVeinMinerActive = false;
 
@@ -78,7 +79,7 @@ public class Main {
     private void setup(final FMLCommonSetupEvent event) {
 
         //CapabilityTileEntityOwner.register();
-        //PacketHandler.registerMessages();
+        PacketHandler.registerMessages();
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
@@ -135,6 +136,9 @@ public class Main {
             blockRegistryEvent.getRegistry().register(new SakuraDoor().setRegistryName("sakura_door"));
             blockRegistryEvent.getRegistry().register(new DisenchantmentTable().setRegistryName("disenchantment_table"));
             blockRegistryEvent.getRegistry().register(new SecureChest().setRegistryName("secure_chest"));
+            blockRegistryEvent.getRegistry().register(new RedstoneStairs().setRegistryName("redstone_stairs"));
+            blockRegistryEvent.getRegistry().register(new RedstoneSlab().setRegistryName("redstone_slab"));
+            blockRegistryEvent.getRegistry().register(new SideRedstoneSlab().setRegistryName("side_redstone_slab"));
         }
 
         @SubscribeEvent
@@ -157,6 +161,7 @@ public class Main {
             itemRegistryEvent.getRegistry().register(new BlockItem(ModSlabs.SIDE_DARK_OAK_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_dark_oak_slab"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModSlabs.SIDE_SAKURA_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_sakura_slab"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModSlabs.SIDE_GOLD_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_gold_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSlabs.SIDE_REDSTONE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_redstone_slab"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_LEAVES, new Item.Properties().group(itemGroup)).setRegistryName("sakura_leaves"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_LOG, new Item.Properties().group(itemGroup)).setRegistryName("sakura_log"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_PLANKS, new Item.Properties().group(itemGroup)).setRegistryName("sakura_planks"));
@@ -171,6 +176,8 @@ public class Main {
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_DOOR, new Item.Properties().group(itemGroup)).setRegistryName("sakura_door"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.DISENCHANTMENT_TABLE, new Item.Properties().group(itemGroup)).setRegistryName("disenchantment_table"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SECURE_CHEST, new Item.Properties().setISTER(() -> SecureChestItemTileEntityRenderer::new).group(itemGroup)).setRegistryName("secure_chest"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_STAIRS, new Item.Properties().group(itemGroup)).setRegistryName("redstone_stairs"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("redstone_slab"));
 
             itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
             itemRegistryEvent.getRegistry().register(new AppleJuice().setRegistryName("apple_juice"));

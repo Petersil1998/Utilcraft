@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "utilcraft:gold_slab"
+    "utilcraft:gold_slab",
+    "utilcraft:redstone_slab"
   ]
 }

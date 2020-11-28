@@ -76,4 +76,10 @@ public class ModBlocks {
 
     @ObjectHolder("utilcraft:secure_chest")
     public static SecureChest SECURE_CHEST;
+
+    @ObjectHolder("utilcraft:redstone_stairs")
+    public static RedstoneStairs REDSTONE_STAIRS;
+
+    @ObjectHolder("utilcraft:redstone_slab")
+    public static RedstoneSlab REDSTONE_SLAB;
 }
