@@ -51,6 +51,6 @@ public class TrustedPlayersCommand {
         ServerPlayerEntity player = source.asPlayer();
         ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
         List<String> trustedPlayers = worldSavedData.getTrustedPlayerNames(player.getGameProfile().getId());
-        source.sendFeedback(new TranslationTextComponent("player_trusted.utilcraft.list", String.join(", ", trustedPlayers)), true);
+        source.sendFeedback(new TranslationTextComponent("player_trusted.utilcraft.list", String.join(", ", trustedPlayers)), false);
     }
 }
