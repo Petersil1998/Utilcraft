@@ -54,6 +54,7 @@
   "item.utilcraft.rose_quartz_axe": "Rose Quartz Axe",
   "item.utilcraft.rose_quartz_super_hammer": "Rose Quartz Super Hammer",
   "item.utilcraft.rose_quartz_super_shovel": "Rose Quartz Super Shovel",
+  "item.utilcraft.travelers_backpack": "Travelers Backpack",
 
   "enchantment.utilcraft.beheading_enchantment": "Beheading",
 
@@ -74,11 +75,12 @@
   "player_trusted.utilcraft.player_removed": "Player %s can no longer access your protected TileEntities",
   "player_trusted.utilcraft.list": "You trust the following Players: %s",
 
-  "command.utilcraft.refill.health": "Refilled health",
-  "command.utilcraft.refill.hunger": "Refilled hunger",
-
   "vein_miner.utilcraft.active": "Vein Miner active",
   "vein_miner.utilcraft.inactive": "Vein Miner inactive",
+
+  "home.utilcraft.set_home": "Successfully set home to current location!",
+  "home.utilcraft.not_set": "Home wasn't set yet!",
+  "home.utilcraft.teleported": "Welcome Home!",
 
   "key_bindings.utilcraft.category": "Utilcraft",
   "key_bindings.utilcraft.vein_miner": "Toggle Vein Miner"

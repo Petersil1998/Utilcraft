@@ -27,12 +27,17 @@ import net.petersil98.utilcraft.blocks.*;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 import net.petersil98.utilcraft.container.ModContainer;
 import net.petersil98.utilcraft.container.SecureChestContainer;
+import net.petersil98.utilcraft.container.TravelersBackpackContainer;
 import net.petersil98.utilcraft.data.KeyBindings;
+import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
+import net.petersil98.utilcraft.data.capabilities.inventory.CapabilityInventory;
+import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.network.PacketHandler;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
 import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
 import net.petersil98.utilcraft.screen.DisenchantmentTableScreen;
 import net.petersil98.utilcraft.screen.SecureChestScreen;
+import net.petersil98.utilcraft.screen.TravelersBackpackScreen;
 import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
 import net.petersil98.utilcraft.tile_entities.ModSignTileEntity;
 import net.petersil98.utilcraft.tile_entities.ModTileEntities;
@@ -77,8 +82,9 @@ public class Main {
         }
 
     private void setup(final FMLCommonSetupEvent event) {
-
-        //CapabilityTileEntityOwner.register();
+        CapabilityInventory.register();
+        CapabilityVeinMiner.register();
+        CapabilityHome.register();
         PacketHandler.registerMessages();
     }
 
@@ -88,6 +94,7 @@ public class Main {
         RenderTypeLookup.setRenderLayer(ModBlocks.SAKURA_DOOR, RenderType.getCutout());
         ScreenManager.registerFactory(ModContainer.DISENCHANTMENT_BLOCK_CONTAINER, DisenchantmentTableScreen::new);
         ScreenManager.registerFactory(ModContainer.SECURE_CHEST_CONTAINER, SecureChestScreen::new);
+        ScreenManager.registerFactory(ModContainer.TRAVELERS_BACKPACK_CONTAINER, TravelersBackpackScreen::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.MOD_SIGN, SignTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
         ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
@@ -197,6 +204,7 @@ public class Main {
             itemRegistryEvent.getRegistry().register(new RoseQuartzSuperHammer().setRegistryName("rose_quartz_super_hammer"));
             itemRegistryEvent.getRegistry().register(new RoseQuartzSuperShovel().setRegistryName("rose_quartz_super_shovel"));
             itemRegistryEvent.getRegistry().register(new SakuraSignItem().setRegistryName("sakura_sign"));
+            itemRegistryEvent.getRegistry().register(new TravelersBackpack().setRegistryName("travelers_backpack"));
         }
 
         @SubscribeEvent
@@ -225,6 +233,7 @@ public class Main {
         public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
             containerRegister.getRegistry().register(new ContainerType<>(DisenchantmentTableContainer::new).setRegistryName("disenchantment_table"));
             containerRegister.getRegistry().register(new ContainerType<>(SecureChestContainer::new).setRegistryName("secure_chest"));
+            containerRegister.getRegistry().register(new ContainerType<>(TravelersBackpackContainer::new).setRegistryName("travelers_backpack"));
         }
     }
     @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.FORGE)

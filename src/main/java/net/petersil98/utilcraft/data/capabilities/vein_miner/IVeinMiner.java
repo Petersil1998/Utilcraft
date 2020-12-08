@@ -1,4 +1,4 @@
-package net.petersil98.utilcraft.data.capabilities;
+package net.petersil98.utilcraft.data.capabilities.vein_miner;
 
 public interface IVeinMiner {
 

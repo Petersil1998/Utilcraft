@@ -1,10 +1,11 @@
-package net.petersil98.utilcraft.data.capabilities;
+package net.petersil98.utilcraft.data.capabilities.vein_miner;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,16 +13,20 @@ import javax.annotation.Nullable;
 public class VeinMinerProvider implements ICapabilitySerializable<CompoundNBT> {
 
     private final DefaultVeinMiner veinMiner = new DefaultVeinMiner();
-    private final LazyOptional<IVeinMiner> chargeOptional = LazyOptional.of(() -> veinMiner);
+    private final LazyOptional<IVeinMiner> veinMinerOptional = LazyOptional.of(() -> veinMiner);
 
     public void invalidate() {
-        chargeOptional.invalidate();
+        veinMinerOptional.invalidate();
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return chargeOptional.cast();
+        if(cap == CapabilityVeinMiner.VEIN_MINER_CAPABILITY) {
+            return veinMinerOptional.cast();
+        } else {
+            return LazyOptional.empty();
+        }
     }
 
     @Override

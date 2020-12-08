@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -34,8 +35,11 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
-import net.petersil98.utilcraft.data.capabilities.CapabilityVeinMiner;
-import net.petersil98.utilcraft.data.capabilities.VeinMinerProvider;
+import net.petersil98.utilcraft.data.capabilities.home.HomeProvider;
+import net.petersil98.utilcraft.data.capabilities.inventory.InventoryProvider;
+import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
+import net.petersil98.utilcraft.data.capabilities.vein_miner.VeinMinerProvider;
+import net.petersil98.utilcraft.items.TravelersBackpack;
 import net.petersil98.utilcraft.network.PacketHandler;
 import net.petersil98.utilcraft.network.ToggleVeinMiner;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
@@ -181,10 +185,28 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
+    public static void attachVeinMinerCapability(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof ServerPlayerEntity) {
             VeinMinerProvider provider = new VeinMinerProvider();
             event.addCapability(new ResourceLocation(Main.MOD_ID, "active"), provider);
+            event.addListener(provider::invalidate);
+        }
+    }
+
+    @SubscribeEvent
+    public static void attachHomeCapability(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof ServerPlayerEntity) {
+            HomeProvider provider = new HomeProvider();
+            event.addCapability(new ResourceLocation(Main.MOD_ID, "home"), provider);
+            event.addListener(provider::invalidate);
+        }
+    }
+
+    @SubscribeEvent
+    public static void attachInventoryCapability(AttachCapabilitiesEvent<ItemStack> event) {
+        if (event.getObject().getItem() instanceof TravelersBackpack) {
+            InventoryProvider provider = new InventoryProvider(27);
+            event.addCapability(new ResourceLocation(Main.MOD_ID, "inventory"), provider);
             event.addListener(provider::invalidate);
         }
     }

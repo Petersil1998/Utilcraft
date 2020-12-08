@@ -1,4 +1,4 @@
-package net.petersil98.utilcraft.data.capabilities;
+package net.petersil98.utilcraft.data.capabilities.vein_miner;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;

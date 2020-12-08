@@ -11,4 +11,7 @@ public class ModContainer {
 
     @ObjectHolder("utilcraft:secure_chest")
     public static ContainerType<SecureChestContainer> SECURE_CHEST_CONTAINER;
+
+    @ObjectHolder("utilcraft:travelers_backpack")
+    public static ContainerType<TravelersBackpackContainer> TRAVELERS_BACKPACK_CONTAINER;
 }

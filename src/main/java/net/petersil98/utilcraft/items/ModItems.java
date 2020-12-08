@@ -48,4 +48,7 @@ public class ModItems {
 
     @ObjectHolder("utilcraft:sakura_sign")
     public static SakuraSignItem SAKURA_SIGN;
+
+    @ObjectHolder("utilcraft:travelers_backpack")
+    public static TravelersBackpack TRAVELERS_BACKPACK;
 }

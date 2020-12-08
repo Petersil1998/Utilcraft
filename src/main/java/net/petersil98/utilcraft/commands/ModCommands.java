@@ -10,6 +10,7 @@ public class ModCommands {
     public static void register(CommandDispatcher<CommandSource> dispatcher){
         LiteralCommandNode<CommandSource> command = dispatcher.register(
                 Commands.literal("utilcraft").then(TrustedPlayersCommand.register())
+                .then(HomeCommand.register())
         );
     }
 }

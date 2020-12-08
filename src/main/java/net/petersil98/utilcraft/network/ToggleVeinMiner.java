@@ -3,7 +3,7 @@ package net.petersil98.utilcraft.network;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.petersil98.utilcraft.data.capabilities.CapabilityVeinMiner;
+import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 
 import java.util.UUID;
 import java.util.function.Supplier;

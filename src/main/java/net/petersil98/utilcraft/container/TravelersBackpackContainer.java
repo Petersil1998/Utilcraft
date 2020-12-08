@@ -13,19 +13,19 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 
-public class SecureChestContainer extends Container {
+public class TravelersBackpackContainer extends Container {
 
     private final IItemHandler inventory;
     private final int numRows;
 
-    public SecureChestContainer(int id, PlayerInventory playerInventory) {
+    public TravelersBackpackContainer(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, new ItemStackHandler(27));
     }
 
-    public SecureChestContainer(int id, PlayerInventory playerInventory, IItemHandler inventory) {
-        super(ModContainer.SECURE_CHEST_CONTAINER, id);
+    public TravelersBackpackContainer(int id, PlayerInventory playerInventory, IItemHandler inventory) {
+        super(ModContainer.TRAVELERS_BACKPACK_CONTAINER, id);
         this.inventory = inventory;
-        this.numRows = 3;
+        this.numRows = inventory.getSlots()/9;
         addSlots(playerInventory);
     }
 
