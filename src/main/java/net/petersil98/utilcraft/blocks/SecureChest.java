@@ -156,28 +156,6 @@ public class SecureChest extends Block implements IWaterLoggable {
         };
     }
 
-    public static boolean isBlocked(IWorld world, BlockPos pos) {
-        return isBelowSolidBlock(world, pos) || isCatSittingOn(world, pos);
-    }
-
-    private static boolean isBelowSolidBlock(IBlockReader reader, BlockPos worldIn) {
-        BlockPos blockpos = worldIn.up();
-        return reader.getBlockState(blockpos).isNormalCube(reader, blockpos);
-    }
-
-    private static boolean isCatSittingOn(IWorld world, BlockPos pos) {
-        List<CatEntity> list = world.getEntitiesWithinAABB(CatEntity.class, new AxisAlignedBB(pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1));
-        if (!list.isEmpty()) {
-            for (CatEntity catentity : list) {
-                if (catentity.isEntitySleeping()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     @Nonnull
     public BlockState rotate(BlockState state, Rotation rot) {
         return state.with(FACING, rot.rotate(state.get(FACING)));
