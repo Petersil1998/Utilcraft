@@ -9,10 +9,9 @@ import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.server.TicketType;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -45,38 +44,40 @@ public class HomeCommand {
         player.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
             BlockPos home = iHome.getHome();
             if(home != null && !home.equals(BlockPos.ZERO)) {
-                teleportToPos(player, player.getServerWorld(), home);
-                source.sendFeedback(new TranslationTextComponent("home.utilcraft.teleported"), true);
+                teleportToPos(player, home);
+                source.sendFeedback(new TranslationTextComponent("home.utilcraft.teleported"), false);
             } else {
-                source.sendFeedback(new TranslationTextComponent("home.utilcraft.not_set"), true);
+                source.sendFeedback(new TranslationTextComponent("home.utilcraft.not_set"), false);
             }
         });
     }
 
-    private static void teleportToPos(ServerPlayerEntity target, ServerWorld worldIn, BlockPos position) {
+    private static void teleportToPos(ServerPlayerEntity player, BlockPos position) {
         Set<SPlayerPositionLookPacket.Flags> set = EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class);
 
         set.add(SPlayerPositionLookPacket.Flags.X_ROT);
         set.add(SPlayerPositionLookPacket.Flags.Y_ROT);
 
         ChunkPos chunkpos = new ChunkPos(position);
-        worldIn.getChunkProvider().registerTicket(TicketType.POST_TELEPORT, chunkpos, 1, target.getEntityId());
-        target.stopRiding();
-        if (target.isSleeping()) {
-            target.stopSleepInBed(true, true);
+        player.getServerWorld().getChunkProvider().registerTicket(TicketType.POST_TELEPORT, chunkpos, 1, player.getEntityId());
+        player.stopRiding();
+        if (player.isSleeping()) {
+            player.stopSleepInBed(true, true);
         }
 
-        if (worldIn == target.world) {
-            target.connection.setPlayerLocation(position.getX(), position.getY(), position.getZ(), 0, 0, set);
+        if (player.getServer().getWorld(World.OVERWORLD).equals(player.getServerWorld())) {
+            player.connection.setPlayerLocation(position.getX(), position.getY(), position.getZ(), 0, 0, set);
         } else {
-            target.teleport(worldIn, position.getX(), position.getY(), position.getZ(), 0, 0);
+            player.teleport(player.getServer().getWorld(World.OVERWORLD), position.getX(), position.getY(), position.getZ(), 0, 0);
         }
 
-        target.setRotationYawHead(0);
 
-        if (!target.isElytraFlying()) {
-            target.setMotion(target.getMotion().mul(1.0D, 0.0D, 1.0D));
-            target.setOnGround(true);
+
+        player.setRotationYawHead(0);
+
+        if (!player.isElytraFlying()) {
+            player.setMotion(player.getMotion().mul(1.0D, 0.0D, 1.0D));
+            player.setOnGround(true);
         }
     }
 }
