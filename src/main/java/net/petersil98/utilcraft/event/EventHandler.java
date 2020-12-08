@@ -10,13 +10,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,19 +25,24 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
+import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.home.HomeProvider;
 import net.petersil98.utilcraft.data.capabilities.inventory.InventoryProvider;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
+import net.petersil98.utilcraft.data.capabilities.vein_miner.IVeinMiner;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.VeinMinerProvider;
 import net.petersil98.utilcraft.items.TravelersBackpack;
 import net.petersil98.utilcraft.network.PacketHandler;
@@ -48,9 +53,11 @@ import org.lwjgl.glfw.GLFW;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static net.petersil98.utilcraft.utils.VeinMinerUtils.*;
@@ -166,6 +173,38 @@ public class EventHandler {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onRespawn(PlayerEvent.Clone event) {
+        PlayerEntity original = event.getOriginal();
+        PlayerEntity clone = event.getPlayer();
+
+        AtomicReference<Boolean> veinMiner = new AtomicReference<>();
+
+        original.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
+            veinMiner.set(iVeinMiner.getVeinMiner());
+        });
+
+        clone.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
+            iVeinMiner.setVeinMiner(veinMiner.get());
+        });
+
+        AtomicReference<BlockPos> blockPos = new AtomicReference<>();
+
+        original.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
+            blockPos.set(iHome.getHome());
+        });
+
+        clone.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
+            iHome.setHome(blockPos.get());
+        });
+    }
+
+    @SubscribeEvent
+    public static void onExplosionEvent(ExplosionEvent.Detonate event) {
+        ServerWorld world = (ServerWorld)event.getWorld();
+        event.getAffectedBlocks().removeIf(current -> world.getBlockState(current).getBlock() instanceof SecureChest);
     }
 
     @SubscribeEvent
