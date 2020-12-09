@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "*X*",
+    "-#-",
+    "OOO"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:barrel"
+    },
+    "-": {
+      "item": "minecraft:string"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "*": {
+      "item": "minecraft:leather"
+    },
+    "X": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "utilcraft:travelers_backpack",
+    "count": 1
+  }
+}
