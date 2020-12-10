@@ -241,15 +241,6 @@ public class EventHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void attachInventoryCapability(AttachCapabilitiesEvent<ItemStack> event) {
-        if (event.getObject().getItem() instanceof TravelersBackpack) {
-            InventoryProvider provider = new InventoryProvider(27);
-            event.addCapability(new ResourceLocation(Main.MOD_ID, "inventory"), provider);
-            event.addListener(provider::invalidate);
-        }
-    }
-
     @OnlyIn(Dist.CLIENT)
     private static void addVeinMinerOverlay(RenderGameOverlayEvent.ElementType type, MatrixStack matrixStack, int x, int y) {
         if (type.equals(RenderGameOverlayEvent.ElementType.ALL)) {

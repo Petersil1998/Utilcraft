@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
@@ -18,8 +19,8 @@ public class TravelersBackpackContainer extends Container {
     private final IItemHandler inventory;
     private final int numRows;
 
-    public TravelersBackpackContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new ItemStackHandler(27));
+    public TravelersBackpackContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
+        this(id, playerInventory, new ItemStackHandler(buffer.readInt()));
     }
 
     public TravelersBackpackContainer(int id, PlayerInventory playerInventory, IItemHandler inventory) {

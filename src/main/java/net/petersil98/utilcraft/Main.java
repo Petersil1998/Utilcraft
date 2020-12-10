@@ -13,6 +13,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -30,7 +31,6 @@ import net.petersil98.utilcraft.container.SecureChestContainer;
 import net.petersil98.utilcraft.container.TravelersBackpackContainer;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
-import net.petersil98.utilcraft.data.capabilities.inventory.CapabilityInventory;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.network.PacketHandler;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
@@ -82,7 +82,6 @@ public class Main {
         }
 
     private void setup(final FMLCommonSetupEvent event) {
-        CapabilityInventory.register();
         CapabilityVeinMiner.register();
         CapabilityHome.register();
         PacketHandler.registerMessages();
@@ -231,9 +230,9 @@ public class Main {
 
         @SubscribeEvent
         public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
-            containerRegister.getRegistry().register(new ContainerType<>(DisenchantmentTableContainer::new).setRegistryName("disenchantment_table"));
-            containerRegister.getRegistry().register(new ContainerType<>(SecureChestContainer::new).setRegistryName("secure_chest"));
-            containerRegister.getRegistry().register(new ContainerType<>(TravelersBackpackContainer::new).setRegistryName("travelers_backpack"));
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new DisenchantmentTableContainer(windowId, inv)).setRegistryName("disenchantment_table"));
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SecureChestContainer(windowId, inv)).setRegistryName("secure_chest"));
+            containerRegister.getRegistry().register(IForgeContainerType.create(TravelersBackpackContainer::new).setRegistryName("travelers_backpack"));
         }
     }
     @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.FORGE)
