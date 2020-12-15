@@ -11,6 +11,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.TicketType;
+import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 
 import java.util.EnumSet;
@@ -35,7 +36,7 @@ public class HomeCommand {
         BlockPos position = player.getPosition();
         player.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
             iHome.setHome(position);
-            source.sendFeedback(new TranslationTextComponent("home.utilcraft.set_home"), true);
+            source.sendFeedback(new TranslationTextComponent(String.format("home.%s.set_home", Main.MOD_ID)), false);
         });
     }
 
@@ -45,9 +46,9 @@ public class HomeCommand {
             BlockPos home = iHome.getHome();
             if(home != null && !home.equals(BlockPos.ZERO)) {
                 teleportToPos(player, home);
-                source.sendFeedback(new TranslationTextComponent("home.utilcraft.teleported"), false);
+                source.sendFeedback(new TranslationTextComponent(String.format("home.%s.teleported", Main.MOD_ID)), false);
             } else {
-                source.sendFeedback(new TranslationTextComponent("home.utilcraft.not_set"), false);
+                source.sendFeedback(new TranslationTextComponent(String.format("home.%s.not_set", Main.MOD_ID)), false);
             }
         });
     }

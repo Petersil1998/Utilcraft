@@ -8,13 +8,14 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.items.ModItems;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements IArmorMaterial {
-    ROSE_QUARTZ("utilcraft:rose_quartz", 40, new int[]{4, 7, 9, 4}, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 5.0F, 0.1F, () -> {
+    ROSE_QUARTZ(Main.MOD_ID+":rose_quartz", 40, new int[]{4, 7, 9, 4}, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 5.0F, 0.1F, () -> {
         return Ingredient.fromItems(ModItems.ROSE_QUARTZ);
     });
 

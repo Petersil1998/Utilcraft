@@ -1,85 +1,87 @@
 package net.petersil98.utilcraft.blocks;
 
 import net.minecraftforge.registries.ObjectHolder;
+import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.blocks.sakura.*;
 
+@ObjectHolder(Main.MOD_ID)
 public class ModBlocks {
 
-    @ObjectHolder("utilcraft:gold_brick")
+    @ObjectHolder("gold_brick")
     public static GoldBrick GOLD_BRICK;
 
-    @ObjectHolder("utilcraft:gold_stairs")
+    @ObjectHolder("gold_stairs")
     public static GoldStairs GOLD_STAIRS;
 
-    @ObjectHolder("utilcraft:gold_slab")
+    @ObjectHolder("gold_slab")
     public static GoldSlab GOLD_SLAB;
 
-    @ObjectHolder("utilcraft:gold_wall")
+    @ObjectHolder("gold_wall")
     public static GoldWall GOLD_WALL;
 
-    @ObjectHolder("utilcraft:compressed_cobblestone")
+    @ObjectHolder("compressed_cobblestone")
     public static CompressedCobblestone COMPRESSED_COBBLESTONE;
 
-    @ObjectHolder("utilcraft:silver_ore")
+    @ObjectHolder("silver_ore")
     public static SilverOre SILVER_ORE;
 
-    @ObjectHolder("utilcraft:rose_quartz_ore")
+    @ObjectHolder("rose_quartz_ore")
     public static RoseQuartzOre ROSE_QUARTZ_ORE;
 
-    @ObjectHolder("utilcraft:rose_quartz_block")
+    @ObjectHolder("rose_quartz_block")
     public static RoseQuartzBlock ROSE_QUARTZ_BLOCK;
 
-    @ObjectHolder("utilcraft:sakura_leaves")
+    @ObjectHolder("sakura_leaves")
     public static SakuraLeaves SAKURA_LEAVES;
 
-    @ObjectHolder("utilcraft:sakura_log")
+    @ObjectHolder("sakura_log")
     public static SakuraLog SAKURA_LOG;
 
-    @ObjectHolder("utilcraft:sakura_planks")
+    @ObjectHolder("sakura_planks")
     public static SakuraPlanks SAKURA_PLANKS;
 
-    @ObjectHolder("utilcraft:sakura_sapling")
+    @ObjectHolder("sakura_sapling")
     public static SakuraSapling SAKURA_SAPLING;
 
-    @ObjectHolder("utilcraft:sakura_slab")
+    @ObjectHolder("sakura_slab")
     public static SakuraSlab SAKURA_SLAB;
 
-    @ObjectHolder("utilcraft:sakura_stairs")
+    @ObjectHolder("sakura_stairs")
     public static SakuraStairs SAKURA_STAIRS;
 
-    @ObjectHolder("utilcraft:sakura_fence")
+    @ObjectHolder("sakura_fence")
     public static SakuraFence SAKURA_FENCE;
 
-    @ObjectHolder("utilcraft:sakura_fence_gate")
+    @ObjectHolder("sakura_fence_gate")
     public static SakuraFenceGate SAKURA_FENCE_GATE;
 
-    @ObjectHolder("utilcraft:sakura_pressure_plate")
+    @ObjectHolder("sakura_pressure_plate")
     public static SakuraPressurePlate SAKURA_PRESSURE_PLATE;
 
-    @ObjectHolder("utilcraft:sakura_trapdoor")
+    @ObjectHolder("sakura_trapdoor")
     public static SakuraTrapdoor SAKURA_TRAPDOOR;
 
-    @ObjectHolder("utilcraft:sakura_sign")
+    @ObjectHolder("sakura_sign")
     public static SakuraSign SAKURA_SIGN;
 
-    @ObjectHolder("utilcraft:sakura_wall_sign")
+    @ObjectHolder("sakura_wall_sign")
     public static SakuraWallSign SAKURA_WALL_SIGN;
 
-    @ObjectHolder("utilcraft:sakura_button")
+    @ObjectHolder("sakura_button")
     public static SakuraButton SAKURA_BUTTON;
 
-    @ObjectHolder("utilcraft:sakura_door")
+    @ObjectHolder("sakura_door")
     public static SakuraDoor SAKURA_DOOR;
 
-    @ObjectHolder("utilcraft:disenchantment_table")
+    @ObjectHolder("disenchantment_table")
     public static DisenchantmentTable DISENCHANTMENT_TABLE;
 
-    @ObjectHolder("utilcraft:secure_chest")
+    @ObjectHolder("secure_chest")
     public static SecureChest SECURE_CHEST;
 
-    @ObjectHolder("utilcraft:redstone_stairs")
+    @ObjectHolder("redstone_stairs")
     public static RedstoneStairs REDSTONE_STAIRS;
 
-    @ObjectHolder("utilcraft:redstone_slab")
+    @ObjectHolder("redstone_slab")
     public static RedstoneSlab REDSTONE_SLAB;
 }

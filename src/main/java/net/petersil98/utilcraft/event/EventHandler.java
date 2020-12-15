@@ -123,7 +123,7 @@ public class EventHandler {
                     ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
-                        player.sendStatusMessage(new TranslationTextComponent("protection.utilcraft.block_protected"), true);
+                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Main.MOD_ID)), true);
                         event.setCanceled(true);
                     }
                 }
@@ -143,7 +143,7 @@ public class EventHandler {
                     ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
-                        player.sendStatusMessage(new TranslationTextComponent("protection.utilcraft.block_protected"), true);
+                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Main.MOD_ID)), true);
                         event.setUseBlock(Event.Result.DENY);
                     }
                 }
