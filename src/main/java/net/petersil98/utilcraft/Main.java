@@ -1,7 +1,6 @@
 package net.petersil98.utilcraft;
 
 import net.minecraft.block.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -10,31 +9,19 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.item.ItemFrameEntity;
-import net.minecraft.entity.item.minecart.HopperMinecartEntity;
 import net.minecraft.entity.item.minecart.TNTMinecartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tileentity.HopperTileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -46,7 +33,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.petersil98.utilcraft.blocks.*;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 import net.petersil98.utilcraft.container.ModContainer;
@@ -75,6 +61,7 @@ import net.petersil98.utilcraft.food.SweetBerryJuice;
 import net.petersil98.utilcraft.generation.WorldGeneration;
 import net.petersil98.utilcraft.items.*;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.utils.ClientSetup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -82,7 +69,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Mod(Main.MOD_ID)
@@ -122,7 +108,7 @@ public class Main {
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.MOD_SIGN, SignTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
         ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
-        registerItemProperties();
+        ClientSetup.registerItemProperties();
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
@@ -275,98 +261,6 @@ public class Main {
             WorldGeneration.addSilverOre(event.getGeneration());
             WorldGeneration.addRoseQuartzOre(event.getGeneration());
             WorldGeneration.addSakuraTrees(event.getGeneration());
-        }
-    }
-
-    private static void registerItemProperties() {
-        ItemModelsProperties.registerProperty(ModItems.TNT_FINDER, new ResourceLocation("angle"), new IItemPropertyGetter() {
-            private final Angle field_239439_a_ = new Angle();
-            private final Angle field_239440_b_ = new Angle();
-
-            public float call(@Nonnull ItemStack item, @Nullable ClientWorld world, @Nullable LivingEntity livingEntity) {
-                Entity entity = livingEntity != null ? livingEntity : item.getAttachedEntity();
-                if (entity == null) {
-                    return 0.0F;
-                } else {
-                    if (world == null && entity.world instanceof ClientWorld) {
-                        world = (ClientWorld) entity.world;
-                    }
-                    long i = world.getGameTime();
-                    boolean flag = livingEntity instanceof PlayerEntity && ((PlayerEntity) livingEntity).isUser();
-                    double d1 = 0.0D;
-                    if (flag) {
-                        d1 = livingEntity.rotationYaw;
-                    }
-                    int radius = TNTFinder.getRadius();
-                    BlockPos playerPos = entity.getPosition();
-                    Stream<BlockPos> blocks = BlockPos.getAllInBox(playerPos.north(radius).east(radius).up(radius), playerPos.south(radius).west(radius).down(radius));
-                    Stream<BlockPos> realBlocks = blocks.filter(blockPos -> playerPos.withinDistance(blockPos, radius));
-                    Iterator<BlockPos> iterator = realBlocks.iterator();
-                    BlockPos tnt = null;
-                    while (iterator.hasNext()){
-                        BlockPos current = iterator.next();
-                        BlockState block = world.getBlockState(current);
-                        if(block.getBlock() instanceof TNTBlock) {
-                            tnt = current;
-                            break;
-                        }
-                    }
-                    if(tnt == null) {
-                        List<TNTMinecartEntity> tntMinecarts = world.getEntitiesWithinAABB(TNTMinecartEntity.class, new AxisAlignedBB(playerPos).grow(radius));
-                        if(tntMinecarts.size() > 0)
-                            tnt = tntMinecarts.get(0).getPosition();
-                    }
-                    if(tnt != null) {
-                        d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
-                        double d2 = this.func_239443_a_(Vector3d.copyCentered(tnt), entity) / (double) ((float) Math.PI * 2F);
-                        double d3;
-                        if (flag) {
-                            if (this.field_239439_a_.func_239448_a_(i)) {
-                                this.field_239439_a_.func_239449_a_(i, 0.5D - (d1 - 0.25D));
-                            }
-
-                            d3 = d2 + this.field_239439_a_.field_239445_a_;
-                        } else {
-                            d3 = 0.5D - (d1 - 0.25D - d2);
-                        }
-
-                        return MathHelper.positiveModulo((float) d3, 1.0F);
-                    }
-                    if (this.field_239440_b_.func_239448_a_(i)) {
-                        this.field_239440_b_.func_239449_a_(i, Math.random());
-                    }
-
-                    double d0 = this.field_239440_b_.field_239445_a_ + (double) ((float) item.hashCode() / 2.14748365E9F);
-                    return MathHelper.positiveModulo((float) d0, 1.0F);
-                }
-            }
-
-            private double func_239443_a_(Vector3d p_239443_1_, Entity p_239443_2_) {
-                return Math.atan2(p_239443_1_.getZ() - p_239443_2_.getPosZ(), p_239443_1_.getX() - p_239443_2_.getPosX());
-            }
-        });
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    static class Angle {
-        private double field_239445_a_;
-        private double field_239446_b_;
-        private long field_239447_c_;
-
-        private Angle() {
-        }
-
-        private boolean func_239448_a_(long p_239448_1_) {
-            return this.field_239447_c_ != p_239448_1_;
-        }
-
-        private void func_239449_a_(long p_239449_1_, double p_239449_3_) {
-            this.field_239447_c_ = p_239449_1_;
-            double d0 = p_239449_3_ - this.field_239445_a_;
-            d0 = MathHelper.positiveModulo(d0 + 0.5D, 1.0D) - 0.5D;
-            this.field_239446_b_ += d0 * 0.1D;
-            this.field_239446_b_ *= 0.8D;
-            this.field_239445_a_ = MathHelper.positiveModulo(this.field_239445_a_ + this.field_239446_b_, 1.0D);
         }
     }
 }
