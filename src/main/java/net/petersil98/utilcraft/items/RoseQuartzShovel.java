@@ -6,6 +6,6 @@ import net.petersil98.utilcraft.items.custom.ModItemTier;
 
 public class RoseQuartzShovel extends ShovelItem {
     public RoseQuartzShovel() {
-        super(ModItemTier.ROSE_QUARTZ, 2F, -2.8F, (new Item.Properties()).group(Main.itemGroup));
+        super(ModItemTier.ROSE_QUARTZ, 2F, -2.8F, new Item.Properties().group(Main.itemGroup));
     }
 }

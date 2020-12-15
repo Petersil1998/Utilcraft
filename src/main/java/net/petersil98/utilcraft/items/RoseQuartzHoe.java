@@ -6,6 +6,6 @@ import net.petersil98.utilcraft.items.custom.ModItemTier;
 
 public class RoseQuartzHoe extends HoeItem {
     public RoseQuartzHoe() {
-        super(ModItemTier.ROSE_QUARTZ, -5, 0.0F, (new Item.Properties()).group(Main.itemGroup));
+        super(ModItemTier.ROSE_QUARTZ, -5, 0.0F, new Item.Properties().group(Main.itemGroup));
     }
 }

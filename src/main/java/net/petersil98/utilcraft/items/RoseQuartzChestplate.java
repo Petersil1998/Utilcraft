@@ -7,6 +7,6 @@ import net.petersil98.utilcraft.items.custom.ModArmorMaterial;
 
 public class RoseQuartzChestplate extends ArmorItem {
     public RoseQuartzChestplate() {
-        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.CHEST, (new Properties()).group(Main.itemGroup));
+        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.CHEST, new Properties().group(Main.itemGroup));
     }
 }

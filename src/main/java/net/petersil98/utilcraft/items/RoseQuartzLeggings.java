@@ -7,6 +7,6 @@ import net.petersil98.utilcraft.items.custom.ModArmorMaterial;
 
 public class RoseQuartzLeggings extends ArmorItem {
     public RoseQuartzLeggings() {
-        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.LEGS, (new Properties()).group(Main.itemGroup));
+        super(ModArmorMaterial.ROSE_QUARTZ, EquipmentSlotType.LEGS, new Properties().group(Main.itemGroup));
     }
 }

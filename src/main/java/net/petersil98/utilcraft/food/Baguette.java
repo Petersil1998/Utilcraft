@@ -11,7 +11,8 @@ public class Baguette extends Item {
                 .food(new Food.Builder()
                         .hunger(6)
                         .build()
-                ).group(Main.itemGroup)
+                )
+                .group(Main.itemGroup)
         );
     }
 }
