@@ -48,7 +48,7 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
 
     @Override
     protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY) {
-        drawString(matrixStack, Minecraft.getInstance().fontRenderer, "Test", 10, 10, 0xffffff);
+        drawString(matrixStack, Minecraft.getInstance().fontRenderer, "Disenchantment Table", 10, 10, 0xffffff);
     }
 
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
