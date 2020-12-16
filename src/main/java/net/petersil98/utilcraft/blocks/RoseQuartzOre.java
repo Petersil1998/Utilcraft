@@ -1,7 +1,6 @@
 package net.petersil98.utilcraft.blocks;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
 

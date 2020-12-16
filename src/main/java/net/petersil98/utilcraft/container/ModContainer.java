@@ -3,7 +3,6 @@ package net.petersil98.utilcraft.container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.Main;
-import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 
 @ObjectHolder(Main.MOD_ID)
 public class ModContainer {

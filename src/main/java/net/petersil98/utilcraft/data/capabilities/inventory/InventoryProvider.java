@@ -1,6 +1,5 @@
 package net.petersil98.utilcraft.data.capabilities.inventory;
 
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;

@@ -13,8 +13,6 @@ import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class TrustedPlayersCommand {
 
