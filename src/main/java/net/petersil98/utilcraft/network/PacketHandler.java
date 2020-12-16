@@ -2,6 +2,7 @@ package net.petersil98.utilcraft.network;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.petersil98.utilcraft.Main;
 
@@ -23,9 +24,19 @@ public class PacketHandler {
                 .decoder(ToggleVeinMiner::new)
                 .consumer(ToggleVeinMiner::handle)
                 .add();
+
+        INSTANCE.messageBuilder(PlayerDeathStats.class, id++)
+                .encoder(PlayerDeathStats::encode)
+                .decoder(PlayerDeathStats::new)
+                .consumer(PlayerDeathStats::handle)
+                .add();
     }
 
     public static void sendToServer(ToggleVeinMiner myPacket){
         INSTANCE.sendToServer(myPacket);
+    }
+
+    public static void sendToClients(PlayerDeathStats myPacket) {
+        INSTANCE.send(PacketDistributor.ALL.noArg(), myPacket);
     }
 }

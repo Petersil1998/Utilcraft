@@ -2,8 +2,10 @@ package net.petersil98.utilcraft.event;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.block.*;
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -14,17 +16,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -40,22 +42,17 @@ import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.home.HomeProvider;
-import net.petersil98.utilcraft.data.capabilities.inventory.InventoryProvider;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
-import net.petersil98.utilcraft.data.capabilities.vein_miner.IVeinMiner;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.VeinMinerProvider;
-import net.petersil98.utilcraft.items.TravelersBackpack;
 import net.petersil98.utilcraft.network.PacketHandler;
+import net.petersil98.utilcraft.network.PlayerDeathStats;
 import net.petersil98.utilcraft.network.ToggleVeinMiner;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
-import org.lwjgl.glfw.GLFW;
+import net.petersil98.utilcraft.utils.PlayerUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -176,7 +173,12 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void onRespawn(PlayerEvent.Clone event) {
+    public static void onPlayerCloneEvent(PlayerEvent.Clone event) {
+        if(event.isWasDeath()) {
+            PlayerUtils.setPlayerDeaths(event.getPlayer().getServer(), (ServerPlayerEntity) event.getEntity());
+            PacketHandler.sendToClients(new PlayerDeathStats());
+        }
+
         PlayerEntity original = event.getOriginal();
         PlayerEntity clone = event.getPlayer();
 
@@ -202,6 +204,14 @@ public class EventHandler {
     }
 
     @SubscribeEvent
+    public static void onPlayerLoginEvent(EntityJoinWorldEvent event) {
+        if(event.getEntity() instanceof ServerPlayerEntity) {
+            PlayerUtils.setPlayerDeaths(event.getEntity().getServer(), (ServerPlayerEntity) event.getEntity());
+            PacketHandler.sendToClients(new PlayerDeathStats());
+        }
+    }
+
+    @SubscribeEvent
     public static void onExplosionEvent(ExplosionEvent.Detonate event) {
         ServerWorld world = (ServerWorld)event.getWorld();
         event.getAffectedBlocks().removeIf(current -> world.getBlockState(current).getBlock() instanceof SecureChest);
@@ -212,12 +222,13 @@ public class EventHandler {
     public static void addElementsToGUI(RenderGameOverlayEvent event) {
         if(!Minecraft.getInstance().gameSettings.showDebugInfo) {
             addVeinMinerOverlay(event.getType(), event.getMatrixStack(), 10, event.getWindow().getScaledHeight()-20);
+            addDeathsOverlay(event.getType(), event.getMatrixStack(), event.getWindow());
         }
     }
 
     @SubscribeEvent
-    public static void toggleVeinMiner(InputEvent.KeyInputEvent event) {
-        if(event.getKey() == KeyBindings.VEIN_MINER.getKey().getKeyCode() && event.getAction() == GLFW.GLFW_PRESS) {
+    public static void toggleVeinMiner(TickEvent.ClientTickEvent event) {
+        if(KeyBindings.VEIN_MINER.isPressed() && Minecraft.getInstance().currentScreen == null && !Minecraft.getInstance().gameSettings.showDebugInfo) {
             Main.isVeinMinerActive = !Main.isVeinMinerActive;
             PacketHandler.sendToServer(new ToggleVeinMiner(Minecraft.getInstance().player.getUniqueID(), Main.isVeinMinerActive));
         }
@@ -247,8 +258,31 @@ public class EventHandler {
             AbstractGui.drawString(
                     matrixStack,
                     Minecraft.getInstance().fontRenderer,
-                    new TranslationTextComponent(String.format("vein_miner.utilcraft.%s", Main.isVeinMinerActive ? "active" : "inactive")),
+                    new TranslationTextComponent(String.format("vein_miner.%s.%s", Main.MOD_ID, Main.isVeinMinerActive ? "active" : "inactive")),
                     x, y, 0xffffff);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void addDeathsOverlay(RenderGameOverlayEvent.ElementType type, MatrixStack matrixStack, MainWindow window) {
+        if (type.equals(RenderGameOverlayEvent.ElementType.ALL)) {
+            Map<String, Integer> playerDeaths = PlayerUtils.getPlayerDeaths();
+            FontRenderer renderer = Minecraft.getInstance().fontRenderer;
+            int height = window.getScaledHeight()/2;
+            int lineHeight = renderer.FONT_HEIGHT+2;
+            int offset = playerDeaths.size()/2 * lineHeight;
+            int i = 0;
+            for (Map.Entry<String, Integer> playerDeath: playerDeaths.entrySet()) {
+                String message = String.format("%s: %d", playerDeath.getKey(), playerDeath.getValue());
+                int y = height-offset + i *lineHeight;
+                int x = window.getScaledWidth() - renderer.getStringWidth(message)-10;
+                AbstractGui.drawString(
+                        matrixStack,
+                        renderer,
+                        new StringTextComponent(message),
+                        x, y, 0xffffff);
+                i++;
+            }
         }
     }
 }
