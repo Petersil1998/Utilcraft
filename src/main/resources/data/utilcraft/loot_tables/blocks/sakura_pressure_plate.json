@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "sakura_pressure_plate",
       "rolls": 1,
       "entries": [
         {

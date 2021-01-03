@@ -1,9 +1,25 @@
 {
   "variants": {
-    "type=east": { "model": "minecraft:block/jungle_slab", "x": 90, "y": 270},
-    "type=north": { "model": "minecraft:block/jungle_slab", "x": 270},
-    "type=west": { "model": "minecraft:block/jungle_slab", "x": 270, "y": 270},
-    "type=south": { "model": "minecraft:block/jungle_slab", "x": 90},
-    "type=double": { "model": "minecraft:block/jungle_planks" }
+    "type=east": {
+      "model": "minecraft:block/jungle_slab",
+      "x": 90,
+      "y": 270
+    },
+    "type=north": {
+      "model": "minecraft:block/jungle_slab",
+      "x": 270
+    },
+    "type=west": {
+      "model": "minecraft:block/jungle_slab",
+      "x": 270,
+      "y": 270
+    },
+    "type=south": {
+      "model": "minecraft:block/jungle_slab",
+      "x": 90
+    },
+    "type=double": {
+      "model": "minecraft:block/jungle_planks"
+    }
   }
 }

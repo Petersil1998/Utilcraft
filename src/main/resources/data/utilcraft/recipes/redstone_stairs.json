@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
   "pattern": [
     "#  ",
     "## ",
@@ -11,7 +12,6 @@
     }
   },
   "result": {
-    "item": "utilcraft:redstone_stairs",
-    "count": 4
+    "item": "utilcraft:redstone_stairs"
   }
 }

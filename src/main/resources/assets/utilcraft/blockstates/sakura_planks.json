@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model":  "utilcraft:block/sakura_planks" }
+    "": {
+      "model": "utilcraft:block/sakura_planks"
+    }
   }
 }

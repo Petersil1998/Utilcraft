@@ -3,7 +3,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "tag": "minecraft:sakura_logs"
+      "item": "utilcraft:sakura_log"
     }
   ],
   "result": {

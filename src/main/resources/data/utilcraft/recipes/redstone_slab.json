@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
   "pattern": [
     "###"
   ],
@@ -9,7 +10,6 @@
     }
   },
   "result": {
-    "item": "utilcraft:redstone_slab",
-    "count": 6
+    "item": "utilcraft:redstone_slab"
   }
 }

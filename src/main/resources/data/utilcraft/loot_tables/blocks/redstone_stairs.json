@@ -2,7 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pool1",
+      "name": "redstone_stairs",
       "rolls": 1,
       "entries": [
         {

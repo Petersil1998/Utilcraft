@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "rose_quartz_ore",
       "rolls": 1,
       "entries": [
         {

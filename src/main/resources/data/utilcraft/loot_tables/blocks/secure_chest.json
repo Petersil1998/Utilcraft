@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "secure_chest",
       "rolls": 1,
       "entries": [
         {

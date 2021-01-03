@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model":  "utilcraft:block/silver_ore" }
+    "": {
+      "model": "utilcraft:block/silver_ore"
+    }
   }
 }

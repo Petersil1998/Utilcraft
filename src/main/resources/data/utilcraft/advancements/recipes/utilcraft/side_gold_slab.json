@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:side_gold_slab"
+    ]
+  },
+  "criteria": {
+    "gold_brick": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "utilcraft:gold_brick"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:side_gold_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "gold_brick",
+      "has_the_recipe"
+    ]
+  ]
+}

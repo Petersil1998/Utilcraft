@@ -2,11 +2,15 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "side_stone_slab",
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
+            {
+              "function": "minecraft:explosion_decay"
+            },
             {
               "function": "minecraft:set_count",
               "conditions": [
@@ -19,9 +23,6 @@
                 }
               ],
               "count": 2
-            },
-            {
-              "function": "minecraft:explosion_decay"
             }
           ],
           "name": "utilcraft:side_stone_slab"

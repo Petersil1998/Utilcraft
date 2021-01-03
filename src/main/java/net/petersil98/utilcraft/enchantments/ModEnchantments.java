@@ -8,4 +8,7 @@ public class ModEnchantments {
 
     @ObjectHolder("beheading_enchantment")
     public static BeheadingEnchantment BEHEADING;
+
+    @ObjectHolder("beheading")
+    public static BeheadingModifier.Serializer BEHEADING_SERIALIZER;
 }

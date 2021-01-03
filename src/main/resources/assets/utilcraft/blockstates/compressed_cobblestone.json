@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model":  "utilcraft:block/compressed_cobblestone" }
+    "": {
+      "model": "utilcraft:block/compressed_cobblestone"
+    }
   }
 }

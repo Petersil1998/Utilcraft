@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
   "pattern": [
     " + ",
     "+#+",
@@ -14,7 +15,6 @@
     }
   },
   "result": {
-    "item": "utilcraft:tnt_finder",
-    "count": 1
+    "item": "utilcraft:tnt_finder"
   }
 }

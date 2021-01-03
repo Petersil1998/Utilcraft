@@ -2,7 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pool1",
+      "name": "disenchantment_table",
       "rolls": 1,
       "entries": [
         {

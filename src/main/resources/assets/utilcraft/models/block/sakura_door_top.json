@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/door_top",
   "textures": {
-    "top": "utilcraft:block/sakura_door_top",
-    "bottom": "utilcraft:block/sakura_door_bottom"
+    "bottom": "utilcraft:block/sakura_door_bottom",
+    "top": "utilcraft:block/sakura_door_top"
   }
 }

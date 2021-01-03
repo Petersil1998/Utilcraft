@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model":  "utilcraft:block/gold_brick" }
+    "": {
+      "model": "utilcraft:block/gold_brick"
+    }
   }
 }

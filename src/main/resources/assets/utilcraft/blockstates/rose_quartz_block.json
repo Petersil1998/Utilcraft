@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model":  "utilcraft:block/rose_quartz_block" }
+    "": {
+      "model": "utilcraft:block/rose_quartz_block"
+    }
   }
 }

@@ -1,5 +1,6 @@
 {
+  "parent": "minecraft:block/block",
   "textures": {
-    "particle": "minecraft:block/oak_planks"
+    "particle": "utilcraft:block/sakura_planks"
   }
 }

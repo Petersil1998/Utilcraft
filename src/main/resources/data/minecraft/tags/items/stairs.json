@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "utilcraft:gold_stairs",
     "utilcraft:sakura_stairs",
+    "utilcraft:gold_stairs",
     "utilcraft:redstone_stairs"
   ]
 }

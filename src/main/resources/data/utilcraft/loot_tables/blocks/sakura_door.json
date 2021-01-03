@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "sakura_door",
       "rolls": 1,
       "entries": [
         {

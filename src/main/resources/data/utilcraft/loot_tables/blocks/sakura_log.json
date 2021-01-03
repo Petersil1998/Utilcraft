@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "sakura_log",
       "rolls": 1,
       "entries": [
         {

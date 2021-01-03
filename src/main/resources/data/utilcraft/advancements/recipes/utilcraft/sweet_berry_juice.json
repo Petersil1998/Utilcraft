@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:sweet_berry_juice"
+    ]
+  },
+  "criteria": {
+    "juicer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "utilcraft:juicer"
+          }
+        ]
+      }
+    },
+    "sweet_berries": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:sweet_berries"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:sweet_berry_juice"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "juicer",
+      "sweet_berries",
+      "has_the_recipe"
+    ]
+  ]
+}

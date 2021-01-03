@@ -1,9 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
   "pattern": [
     "*X*",
     "-#-",
-    "OOO"
+    "000"
   ],
   "key": {
     "#": {
@@ -12,7 +13,7 @@
     "-": {
       "item": "minecraft:string"
     },
-    "O": {
+    "0": {
       "item": "minecraft:obsidian"
     },
     "*": {
@@ -23,7 +24,6 @@
     }
   },
   "result": {
-    "item": "utilcraft:travelers_backpack",
-    "count": 1
+    "item": "utilcraft:travelers_backpack"
   }
 }

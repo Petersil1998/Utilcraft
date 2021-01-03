@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model":  "utilcraft:block/disenchantment_table" }
+    "": {
+      "model": "utilcraft:block/disenchantment_table"
+    }
   }
 }

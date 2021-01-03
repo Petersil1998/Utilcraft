@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:baguette"
+    ]
+  },
+  "criteria": {
+    "flour": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "utilcraft:flour"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:baguette"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "flour",
+      "has_the_recipe"
+    ]
+  ]
+}
