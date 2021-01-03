@@ -15,4 +15,7 @@ public class ModContainer {
 
     @ObjectHolder("travelers_backpack")
     public static ContainerType<TravelersBackpackContainer> TRAVELERS_BACKPACK_CONTAINER;
+
+    @ObjectHolder("sushi_maker")
+    public static ContainerType<SushiMakerContainer> SUSHI_MAKER_CONTAINER;
 }

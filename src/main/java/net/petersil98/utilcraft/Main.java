@@ -5,23 +5,12 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.minecart.TNTMinecartEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -34,18 +23,17 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.petersil98.utilcraft.blocks.*;
-import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
-import net.petersil98.utilcraft.container.ModContainer;
-import net.petersil98.utilcraft.container.SecureChestContainer;
-import net.petersil98.utilcraft.container.TravelersBackpackContainer;
+import net.petersil98.utilcraft.container.*;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.network.PacketHandler;
+import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
 import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
 import net.petersil98.utilcraft.screen.DisenchantmentTableScreen;
 import net.petersil98.utilcraft.screen.SecureChestScreen;
+import net.petersil98.utilcraft.screen.SushiMakerScreen;
 import net.petersil98.utilcraft.screen.TravelersBackpackScreen;
 import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
 import net.petersil98.utilcraft.tile_entities.ModSignTileEntity;
@@ -62,14 +50,8 @@ import net.petersil98.utilcraft.generation.WorldGeneration;
 import net.petersil98.utilcraft.items.*;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.utils.ClientSetup;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Stream;
 
 @Mod(Main.MOD_ID)
 public class Main {
@@ -84,8 +66,6 @@ public class Main {
             return new ItemStack(ModBlocks.GOLD_BRICK);
         }
     };
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     public Main() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -105,6 +85,7 @@ public class Main {
         ScreenManager.registerFactory(ModContainer.DISENCHANTMENT_BLOCK_CONTAINER, DisenchantmentTableScreen::new);
         ScreenManager.registerFactory(ModContainer.SECURE_CHEST_CONTAINER, SecureChestScreen::new);
         ScreenManager.registerFactory(ModContainer.TRAVELERS_BACKPACK_CONTAINER, TravelersBackpackScreen::new);
+        ScreenManager.registerFactory(ModContainer.SUSHI_MAKER_CONTAINER, SushiMakerScreen::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.MOD_SIGN, SignTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
         ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
@@ -114,7 +95,7 @@ public class Main {
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
+    public static class RegistryMinecraftEvents {
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> blockRegistryEvent) {
             SakuraSign sign = new SakuraSign();
@@ -157,6 +138,7 @@ public class Main {
             blockRegistryEvent.getRegistry().register(new RedstoneStairs().setRegistryName("redstone_stairs"));
             blockRegistryEvent.getRegistry().register(new RedstoneSlab().setRegistryName("redstone_slab"));
             blockRegistryEvent.getRegistry().register(new SideRedstoneSlab().setRegistryName("side_redstone_slab"));
+            blockRegistryEvent.getRegistry().register(new SushiMaker().setRegistryName("sushi_maker"));
         }
 
         @SubscribeEvent
@@ -196,6 +178,7 @@ public class Main {
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SECURE_CHEST, new Item.Properties().setISTER(() -> SecureChestItemTileEntityRenderer::new).group(itemGroup)).setRegistryName("secure_chest"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_STAIRS, new Item.Properties().group(itemGroup)).setRegistryName("redstone_stairs"));
             itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("redstone_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SUSHI_MAKER, new Item.Properties().group(itemGroup)).setRegistryName("sushi_maker"));
 
             itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
             itemRegistryEvent.getRegistry().register(new AppleJuice().setRegistryName("apple_juice"));
@@ -245,11 +228,17 @@ public class Main {
         public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
             containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new DisenchantmentTableContainer(windowId, inv)).setRegistryName("disenchantment_table"));
             containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SecureChestContainer(windowId, inv)).setRegistryName("secure_chest"));
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SushiMakerContainer(windowId, inv)).setRegistryName("sushi_maker"));
             containerRegister.getRegistry().register(IForgeContainerType.create(TravelersBackpackContainer::new).setRegistryName("travelers_backpack"));
+        }
+
+        @SubscribeEvent
+        public static void registerRecipeSerializers(final RegistryEvent.Register<IRecipeSerializer<?>> recipeSerializerRegister) {
+            recipeSerializerRegister.getRegistry().register(new SushiMakerRecipe.Serializer().setRegistryName("sushi_maker"));
         }
     }
     @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.FORGE)
-    public static class RegistryCommands {
+    public static class RegistryForgeEvents {
 
         @SubscribeEvent
         public static void registerCommands(RegisterCommandsEvent event){

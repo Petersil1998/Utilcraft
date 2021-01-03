@@ -84,4 +84,7 @@ public class ModBlocks {
 
     @ObjectHolder("redstone_slab")
     public static RedstoneSlab REDSTONE_SLAB;
+
+    @ObjectHolder("sushi_maker")
+    public static SushiMaker SUSHI_MAKER;
 }
