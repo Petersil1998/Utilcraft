@@ -31,6 +31,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerShapedRecipes(Consumer<IFinishedRecipe> consumer) {
+        registerButchersKnife(consumer);
         registerCompressedCobblestone(consumer);
         registerDisenchantmentTable(consumer);
         registerFlour(consumer);
@@ -93,6 +94,21 @@ public class Recipes extends RecipeProvider {
 
     private void registerSushiMakerRecipes(Consumer<IFinishedRecipe> consumer) {
         registerTest(consumer);
+    }
+
+    private void registerButchersKnife(Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(ModItems.BUTCHERS_KNIFE)
+                .patternLine("*")
+                .patternLine("#")
+                .patternLine("-")
+                .key('*', Items.IRON_INGOT)
+                .key('#', Items.DRIED_KELP)
+                .key('-', Items.STICK)
+                .setGroup(Main.MOD_ID)
+                .addCriterion("iron_ingot", InventoryChangeTrigger.Instance.forItems(Items.IRON_INGOT))
+                .addCriterion("dried_kelp", InventoryChangeTrigger.Instance.forItems(Items.DRIED_KELP))
+                .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
+                .build(consumer);
     }
 
     private void registerCompressedCobblestone(Consumer<IFinishedRecipe> consumer) {

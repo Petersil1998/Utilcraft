@@ -200,6 +200,8 @@ public class Main {
             itemRegistryEvent.getRegistry().register(new SakuraSignItem().setRegistryName("sakura_sign"));
             itemRegistryEvent.getRegistry().register(new TravelersBackpack().setRegistryName("travelers_backpack"));
             itemRegistryEvent.getRegistry().register(new TNTFinder().setRegistryName("tnt_finder"));
+            itemRegistryEvent.getRegistry().register(new SilverIngot().setRegistryName("silver_ingot"));
+            itemRegistryEvent.getRegistry().register(new ButchersKnife().setRegistryName("butchers_knife"));
         }
 
         @SubscribeEvent

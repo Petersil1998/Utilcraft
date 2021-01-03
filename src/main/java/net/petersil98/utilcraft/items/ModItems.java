@@ -56,4 +56,10 @@ public class ModItems {
 
     @ObjectHolder("tnt_finder")
     public static TNTFinder TNT_FINDER;
+
+    @ObjectHolder("silver_ingot")
+    public static SilverIngot SILVER_INGOT;
+
+    @ObjectHolder("butchers_knife")
+    public static ButchersKnife BUTCHERS_KNIFE;
 }

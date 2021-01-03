@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    "*",
+    "#",
+    "-"
+  ],
+  "key": {
+    "*": {
+      "item": "minecraft:iron_ingot"
+    },
+    "#": {
+      "item": "minecraft:dried_kelp"
+    },
+    "-": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "utilcraft:butchers_knife"
+  }
+}
