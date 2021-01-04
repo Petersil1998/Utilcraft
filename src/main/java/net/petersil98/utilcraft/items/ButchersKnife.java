@@ -5,10 +5,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.SushiMaker;
 
 import javax.annotation.Nonnull;
 
@@ -27,51 +29,51 @@ public class ButchersKnife extends Item {
         if(block.matchesBlock(Blocks.FURNACE)) {
             Block toCheck = world.getBlockState(pos.north()).getBlock();
             if(toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
-                replaceBlocks(pos, pos.north(), world);
+                replaceBlocks(pos, Direction.NORTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.south()).getBlock();
             if (toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
-                replaceBlocks(pos, pos.south(), world);
+                replaceBlocks(pos, Direction.SOUTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.east()).getBlock();
             if (toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
-                replaceBlocks(pos, pos.east(), world);
+                replaceBlocks(pos, Direction.EAST, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.west()).getBlock();
             if (toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
-                replaceBlocks(pos, pos.west(), world);
+                replaceBlocks(pos, Direction.WEST, world);
                 return ActionResultType.SUCCESS;
             }
         } else if (block.getBlock().matchesBlock(Blocks.CRAFTING_TABLE)) {
             Block toCheck = world.getBlockState(pos.north()).getBlock();
             if(toCheck.matchesBlock(Blocks.FURNACE)) {
-                replaceBlocks(pos, pos.north(), world);
+                replaceBlocks(pos, Direction.NORTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.south()).getBlock();
             if (toCheck.matchesBlock(Blocks.FURNACE)) {
-                replaceBlocks(pos, pos.south(), world);
+                replaceBlocks(pos, Direction.SOUTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.east()).getBlock();
             if (toCheck.matchesBlock(Blocks.FURNACE)) {
-                replaceBlocks(pos, pos.east(), world);
+                replaceBlocks(pos, Direction.EAST, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.west()).getBlock();
             if (toCheck.matchesBlock(Blocks.FURNACE)) {
-                replaceBlocks(pos, pos.west(), world);
+                replaceBlocks(pos, Direction.WEST, world);
                 return ActionResultType.SUCCESS;
             }
         }
         return super.onItemUse(context);
     }
 
-    private void replaceBlocks(BlockPos pos1, BlockPos pos2, World world) {
-        world.setBlockState(pos1, ModBlocks.SUSHI_MAKER.getDefaultState());
-        world.setBlockState(pos2, ModBlocks.SUSHI_MAKER.getDefaultState());
+    private void replaceBlocks(BlockPos pos1, Direction secondBlock, World world) {
+        world.setBlockState(pos1, ModBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock));
+        world.setBlockState(pos1.add(secondBlock.getDirectionVec()), ModBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock.getOpposite()));
     }
 }

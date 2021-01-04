@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "utilcraft:block/sushi_maker"
+    },
+    "facing=south": {
+      "model": "utilcraft:block/sushi_maker",
+      "x": 180
+    },
+    "facing=west": {
+      "model": "utilcraft:block/sushi_maker",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "utilcraft:block/sushi_maker",
+      "y": 90
     }
   }
 }

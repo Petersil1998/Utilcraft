@@ -1,0 +1,21 @@
+{
+  "type": "utilcraft:sushi_maker",
+  "group": "utilcraft",
+  "pattern": [
+    "****",
+    "#  #",
+    "#  #",
+    "****"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    },
+    "*": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "utilcraft:sushi_maker"
+  }
+}

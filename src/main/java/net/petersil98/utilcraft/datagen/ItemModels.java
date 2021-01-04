@@ -79,7 +79,7 @@ public class ItemModels extends ItemModelProvider {
         registerBlockItem(ModSideSlabs.SIDE_STONE_SLAB);
         registerHandheld(ModItems.SILVER_INGOT);
         registerBlockItem(ModBlocks.SILVER_ORE);
-        registerBlockItem(ModBlocks.SUSHI_MAKER);
+        registerBlockItem(ModBlocks.SUSHI_MAKER, "_inventory");
         registerHandheld(ModFoods.SWEET_BERRY_JUICE);
         registerTNTFinder();
         registerHandheld(ModItems.TRAVELERS_BACKPACK);

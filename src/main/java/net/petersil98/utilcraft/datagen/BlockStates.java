@@ -9,6 +9,7 @@ import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.petersil98.utilcraft.Main;
 import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.SushiMaker;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
 import net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
@@ -59,7 +60,7 @@ public class BlockStates extends BlockStateProvider {
         registerSideSlab(ModSideSlabs.SIDE_SPRUCE_SLAB, Blocks.SPRUCE_PLANKS);
         registerSideSlab(ModSideSlabs.SIDE_STONE_SLAB, Blocks.STONE);
         simpleBlock(ModBlocks.SILVER_ORE);
-        simpleBlock(ModBlocks.SUSHI_MAKER);
+        registerSushiMaker(ModBlocks.SUSHI_MAKER);
     }
 
     private void registerSlab(SlabBlock block, Block texture) {
@@ -192,5 +193,43 @@ public class BlockStates extends BlockStateProvider {
                 .partialState().with(SideSlabBlock.TYPE, SideSlabType.SOUTH).addModels(ConfiguredModel.builder().modelFile(slabFile).rotationX(90).build())
                 .partialState().with(SideSlabBlock.TYPE, SideSlabType.NORTH).addModels(ConfiguredModel.builder().modelFile(slabFile).rotationX(270).build())
                 .partialState().with(SideSlabBlock.TYPE, SideSlabType.DOUBLE).addModels(new ConfiguredModel(models().getExistingFile(full)));
+    }
+
+    private void registerSushiMaker(SushiMaker block) {
+        ResourceLocation corner = new ResourceLocation(BlockItemUtils.namespace(block), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(block)+"_corner");
+        ResourceLocation front = new ResourceLocation(BlockItemUtils.namespace(block), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(block)+"_front");
+        ModelFile modelFile = models().withExistingParent(BlockItemUtils.name(block), "cube")
+                .texture("corner", corner)
+                .texture("front", front)
+                .element().face(Direction.DOWN).texture("#corner").rotation(ModelBuilder.FaceRotation.COUNTERCLOCKWISE_90).end().end()
+                .element().face(Direction.UP).texture("#corner").rotation(ModelBuilder.FaceRotation.CLOCKWISE_90).end().end()
+                .element().face(Direction.NORTH).texture("#front").end().end()
+                .element().face(Direction.SOUTH).texture("#front").end().end()
+                .element().face(Direction.EAST).texture("#corner").rotation(ModelBuilder.FaceRotation.UPSIDE_DOWN).end().end()
+                .element().face(Direction.WEST).texture("#corner").end().end();
+        getVariantBuilder(block).forAllStates(blockState -> {
+            Direction facing = blockState.get(SushiMaker.FACING);
+            int rotX = 0;
+            int rotY = 0;
+            switch (facing) {
+                case EAST: {
+                    rotY = 90;
+                    break;
+                }
+                case SOUTH: {
+                    rotX = 180;
+                    break;
+                }
+                case WEST: {
+                    rotY = 270;
+                    break;
+                }
+            }
+            return ConfiguredModel.builder()
+                    .modelFile(modelFile)
+                    .rotationX(rotX)
+                    .rotationY(rotY)
+                    .build();
+        });
     }
 }
