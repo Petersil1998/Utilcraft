@@ -101,11 +101,11 @@ public class Recipes extends RecipeProvider {
                 .patternLine("*")
                 .patternLine("#")
                 .patternLine("-")
-                .key('*', Items.IRON_INGOT)
+                .key('*', ModItems.SILVER_INGOT)
                 .key('#', Items.DRIED_KELP)
                 .key('-', Items.STICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("iron_ingot", InventoryChangeTrigger.Instance.forItems(Items.IRON_INGOT))
+                .addCriterion("silver_ingot", InventoryChangeTrigger.Instance.forItems(ModItems.SILVER_INGOT))
                 .addCriterion("dried_kelp", InventoryChangeTrigger.Instance.forItems(Items.DRIED_KELP))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
