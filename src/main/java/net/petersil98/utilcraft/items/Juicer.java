@@ -8,7 +8,7 @@ public class Juicer extends Item {
 
     public Juicer() {
         super(new Properties()
-                .group(Main.itemGroup)
+                .group(Main.ITEM_GROUP)
                 .maxStackSize(1)
                 .containerItem(ModItems.JUICER)
         );

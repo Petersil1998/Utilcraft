@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 public class ButchersKnife extends Item {
 
     public ButchersKnife() {
-        super(new Item.Properties().group(Main.itemGroup));
+        super(new Item.Properties().group(Main.ITEM_GROUP));
     }
 
     @Nonnull

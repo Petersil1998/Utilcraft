@@ -12,7 +12,7 @@ public class Baguette extends Item {
                         .hunger(6)
                         .build()
                 )
-                .group(Main.itemGroup)
+                .group(Main.ITEM_GROUP)
         );
     }
 }

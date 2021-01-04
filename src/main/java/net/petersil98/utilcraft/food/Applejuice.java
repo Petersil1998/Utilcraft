@@ -15,7 +15,7 @@ public class AppleJuice extends Item {
                 //.effect(() -> new EffectInstance(Effects.HUNGER, 600, 0), 1F)
                 .build()
             )
-            .group(Main.itemGroup)
+            .group(Main.ITEM_GROUP)
         );
     }
 }

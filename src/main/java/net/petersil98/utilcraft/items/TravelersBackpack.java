@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 public class TravelersBackpack extends Item {
 
     public TravelersBackpack() {
-        super(new Item.Properties().group(Main.itemGroup));
+        super(new Item.Properties().group(Main.ITEM_GROUP));
     }
 
     @Nonnull

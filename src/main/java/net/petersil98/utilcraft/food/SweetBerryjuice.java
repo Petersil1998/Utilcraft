@@ -14,7 +14,7 @@ public class SweetBerryJuice extends Item {
                 .saturation(0.8f)
                 .build()
             )
-            .group(Main.itemGroup)
+            .group(Main.ITEM_GROUP)
         );
     }
 }

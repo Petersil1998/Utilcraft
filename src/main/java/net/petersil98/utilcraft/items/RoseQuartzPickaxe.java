@@ -6,6 +6,6 @@ import net.petersil98.utilcraft.items.custom.ModItemTier;
 
 public class RoseQuartzPickaxe extends PickaxeItem {
     public RoseQuartzPickaxe() {
-        super(ModItemTier.ROSE_QUARTZ, 1, -2.5F, new Item.Properties().group(Main.itemGroup));
+        super(ModItemTier.ROSE_QUARTZ, 1, -2.5F, new Item.Properties().group(Main.ITEM_GROUP));
     }
 }

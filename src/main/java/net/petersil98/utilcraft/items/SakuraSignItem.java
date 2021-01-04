@@ -10,7 +10,7 @@ public class SakuraSignItem extends SignItem {
     public SakuraSignItem() {
         super(new Item.Properties()
                 .maxStackSize(16)
-                .group(Main.itemGroup),
+                .group(Main.ITEM_GROUP),
                 ModBlocks.SAKURA_SIGN,
                 ModBlocks.SAKURA_WALL_SIGN
         );

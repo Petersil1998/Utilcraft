@@ -60,7 +60,7 @@ public class Main {
 
     public static boolean isVeinMinerActive = false;
 
-    public static ItemGroup itemGroup = new ItemGroup(MOD_ID) {
+    public static final ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(ModBlocks.GOLD_BRICK);
@@ -143,42 +143,42 @@ public class Main {
 
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> itemRegistryEvent) {
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_BRICK, new Item.Properties().group(itemGroup)).setRegistryName("gold_brick"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_STAIRS, new Item.Properties().group(itemGroup)).setRegistryName("gold_stairs"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("gold_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_WALL, new Item.Properties().group(itemGroup)).setRegistryName("gold_wall"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.COMPRESSED_COBBLESTONE, new Item.Properties().group(itemGroup)).setRegistryName("compressed_cobblestone"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SILVER_ORE, new Item.Properties().group(itemGroup)).setRegistryName("silver_ore"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.ROSE_QUARTZ_ORE, new Item.Properties().group(itemGroup)).setRegistryName("rose_quartz_ore"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.ROSE_QUARTZ_BLOCK, new Item.Properties().group(itemGroup)).setRegistryName("rose_quartz_block"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_STONE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_stone_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_COBBLESTONE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_cobblestone_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_OAK_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_oak_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_SPRUCE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_spruce_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_BIRCH_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_birch_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_JUNGLE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_jungle_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_ACACIA_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_acacia_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_DARK_OAK_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_dark_oak_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_SAKURA_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_sakura_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_GOLD_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_gold_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_REDSTONE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("side_redstone_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_LEAVES, new Item.Properties().group(itemGroup)).setRegistryName("sakura_leaves"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_LOG, new Item.Properties().group(itemGroup)).setRegistryName("sakura_log"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_PLANKS, new Item.Properties().group(itemGroup)).setRegistryName("sakura_planks"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_SAPLING, new Item.Properties().group(itemGroup)).setRegistryName("sakura_sapling"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("sakura_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_STAIRS, new Item.Properties().group(itemGroup)).setRegistryName("sakura_stairs"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_FENCE, new Item.Properties().group(itemGroup)).setRegistryName("sakura_fence"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_FENCE_GATE, new Item.Properties().group(itemGroup)).setRegistryName("sakura_fence_gate"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_PRESSURE_PLATE, new Item.Properties().group(itemGroup)).setRegistryName("sakura_pressure_plate"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_TRAPDOOR, new Item.Properties().group(itemGroup)).setRegistryName("sakura_trapdoor"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_BUTTON, new Item.Properties().group(itemGroup)).setRegistryName("sakura_button"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_DOOR, new Item.Properties().group(itemGroup)).setRegistryName("sakura_door"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.DISENCHANTMENT_TABLE, new Item.Properties().group(itemGroup)).setRegistryName("disenchantment_table"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SECURE_CHEST, new Item.Properties().setISTER(() -> SecureChestItemTileEntityRenderer::new).group(itemGroup)).setRegistryName("secure_chest"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_STAIRS, new Item.Properties().group(itemGroup)).setRegistryName("redstone_stairs"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_SLAB, new Item.Properties().group(itemGroup)).setRegistryName("redstone_slab"));
-            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SUSHI_MAKER, new Item.Properties().group(itemGroup)).setRegistryName("sushi_maker"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_BRICK, new Item.Properties().group(ITEM_GROUP)).setRegistryName("gold_brick"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("gold_stairs"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("gold_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.GOLD_WALL, new Item.Properties().group(ITEM_GROUP)).setRegistryName("gold_wall"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.COMPRESSED_COBBLESTONE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("compressed_cobblestone"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SILVER_ORE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("silver_ore"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.ROSE_QUARTZ_ORE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("rose_quartz_ore"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.ROSE_QUARTZ_BLOCK, new Item.Properties().group(ITEM_GROUP)).setRegistryName("rose_quartz_block"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_STONE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_stone_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_COBBLESTONE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_cobblestone_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_OAK_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_oak_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_SPRUCE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_spruce_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_BIRCH_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_birch_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_JUNGLE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_jungle_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_ACACIA_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_acacia_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_DARK_OAK_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_dark_oak_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_SAKURA_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_sakura_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_GOLD_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_gold_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModSideSlabs.SIDE_REDSTONE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("side_redstone_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_LEAVES, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_leaves"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_LOG, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_log"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_PLANKS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_planks"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_SAPLING, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_sapling"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_stairs"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_FENCE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_fence"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_FENCE_GATE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_fence_gate"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_PRESSURE_PLATE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_pressure_plate"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_TRAPDOOR, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_trapdoor"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_BUTTON, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_button"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SAKURA_DOOR, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sakura_door"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.DISENCHANTMENT_TABLE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("disenchantment_table"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SECURE_CHEST, new Item.Properties().setISTER(() -> SecureChestItemTileEntityRenderer::new).group(ITEM_GROUP)).setRegistryName("secure_chest"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("redstone_stairs"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.REDSTONE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("redstone_slab"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(ModBlocks.SUSHI_MAKER, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sushi_maker"));
 
             itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
             itemRegistryEvent.getRegistry().register(new AppleJuice().setRegistryName("apple_juice"));
