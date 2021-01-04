@@ -8,13 +8,13 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.SushiMakerContainer;
 
 import javax.annotation.Nonnull;
 
 public class SushiMakerScreen extends ContainerScreen<SushiMakerContainer> {
-    private static final ResourceLocation SUSHI_MAKER_GUI_TEXTURES = new ResourceLocation(Main.MOD_ID, "textures/gui/sushi_maker_gui.png");
+    private static final ResourceLocation SUSHI_MAKER_GUI_TEXTURES = new ResourceLocation(Utilcraft.MOD_ID, "textures/gui/sushi_maker_gui.png");
     private boolean widthTooNarrow;
 
     public SushiMakerScreen(SushiMakerContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {

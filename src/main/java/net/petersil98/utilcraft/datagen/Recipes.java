@@ -6,7 +6,7 @@ import net.minecraft.data.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 import net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs;
 import net.petersil98.utilcraft.food.ModFoods;
@@ -104,7 +104,7 @@ public class Recipes extends RecipeProvider {
                 .key('*', Items.IRON_INGOT)
                 .key('#', Items.DRIED_KELP)
                 .key('-', Items.STICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("iron_ingot", InventoryChangeTrigger.Instance.forItems(Items.IRON_INGOT))
                 .addCriterion("dried_kelp", InventoryChangeTrigger.Instance.forItems(Items.DRIED_KELP))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
@@ -117,7 +117,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("###")
                 .key('#', Blocks.COBBLESTONE)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                 .build(consumer);
     }
@@ -130,7 +130,7 @@ public class Recipes extends RecipeProvider {
                 .key('#', Items.BOOK)
                 .key('+', ModItems.ROSE_QUARTZ)
                 .key('*', Blocks.OBSIDIAN)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("book", InventoryChangeTrigger.Instance.forItems(Items.BOOK))
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .addCriterion("obsidian", InventoryChangeTrigger.Instance.forItems(Blocks.OBSIDIAN))
@@ -141,7 +141,7 @@ public class Recipes extends RecipeProvider {
         ShapedRecipeBuilder.shapedRecipe(ModItems.FLOUR)
                 .patternLine("##")
                 .key('#', Items.WHEAT)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("wheat", InventoryChangeTrigger.Instance.forItems(Items.WHEAT))
                 .build(consumer);
     }
@@ -151,7 +151,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("##")
                 .patternLine("##")
                 .key('#', Items.GOLD_INGOT)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("gold_ingot", InventoryChangeTrigger.Instance.forItems(Items.GOLD_INGOT))
                 .build(consumer);
     }
@@ -160,7 +160,7 @@ public class Recipes extends RecipeProvider {
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.GOLD_SLAB, 6)
                 .patternLine("###")
                 .key('#', ModBlocks.GOLD_BRICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
                 .build(consumer);
     }
@@ -171,7 +171,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("## ")
                 .patternLine("###")
                 .key('#', ModBlocks.GOLD_BRICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
                 .build(consumer);
     }
@@ -181,7 +181,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("###")
                 .key('#', ModBlocks.GOLD_BRICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
                 .build(consumer);
     }
@@ -192,7 +192,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("---")
                 .key('#', Items.IRON_INGOT)
                 .key('-', Blocks.SMOOTH_STONE_SLAB)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("iron_ingot", InventoryChangeTrigger.Instance.forItems(Items.IRON_INGOT))
                 .addCriterion("smooth_stone_slab", InventoryChangeTrigger.Instance.forItems(Blocks.SMOOTH_STONE_SLAB))
                 .build(consumer);
@@ -202,7 +202,7 @@ public class Recipes extends RecipeProvider {
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.REDSTONE_SLAB)
                 .patternLine("###")
                 .key('#', Blocks.REDSTONE_BLOCK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("redstone_block", InventoryChangeTrigger.Instance.forItems(Blocks.REDSTONE_BLOCK))
                 .build(consumer);
     }
@@ -213,7 +213,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("## ")
                 .patternLine("###")
                 .key('#', Blocks.REDSTONE_BLOCK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("redstone_block", InventoryChangeTrigger.Instance.forItems(Blocks.REDSTONE_BLOCK))
                 .build(consumer);
     }
@@ -225,7 +225,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine(" *")
                 .key('#', ModItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
@@ -237,7 +237,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("###")
                 .key('#', ModItems.ROSE_QUARTZ)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .build(consumer);
     }
@@ -247,7 +247,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("# #")
                 .patternLine("# #")
                 .key('#', ModItems.ROSE_QUARTZ)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .build(consumer);
     }
@@ -258,7 +258,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("###")
                 .key('#', ModItems.ROSE_QUARTZ)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .build(consumer);
     }
@@ -268,7 +268,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("# #")
                 .key('#', ModItems.ROSE_QUARTZ)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .build(consumer);
     }
@@ -280,7 +280,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine(" *")
                 .key('#', ModItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
@@ -292,7 +292,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("# #")
                 .patternLine("# #")
                 .key('#', ModItems.ROSE_QUARTZ)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .build(consumer);
     }
@@ -304,7 +304,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine(" * ")
                 .key('#', ModItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
@@ -317,7 +317,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("*")
                 .key('#', ModItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
@@ -329,7 +329,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("###")
                 .key('#', ModItems.ROSE_QUARTZ_PICKAXE)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz_pickaxe", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ_PICKAXE))
                 .build(consumer);
     }
@@ -340,7 +340,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("###")
                 .key('#', ModItems.ROSE_QUARTZ_SHOVEL)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz_shovel", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ_SHOVEL))
                 .build(consumer);
     }
@@ -353,7 +353,7 @@ public class Recipes extends RecipeProvider {
                 .key('#', ModItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
                 .key('-', Blocks.ROSE_BUSH)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .addCriterion("rose_bush", InventoryChangeTrigger.Instance.forItems(Blocks.ROSE_BUSH))
@@ -454,7 +454,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("###")
                 .key('#', Ingredient.fromTag(ItemTags.PLANKS))
                 .key('*', ModItems.SILVER_INGOT)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("planks", hasItem(ItemTags.PLANKS))
                 .addCriterion("silver_ingot", InventoryChangeTrigger.Instance.forItems(ModItems.SILVER_INGOT))
                 .build(consumer);
@@ -466,7 +466,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.ACACIA_PLANKS)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("acacia_planks", InventoryChangeTrigger.Instance.forItems(Blocks.ACACIA_PLANKS))
                 .build(consumer);
     }
@@ -477,7 +477,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.BIRCH_PLANKS)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("birch_planks", InventoryChangeTrigger.Instance.forItems(Blocks.BIRCH_PLANKS))
                 .build(consumer);
     }
@@ -488,7 +488,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.COBBLESTONE)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                 .build(consumer);
     }
@@ -499,7 +499,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.DARK_OAK_PLANKS)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("dark_oak_planks", InventoryChangeTrigger.Instance.forItems(Blocks.DARK_OAK_PLANKS))
                 .build(consumer);
     }
@@ -510,7 +510,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', ModBlocks.GOLD_BRICK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
                 .build(consumer);
     }
@@ -521,7 +521,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.JUNGLE_PLANKS)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("jungle_planks", InventoryChangeTrigger.Instance.forItems(Blocks.JUNGLE_PLANKS))
                 .build(consumer);
     }
@@ -532,7 +532,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.OAK_PLANKS)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("oak_planks", InventoryChangeTrigger.Instance.forItems(Blocks.OAK_PLANKS))
                 .build(consumer);
     }
@@ -543,7 +543,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.REDSTONE_BLOCK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("redstone_block", InventoryChangeTrigger.Instance.forItems(Blocks.REDSTONE_BLOCK))
                 .build(consumer);
     }
@@ -554,7 +554,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', ModBlocks.SAKURA_PLANKS)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
@@ -565,7 +565,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.SPRUCE_PLANKS)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("spruce_planks", InventoryChangeTrigger.Instance.forItems(Blocks.SPRUCE_PLANKS))
                 .build(consumer);
     }
@@ -576,7 +576,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("#")
                 .patternLine("#")
                 .key('#', Blocks.STONE)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("stone", InventoryChangeTrigger.Instance.forItems(Blocks.STONE))
                 .build(consumer);
     }
@@ -588,7 +588,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine(" + ")
                 .key('#', Items.COMPASS)
                 .key('+', Blocks.TNT)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("stone", InventoryChangeTrigger.Instance.forItems(Items.COMPASS))
                 .addCriterion("tnt", InventoryChangeTrigger.Instance.forItems(Blocks.TNT))
                 .build(consumer);
@@ -604,7 +604,7 @@ public class Recipes extends RecipeProvider {
                 .key('0', Blocks.OBSIDIAN)
                 .key('*', Items.LEATHER)
                 .key('X', Items.DIAMOND)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("barrel", InventoryChangeTrigger.Instance.forItems(Blocks.BARREL))
                 .addCriterion("string", InventoryChangeTrigger.Instance.forItems(Items.STRING))
                 .addCriterion("obsidian", InventoryChangeTrigger.Instance.forItems(Blocks.OBSIDIAN))
@@ -617,7 +617,7 @@ public class Recipes extends RecipeProvider {
         ShapelessRecipeBuilder.shapelessRecipe(ModFoods.APPLE_JUICE)
                 .addIngredient(Items.APPLE)
                 .addIngredient(ModItems.JUICER)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("juicer", InventoryChangeTrigger.Instance.forItems(ModItems.JUICER))
                 .addCriterion("apple", InventoryChangeTrigger.Instance.forItems(Items.APPLE))
                 .build(consumer);
@@ -626,7 +626,7 @@ public class Recipes extends RecipeProvider {
     private void registerCobblestone(Consumer<IFinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapelessRecipe(Blocks.COBBLESTONE, 9)
                 .addIngredient(ModBlocks.COMPRESSED_COBBLESTONE)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("compressed_cobblestone", InventoryChangeTrigger.Instance.forItems(ModBlocks.COMPRESSED_COBBLESTONE))
                 .build(consumer);
     }
@@ -634,7 +634,7 @@ public class Recipes extends RecipeProvider {
     private void registerRoseQuartz(Consumer<IFinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.ROSE_QUARTZ, 9)
                 .addIngredient(ModBlocks.ROSE_QUARTZ_BLOCK)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("rose_quartz_block", InventoryChangeTrigger.Instance.forItems(ModBlocks.ROSE_QUARTZ_BLOCK))
                 .build(consumer);
     }
@@ -659,7 +659,7 @@ public class Recipes extends RecipeProvider {
         ShapelessRecipeBuilder.shapelessRecipe(ModFoods.SWEET_BERRY_JUICE)
                 .addIngredient(Items.SWEET_BERRIES)
                 .addIngredient(ModItems.JUICER)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("juicer", InventoryChangeTrigger.Instance.forItems(ModItems.JUICER))
                 .addCriterion("sweet_berries", InventoryChangeTrigger.Instance.forItems(Items.SWEET_BERRIES))
                 .build(consumer);
@@ -685,7 +685,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("****")
                 .key('#', Blocks.COBBLESTONE)
                 .key('*', Blocks.OBSIDIAN)
-                .setGroup(Main.MOD_ID)
+                .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                 .addCriterion("obsidian", InventoryChangeTrigger.Instance.forItems(Blocks.OBSIDIAN))
                 .build(consumer);

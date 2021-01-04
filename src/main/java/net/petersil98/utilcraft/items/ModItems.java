@@ -1,9 +1,9 @@
 package net.petersil98.utilcraft.items;
 
 import net.minecraftforge.registries.ObjectHolder;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
-@ObjectHolder(Main.MOD_ID)
+@ObjectHolder(Utilcraft.MOD_ID)
 public class ModItems {
 
     @ObjectHolder("juicer")

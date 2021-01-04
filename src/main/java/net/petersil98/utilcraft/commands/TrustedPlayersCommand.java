@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
 
 import java.util.List;
@@ -36,20 +36,20 @@ public class TrustedPlayersCommand {
         ServerPlayerEntity player = source.asPlayer();
         ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
         worldSavedData.addTrustedPlayer(player.getGameProfile().getId(), affectedPlayer.getGameProfile().getId(), affectedPlayer.getName().getString());
-        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_added", Main.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
+        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_added", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
     }
 
     private static void revokeTrust(CommandSource source, PlayerEntity affectedPlayer) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
         worldSavedData.removedTrustedPlayer(player.getGameProfile().getId(), affectedPlayer.getGameProfile().getId());
-        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_removed", Main.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
+        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_removed", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
     }
 
     private static void sendListOfTrustedPlayers(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
         List<String> trustedPlayers = worldSavedData.getTrustedPlayerNames(player.getGameProfile().getId());
-        source.sendFeedback(new TranslationTextComponent(String.format("player_trusted.%s.list", Main.MOD_ID), String.join(", ", trustedPlayers)), false);
+        source.sendFeedback(new TranslationTextComponent(String.format("player_trusted.%s.list", Utilcraft.MOD_ID), String.join(", ", trustedPlayers)), false);
     }
 }

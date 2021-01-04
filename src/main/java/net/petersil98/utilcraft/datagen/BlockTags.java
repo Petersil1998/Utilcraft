@@ -4,7 +4,7 @@ import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.tags.ModTags;
 
 import static net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs.*;
@@ -13,7 +13,7 @@ import static net.petersil98.utilcraft.blocks.ModBlocks.*;
 public class BlockTags extends BlockTagsProvider {
 
     public BlockTags(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, Main.MOD_ID, existingFileHelper);
+        super(generator, Utilcraft.MOD_ID, existingFileHelper);
     }
 
     @Override

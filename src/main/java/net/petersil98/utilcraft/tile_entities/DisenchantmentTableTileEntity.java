@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.INameable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,7 +39,7 @@ public class DisenchantmentTableTileEntity extends TileEntity implements INameab
 
     @Nonnull
     public ITextComponent getName() {
-        return this.customName != null ? this.customName : new TranslationTextComponent(String.format("screen.%s.disenchantment_table", Main.MOD_ID));
+        return this.customName != null ? this.customName : new TranslationTextComponent(String.format("screen.%s.disenchantment_table", Utilcraft.MOD_ID));
     }
 
     public void setCustomName(@Nullable ITextComponent name) {

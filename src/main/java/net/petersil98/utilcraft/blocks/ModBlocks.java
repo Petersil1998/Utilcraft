@@ -1,10 +1,10 @@
 package net.petersil98.utilcraft.blocks;
 
 import net.minecraftforge.registries.ObjectHolder;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.sakura.*;
 
-@ObjectHolder(Main.MOD_ID)
+@ObjectHolder(Utilcraft.MOD_ID)
 public class ModBlocks {
 
     @ObjectHolder("gold_brick")

@@ -14,7 +14,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 
 import javax.annotation.Nonnull;
@@ -272,7 +272,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     }*/
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<SushiMakerRecipe> {
-        private static final ResourceLocation NAME = new ResourceLocation(Main.MOD_ID, "sushi_maker");
+        private static final ResourceLocation NAME = new ResourceLocation(Utilcraft.MOD_ID, "sushi_maker");
         @Nonnull
         public SushiMakerRecipe read(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
             String group = JSONUtils.getString(json, "group", "");

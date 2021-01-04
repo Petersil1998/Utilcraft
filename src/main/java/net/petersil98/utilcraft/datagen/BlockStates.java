@@ -7,7 +7,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 import net.petersil98.utilcraft.blocks.SushiMaker;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
@@ -18,7 +18,7 @@ import net.petersil98.utilcraft.utils.BlockItemUtils;
 public class BlockStates extends BlockStateProvider {
 
     public BlockStates(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, Main.MOD_ID, existingFileHelper);
+        super(generator, Utilcraft.MOD_ID, existingFileHelper);
     }
 
     @Override

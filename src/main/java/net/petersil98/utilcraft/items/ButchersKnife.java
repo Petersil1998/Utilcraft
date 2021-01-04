@@ -8,7 +8,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 import net.petersil98.utilcraft.blocks.SushiMaker;
 
@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 public class ButchersKnife extends Item {
 
     public ButchersKnife() {
-        super(new Item.Properties().group(Main.ITEM_GROUP));
+        super(new Item.Properties().group(Utilcraft.ITEM_GROUP));
     }
 
     @Nonnull

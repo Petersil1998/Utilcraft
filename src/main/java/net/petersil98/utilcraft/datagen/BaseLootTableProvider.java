@@ -20,7 +20,7 @@ import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ForgeLootTableProvider;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
 import net.petersil98.utilcraft.utils.BlockItemUtils;
@@ -197,6 +197,6 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
     @Nonnull
     @Override
     public String getName() {
-        return String.format("%s LootTables", Main.MOD_ID);
+        return String.format("%s LootTables", Utilcraft.MOD_ID);
     }
 }

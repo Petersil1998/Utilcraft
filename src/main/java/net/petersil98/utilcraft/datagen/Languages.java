@@ -2,7 +2,7 @@ package net.petersil98.utilcraft.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 import net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs;
 import net.petersil98.utilcraft.enchantments.ModEnchantments;
@@ -22,7 +22,7 @@ public class Languages {
     private static class English extends LanguageProvider {
 
         public English(DataGenerator generator) {
-            super(generator, Main.MOD_ID, "en_us");
+            super(generator, Utilcraft.MOD_ID, "en_us");
         }
 
         @Override
@@ -120,7 +120,7 @@ public class Languages {
     private static class German extends LanguageProvider {
 
         public German(DataGenerator generator) {
-            super(generator, Main.MOD_ID, "de_de");
+            super(generator, Utilcraft.MOD_ID, "de_de");
         }
 
         @Override

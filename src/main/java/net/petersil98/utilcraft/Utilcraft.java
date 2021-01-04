@@ -53,8 +53,8 @@ import net.petersil98.utilcraft.utils.ClientSetup;
 
 import javax.annotation.Nonnull;
 
-@Mod(Main.MOD_ID)
-public class Main {
+@Mod(Utilcraft.MOD_ID)
+public class Utilcraft {
 
     public static final String MOD_ID = "utilcraft";
 
@@ -67,7 +67,7 @@ public class Main {
         }
     };
 
-    public Main() {
+    public Utilcraft() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
     }

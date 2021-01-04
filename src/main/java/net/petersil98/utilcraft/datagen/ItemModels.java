@@ -10,7 +10,7 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.ModBlocks;
 import net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs;
 import net.petersil98.utilcraft.food.ModFoods;
@@ -20,7 +20,7 @@ import net.petersil98.utilcraft.utils.BlockItemUtils;
 public class ItemModels extends ItemModelProvider {
 
     public ItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, Main.MOD_ID, existingFileHelper);
+        super(generator, Utilcraft.MOD_ID, existingFileHelper);
     }
 
     @Override

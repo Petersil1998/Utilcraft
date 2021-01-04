@@ -2,7 +2,7 @@ package net.petersil98.utilcraft.food;
 
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
 public class SweetBerryJuice extends Item {
 
@@ -14,7 +14,7 @@ public class SweetBerryJuice extends Item {
                 .saturation(0.8f)
                 .build()
             )
-            .group(Main.ITEM_GROUP)
+            .group(Utilcraft.ITEM_GROUP)
         );
     }
 }

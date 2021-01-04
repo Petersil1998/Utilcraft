@@ -4,7 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
 public class PacketHandler {
 
@@ -14,7 +14,7 @@ public class PacketHandler {
 
     public static void registerMessages() {
         INSTANCE = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(Main.MOD_ID, "main"),
+                new ResourceLocation(Utilcraft.MOD_ID, "main"),
                 () -> PROTOCOL_VERSION,
                 PROTOCOL_VERSION::equals,
                 PROTOCOL_VERSION::equals

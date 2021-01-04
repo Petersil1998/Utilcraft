@@ -1,9 +1,9 @@
 package net.petersil98.utilcraft.blocks.sideslabs;
 
 import net.minecraftforge.registries.ObjectHolder;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
-@ObjectHolder(Main.MOD_ID)
+@ObjectHolder(Utilcraft.MOD_ID)
 public class ModSideSlabs {
 
     @ObjectHolder("side_stone_slab")

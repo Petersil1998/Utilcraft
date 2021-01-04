@@ -2,9 +2,9 @@ package net.petersil98.utilcraft.tile_entities;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
-@ObjectHolder(Main.MOD_ID)
+@ObjectHolder(Utilcraft.MOD_ID)
 public class ModTileEntities {
 
     @ObjectHolder("disenchantment_table")

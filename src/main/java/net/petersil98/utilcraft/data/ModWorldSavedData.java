@@ -9,14 +9,14 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
 public class ModWorldSavedData extends WorldSavedData {
 
-    private static final String DATA_NAME = Main.MOD_ID;
+    private static final String DATA_NAME = Utilcraft.MOD_ID;
     private final Map<UUID, Map<UUID, String>> players = new HashMap<>();
 
     public ModWorldSavedData() {

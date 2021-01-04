@@ -4,12 +4,12 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
 public class ItemTags extends ItemTagsProvider {
 
     public ItemTags(DataGenerator generator, BlockTags blockTags, ExistingFileHelper existingFileHelper) {
-        super(generator, blockTags, Main.MOD_ID, existingFileHelper);
+        super(generator, blockTags, Utilcraft.MOD_ID, existingFileHelper);
     }
 
     @Override

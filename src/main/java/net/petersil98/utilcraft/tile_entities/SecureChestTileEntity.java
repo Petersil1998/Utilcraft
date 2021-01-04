@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.SecureChestContainer;
 
 import javax.annotation.Nonnull;
@@ -89,7 +89,7 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     @Nonnull
     public ITextComponent getName() {
-        return this.customName != null ? this.customName : new TranslationTextComponent(String.format("screen.%s.secure_chest", Main.MOD_ID));
+        return this.customName != null ? this.customName : new TranslationTextComponent(String.format("screen.%s.secure_chest", Utilcraft.MOD_ID));
     }
 
     @Nullable

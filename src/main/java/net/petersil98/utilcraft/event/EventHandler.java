@@ -36,7 +36,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.ModWorldSavedData;
@@ -59,7 +59,7 @@ import java.util.stream.Collectors;
 
 import static net.petersil98.utilcraft.utils.VeinMinerUtils.*;
 
-@Mod.EventBusSubscriber(modid = Main.MOD_ID)
+@Mod.EventBusSubscriber(modid = Utilcraft.MOD_ID)
 public class EventHandler {
 
     private static final Method resetRainAndThunder = ObfuscationReflectionHelper.findMethod(ServerWorld.class, "func_73051_P");
@@ -120,7 +120,7 @@ public class EventHandler {
                     ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
-                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Main.MOD_ID)), true);
+                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
                         event.setCanceled(true);
                     }
                 }
@@ -140,7 +140,7 @@ public class EventHandler {
                     ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
-                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Main.MOD_ID)), true);
+                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
                         event.setUseBlock(Event.Result.DENY);
                     }
                 }
@@ -229,8 +229,8 @@ public class EventHandler {
     @SubscribeEvent
     public static void toggleVeinMiner(TickEvent.ClientTickEvent event) {
         if(KeyBindings.VEIN_MINER.isPressed() && Minecraft.getInstance().currentScreen == null && !Minecraft.getInstance().gameSettings.showDebugInfo) {
-            Main.isVeinMinerActive = !Main.isVeinMinerActive;
-            PacketHandler.sendToServer(new ToggleVeinMiner(Minecraft.getInstance().player.getUniqueID(), Main.isVeinMinerActive));
+            Utilcraft.isVeinMinerActive = !Utilcraft.isVeinMinerActive;
+            PacketHandler.sendToServer(new ToggleVeinMiner(Minecraft.getInstance().player.getUniqueID(), Utilcraft.isVeinMinerActive));
         }
     }
 
@@ -238,7 +238,7 @@ public class EventHandler {
     public static void attachVeinMinerCapability(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof ServerPlayerEntity) {
             VeinMinerProvider provider = new VeinMinerProvider();
-            event.addCapability(new ResourceLocation(Main.MOD_ID, "active"), provider);
+            event.addCapability(new ResourceLocation(Utilcraft.MOD_ID, "active"), provider);
             event.addListener(provider::invalidate);
         }
     }
@@ -247,7 +247,7 @@ public class EventHandler {
     public static void attachHomeCapability(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof ServerPlayerEntity) {
             HomeProvider provider = new HomeProvider();
-            event.addCapability(new ResourceLocation(Main.MOD_ID, "home"), provider);
+            event.addCapability(new ResourceLocation(Utilcraft.MOD_ID, "home"), provider);
             event.addListener(provider::invalidate);
         }
     }
@@ -258,7 +258,7 @@ public class EventHandler {
             AbstractGui.drawString(
                     matrixStack,
                     Minecraft.getInstance().fontRenderer,
-                    new TranslationTextComponent(String.format("vein_miner.%s.%s", Main.MOD_ID, Main.isVeinMinerActive ? "active" : "inactive")),
+                    new TranslationTextComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, Utilcraft.isVeinMinerActive ? "active" : "inactive")),
                     x, y, 0xffffff);
         }
     }

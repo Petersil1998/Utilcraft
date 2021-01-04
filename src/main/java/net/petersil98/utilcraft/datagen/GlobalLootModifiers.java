@@ -7,14 +7,14 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.loot.conditions.MatchTool;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.enchantments.BeheadingModifier;
 import net.petersil98.utilcraft.enchantments.ModEnchantments;
 
 public class GlobalLootModifiers extends GlobalLootModifierProvider {
 
     public GlobalLootModifiers(DataGenerator generator) {
-        super(generator, Main.MOD_ID);
+        super(generator, Utilcraft.MOD_ID);
     }
 
     @Override

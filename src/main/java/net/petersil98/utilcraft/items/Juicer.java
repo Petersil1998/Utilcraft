@@ -2,13 +2,13 @@ package net.petersil98.utilcraft.items;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
 public class Juicer extends Item {
 
     public Juicer() {
         super(new Properties()
-                .group(Main.ITEM_GROUP)
+                .group(Utilcraft.ITEM_GROUP)
                 .maxStackSize(1)
                 .containerItem(ModItems.JUICER)
         );

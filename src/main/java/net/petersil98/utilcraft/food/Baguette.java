@@ -2,7 +2,7 @@ package net.petersil98.utilcraft.food;
 
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 
 public class Baguette extends Item {
 
@@ -12,7 +12,7 @@ public class Baguette extends Item {
                         .hunger(6)
                         .build()
                 )
-                .group(Main.ITEM_GROUP)
+                .group(Utilcraft.ITEM_GROUP)
         );
     }
 }

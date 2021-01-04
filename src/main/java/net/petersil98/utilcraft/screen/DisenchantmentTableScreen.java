@@ -7,14 +7,14 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
-import net.petersil98.utilcraft.Main;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 
 import javax.annotation.Nonnull;
 
 public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTableContainer> {
 
-    private final ResourceLocation GUI = new ResourceLocation(Main.MOD_ID, "textures/gui/disenchantment_table_gui.png");
+    private final ResourceLocation GUI = new ResourceLocation(Utilcraft.MOD_ID, "textures/gui/disenchantment_table_gui.png");
 
     public DisenchantmentTableScreen(DisenchantmentTableContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
