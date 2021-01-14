@@ -248,10 +248,10 @@ public class Utilcraft {
         }
 
         @SubscribeEvent
-        public static void registerOres(BiomeLoadingEvent event){
+        public static void registerBiomeAddons(BiomeLoadingEvent event){
             WorldGeneration.addSilverOre(event.getGeneration());
             WorldGeneration.addRoseQuartzOre(event.getGeneration());
-            WorldGeneration.addSakuraTrees(event.getGeneration());
+            WorldGeneration.addSakuraTrees(event.getGeneration(), event.getName());
         }
     }
 }
