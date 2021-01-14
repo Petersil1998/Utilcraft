@@ -5,7 +5,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.Utilcraft;
 
 @ObjectHolder(Utilcraft.MOD_ID)
-public class ModContainer {
+public class UtilcraftContainer {
 
     @ObjectHolder("disenchantment_table")
     public static ContainerType<DisenchantmentTableContainer> DISENCHANTMENT_BLOCK_CONTAINER;

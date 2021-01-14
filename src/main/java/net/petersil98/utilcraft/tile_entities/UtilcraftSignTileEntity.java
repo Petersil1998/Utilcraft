@@ -5,11 +5,11 @@ import net.minecraft.tileentity.TileEntityType;
 
 import javax.annotation.Nonnull;
 
-public class ModSignTileEntity extends SignTileEntity {
+public class UtilcraftSignTileEntity extends SignTileEntity {
 
     @Nonnull
     @Override
     public TileEntityType<?> getType() {
-        return ModTileEntities.MOD_SIGN;
+        return UtilcraftTileEntities.UTILCRAFT_SIGN;
     }
 }

@@ -13,16 +13,16 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-        generator.addProvider(new Recipes(generator));
-        generator.addProvider(new LootTables(generator));
-        BlockTags blockTags = new BlockTags(generator, existingFileHelper);
+        generator.addProvider(new UtilcraftRecipes(generator));
+        generator.addProvider(new UtilcraftLootTables(generator));
+        UtilcraftBlockTags blockTags = new UtilcraftBlockTags(generator, existingFileHelper);
         generator.addProvider(blockTags);
-        generator.addProvider(new ItemTags(generator, blockTags, existingFileHelper));
-        generator.addProvider(new GlobalLootModifiers(generator));
-        generator.addProvider(new Advancements(generator));
-        generator.addProvider(Languages.getEnglish(generator));
-        generator.addProvider(Languages.getGerman(generator));
-        generator.addProvider(new BlockStates(generator, existingFileHelper));
-        generator.addProvider(new ItemModels(generator, existingFileHelper));
+        generator.addProvider(new UtilcraftItemTags(generator, blockTags, existingFileHelper));
+        generator.addProvider(new UtilcraftGlobalLootModifiers(generator));
+        generator.addProvider(new UtilcraftAdvancements(generator));
+        generator.addProvider(UtilcraftLanguages.getEnglish(generator));
+        generator.addProvider(UtilcraftLanguages.getGerman(generator));
+        generator.addProvider(new UtilcraftBlockStates(generator, existingFileHelper));
+        generator.addProvider(new UtilcraftItemModels(generator, existingFileHelper));
     }
 }

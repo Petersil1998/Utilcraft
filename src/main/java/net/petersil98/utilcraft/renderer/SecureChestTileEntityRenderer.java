@@ -21,7 +21,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 
@@ -56,7 +56,7 @@ public class SecureChestTileEntityRenderer<T extends TileEntity & IChestLid> ext
     public void render(T tileEntityIn, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         World world = tileEntityIn.getWorld();
         boolean flag = world != null;
-        BlockState blockstate = flag ? tileEntityIn.getBlockState() : ModBlocks.SECURE_CHEST.getDefaultState().with(SecureChest.FACING, Direction.SOUTH);
+        BlockState blockstate = flag ? tileEntityIn.getBlockState() : UtilcraftBlocks.SECURE_CHEST.getDefaultState().with(SecureChest.FACING, Direction.SOUTH);
         Block block = blockstate.getBlock();
         if (block instanceof SecureChest) {
             matrixStackIn.push();

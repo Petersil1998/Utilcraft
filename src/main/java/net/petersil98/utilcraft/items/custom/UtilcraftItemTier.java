@@ -3,16 +3,16 @@ package net.petersil98.utilcraft.items.custom;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
-import net.petersil98.utilcraft.items.ModItems;
+import net.petersil98.utilcraft.items.UtilcraftItems;
 
 import java.util.function.Supplier;
 
-public enum ModItemTier implements IItemTier {
+public enum UtilcraftItemTier implements IItemTier {
     ROSE_QUARTZ(5,3021,10.0F,5.0F, 20,()-> {
-        return Ingredient.fromItems(ModItems.ROSE_QUARTZ);
+        return Ingredient.fromItems(UtilcraftItems.ROSE_QUARTZ);
     }),
     SUPER_ROSE_QUARTZ(5,3021*9,10.0F,5.0F, 20,()-> {
-        return Ingredient.fromItems(ModItems.ROSE_QUARTZ);
+        return Ingredient.fromItems(UtilcraftItems.ROSE_QUARTZ);
     });
 
     private final int harvestLevel;
@@ -22,7 +22,7 @@ public enum ModItemTier implements IItemTier {
     private final int enchantability;
     private final LazyValue<Ingredient> repairMaterial;
 
-    ModItemTier(int harvestLevelIn, int maxUsesIn, float efficiencyIn, float attackDamageIn, int enchantabilityIn, Supplier<Ingredient> repairMaterialIn) {
+    UtilcraftItemTier(int harvestLevelIn, int maxUsesIn, float efficiencyIn, float attackDamageIn, int enchantabilityIn, Supplier<Ingredient> repairMaterialIn) {
         this.harvestLevel = harvestLevelIn;
         this.maxUses = maxUsesIn;
         this.efficiency = efficiencyIn;

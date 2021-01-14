@@ -17,10 +17,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -220,7 +217,7 @@ public class SushiMakerRecipeBuilder {
 
         @Nonnull
         public IRecipeSerializer<?> getSerializer() {
-            return ModRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
+            return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
         }
 
         /**

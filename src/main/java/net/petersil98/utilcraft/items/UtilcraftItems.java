@@ -4,7 +4,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.Utilcraft;
 
 @ObjectHolder(Utilcraft.MOD_ID)
-public class ModItems {
+public class UtilcraftItems {
 
     @ObjectHolder("juicer")
     public static Juicer JUICER;

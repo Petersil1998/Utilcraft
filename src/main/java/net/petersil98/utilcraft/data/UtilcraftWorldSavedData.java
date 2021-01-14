@@ -14,15 +14,15 @@ import net.petersil98.utilcraft.Utilcraft;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class ModWorldSavedData extends WorldSavedData {
+public class UtilcraftWorldSavedData extends WorldSavedData {
 
     private static final String DATA_NAME = Utilcraft.MOD_ID;
     private final Map<UUID, Map<UUID, String>> players = new HashMap<>();
 
-    public ModWorldSavedData() {
+    public UtilcraftWorldSavedData() {
         this(DATA_NAME);
     }
-    public ModWorldSavedData(String name) {
+    public UtilcraftWorldSavedData(String name) {
         super(name);
     }
 
@@ -74,9 +74,9 @@ public class ModWorldSavedData extends WorldSavedData {
         return compound;
     }
 
-    public static ModWorldSavedData get(ServerWorld world) {
+    public static UtilcraftWorldSavedData get(ServerWorld world) {
         DimensionSavedDataManager dataManager = world.getSavedData();
-        return dataManager.getOrCreate(ModWorldSavedData::new, DATA_NAME);
+        return dataManager.getOrCreate(UtilcraftWorldSavedData::new, DATA_NAME);
     }
 
     public void addTrustedPlayer(UUID playerUUID, UUID trustedPlayerUUID, String trustedPlayerName){

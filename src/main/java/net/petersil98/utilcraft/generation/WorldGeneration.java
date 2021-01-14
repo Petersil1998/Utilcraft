@@ -6,7 +6,7 @@ import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
-import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 public class WorldGeneration {
 
@@ -16,7 +16,7 @@ public class WorldGeneration {
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-                                ModBlocks.SILVER_ORE.getDefaultState(),
+                                UtilcraftBlocks.SILVER_ORE.getDefaultState(),
                                 17
                         )
                 ).range(128).square()
@@ -29,7 +29,7 @@ public class WorldGeneration {
                 Feature.ORE.withConfiguration(
                         new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-                                ModBlocks.ROSE_QUARTZ_ORE.getDefaultState(),
+                                UtilcraftBlocks.ROSE_QUARTZ_ORE.getDefaultState(),
                                 4
                         )
                 ).range(20).square()
@@ -41,8 +41,8 @@ public class WorldGeneration {
                 GenerationStage.Decoration.VEGETAL_DECORATION,
                 Feature.TREE.withConfiguration(
                         new BaseTreeFeatureConfig.Builder(
-                                new SimpleBlockStateProvider(ModBlocks.SAKURA_LOG.getDefaultState()),
-                                new SimpleBlockStateProvider(ModBlocks.SAKURA_LEAVES.getDefaultState()),
+                                new SimpleBlockStateProvider(UtilcraftBlocks.SAKURA_LOG.getDefaultState()),
+                                new SimpleBlockStateProvider(UtilcraftBlocks.SAKURA_LEAVES.getDefaultState()),
                                 new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
                                 new StraightTrunkPlacer(4, 2, 0),
                                 new TwoLayerFeature(1, 0, 1))

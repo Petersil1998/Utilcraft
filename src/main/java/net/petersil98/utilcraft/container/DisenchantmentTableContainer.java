@@ -11,7 +11,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.IWorldPosCallable;
-import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import javax.annotation.Nonnull;
 
@@ -34,7 +34,7 @@ public class DisenchantmentTableContainer extends Container {
     }
 
     public DisenchantmentTableContainer(int id, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
-        super(ModContainer.DISENCHANTMENT_BLOCK_CONTAINER, id);
+        super(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER, id);
         this.worldPosCallable = worldPosCallable;
         this.addSlot(new Slot(this.inputInventory, 0, 15, 47) {
             /**
@@ -131,7 +131,7 @@ public class DisenchantmentTableContainer extends Container {
      * Determines whether supplied player can use this container
      */
     public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
-        return isWithinUsableDistance(this.worldPosCallable, playerIn, ModBlocks.DISENCHANTMENT_TABLE);
+        return isWithinUsableDistance(this.worldPosCallable, playerIn, UtilcraftBlocks.DISENCHANTMENT_TABLE);
     }
 
     /**

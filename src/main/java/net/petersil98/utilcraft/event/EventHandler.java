@@ -39,11 +39,12 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.data.KeyBindings;
-import net.petersil98.utilcraft.data.ModWorldSavedData;
+import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.home.HomeProvider;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.VeinMinerProvider;
+import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
 import net.petersil98.utilcraft.network.PacketHandler;
 import net.petersil98.utilcraft.network.PlayerDeathStats;
 import net.petersil98.utilcraft.network.ToggleVeinMiner;
@@ -117,7 +118,7 @@ public class EventHandler {
                 UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
                 UUID playerUUID = player.getUniqueID();
                 if (ownerUUID != null && !ownerUUID.equals(playerUUID)) {
-                    ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
+                    UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
                         player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
@@ -137,7 +138,7 @@ public class EventHandler {
                 UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
                 UUID playerUUID = player.getGameProfile().getId();
                 if(ownerUUID != null && !ownerUUID.equals(playerUUID)) {
-                    ModWorldSavedData worldSavedData = ModWorldSavedData.get(player.getServerWorld());
+                    UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
                     List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
                     if(!trustedPlayers.contains(playerUUID)){
                         player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
@@ -150,7 +151,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
-        if(event.world instanceof ServerWorld) {
+        if(event.world instanceof ServerWorld && !event.world.getGameRules().getBoolean(UtilcraftGameRules.DO_ALL_PLAYERS_NEED_SLEEP)) {
             ServerWorld world = (ServerWorld) event.world;
             List<ServerPlayerEntity> players = world.getServer().getPlayerList().getPlayers();
             for (ServerPlayerEntity player : players) {

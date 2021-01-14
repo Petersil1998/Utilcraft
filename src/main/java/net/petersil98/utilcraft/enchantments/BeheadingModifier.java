@@ -33,9 +33,9 @@ public class BeheadingModifier extends LootModifier {
         Entity killer = context.get(LootParameters.KILLER_ENTITY);
         if (killer instanceof PlayerEntity) {
             PlayerEntity player = ((PlayerEntity) killer);
-            if(EnchantmentHelper.getEnchantments(player.getHeldItemMainhand()).containsKey(ModEnchantments.BEHEADING)){
+            if(EnchantmentHelper.getEnchantments(player.getHeldItemMainhand()).containsKey(UtilcraftEnchantments.BEHEADING)){
                 Entity entity = context.get(LootParameters.THIS_ENTITY);
-                int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.BEHEADING, player.getHeldItemMainhand());
+                int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(UtilcraftEnchantments.BEHEADING, player.getHeldItemMainhand());
                 int chance = BeheadingEnchantment.getHeadDropChance(enchantmentLevel);
                 Random random = player.getRNG();
                 if(entity instanceof ZombieEntity){

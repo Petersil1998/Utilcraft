@@ -4,7 +4,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.Utilcraft;
 
 @ObjectHolder(Utilcraft.MOD_ID)
-public class ModSideSlabs {
+public class UtilcraftSideSlabs {
 
     @ObjectHolder("side_stone_slab")
     public static SideStoneSlab SIDE_STONE_SLAB;

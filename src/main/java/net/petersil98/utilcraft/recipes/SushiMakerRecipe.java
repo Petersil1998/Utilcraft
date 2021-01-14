@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -115,7 +115,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     @Nonnull
     @Override
     public ItemStack getIcon() {
-        return new ItemStack(new BlockItem(ModBlocks.SUSHI_MAKER, new Item.Properties()));
+        return new ItemStack(new BlockItem(UtilcraftBlocks.SUSHI_MAKER, new Item.Properties()));
     }
 
     @Nonnull
@@ -127,13 +127,13 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
+        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
     }
 
     @Nonnull
     @Override
     public IRecipeType<?> getType() {
-        return ModRecipeTypes.SUSHI_MAKER_RECIPE;
+        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE;
     }
 
     private static NonNullList<Ingredient> deserializeIngredients(String[] pattern, Map<String, Ingredient> keys, int patternWidth, int patternHeight) {

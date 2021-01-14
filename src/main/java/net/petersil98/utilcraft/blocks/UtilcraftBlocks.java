@@ -5,7 +5,7 @@ import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.sakura.*;
 
 @ObjectHolder(Utilcraft.MOD_ID)
-public class ModBlocks {
+public class UtilcraftBlocks {
 
     @ObjectHolder("gold_brick")
     public static GoldBrick GOLD_BRICK;

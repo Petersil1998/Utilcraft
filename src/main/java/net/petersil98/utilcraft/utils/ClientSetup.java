@@ -17,7 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
-import net.petersil98.utilcraft.items.ModItems;
+import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.items.TNTFinder;
 
 import javax.annotation.Nonnull;
@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 public class ClientSetup {
 
     public static void registerItemProperties() {
-        ItemModelsProperties.registerProperty(ModItems.TNT_FINDER, new ResourceLocation("angle"), new IItemPropertyGetter() {
+        ItemModelsProperties.registerProperty(UtilcraftItems.TNT_FINDER, new ResourceLocation("angle"), new IItemPropertyGetter() {
             private final Angle field_239439_a_ = new Angle();
             private final Angle field_239440_b_ = new Angle();
 

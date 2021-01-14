@@ -9,7 +9,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.util.ResourceLocation;
-import net.petersil98.utilcraft.advancements.ModAdvancements;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,13 +19,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class Advancements implements IDataProvider {
+public class UtilcraftAdvancements implements IDataProvider {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     private final DataGenerator generator;
-    private final List<Consumer<Consumer<Advancement>>> advancements = ImmutableList.of(new ModAdvancements());
+    private final List<Consumer<Consumer<Advancement>>> advancements = ImmutableList.of(new net.petersil98.utilcraft.advancements.UtilcraftAdvancements());
 
-    public Advancements(DataGenerator generator) {
+    public UtilcraftAdvancements(DataGenerator generator) {
         this.generator = generator;
     }
 

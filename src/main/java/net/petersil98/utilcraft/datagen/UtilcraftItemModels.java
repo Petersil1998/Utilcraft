@@ -11,78 +11,78 @@ import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.blocks.ModBlocks;
-import net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs;
-import net.petersil98.utilcraft.food.ModFoods;
-import net.petersil98.utilcraft.items.ModItems;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
+import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
+import net.petersil98.utilcraft.food.UtilcraftFoods;
+import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.utils.BlockItemUtils;
 
-public class ItemModels extends ItemModelProvider {
+public class UtilcraftItemModels extends ItemModelProvider {
 
-    public ItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public UtilcraftItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, Utilcraft.MOD_ID, existingFileHelper);
     }
 
     @Override
     protected void registerModels() {
-        registerHandheld(ModFoods.APPLE_JUICE);
-        registerHandheld(ModFoods.BAGUETTE);
-        registerHandheld(ModItems.BUTCHERS_KNIFE);
-        registerBlockItem(ModBlocks.COMPRESSED_COBBLESTONE);
-        registerBlockItem(ModBlocks.DISENCHANTMENT_TABLE);
-        registerHandheld(ModItems.FLOUR);
-        registerBlockItem(ModBlocks.GOLD_BRICK);
-        registerBlockItem(ModBlocks.GOLD_SLAB);
-        registerBlockItem(ModBlocks.GOLD_STAIRS);
-        registerBlockItem(ModBlocks.GOLD_WALL, "_inventory");
-        registerHandheld(ModItems.JUICER);
-        registerBlockItem(ModBlocks.REDSTONE_SLAB);
-        registerBlockItem(ModBlocks.REDSTONE_STAIRS);
-        registerHandheld(ModItems.ROSE_QUARTZ);
-        registerHandheld(ModItems.ROSE_QUARTZ_AXE);
-        registerBlockItem(ModBlocks.ROSE_QUARTZ_BLOCK);
-        registerHandheld(ModItems.ROSE_QUARTZ_BOOTS);
-        registerHandheld(ModItems.ROSE_QUARTZ_CHESTPLATE);
-        registerHandheld(ModItems.ROSE_QUARTZ_HELMET);
-        registerHandheld(ModItems.ROSE_QUARTZ_HOE);
-        registerHandheld(ModItems.ROSE_QUARTZ_LEGGINGS);
-        registerBlockItem(ModBlocks.ROSE_QUARTZ_ORE);
-        registerHandheld(ModItems.ROSE_QUARTZ_PICKAXE);
-        registerHandheld(ModItems.ROSE_QUARTZ_SHOVEL);
-        registerHandheld(ModItems.ROSE_QUARTZ_SUPER_HAMMER);
-        registerHandheld(ModItems.ROSE_QUARTZ_SUPER_SHOVEL);
-        registerHandheld(ModItems.ROSE_QUARTZ_SWORD);
-        registerBlockItem(ModBlocks.SAKURA_BUTTON, "_inventory");
-        registerGeneratedItem(ModBlocks.SAKURA_DOOR, Blocks.OAK_DOOR);
-        registerBlockItem(ModBlocks.SAKURA_FENCE, "_inventory");
-        registerBlockItem(ModBlocks.SAKURA_FENCE_GATE);
-        registerBlockItem(ModBlocks.SAKURA_LEAVES);
-        registerBlockItem(ModBlocks.SAKURA_LOG);
-        registerBlockItem(ModBlocks.SAKURA_PLANKS);
-        registerBlockItem(ModBlocks.SAKURA_PRESSURE_PLATE);
-        registerGeneratedBlock(ModBlocks.SAKURA_SAPLING, ModBlocks.SAKURA_SAPLING);
-        registerGeneratedItem(ModBlocks.SAKURA_SIGN, Blocks.OAK_SIGN);
-        registerBlockItem(ModBlocks.SAKURA_SLAB);
-        registerBlockItem(ModBlocks.SAKURA_STAIRS);
-        registerBlockItem(ModBlocks.SAKURA_TRAPDOOR, "_bottom");
+        registerHandheld(UtilcraftFoods.APPLE_JUICE);
+        registerHandheld(UtilcraftFoods.BAGUETTE);
+        registerHandheld(UtilcraftItems.BUTCHERS_KNIFE);
+        registerBlockItem(UtilcraftBlocks.COMPRESSED_COBBLESTONE);
+        registerBlockItem(UtilcraftBlocks.DISENCHANTMENT_TABLE);
+        registerHandheld(UtilcraftItems.FLOUR);
+        registerBlockItem(UtilcraftBlocks.GOLD_BRICK);
+        registerBlockItem(UtilcraftBlocks.GOLD_SLAB);
+        registerBlockItem(UtilcraftBlocks.GOLD_STAIRS);
+        registerBlockItem(UtilcraftBlocks.GOLD_WALL, "_inventory");
+        registerHandheld(UtilcraftItems.JUICER);
+        registerBlockItem(UtilcraftBlocks.REDSTONE_SLAB);
+        registerBlockItem(UtilcraftBlocks.REDSTONE_STAIRS);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_AXE);
+        registerBlockItem(UtilcraftBlocks.ROSE_QUARTZ_BLOCK);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_BOOTS);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_CHESTPLATE);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_HELMET);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_HOE);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_LEGGINGS);
+        registerBlockItem(UtilcraftBlocks.ROSE_QUARTZ_ORE);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_PICKAXE);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_SHOVEL);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_SUPER_HAMMER);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_SUPER_SHOVEL);
+        registerHandheld(UtilcraftItems.ROSE_QUARTZ_SWORD);
+        registerBlockItem(UtilcraftBlocks.SAKURA_BUTTON, "_inventory");
+        registerGeneratedItem(UtilcraftBlocks.SAKURA_DOOR, Blocks.OAK_DOOR);
+        registerBlockItem(UtilcraftBlocks.SAKURA_FENCE, "_inventory");
+        registerBlockItem(UtilcraftBlocks.SAKURA_FENCE_GATE);
+        registerBlockItem(UtilcraftBlocks.SAKURA_LEAVES);
+        registerBlockItem(UtilcraftBlocks.SAKURA_LOG);
+        registerBlockItem(UtilcraftBlocks.SAKURA_PLANKS);
+        registerBlockItem(UtilcraftBlocks.SAKURA_PRESSURE_PLATE);
+        registerGeneratedBlock(UtilcraftBlocks.SAKURA_SAPLING, UtilcraftBlocks.SAKURA_SAPLING);
+        registerGeneratedItem(UtilcraftBlocks.SAKURA_SIGN, Blocks.OAK_SIGN);
+        registerBlockItem(UtilcraftBlocks.SAKURA_SLAB);
+        registerBlockItem(UtilcraftBlocks.SAKURA_STAIRS);
+        registerBlockItem(UtilcraftBlocks.SAKURA_TRAPDOOR, "_bottom");
         registerSecureChest();
-        registerBlockItem(ModSideSlabs.SIDE_ACACIA_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_BIRCH_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_COBBLESTONE_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_DARK_OAK_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_GOLD_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_JUNGLE_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_OAK_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_REDSTONE_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_SAKURA_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_SPRUCE_SLAB);
-        registerBlockItem(ModSideSlabs.SIDE_STONE_SLAB);
-        registerHandheld(ModItems.SILVER_INGOT);
-        registerBlockItem(ModBlocks.SILVER_ORE);
-        registerBlockItem(ModBlocks.SUSHI_MAKER, "_inventory");
-        registerHandheld(ModFoods.SWEET_BERRY_JUICE);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_ACACIA_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_BIRCH_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_DARK_OAK_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_GOLD_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_JUNGLE_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_OAK_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_SAKURA_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB);
+        registerBlockItem(UtilcraftSideSlabs.SIDE_STONE_SLAB);
+        registerHandheld(UtilcraftItems.SILVER_INGOT);
+        registerBlockItem(UtilcraftBlocks.SILVER_ORE);
+        registerBlockItem(UtilcraftBlocks.SUSHI_MAKER, "_inventory");
+        registerHandheld(UtilcraftFoods.SWEET_BERRY_JUICE);
         registerTNTFinder();
-        registerHandheld(ModItems.TRAVELERS_BACKPACK);
+        registerHandheld(UtilcraftItems.TRAVELERS_BACKPACK);
     }
 
     private void registerHandheld(Item item) {
@@ -110,8 +110,8 @@ public class ItemModels extends ItemModelProvider {
     }
 
     private void registerSecureChest() {
-        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(ModBlocks.SAKURA_PLANKS), BLOCK_FOLDER +"/"+BlockItemUtils.name(ModBlocks.SAKURA_PLANKS));
-        getBuilder(BlockItemUtils.name(ModBlocks.SECURE_CHEST))
+        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(UtilcraftBlocks.SAKURA_PLANKS), BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftBlocks.SAKURA_PLANKS));
+        getBuilder(BlockItemUtils.name(UtilcraftBlocks.SECURE_CHEST))
                 .parent(new ModelFile.UncheckedModelFile(mcLoc("builtin/entity")))
                 .texture("particle", location)
                 .transforms()
@@ -125,7 +125,7 @@ public class ItemModels extends ItemModelProvider {
 
     private void registerTNTFinder() {
         ResourceLocation angle = new ResourceLocation("angle");
-        singleTexture(BlockItemUtils.name(ModItems.TNT_FINDER), mcLoc(ITEM_FOLDER+"/generated"), "layer0", new ResourceLocation(ITEM_FOLDER +"/compass_16"))
+        singleTexture(BlockItemUtils.name(UtilcraftItems.TNT_FINDER), mcLoc(ITEM_FOLDER+"/generated"), "layer0", new ResourceLocation(ITEM_FOLDER +"/compass_16"))
                 .override().predicate(angle, 0f).model(new ItemModelBuilder(new ResourceLocation(ITEM_FOLDER +"/compass"), existingFileHelper)).end()
                 .override().predicate(angle, 0.015625f).model(new ItemModelBuilder(new ResourceLocation(ITEM_FOLDER +"/compass_17"), existingFileHelper)).end()
                 .override().predicate(angle, 0.046875f).model(new ItemModelBuilder(new ResourceLocation(ITEM_FOLDER +"/compass_18"), existingFileHelper)).end()

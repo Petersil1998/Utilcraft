@@ -4,7 +4,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.Utilcraft;
 
 @ObjectHolder(Utilcraft.MOD_ID)
-public class ModFoods {
+public class UtilcraftFoods {
 
     @ObjectHolder("apple_juice")
     public static AppleJuice APPLE_JUICE;

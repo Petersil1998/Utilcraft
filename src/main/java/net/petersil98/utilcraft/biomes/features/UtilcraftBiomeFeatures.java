@@ -13,13 +13,13 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraft.world.gen.trunkplacer.FancyTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
-import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import java.util.OptionalInt;
 
-public class ModBiomeFeatures {
-    private static final BlockState SAKURA_LEAVES = ModBlocks.SAKURA_LEAVES.getDefaultState();
-    private static final BlockState SAKURA_LOG = ModBlocks.SAKURA_LOG.getDefaultState();
+public class UtilcraftBiomeFeatures {
+    private static final BlockState SAKURA_LEAVES = UtilcraftBlocks.SAKURA_LEAVES.getDefaultState();
+    private static final BlockState SAKURA_LOG = UtilcraftBlocks.SAKURA_LOG.getDefaultState();
     public static final BaseTreeFeatureConfig SAKURA_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(SAKURA_LOG), new SimpleBlockStateProvider(SAKURA_LEAVES), new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3), new StraightTrunkPlacer(4, 2, 0), new TwoLayerFeature(1, 0, 1))).setIgnoreVines().build();
     public static final BaseTreeFeatureConfig FANCY_SAKURA_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(SAKURA_LOG), new SimpleBlockStateProvider(SAKURA_LEAVES), new FancyFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(4), 4), new FancyTrunkPlacer(3, 11, 0), new TwoLayerFeature(0, 0, 0, OptionalInt.of(4)))).setIgnoreVines().func_236702_a_(Heightmap.Type.MOTION_BLOCKING).build();
 

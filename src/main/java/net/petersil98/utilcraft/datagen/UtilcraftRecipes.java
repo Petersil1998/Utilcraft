@@ -7,18 +7,18 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.blocks.ModBlocks;
-import net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs;
-import net.petersil98.utilcraft.food.ModFoods;
-import net.petersil98.utilcraft.items.ModItems;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
+import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
+import net.petersil98.utilcraft.food.UtilcraftFoods;
+import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipeBuilder;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
-public class Recipes extends RecipeProvider {
+public class UtilcraftRecipes extends RecipeProvider {
 
-    public Recipes(DataGenerator generatorIn) {
+    public UtilcraftRecipes(DataGenerator generatorIn) {
         super(generatorIn);
     }
 
@@ -97,22 +97,22 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerButchersKnife(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.BUTCHERS_KNIFE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.BUTCHERS_KNIFE)
                 .patternLine("*")
                 .patternLine("#")
                 .patternLine("-")
-                .key('*', ModItems.SILVER_INGOT)
+                .key('*', UtilcraftItems.SILVER_INGOT)
                 .key('#', Items.DRIED_KELP)
                 .key('-', Items.STICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("silver_ingot", InventoryChangeTrigger.Instance.forItems(ModItems.SILVER_INGOT))
+                .addCriterion("silver_ingot", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.SILVER_INGOT))
                 .addCriterion("dried_kelp", InventoryChangeTrigger.Instance.forItems(Items.DRIED_KELP))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerCompressedCobblestone(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.COMPRESSED_COBBLESTONE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.COMPRESSED_COBBLESTONE)
                 .patternLine("###")
                 .patternLine("###")
                 .patternLine("###")
@@ -123,22 +123,22 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerDisenchantmentTable(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.DISENCHANTMENT_TABLE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.DISENCHANTMENT_TABLE)
                 .patternLine(" # ")
                 .patternLine("+*+")
                 .patternLine("***")
                 .key('#', Items.BOOK)
-                .key('+', ModItems.ROSE_QUARTZ)
+                .key('+', UtilcraftItems.ROSE_QUARTZ)
                 .key('*', Blocks.OBSIDIAN)
                 .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("book", InventoryChangeTrigger.Instance.forItems(Items.BOOK))
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .addCriterion("obsidian", InventoryChangeTrigger.Instance.forItems(Blocks.OBSIDIAN))
                 .build(consumer);
     }
 
     private void registerFlour(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.FLOUR)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.FLOUR)
                 .patternLine("##")
                 .key('#', Items.WHEAT)
                 .setGroup(Utilcraft.MOD_ID)
@@ -147,7 +147,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerGoldBrick(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.GOLD_BRICK, 4)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.GOLD_BRICK, 4)
                 .patternLine("##")
                 .patternLine("##")
                 .key('#', Items.GOLD_INGOT)
@@ -157,37 +157,37 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerGoldSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.GOLD_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.GOLD_SLAB, 6)
                 .patternLine("###")
-                .key('#', ModBlocks.GOLD_BRICK)
+                .key('#', UtilcraftBlocks.GOLD_BRICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
+                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.GOLD_BRICK))
                 .build(consumer);
     }
 
     private void registerGoldStairs(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.GOLD_STAIRS, 4)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.GOLD_STAIRS, 4)
                 .patternLine("#  ")
                 .patternLine("## ")
                 .patternLine("###")
-                .key('#', ModBlocks.GOLD_BRICK)
+                .key('#', UtilcraftBlocks.GOLD_BRICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
+                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.GOLD_BRICK))
                 .build(consumer);
     }
 
     private void registerGoldWall(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.GOLD_WALL, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.GOLD_WALL, 6)
                 .patternLine("###")
                 .patternLine("###")
-                .key('#', ModBlocks.GOLD_BRICK)
+                .key('#', UtilcraftBlocks.GOLD_BRICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
+                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.GOLD_BRICK))
                 .build(consumer);
     }
 
     private void registerJuicer(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.JUICER)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.JUICER)
                 .patternLine(" # ")
                 .patternLine("---")
                 .key('#', Items.IRON_INGOT)
@@ -199,7 +199,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerRedstoneSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.REDSTONE_SLAB)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.REDSTONE_SLAB)
                 .patternLine("###")
                 .key('#', Blocks.REDSTONE_BLOCK)
                 .setGroup(Utilcraft.MOD_ID)
@@ -208,7 +208,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerRedstoneStairs(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.REDSTONE_STAIRS)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.REDSTONE_STAIRS)
                 .patternLine("#  ")
                 .patternLine("## ")
                 .patternLine("###")
@@ -219,249 +219,249 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerRoseQuartzAxe(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_AXE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_AXE)
                 .patternLine("##")
                 .patternLine("#*")
                 .patternLine(" *")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerRoseQuartzBlock(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.ROSE_QUARTZ_BLOCK)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.ROSE_QUARTZ_BLOCK)
                 .patternLine("###")
                 .patternLine("###")
                 .patternLine("###")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .build(consumer);
     }
 
     private void registerRoseQuartzBoots(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_BOOTS)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_BOOTS)
                 .patternLine("# #")
                 .patternLine("# #")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .build(consumer);
     }
 
     private void registerRoseQuartzChestplate(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_CHESTPLATE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_CHESTPLATE)
                 .patternLine("# #")
                 .patternLine("###")
                 .patternLine("###")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .build(consumer);
     }
 
     private void registerRoseQuartzHelmet(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_HELMET)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_HELMET)
                 .patternLine("###")
                 .patternLine("# #")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .build(consumer);
     }
 
     private void registerRoseQuartzHoe(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_HOE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_HOE)
                 .patternLine("##")
                 .patternLine(" *")
                 .patternLine(" *")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerRoseQuartzLeggings(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_LEGGINGS)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_LEGGINGS)
                 .patternLine("###")
                 .patternLine("# #")
                 .patternLine("# #")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .build(consumer);
     }
 
     private void registerRoseQuartzPickaxe(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_PICKAXE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_PICKAXE)
                 .patternLine("###")
                 .patternLine(" * ")
                 .patternLine(" * ")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerRoseQuartzShovel(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_SHOVEL)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_SHOVEL)
                 .patternLine("#")
                 .patternLine("*")
                 .patternLine("*")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerRoseQuartzSuperHammer(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_SUPER_HAMMER)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_SUPER_HAMMER)
                 .patternLine("###")
                 .patternLine("###")
                 .patternLine("###")
-                .key('#', ModItems.ROSE_QUARTZ_PICKAXE)
+                .key('#', UtilcraftItems.ROSE_QUARTZ_PICKAXE)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz_pickaxe", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ_PICKAXE))
+                .addCriterion("rose_quartz_pickaxe", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ_PICKAXE))
                 .build(consumer);
     }
 
     private void registerRoseQuartzSuperShovel(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_SUPER_SHOVEL)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_SUPER_SHOVEL)
                 .patternLine("###")
                 .patternLine("###")
                 .patternLine("###")
-                .key('#', ModItems.ROSE_QUARTZ_SHOVEL)
+                .key('#', UtilcraftItems.ROSE_QUARTZ_SHOVEL)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz_shovel", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ_SHOVEL))
+                .addCriterion("rose_quartz_shovel", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ_SHOVEL))
                 .build(consumer);
     }
 
     private void registerRoseQuartzSword(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.ROSE_QUARTZ_SWORD)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.ROSE_QUARTZ_SWORD)
                 .patternLine(" # ")
                 .patternLine(" # ")
                 .patternLine("-*-")
-                .key('#', ModItems.ROSE_QUARTZ)
+                .key('#', UtilcraftItems.ROSE_QUARTZ)
                 .key('*', Items.STICK)
                 .key('-', Blocks.ROSE_BUSH)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(ModItems.ROSE_QUARTZ))
+                .addCriterion("rose_quartz", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.ROSE_QUARTZ))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .addCriterion("rose_bush", InventoryChangeTrigger.Instance.forItems(Blocks.ROSE_BUSH))
                 .build(consumer);
     }
 
     private void registerSakuraDoor(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_DOOR)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_DOOR)
                 .patternLine("##")
                 .patternLine("##")
                 .patternLine("##")
-                .key('#', ModBlocks.SAKURA_PLANKS)
+                .key('#', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_door")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
 
     private void registerSakuraFence(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_FENCE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_FENCE)
                 .patternLine("W#W")
                 .patternLine("W#W")
                 .key('#', Items.STICK)
-                .key('W', ModBlocks.SAKURA_PLANKS)
+                .key('W', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_fence")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .addCriterion("sticks", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerSakuraFenceGate(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_FENCE_GATE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_FENCE_GATE)
                 .patternLine("#W#")
                 .patternLine("#W#")
                 .key('#', Items.STICK)
-                .key('W', ModBlocks.SAKURA_PLANKS)
+                .key('W', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_fence_gate")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .addCriterion("sticks", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerSakuraPressurePlate(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_PRESSURE_PLATE)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_PRESSURE_PLATE)
                 .patternLine("##")
-                .key('#', ModBlocks.SAKURA_PLANKS)
+                .key('#', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_pressure_plate")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
 
     private void registerSakuraSign(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_SIGN, 3)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_SIGN, 3)
                 .patternLine("###")
                 .patternLine("###")
                 .patternLine(" X ")
-                .key('#', ModBlocks.SAKURA_PLANKS)
+                .key('#', UtilcraftBlocks.SAKURA_PLANKS)
                 .key('X', Items.STICK)
                 .setGroup("sign")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .addCriterion("stick", InventoryChangeTrigger.Instance.forItems(Items.STICK))
                 .build(consumer);
     }
 
     private void registerSakuraSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_SLAB, 6)
                 .patternLine("###")
-                .key('#', ModBlocks.SAKURA_PLANKS)
+                .key('#', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_slab")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
 
     private void registerSakuraStairs(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_STAIRS, 4)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_STAIRS, 4)
                 .patternLine("#  ")
                 .patternLine("## ")
                 .patternLine("###")
-                .key('#', ModBlocks.SAKURA_PLANKS)
+                .key('#', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_stairs")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
 
     private void registerSakuraTrapdoor(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SAKURA_TRAPDOOR, 2)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SAKURA_TRAPDOOR, 2)
                 .patternLine("###")
                 .patternLine("###")
-                .key('#', ModBlocks.SAKURA_PLANKS)
+                .key('#', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_trapdoor")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
 
     private void registerSecureChest(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.SECURE_CHEST)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.SECURE_CHEST)
                 .patternLine("###")
                 .patternLine("#*#")
                 .patternLine("###")
                 .key('#', Ingredient.fromTag(ItemTags.PLANKS))
-                .key('*', ModItems.SILVER_INGOT)
+                .key('*', UtilcraftItems.SILVER_INGOT)
                 .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("planks", hasItem(ItemTags.PLANKS))
-                .addCriterion("silver_ingot", InventoryChangeTrigger.Instance.forItems(ModItems.SILVER_INGOT))
+                .addCriterion("silver_ingot", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.SILVER_INGOT))
                 .build(consumer);
     }
 
     private void registerSideAcaciaSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_ACACIA_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_ACACIA_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -472,7 +472,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideBirchSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_BIRCH_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_BIRCH_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -483,7 +483,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideCobblestoneSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_COBBLESTONE_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -494,7 +494,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideDarkOakSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_DARK_OAK_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_DARK_OAK_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -505,18 +505,18 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideGoldSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_GOLD_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_GOLD_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
-                .key('#', ModBlocks.GOLD_BRICK)
+                .key('#', UtilcraftBlocks.GOLD_BRICK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(ModBlocks.GOLD_BRICK))
+                .addCriterion("gold_brick", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.GOLD_BRICK))
                 .build(consumer);
     }
 
     private void registerSideJungleSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_JUNGLE_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_JUNGLE_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -527,7 +527,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideOakSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_OAK_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_OAK_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -538,7 +538,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideRedstoneSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_REDSTONE_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -549,18 +549,18 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideSakuraSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_SAKURA_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_SAKURA_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
-                .key('#', ModBlocks.SAKURA_PLANKS)
+                .key('#', UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
 
     private void registerSideSpruceSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_SPRUCE_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -571,7 +571,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerSideStoneSlab(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModSideSlabs.SIDE_STONE_SLAB, 6)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftSideSlabs.SIDE_STONE_SLAB, 6)
                 .patternLine("#")
                 .patternLine("#")
                 .patternLine("#")
@@ -582,7 +582,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerTNTFinder(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.TNT_FINDER)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.TNT_FINDER)
                 .patternLine(" + ")
                 .patternLine("+#+")
                 .patternLine(" + ")
@@ -595,7 +595,7 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerTravelersBackpack(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModItems.TRAVELERS_BACKPACK)
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftItems.TRAVELERS_BACKPACK)
                 .patternLine("*X*")
                 .patternLine("-#-")
                 .patternLine("000")
@@ -614,71 +614,71 @@ public class Recipes extends RecipeProvider {
     }
 
     private void registerAppleJuice(Consumer<IFinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapelessRecipe(ModFoods.APPLE_JUICE)
+        ShapelessRecipeBuilder.shapelessRecipe(UtilcraftFoods.APPLE_JUICE)
                 .addIngredient(Items.APPLE)
-                .addIngredient(ModItems.JUICER)
+                .addIngredient(UtilcraftItems.JUICER)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("juicer", InventoryChangeTrigger.Instance.forItems(ModItems.JUICER))
+                .addCriterion("juicer", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.JUICER))
                 .addCriterion("apple", InventoryChangeTrigger.Instance.forItems(Items.APPLE))
                 .build(consumer);
     }
 
     private void registerCobblestone(Consumer<IFinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapelessRecipe(Blocks.COBBLESTONE, 9)
-                .addIngredient(ModBlocks.COMPRESSED_COBBLESTONE)
+                .addIngredient(UtilcraftBlocks.COMPRESSED_COBBLESTONE)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("compressed_cobblestone", InventoryChangeTrigger.Instance.forItems(ModBlocks.COMPRESSED_COBBLESTONE))
+                .addCriterion("compressed_cobblestone", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.COMPRESSED_COBBLESTONE))
                 .build(consumer);
     }
 
     private void registerRoseQuartz(Consumer<IFinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.ROSE_QUARTZ, 9)
-                .addIngredient(ModBlocks.ROSE_QUARTZ_BLOCK)
+        ShapelessRecipeBuilder.shapelessRecipe(UtilcraftItems.ROSE_QUARTZ, 9)
+                .addIngredient(UtilcraftBlocks.ROSE_QUARTZ_BLOCK)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("rose_quartz_block", InventoryChangeTrigger.Instance.forItems(ModBlocks.ROSE_QUARTZ_BLOCK))
+                .addCriterion("rose_quartz_block", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.ROSE_QUARTZ_BLOCK))
                 .build(consumer);
     }
 
     private void registerSakuraButton(Consumer<IFinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapelessRecipe(ModBlocks.SAKURA_BUTTON)
-                .addIngredient(ModBlocks.SAKURA_PLANKS)
+        ShapelessRecipeBuilder.shapelessRecipe(UtilcraftBlocks.SAKURA_BUTTON)
+                .addIngredient(UtilcraftBlocks.SAKURA_PLANKS)
                 .setGroup("wooden_button")
-                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_PLANKS))
+                .addCriterion("sakura_planks", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_PLANKS))
                 .build(consumer);
     }
 
     private void registerSakuraPlanks(Consumer<IFinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapelessRecipe(ModBlocks.SAKURA_PLANKS, 4)
-                .addIngredient(ModBlocks.SAKURA_LOG)
+        ShapelessRecipeBuilder.shapelessRecipe(UtilcraftBlocks.SAKURA_PLANKS, 4)
+                .addIngredient(UtilcraftBlocks.SAKURA_LOG)
                 .setGroup("planks")
-                .addCriterion("sakura_log", InventoryChangeTrigger.Instance.forItems(ModBlocks.SAKURA_LOG))
+                .addCriterion("sakura_log", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SAKURA_LOG))
                 .build(consumer);
     }
 
     private void registerSweetBerryJuice(Consumer<IFinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapelessRecipe(ModFoods.SWEET_BERRY_JUICE)
+        ShapelessRecipeBuilder.shapelessRecipe(UtilcraftFoods.SWEET_BERRY_JUICE)
                 .addIngredient(Items.SWEET_BERRIES)
-                .addIngredient(ModItems.JUICER)
+                .addIngredient(UtilcraftItems.JUICER)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("juicer", InventoryChangeTrigger.Instance.forItems(ModItems.JUICER))
+                .addCriterion("juicer", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.JUICER))
                 .addCriterion("sweet_berries", InventoryChangeTrigger.Instance.forItems(Items.SWEET_BERRIES))
                 .build(consumer);
     }
 
     private void registerBaguette(Consumer<IFinishedRecipe> consumer) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ModItems.FLOUR), ModFoods.BAGUETTE, 0.15f, 200)
-                .addCriterion("flour", InventoryChangeTrigger.Instance.forItems(ModItems.FLOUR))
+        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(UtilcraftItems.FLOUR), UtilcraftFoods.BAGUETTE, 0.15f, 200)
+                .addCriterion("flour", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.FLOUR))
                 .build(consumer);
     }
 
     private void registerSilverIngot(Consumer<IFinishedRecipe> consumer) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ModBlocks.SILVER_ORE), ModItems.SILVER_INGOT, 0.8f, 200)
-                .addCriterion("silver_ore", InventoryChangeTrigger.Instance.forItems(ModBlocks.SILVER_ORE))
+        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(UtilcraftBlocks.SILVER_ORE), UtilcraftItems.SILVER_INGOT, 0.8f, 200)
+                .addCriterion("silver_ore", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SILVER_ORE))
                 .build(consumer);
     }
 
     private void registerTest(Consumer<IFinishedRecipe> consumer) {
-        SushiMakerRecipeBuilder.sushiMakerRecipe(ModBlocks.SUSHI_MAKER)
+        SushiMakerRecipeBuilder.sushiMakerRecipe(UtilcraftBlocks.SUSHI_MAKER)
                 .patternLine("****")
                 .patternLine("#  #")
                 .patternLine("#  #")

@@ -5,20 +5,20 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.tags.ModTags;
+import net.petersil98.utilcraft.tags.UtilcraftTags;
 
-import static net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs.*;
-import static net.petersil98.utilcraft.blocks.ModBlocks.*;
+import static net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs.*;
+import static net.petersil98.utilcraft.blocks.UtilcraftBlocks.*;
 
-public class BlockTags extends BlockTagsProvider {
+public class UtilcraftBlockTags extends BlockTagsProvider {
 
-    public BlockTags(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public UtilcraftBlockTags(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, Utilcraft.MOD_ID, existingFileHelper);
     }
 
     @Override
     protected void registerTags() {
-        this.getOrCreateBuilder(ModTags.SIDE_SLABS_BLOCKS).add(SIDE_ACACIA_SLAB, SIDE_BIRCH_SLAB, SIDE_COBBLESTONE_SLAB, SIDE_DARK_OAK_SLAB, SIDE_GOLD_SLAB, SIDE_JUNGLE_SLAB, SIDE_OAK_SLAB, SIDE_REDSTONE_SLAB, SIDE_SAKURA_SLAB, SIDE_SPRUCE_SLAB, SIDE_STONE_SLAB);
+        this.getOrCreateBuilder(UtilcraftTags.SIDE_SLABS_BLOCKS).add(SIDE_ACACIA_SLAB, SIDE_BIRCH_SLAB, SIDE_COBBLESTONE_SLAB, SIDE_DARK_OAK_SLAB, SIDE_GOLD_SLAB, SIDE_JUNGLE_SLAB, SIDE_OAK_SLAB, SIDE_REDSTONE_SLAB, SIDE_SAKURA_SLAB, SIDE_SPRUCE_SLAB, SIDE_STONE_SLAB);
 
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.FENCE_GATES).add(SAKURA_FENCE_GATE);
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.LEAVES).add(SAKURA_LEAVES);

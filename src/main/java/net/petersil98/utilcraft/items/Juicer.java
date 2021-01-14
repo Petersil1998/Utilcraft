@@ -10,13 +10,13 @@ public class Juicer extends Item {
         super(new Properties()
                 .group(Utilcraft.ITEM_GROUP)
                 .maxStackSize(1)
-                .containerItem(ModItems.JUICER)
+                .containerItem(UtilcraftItems.JUICER)
         );
     }
 
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
-        return new ItemStack(ModItems.JUICER);
+        return new ItemStack(UtilcraftItems.JUICER);
     }
 
     @Override

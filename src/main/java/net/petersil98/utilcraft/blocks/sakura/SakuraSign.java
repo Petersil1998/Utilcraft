@@ -4,7 +4,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
-import net.petersil98.utilcraft.tile_entities.ModSignTileEntity;
+import net.petersil98.utilcraft.tile_entities.UtilcraftSignTileEntity;
 
 import javax.annotation.Nullable;
 
@@ -22,6 +22,6 @@ public class SakuraSign extends StandingSignBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new ModSignTileEntity();
+        return new UtilcraftSignTileEntity();
     }
 }

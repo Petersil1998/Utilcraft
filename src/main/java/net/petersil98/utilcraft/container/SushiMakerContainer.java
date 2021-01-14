@@ -14,8 +14,8 @@ import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.petersil98.utilcraft.blocks.ModBlocks;
-import net.petersil98.utilcraft.recipes.ModRecipeTypes;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
+import net.petersil98.utilcraft.recipes.UtilcraftRecipeTypes;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 
 import javax.annotation.Nonnull;
@@ -32,7 +32,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
     }
 
     public SushiMakerContainer(int id, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
-        super(ModContainer.SUSHI_MAKER_CONTAINER, id);
+        super(UtilcraftContainer.SUSHI_MAKER_CONTAINER, id);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
         this.addSlot(new CraftingResultSlot(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 44));
@@ -58,7 +58,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
         if (!world.isRemote) {
             ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)player;
             ItemStack itemstack = ItemStack.EMPTY;
-            Optional<SushiMakerRecipe> optional = world.getServer().getRecipeManager().getRecipe(ModRecipeTypes.SUSHI_MAKER_RECIPE, inventory, world);
+            Optional<SushiMakerRecipe> optional = world.getServer().getRecipeManager().getRecipe(UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE, inventory, world);
             if (optional.isPresent()) {
                 SushiMakerRecipe icraftingrecipe = optional.get();
                 if (inventoryResult.canUseRecipe(world, serverplayerentity, icraftingrecipe)) {
@@ -103,7 +103,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
      * Determines whether supplied player can use this container
      */
     public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
-        return isWithinUsableDistance(this.worldPosCallable, playerIn, ModBlocks.SUSHI_MAKER);
+        return isWithinUsableDistance(this.worldPosCallable, playerIn, UtilcraftBlocks.SUSHI_MAKER);
     }
 
     /**

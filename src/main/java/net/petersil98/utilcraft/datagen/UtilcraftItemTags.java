@@ -6,9 +6,9 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.petersil98.utilcraft.Utilcraft;
 
-public class ItemTags extends ItemTagsProvider {
+public class UtilcraftItemTags extends ItemTagsProvider {
 
-    public ItemTags(DataGenerator generator, BlockTags blockTags, ExistingFileHelper existingFileHelper) {
+    public UtilcraftItemTags(DataGenerator generator, UtilcraftBlockTags blockTags, ExistingFileHelper existingFileHelper) {
         super(generator, blockTags, Utilcraft.MOD_ID, existingFileHelper);
     }
 

@@ -8,59 +8,59 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.blocks.ModBlocks;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.SushiMaker;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
-import net.petersil98.utilcraft.blocks.sideslabs.ModSideSlabs;
+import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
 import net.petersil98.utilcraft.utils.BlockItemUtils;
 
-public class BlockStates extends BlockStateProvider {
+public class UtilcraftBlockStates extends BlockStateProvider {
 
-    public BlockStates(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public UtilcraftBlockStates(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, Utilcraft.MOD_ID, existingFileHelper);
     }
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(ModBlocks.COMPRESSED_COBBLESTONE);
-        simpleBlock(ModBlocks.DISENCHANTMENT_TABLE);
-        simpleBlock(ModBlocks.GOLD_BRICK);
-        registerSlab(ModBlocks.GOLD_SLAB, ModBlocks.GOLD_BRICK);
-        registerStairs(ModBlocks.GOLD_STAIRS, ModBlocks.GOLD_BRICK);
-        registerWall(ModBlocks.GOLD_WALL, ModBlocks.GOLD_BRICK);
-        registerSlab(ModBlocks.REDSTONE_SLAB, Blocks.REDSTONE_BLOCK);
-        registerStairs(ModBlocks.REDSTONE_STAIRS, Blocks.REDSTONE_BLOCK);
-        simpleBlock(ModBlocks.ROSE_QUARTZ_BLOCK);
-        simpleBlock(ModBlocks.ROSE_QUARTZ_ORE);
-        registerButton(ModBlocks.SAKURA_BUTTON, ModBlocks.SAKURA_PLANKS);
-        registerDoor(ModBlocks.SAKURA_DOOR, ModBlocks.SAKURA_DOOR);
-        registerFence(ModBlocks.SAKURA_FENCE, ModBlocks.SAKURA_PLANKS);
-        registerFenceGate(ModBlocks.SAKURA_FENCE_GATE, ModBlocks.SAKURA_PLANKS);
-        simpleBlock(ModBlocks.SAKURA_LEAVES);
-        registerLog(ModBlocks.SAKURA_LOG);
-        simpleBlock(ModBlocks.SAKURA_PLANKS);
-        registerPressurePlate(ModBlocks.SAKURA_PRESSURE_PLATE, ModBlocks.SAKURA_PLANKS);
-        registerSapling(ModBlocks.SAKURA_SAPLING);
-        registerSign(ModBlocks.SAKURA_SIGN, ModBlocks.SAKURA_PLANKS);
-        registerSlab(ModBlocks.SAKURA_SLAB, ModBlocks.SAKURA_PLANKS);
-        registerStairs(ModBlocks.SAKURA_STAIRS, ModBlocks.SAKURA_PLANKS);
-        registerTrapdoor(ModBlocks.SAKURA_TRAPDOOR);
-        registerWallSign(ModBlocks.SAKURA_WALL_SIGN, ModBlocks.SAKURA_SIGN, ModBlocks.SAKURA_PLANKS);
-        registerChest(ModBlocks.SECURE_CHEST, ModBlocks.SAKURA_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_ACACIA_SLAB, Blocks.ACACIA_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_BIRCH_SLAB, Blocks.BIRCH_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_COBBLESTONE_SLAB, Blocks.COBBLESTONE);
-        registerSideSlab(ModSideSlabs.SIDE_DARK_OAK_SLAB, Blocks.DARK_OAK_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_GOLD_SLAB, ModBlocks.GOLD_BRICK);
-        registerSideSlab(ModSideSlabs.SIDE_JUNGLE_SLAB, Blocks.JUNGLE_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_OAK_SLAB, Blocks.OAK_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_REDSTONE_SLAB, Blocks.REDSTONE_BLOCK);
-        registerSideSlab(ModSideSlabs.SIDE_SAKURA_SLAB, ModBlocks.SAKURA_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_SPRUCE_SLAB, Blocks.SPRUCE_PLANKS);
-        registerSideSlab(ModSideSlabs.SIDE_STONE_SLAB, Blocks.STONE);
-        simpleBlock(ModBlocks.SILVER_ORE);
-        registerSushiMaker(ModBlocks.SUSHI_MAKER);
+        simpleBlock(UtilcraftBlocks.COMPRESSED_COBBLESTONE);
+        simpleBlock(UtilcraftBlocks.DISENCHANTMENT_TABLE);
+        simpleBlock(UtilcraftBlocks.GOLD_BRICK);
+        registerSlab(UtilcraftBlocks.GOLD_SLAB, UtilcraftBlocks.GOLD_BRICK);
+        registerStairs(UtilcraftBlocks.GOLD_STAIRS, UtilcraftBlocks.GOLD_BRICK);
+        registerWall(UtilcraftBlocks.GOLD_WALL, UtilcraftBlocks.GOLD_BRICK);
+        registerSlab(UtilcraftBlocks.REDSTONE_SLAB, Blocks.REDSTONE_BLOCK);
+        registerStairs(UtilcraftBlocks.REDSTONE_STAIRS, Blocks.REDSTONE_BLOCK);
+        simpleBlock(UtilcraftBlocks.ROSE_QUARTZ_BLOCK);
+        simpleBlock(UtilcraftBlocks.ROSE_QUARTZ_ORE);
+        registerButton(UtilcraftBlocks.SAKURA_BUTTON, UtilcraftBlocks.SAKURA_PLANKS);
+        registerDoor(UtilcraftBlocks.SAKURA_DOOR, UtilcraftBlocks.SAKURA_DOOR);
+        registerFence(UtilcraftBlocks.SAKURA_FENCE, UtilcraftBlocks.SAKURA_PLANKS);
+        registerFenceGate(UtilcraftBlocks.SAKURA_FENCE_GATE, UtilcraftBlocks.SAKURA_PLANKS);
+        simpleBlock(UtilcraftBlocks.SAKURA_LEAVES);
+        registerLog(UtilcraftBlocks.SAKURA_LOG);
+        simpleBlock(UtilcraftBlocks.SAKURA_PLANKS);
+        registerPressurePlate(UtilcraftBlocks.SAKURA_PRESSURE_PLATE, UtilcraftBlocks.SAKURA_PLANKS);
+        registerSapling(UtilcraftBlocks.SAKURA_SAPLING);
+        registerSign(UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_PLANKS);
+        registerSlab(UtilcraftBlocks.SAKURA_SLAB, UtilcraftBlocks.SAKURA_PLANKS);
+        registerStairs(UtilcraftBlocks.SAKURA_STAIRS, UtilcraftBlocks.SAKURA_PLANKS);
+        registerTrapdoor(UtilcraftBlocks.SAKURA_TRAPDOOR);
+        registerWallSign(UtilcraftBlocks.SAKURA_WALL_SIGN, UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_PLANKS);
+        registerChest(UtilcraftBlocks.SECURE_CHEST, UtilcraftBlocks.SAKURA_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_ACACIA_SLAB, Blocks.ACACIA_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_BIRCH_SLAB, Blocks.BIRCH_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB, Blocks.COBBLESTONE);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_DARK_OAK_SLAB, Blocks.DARK_OAK_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_GOLD_SLAB, UtilcraftBlocks.GOLD_BRICK);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_JUNGLE_SLAB, Blocks.JUNGLE_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_OAK_SLAB, Blocks.OAK_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB, Blocks.REDSTONE_BLOCK);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_SAKURA_SLAB, UtilcraftBlocks.SAKURA_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB, Blocks.SPRUCE_PLANKS);
+        registerSideSlab(UtilcraftSideSlabs.SIDE_STONE_SLAB, Blocks.STONE);
+        simpleBlock(UtilcraftBlocks.SILVER_ORE);
+        registerSushiMaker(UtilcraftBlocks.SUSHI_MAKER);
     }
 
     private void registerSlab(SlabBlock block, Block texture) {

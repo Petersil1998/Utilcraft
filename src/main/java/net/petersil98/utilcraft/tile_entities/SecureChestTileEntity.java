@@ -46,13 +46,13 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     }
 
     public SecureChestTileEntity() {
-        this(ModTileEntities.SECURE_CHEST);
+        this(UtilcraftTileEntities.SECURE_CHEST);
     }
 
     @Nonnull
     @Override
     public TileEntityType<?> getType() {
-        return ModTileEntities.SECURE_CHEST;
+        return UtilcraftTileEntities.SECURE_CHEST;
     }
 
     @Override

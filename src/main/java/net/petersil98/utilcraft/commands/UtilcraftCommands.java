@@ -6,7 +6,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.petersil98.utilcraft.Utilcraft;
 
-public class ModCommands {
+public class UtilcraftCommands {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher){
         LiteralCommandNode<CommandSource> command = dispatcher.register(
