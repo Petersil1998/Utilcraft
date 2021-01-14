@@ -27,6 +27,7 @@ import net.petersil98.utilcraft.container.*;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
+import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
 import net.petersil98.utilcraft.network.PacketHandler;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
@@ -76,6 +77,7 @@ public class Utilcraft {
         CapabilityVeinMiner.register();
         CapabilityHome.register();
         PacketHandler.registerMessages();
+        UtilcraftGameRules.register();
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
