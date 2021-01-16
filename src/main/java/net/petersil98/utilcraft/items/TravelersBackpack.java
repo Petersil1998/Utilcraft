@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 public class TravelersBackpack extends Item {
 
     public TravelersBackpack() {
-        super(new Item.Properties().group(Utilcraft.ITEM_GROUP));
+        super(new Item.Properties().group(Utilcraft.ITEM_GROUP).maxStackSize(1));
     }
 
     @Nonnull
