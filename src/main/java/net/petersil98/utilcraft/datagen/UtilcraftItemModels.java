@@ -14,6 +14,7 @@ import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
 import net.petersil98.utilcraft.food.UtilcraftFoods;
+import net.petersil98.utilcraft.items.SpawnerItem;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.utils.BlockItemUtils;
 
@@ -83,10 +84,15 @@ public class UtilcraftItemModels extends ItemModelProvider {
         registerHandheld(UtilcraftFoods.SWEET_BERRY_JUICE);
         registerTNTFinder();
         registerHandheld(UtilcraftItems.TRAVELERS_BACKPACK);
+        registerBlockItem(UtilcraftItems.SPAWNER_ITEM, Blocks.SPAWNER);
     }
 
     private void registerHandheld(Item item) {
-        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(item), ITEM_FOLDER +"/"+BlockItemUtils.name(item));
+        registerHandheld(item, item);
+    }
+
+    private void registerHandheld(Item item, Item texture) {
+        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(texture), ITEM_FOLDER +"/"+BlockItemUtils.name(texture));
         singleTexture(BlockItemUtils.name(item), mcLoc(ITEM_FOLDER+"/handheld"), "layer0", location);
     }
 
@@ -105,8 +111,21 @@ public class UtilcraftItemModels extends ItemModelProvider {
     }
 
     private void registerBlockItem(Block block, String key) {
-        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(block), BLOCK_FOLDER +"/"+BlockItemUtils.name(block)+key);
+        registerBlockItem(block, block, key);
+    }
+
+    private void registerBlockItem(Item item, Block texture) {
+        registerBlockItem(item, texture, "");
+    }
+
+    private void registerBlockItem(Block block, Block texture, String key) {
+        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(texture), BLOCK_FOLDER +"/"+BlockItemUtils.name(texture)+key);
         withExistingParent(BlockItemUtils.name(block), location);
+    }
+
+    private void registerBlockItem(Item item, Block texture, String key) {
+        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(texture), BLOCK_FOLDER +"/"+BlockItemUtils.name(texture)+key);
+        withExistingParent(BlockItemUtils.name(item), location);
     }
 
     private void registerSecureChest() {

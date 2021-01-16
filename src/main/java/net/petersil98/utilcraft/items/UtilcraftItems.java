@@ -62,4 +62,7 @@ public class UtilcraftItems {
 
     @ObjectHolder("butchers_knife")
     public static ButchersKnife BUTCHERS_KNIFE;
+
+    @ObjectHolder("spawner_item")
+    public static SpawnerItem SPAWNER_ITEM;
 }

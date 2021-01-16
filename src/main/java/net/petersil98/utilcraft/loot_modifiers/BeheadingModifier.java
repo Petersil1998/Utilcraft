@@ -1,6 +1,8 @@
-package net.petersil98.utilcraft.enchantments;
+package net.petersil98.utilcraft.loot_modifiers;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -17,6 +19,8 @@ import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
+import net.petersil98.utilcraft.enchantments.BeheadingEnchantment;
+import net.petersil98.utilcraft.enchantments.UtilcraftEnchantments;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -88,7 +92,9 @@ public class BeheadingModifier extends LootModifier {
 
         @Override
         public JsonObject write(BeheadingModifier instance) {
-            return new JsonObject();
+            JsonObject ret = new JsonObject();
+            ret.add("conditions", new JsonArray());
+            return ret;
         }
     }
 }

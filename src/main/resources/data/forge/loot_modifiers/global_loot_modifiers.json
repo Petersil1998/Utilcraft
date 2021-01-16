@@ -1,6 +1,7 @@
 {
   "replace": false,
   "entries": [
+    "utilcraft:spawner",
     "utilcraft:beheading"
   ]
 }

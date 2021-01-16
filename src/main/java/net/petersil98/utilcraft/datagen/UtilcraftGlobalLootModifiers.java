@@ -8,8 +8,10 @@ import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.loot.conditions.MatchTool;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.enchantments.BeheadingModifier;
+import net.petersil98.utilcraft.items.UtilcraftItems;
+import net.petersil98.utilcraft.loot_modifiers.BeheadingModifier;
 import net.petersil98.utilcraft.enchantments.UtilcraftEnchantments;
+import net.petersil98.utilcraft.loot_modifiers.UtilcraftLootModifiers;
 
 public class UtilcraftGlobalLootModifiers extends GlobalLootModifierProvider {
 
@@ -19,7 +21,7 @@ public class UtilcraftGlobalLootModifiers extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add(UtilcraftEnchantments.BEHEADING_SERIALIZER.getRegistryName().getPath(), UtilcraftEnchantments.BEHEADING_SERIALIZER, new BeheadingModifier(new ILootCondition[]{
+        add(UtilcraftLootModifiers.BEHEADING_SERIALIZER.getRegistryName().getPath(), UtilcraftLootModifiers.BEHEADING_SERIALIZER, new BeheadingModifier(new ILootCondition[]{
                 MatchTool.builder(ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(UtilcraftEnchantments.BEHEADING, MinMaxBounds.IntBound.atLeast(1)))).build()
         }));
     }

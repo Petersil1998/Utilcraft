@@ -86,6 +86,7 @@ public class UtilcraftLanguages {
             add(UtilcraftItems.TNT_FINDER, "TNT Finder");
             add(UtilcraftItems.SILVER_INGOT, "Silver Ingot");
             add(UtilcraftItems.BUTCHERS_KNIFE, "Butcher's Knife");
+            add(UtilcraftItems.SPAWNER_ITEM, "Broken Spawner");
 
             add(UtilcraftEnchantments.BEHEADING, "Beheading");
 
@@ -184,6 +185,7 @@ public class UtilcraftLanguages {
             add(UtilcraftItems.TNT_FINDER, "TNT Sucher");
             add(UtilcraftItems.SILVER_INGOT, "Silberbarren");
             add(UtilcraftItems.BUTCHERS_KNIFE, "Metzgermesser");
+            add(UtilcraftItems.SPAWNER_ITEM, "Zerstörter Spawner");
 
             add(UtilcraftEnchantments.BEHEADING, "Enthauptung");
 

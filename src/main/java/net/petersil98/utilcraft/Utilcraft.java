@@ -43,7 +43,7 @@ import net.petersil98.utilcraft.blocks.sakura.*;
 import net.petersil98.utilcraft.blocks.sideslabs.*;
 import net.petersil98.utilcraft.commands.UtilcraftCommands;
 import net.petersil98.utilcraft.enchantments.BeheadingEnchantment;
-import net.petersil98.utilcraft.enchantments.BeheadingModifier;
+import net.petersil98.utilcraft.loot_modifiers.BeheadingModifier;
 import net.petersil98.utilcraft.food.AppleJuice;
 import net.petersil98.utilcraft.food.Baguette;
 import net.petersil98.utilcraft.food.SweetBerryJuice;
@@ -204,6 +204,7 @@ public class Utilcraft {
             itemRegistryEvent.getRegistry().register(new TNTFinder().setRegistryName("tnt_finder"));
             itemRegistryEvent.getRegistry().register(new SilverIngot().setRegistryName("silver_ingot"));
             itemRegistryEvent.getRegistry().register(new ButchersKnife().setRegistryName("butchers_knife"));
+            itemRegistryEvent.getRegistry().register(new SpawnerItem().setRegistryName("spawner_item"));
         }
 
         @SubscribeEvent
