@@ -7,7 +7,6 @@ public class SilverIngot extends Item {
     public SilverIngot() {
         super(new Item.Properties()
                 .group(Utilcraft.ITEM_GROUP)
-                .maxStackSize(1)
         );
     }
 }
