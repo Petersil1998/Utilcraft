@@ -10,7 +10,7 @@ public class UtilcraftTileEntities {
     @ObjectHolder("disenchantment_table")
     public static TileEntityType<DisenchantmentTableTileEntity> DISENCHANTMENT_BLOCK;
 
-    @ObjectHolder("utilcraft")
+    @ObjectHolder("mod_sign")
     public static TileEntityType<UtilcraftSignTileEntity> UTILCRAFT_SIGN;
 
     @ObjectHolder("secure_chest")
