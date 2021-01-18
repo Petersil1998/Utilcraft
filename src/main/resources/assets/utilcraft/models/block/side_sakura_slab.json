@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "utilcraft:block/side_slab",
   "textures": {
     "side": "utilcraft:block/sakura_planks",
     "bottom": "utilcraft:block/sakura_planks",

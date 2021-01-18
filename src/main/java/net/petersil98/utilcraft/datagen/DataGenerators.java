@@ -22,7 +22,8 @@ public class DataGenerators {
         generator.addProvider(new UtilcraftAdvancements(generator));
         generator.addProvider(UtilcraftLanguages.getEnglish(generator));
         generator.addProvider(UtilcraftLanguages.getGerman(generator));
-        generator.addProvider(new UtilcraftBlockStates(generator, existingFileHelper));
+        generator.addProvider(new UtilcraftBlockModels(generator, existingFileHelper));
         generator.addProvider(new UtilcraftItemModels(generator, existingFileHelper));
+        generator.addProvider(new UtilcraftBlockStates(generator, existingFileHelper));
     }
 }

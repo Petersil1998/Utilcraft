@@ -186,7 +186,10 @@ public class UtilcraftBlockStates extends BlockStateProvider {
 
     private void registerSideSlab(SideSlabBlock block, Block texture) {
         ResourceLocation full = new ResourceLocation(BlockItemUtils.namespace(texture), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(texture));
-        ModelFile slabFile = models().slab(BlockItemUtils.name(block), full, full, full);
+        ModelFile slabFile = models().withExistingParent(BlockItemUtils.name(block), new ResourceLocation(Utilcraft.MOD_ID, ModelProvider.BLOCK_FOLDER+"/"+SideSlabBlock.NAME))
+                .texture("side", full)
+                .texture("bottom", full)
+                .texture("top", full);
         getVariantBuilder(block)
                 .partialState().with(SideSlabBlock.TYPE, SideSlabType.EAST).addModels(ConfiguredModel.builder().modelFile(slabFile).rotationX(90).rotationY(270).build())
                 .partialState().with(SideSlabBlock.TYPE, SideSlabType.WEST).addModels(ConfiguredModel.builder().modelFile(slabFile).rotationX(270).rotationY(270).build())
@@ -231,5 +234,6 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                     .rotationY(rotY)
                     .build();
         });
+        models().cubeAll(BlockItemUtils.name(block)+"_inventory", front);
     }
 }

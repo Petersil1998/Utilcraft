@@ -32,6 +32,7 @@ import net.petersil98.utilcraft.blocks.custom.SideSlabType;
 public class SideSlabBlock extends Block implements IWaterLoggable {
     public static final EnumProperty<SideSlabType> TYPE = UtilcraftBlockStateProperties.SIDE_SLAB_TYPE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final String NAME = "side_slab";
     protected static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(16.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
     protected static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D);
     protected static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);

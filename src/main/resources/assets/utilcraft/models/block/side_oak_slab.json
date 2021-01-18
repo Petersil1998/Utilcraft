@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "utilcraft:block/side_slab",
   "textures": {
     "side": "minecraft:block/oak_planks",
     "bottom": "minecraft:block/oak_planks",
