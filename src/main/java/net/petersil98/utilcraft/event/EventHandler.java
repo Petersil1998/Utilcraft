@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.server.ServerWorld;
@@ -256,10 +257,11 @@ public class EventHandler {
     @OnlyIn(Dist.CLIENT)
     private static void addVeinMinerOverlay(RenderGameOverlayEvent.ElementType type, MatrixStack matrixStack, int x, int y) {
         if (type.equals(RenderGameOverlayEvent.ElementType.ALL)) {
+            TextFormatting format = Utilcraft.isVeinMinerActive ? TextFormatting.GREEN : TextFormatting.RED;
             AbstractGui.drawString(
                     matrixStack,
                     Minecraft.getInstance().fontRenderer,
-                    new TranslationTextComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, Utilcraft.isVeinMinerActive ? "active" : "inactive")),
+                    new TranslationTextComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, Utilcraft.isVeinMinerActive ? "active" : "inactive")).mergeStyle(format),
                     x, y, 0xffffff);
         }
     }
