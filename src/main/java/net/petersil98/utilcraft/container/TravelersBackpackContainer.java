@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import net.petersil98.utilcraft.items.TravelersBackpack;
 
 import javax.annotation.Nonnull;
 
@@ -18,35 +19,45 @@ public class TravelersBackpackContainer extends Container {
 
     private final IItemHandler inventory;
     private final int numRows;
+    private final int slotNumber;
 
     public TravelersBackpackContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
-        this(id, playerInventory, new ItemStackHandler(buffer.readInt()));
+        this(id, playerInventory, new ItemStackHandler(buffer.readInt()), buffer.readInt());
     }
 
-    public TravelersBackpackContainer(int id, PlayerInventory playerInventory, IItemHandler inventory) {
+    public TravelersBackpackContainer(int id, PlayerInventory playerInventory, IItemHandler inventory, int slotNumber) {
         super(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER, id);
         this.inventory = inventory;
         this.numRows = inventory.getSlots()/9;
+        this.slotNumber = slotNumber;
         addSlots(playerInventory);
     }
 
     protected void addSlots(PlayerInventory playerInventory)
     {
-        int i = (this.numRows - 4) * 18;
+        int offset = (this.numRows - 4) * 18;
 
-        for(int j = 0; j < this.numRows; ++j) {
-            for(int k = 0; k < 9; ++k) {
-                this.addSlot(new SlotItemHandler(inventory, k + j * 9, 8 + k * 18, 18 + j * 18));
+        for(int i = 0; i < this.numRows; ++i) {
+            for(int j = 0; j < 9; ++j) {
+                this.addSlot(new SlotItemHandler(inventory, j + i * 9, 8 + j * 18, 18 + i * 18));
             }
         }
-        for(int l = 0; l < 3; ++l) {
-            for(int j1 = 0; j1 < 9; ++j1) {
-                this.addSlot(new Slot(playerInventory, j1 + l * 9 + 9, 8 + j1 * 18, 103 + l * 18 + i));
+        for(int i = 0; i < 3; ++i) {
+            for(int j = 0; j < 9; ++j) {
+                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 103 + i * 18 + offset));
             }
         }
 
-        for(int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new Slot(playerInventory, i1, 8 + i1 * 18, 161 + i));
+        for(int i = 0; i < 9; ++i) {
+            if(i == slotNumber)
+                this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 161 + offset){
+                    @Override
+                    public boolean canTakeStack(@Nonnull PlayerEntity playerIn) {
+                        return false;
+                    }
+                });
+            else
+                this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 161 + offset));
         }
     }
 
@@ -54,7 +65,7 @@ public class TravelersBackpackContainer extends Container {
      * Determines whether supplied player can use this container
      */
     public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
-        return true;
+        return playerIn.inventory.getStackInSlot(slotNumber).getItem() instanceof TravelersBackpack;
     }
 
     /**

@@ -32,9 +32,10 @@ public class TravelersBackpack extends Item {
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn, @Nonnull PlayerEntity playerIn, @Nonnull Hand handIn) {
         playerIn.getHeldItem(handIn).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iInventory -> {
             if(!playerIn.world.isRemote) {
-                INamedContainerProvider containerProvider = new SimpleNamedContainerProvider((id, inventory, player) -> new TravelersBackpackContainer(id, player.inventory, iInventory), new StringTextComponent("Bag"));
+                INamedContainerProvider containerProvider = new SimpleNamedContainerProvider((id, inventory, player) -> new TravelersBackpackContainer(id, player.inventory, iInventory, player.inventory.currentItem), new StringTextComponent("Bag"));
                 NetworkHooks.openGui((ServerPlayerEntity)playerIn, containerProvider, packetBuffer -> {
                     packetBuffer.writeInt(iInventory.getSlots());
+                    packetBuffer.writeInt(playerIn.inventory.currentItem);
                 });
             }
         });
