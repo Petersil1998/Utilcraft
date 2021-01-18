@@ -87,4 +87,7 @@ public class UtilcraftBlocks {
 
     @ObjectHolder("sushi_maker")
     public static SushiMaker SUSHI_MAKER;
+
+    @ObjectHolder("glass_stairs")
+    public static GlassStairs GLASS_STAIRS;
 }

@@ -60,7 +60,8 @@ public class UtilcraftBlockStates extends BlockStateProvider {
         registerSideSlab(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB, Blocks.SPRUCE_PLANKS);
         registerSideSlab(UtilcraftSideSlabs.SIDE_STONE_SLAB, Blocks.STONE);
         simpleBlock(UtilcraftBlocks.SILVER_ORE);
-        registerSushiMaker(UtilcraftBlocks.SUSHI_MAKER);
+        registerSushiMaker();
+        registerStairs(UtilcraftBlocks.GLASS_STAIRS, Blocks.GLASS);
     }
 
     private void registerSlab(SlabBlock block, Block texture) {
@@ -198,10 +199,10 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                 .partialState().with(SideSlabBlock.TYPE, SideSlabType.DOUBLE).addModels(new ConfiguredModel(models().getExistingFile(full)));
     }
 
-    private void registerSushiMaker(SushiMaker block) {
-        ResourceLocation corner = new ResourceLocation(BlockItemUtils.namespace(block), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(block)+"_corner");
-        ResourceLocation front = new ResourceLocation(BlockItemUtils.namespace(block), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(block)+"_front");
-        ModelFile modelFile = models().withExistingParent(BlockItemUtils.name(block), "cube")
+    private void registerSushiMaker() {
+        ResourceLocation corner = new ResourceLocation(BlockItemUtils.namespace(UtilcraftBlocks.SUSHI_MAKER), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER)+"_corner");
+        ResourceLocation front = new ResourceLocation(BlockItemUtils.namespace(UtilcraftBlocks.SUSHI_MAKER), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER)+"_front");
+        ModelFile modelFile = models().withExistingParent(BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER), "cube")
                 .texture("corner", corner)
                 .texture("front", front)
                 .element().face(Direction.DOWN).texture("#corner").rotation(ModelBuilder.FaceRotation.COUNTERCLOCKWISE_90).end().end()
@@ -210,7 +211,7 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                 .element().face(Direction.SOUTH).texture("#front").end().end()
                 .element().face(Direction.EAST).texture("#corner").rotation(ModelBuilder.FaceRotation.UPSIDE_DOWN).end().end()
                 .element().face(Direction.WEST).texture("#corner").end().end();
-        getVariantBuilder(block).forAllStates(blockState -> {
+        getVariantBuilder(UtilcraftBlocks.SUSHI_MAKER).forAllStates(blockState -> {
             Direction facing = blockState.get(SushiMaker.FACING);
             int rotX = 0;
             int rotY = 0;
@@ -234,6 +235,6 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                     .rotationY(rotY)
                     .build();
         });
-        models().cubeAll(BlockItemUtils.name(block)+"_inventory", front);
+        models().cubeAll(BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER)+"_inventory", front);
     }
 }

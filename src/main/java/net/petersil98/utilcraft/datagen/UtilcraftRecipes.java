@@ -77,6 +77,7 @@ public class UtilcraftRecipes extends RecipeProvider {
         registerSideStoneSlab(consumer);
         registerTNTFinder(consumer);
         registerTravelersBackpack(consumer);
+        registerGlassStairs(consumer);
     }
 
     private void registerShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -611,6 +612,16 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .addCriterion("obsidian", InventoryChangeTrigger.Instance.forItems(Blocks.OBSIDIAN))
                 .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.LEATHER))
                 .addCriterion("diamond", InventoryChangeTrigger.Instance.forItems(Items.DIAMOND))
+                .build(consumer);
+    }
+
+    private void registerGlassStairs(Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(UtilcraftBlocks.GLASS_STAIRS, 4)
+                .patternLine("#  ")
+                .patternLine("## ")
+                .patternLine("###")
+                .key('#', Blocks.GLASS)
+                .addCriterion("glass", InventoryChangeTrigger.Instance.forItems(Blocks.GLASS))
                 .build(consumer);
     }
 

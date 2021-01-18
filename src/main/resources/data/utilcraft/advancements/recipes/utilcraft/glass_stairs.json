@@ -2,26 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "utilcraft:sushi_maker"
+      "utilcraft:glass_stairs"
     ]
   },
   "criteria": {
-    "cobblestone": {
+    "glass": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:cobblestone"
-          }
-        ]
-      }
-    },
-    "obsidian": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "minecraft:obsidian"
+            "item": "minecraft:glass"
           }
         ]
       }
@@ -29,14 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "utilcraft:sushi_maker"
+        "recipe": "utilcraft:glass_stairs"
       }
     }
   },
   "requirements": [
     [
-      "cobblestone",
-      "obsidian",
+      "glass",
       "has_the_recipe"
     ]
   ]

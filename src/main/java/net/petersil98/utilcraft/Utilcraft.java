@@ -84,6 +84,7 @@ public class Utilcraft {
         RenderTypeLookup.setRenderLayer(UtilcraftBlocks.SAKURA_SAPLING, RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(UtilcraftBlocks.SAKURA_TRAPDOOR, RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(UtilcraftBlocks.SAKURA_DOOR, RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(UtilcraftBlocks.GLASS_STAIRS, RenderType.getCutout());
         ScreenManager.registerFactory(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER, DisenchantmentTableScreen::new);
         ScreenManager.registerFactory(UtilcraftContainer.SECURE_CHEST_CONTAINER, SecureChestScreen::new);
         ScreenManager.registerFactory(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER, TravelersBackpackScreen::new);
@@ -141,6 +142,7 @@ public class Utilcraft {
             blockRegistryEvent.getRegistry().register(new RedstoneSlab().setRegistryName("redstone_slab"));
             blockRegistryEvent.getRegistry().register(new SideRedstoneSlab().setRegistryName("side_redstone_slab"));
             blockRegistryEvent.getRegistry().register(new SushiMaker().setRegistryName("sushi_maker"));
+            blockRegistryEvent.getRegistry().register(new GlassStairs().setRegistryName("glass_stairs"));
         }
 
         @SubscribeEvent
@@ -181,6 +183,7 @@ public class Utilcraft {
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.REDSTONE_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("redstone_stairs"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.REDSTONE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("redstone_slab"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.SUSHI_MAKER, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sushi_maker"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.GLASS_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("glass_stairs"));
 
             itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
             itemRegistryEvent.getRegistry().register(new AppleJuice().setRegistryName("apple_juice"));

@@ -64,6 +64,7 @@ public class UtilcraftLanguages {
             add(UtilcraftBlocks.REDSTONE_SLAB, "Redstone Slab");
             add(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB, "Side Redstone Slab");
             add(UtilcraftBlocks.SUSHI_MAKER, "Sushi Maker");
+            add(UtilcraftBlocks.GLASS_STAIRS, "Glass Stairs");
 
             add(UtilcraftItems.JUICER, "Juicer");
             add(UtilcraftFoods.APPLE_JUICE, "Apple Juice");
@@ -163,6 +164,7 @@ public class UtilcraftLanguages {
             add(UtilcraftBlocks.REDSTONE_SLAB, "Redstonestufe");
             add(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB, "Seitliche Redstonestufe");
             add(UtilcraftBlocks.SUSHI_MAKER, "Sushi Maker");
+            add(UtilcraftBlocks.GLASS_STAIRS, "Glastreppe");
 
             add(UtilcraftItems.JUICER, "Entsafter");
             add(UtilcraftFoods.APPLE_JUICE, "Apfelsaft");
