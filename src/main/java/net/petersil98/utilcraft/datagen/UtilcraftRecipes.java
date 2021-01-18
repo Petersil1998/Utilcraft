@@ -6,6 +6,7 @@ import net.minecraft.data.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
@@ -27,7 +28,7 @@ public class UtilcraftRecipes extends RecipeProvider {
         registerShapedRecipes(consumer);
         registerShapelessRecipes(consumer);
         registerSmeltingRecipes(consumer);
-        registerSushiMakerRecipes(consumer);
+        //registerSushiMakerRecipes(consumer);
     }
 
     private void registerShapedRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -675,6 +676,10 @@ public class UtilcraftRecipes extends RecipeProvider {
         CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(UtilcraftBlocks.SILVER_ORE), UtilcraftItems.SILVER_INGOT, 0.8f, 200)
                 .addCriterion("silver_ore", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SILVER_ORE))
                 .build(consumer);
+
+        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(UtilcraftBlocks.SILVER_ORE), UtilcraftItems.SILVER_INGOT, 0.8f, 100)
+                .addCriterion("silver_ore", InventoryChangeTrigger.Instance.forItems(UtilcraftBlocks.SILVER_ORE))
+                .build(consumer, new ResourceLocation(Utilcraft.MOD_ID, UtilcraftItems.SILVER_INGOT.getRegistryName().getPath()+"_from_blasting"));
     }
 
     private void registerTest(Consumer<IFinishedRecipe> consumer) {
