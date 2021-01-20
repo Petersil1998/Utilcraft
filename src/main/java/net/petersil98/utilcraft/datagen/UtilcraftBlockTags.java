@@ -26,7 +26,7 @@ public class UtilcraftBlockTags extends BlockTagsProvider {
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.PLANKS).add(SAKURA_PLANKS);
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.SAPLINGS).add(SAKURA_SAPLING);
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.SLABS).add(GOLD_SLAB, REDSTONE_SLAB);
-        this.getOrCreateBuilder(net.minecraft.tags.BlockTags.STAIRS).add(SAKURA_STAIRS, GOLD_STAIRS, REDSTONE_STAIRS);
+        this.getOrCreateBuilder(net.minecraft.tags.BlockTags.STAIRS).add(SAKURA_STAIRS, GOLD_STAIRS, REDSTONE_STAIRS, GLASS_STAIRS);
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.STANDING_SIGNS).add(SAKURA_SIGN);
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.WALL_SIGNS).add(SAKURA_WALL_SIGN);
         this.getOrCreateBuilder(net.minecraft.tags.BlockTags.WALLS).add(GOLD_WALL);
