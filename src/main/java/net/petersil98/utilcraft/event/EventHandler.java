@@ -69,23 +69,25 @@ public class EventHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void veinMiner(final BlockEvent.BreakEvent event) {
         Block minedBlock = event.getState().getBlock();
-        PlayerEntity player = event.getPlayer();
         AtomicBoolean veinMinerActive = new AtomicBoolean(false);
-        player.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
-            veinMinerActive.set(iVeinMiner.getVeinMiner());
-        });
-        if(veinMinerActive.get() && player.getEntityWorld() instanceof ServerWorld) {
-            ServerWorld world = (ServerWorld) player.getEntityWorld();
+        if(event.getPlayer().getEntityWorld() instanceof ServerWorld) {
+            ServerPlayerEntity player = (ServerPlayerEntity)event.getPlayer();
+            ServerWorld world = player.getServerWorld();
             ItemStack mainItem = player.getHeldItemMainhand();
+            player.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
+                veinMinerActive.set(iVeinMiner.getVeinMiner());
+            });
             if (playerCanHarvestBlock(event.getState(), mainItem, event.getPos(), world, player)) {
                 ArrayList<BlockPos> blocksToHarvest = new ArrayList<>();
                 if (isSuperTool(mainItem.getItem())) {
                     get3x3FieldAroundTargetedBlock(player, blocksToHarvest);
                 }
-                if (isOreBlock(minedBlock)) {
-                    getVein(event.getPos(), blocksToHarvest, world);
-                } else if(isLogBlock(minedBlock)) {
-                     getTree(event.getPos(), blocksToHarvest, world);
+                if(veinMinerActive.get()) {
+                    if (isOreBlock(minedBlock)) {
+                        getVein(event.getPos(), blocksToHarvest, world);
+                    } else if (isLogBlock(minedBlock)) {
+                        getTree(event.getPos(), blocksToHarvest, world);
+                    }
                 }
                 blocksToHarvest.remove(event.getPos());
                 for (BlockPos blockpos : blocksToHarvest) {
