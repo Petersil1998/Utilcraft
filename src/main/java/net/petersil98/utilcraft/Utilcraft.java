@@ -1,7 +1,6 @@
 package net.petersil98.utilcraft;
 
 import net.minecraft.block.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -10,12 +9,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -34,8 +29,6 @@ import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
 import net.petersil98.utilcraft.network.PacketHandler;
-import net.petersil98.utilcraft.particles.SmokeCloudParticle;
-import net.petersil98.utilcraft.particles.UtilcraftParticleTypes;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
 import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
@@ -104,7 +97,7 @@ public class Utilcraft {
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
-    @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryMinecraftEvents {
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> blockRegistryEvent) {
@@ -251,13 +244,8 @@ public class Utilcraft {
         public static void registerRecipeSerializers(final RegistryEvent.Register<IRecipeSerializer<?>> recipeSerializerRegister) {
             recipeSerializerRegister.getRegistry().register(new SushiMakerRecipe.Serializer().setRegistryName("sushi_maker"));
         }
-
-        @SubscribeEvent
-        public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> particleTypeRegister) {
-            particleTypeRegister.getRegistry().register(new BasicParticleType(false).setRegistryName("smoke_cloud"));
-        }
     }
-    @Mod.EventBusSubscriber(bus= Mod.EventBusSubscriber.Bus.FORGE)
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE)
     public static class RegistryForgeEvents {
 
         @SubscribeEvent
@@ -270,14 +258,6 @@ public class Utilcraft {
             WorldGeneration.addSilverOre(event.getGeneration());
             WorldGeneration.addRoseQuartzOre(event.getGeneration());
             WorldGeneration.addSakuraTrees(event.getGeneration(), event.getName());
-        }
-    }
-    @Mod.EventBusSubscriber(Dist.CLIENT)
-    public static class RegistryParticle {
-
-        @SubscribeEvent
-        public static void registerParticles(ParticleFactoryRegisterEvent event) {
-            Minecraft.getInstance().particles.registerFactory(UtilcraftParticleTypes.SMOKE_CLOUD, SmokeCloudParticle.Factory::new);
         }
     }
 }
