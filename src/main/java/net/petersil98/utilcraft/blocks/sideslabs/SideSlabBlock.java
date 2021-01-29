@@ -51,6 +51,7 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
         builder.add(TYPE, WATERLOGGED);
     }
 
+    @Nonnull
     public VoxelShape getShape(BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         SideSlabType sideSlabType = state.get(TYPE);
         switch(sideSlabType) {
@@ -113,6 +114,7 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
         }
     }
 
+    @Nonnull
     public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
@@ -131,6 +133,7 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
      * returns its solidified counterpart.
      * Note that this method should ideally consider only the specific face passed in.
      */
+    @Nonnull
     public BlockState updatePostPlacement(BlockState stateIn, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld worldIn, @Nonnull BlockPos currentPos, BlockPos facingPos) {
         if (stateIn.get(WATERLOGGED)) {
             worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
@@ -140,11 +143,9 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
     }
 
     public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
-        switch(type) {
-            case WATER:
-                return worldIn.getFluidState(pos).isTagged(FluidTags.WATER);
-            default:
-                return false;
+        if (type == PathType.WATER) {
+            return worldIn.getFluidState(pos).isTagged(FluidTags.WATER);
         }
+        return false;
     }
 }

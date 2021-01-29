@@ -52,6 +52,8 @@ public class UtilcraftLootTables extends BaseLootTableProvider {
         addSideSlab(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB);
         addSideSlab(UtilcraftSideSlabs.SIDE_STONE_SLAB);
         addSimpleBlock(UtilcraftBlocks.SILVER_ORE);
+        addPottedFlower(UtilcraftBlocks.POTTED_SAKURA_SAPLING, UtilcraftBlocks.SAKURA_SAPLING);
+        addSpawnerLootTable();
     }
 
     private void addSimpleBlock(Block block) {
@@ -80,5 +82,13 @@ public class UtilcraftLootTables extends BaseLootTableProvider {
 
     private void addLeave(LeavesBlock block, SaplingBlock sapling, boolean dropSticks, boolean dropApples) {
         lootTables.put(block, createLeaveTable(block, sapling, dropSticks, dropApples));
+    }
+
+    private void addPottedFlower(FlowerPotBlock potBlock, Block flowerBlock) {
+        lootTables.put(potBlock, createPottedFlower((FlowerPotBlock) Blocks.FLOWER_POT, flowerBlock));
+    }
+
+    private void addSpawnerLootTable() {
+        lootTables.put(Blocks.SPAWNER, createSpawnerLootTable());
     }
 }

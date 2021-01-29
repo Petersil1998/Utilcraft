@@ -1,11 +1,13 @@
 package net.petersil98.utilcraft;
 
 import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.item.PaintingType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -78,6 +80,7 @@ public class Utilcraft {
         CapabilityHome.register();
         PacketHandler.registerMessages();
         UtilcraftGameRules.register();
+        ((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(UtilcraftBlocks.SAKURA_SAPLING.getRegistryName(), () -> UtilcraftBlocks.POTTED_SAKURA_SAPLING);
     }
 
     private void clientSetup(final FMLClientSetupEvent event){
@@ -85,6 +88,7 @@ public class Utilcraft {
         RenderTypeLookup.setRenderLayer(UtilcraftBlocks.SAKURA_TRAPDOOR, RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(UtilcraftBlocks.SAKURA_DOOR, RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(UtilcraftBlocks.GLASS_STAIRS, RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(UtilcraftBlocks.POTTED_SAKURA_SAPLING, RenderType.getCutout());
         ScreenManager.registerFactory(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER, DisenchantmentTableScreen::new);
         ScreenManager.registerFactory(UtilcraftContainer.SECURE_CHEST_CONTAINER, SecureChestScreen::new);
         ScreenManager.registerFactory(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER, TravelersBackpackScreen::new);
@@ -143,6 +147,8 @@ public class Utilcraft {
             blockRegistryEvent.getRegistry().register(new SideRedstoneSlab().setRegistryName("side_redstone_slab"));
             blockRegistryEvent.getRegistry().register(new SushiMaker().setRegistryName("sushi_maker"));
             blockRegistryEvent.getRegistry().register(new GlassStairs().setRegistryName("glass_stairs"));
+            blockRegistryEvent.getRegistry().register(new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT.delegate.get() ,() -> UtilcraftBlocks.SAKURA_SAPLING, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid()) {
+            }.setRegistryName("potted_sakura_sapling"));
         }
 
         @SubscribeEvent
@@ -243,6 +249,11 @@ public class Utilcraft {
         @SubscribeEvent
         public static void registerRecipeSerializers(final RegistryEvent.Register<IRecipeSerializer<?>> recipeSerializerRegister) {
             recipeSerializerRegister.getRegistry().register(new SushiMakerRecipe.Serializer().setRegistryName("sushi_maker"));
+        }
+
+        @SubscribeEvent
+        public static void registerPaintingTypes(final RegistryEvent.Register<PaintingType> paintingTypeRegister) {
+            paintingTypeRegister.getRegistry().register(new PaintingType(16, 16).setRegistryName("frog"));
         }
     }
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE)

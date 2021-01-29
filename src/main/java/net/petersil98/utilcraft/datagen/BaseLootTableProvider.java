@@ -6,9 +6,7 @@ import net.minecraft.advancements.criterion.EnchantmentPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
-import net.minecraft.block.Block;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.SlabBlock;
+import net.minecraft.block.*;
 import net.minecraft.data.*;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
@@ -23,6 +21,7 @@ import net.minecraftforge.common.data.ForgeLootTableProvider;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
+import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.utils.BlockItemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -168,6 +167,30 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
                 .addEntry(ItemLootEntry.builder(block)
                         .acceptFunction(CopyName.builder(CopyName.Source.BLOCK_ENTITY)))
                 .acceptCondition(SurvivesExplosion.builder());
+        return LootTable.builder().addLootPool(builder);
+    }
+
+    protected LootTable.Builder createPottedFlower(FlowerPotBlock potBlock, Block flowerBlock) {
+        LootPool.Builder pot = LootPool.builder()
+                .name(BlockItemUtils.name(potBlock))
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(potBlock))
+                .acceptCondition(SurvivesExplosion.builder());
+        LootPool.Builder flower = LootPool.builder()
+                .name(BlockItemUtils.name(potBlock))
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(flowerBlock))
+                .acceptCondition(SurvivesExplosion.builder());
+        return LootTable.builder().addLootPool(pot).addLootPool(flower);
+    }
+
+    protected LootTable.Builder createSpawnerLootTable() {
+        LootPool.Builder builder = LootPool.builder()
+                .name(BlockItemUtils.name(Blocks.SPAWNER))
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(UtilcraftItems.SPAWNER_ITEM).acceptFunction(
+                        CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY).addOperation("", "BlockEntityTag", CopyNbt.Action.REPLACE)
+                ));
         return LootTable.builder().addLootPool(builder);
     }
 

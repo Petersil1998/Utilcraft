@@ -1,5 +1,6 @@
 package net.petersil98.utilcraft.blocks;
 
+import net.minecraft.block.FlowerPotBlock;
 import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.sakura.*;
@@ -90,4 +91,7 @@ public class UtilcraftBlocks {
 
     @ObjectHolder("glass_stairs")
     public static GlassStairs GLASS_STAIRS;
+
+    @ObjectHolder("potted_sakura_sapling")
+    public static FlowerPotBlock POTTED_SAKURA_SAPLING;
 }

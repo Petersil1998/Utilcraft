@@ -62,6 +62,7 @@ public class UtilcraftBlockStates extends BlockStateProvider {
         simpleBlock(UtilcraftBlocks.SILVER_ORE);
         registerSushiMaker();
         registerStairs(UtilcraftBlocks.GLASS_STAIRS, Blocks.GLASS);
+        registerPottedBlock(UtilcraftBlocks.POTTED_SAKURA_SAPLING);
     }
 
     private void registerSlab(SlabBlock block, Block texture) {
@@ -78,7 +79,6 @@ public class UtilcraftBlockStates extends BlockStateProvider {
         ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(texture), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(texture));
         wallBlock(block, location);
         models().singleTexture(BlockItemUtils.name(block)+"_inventory", mcLoc(ModelProvider.BLOCK_FOLDER+"/wall_inventory"), "wall", location);
-
     }
 
     private void registerButton(AbstractButtonBlock block, Block texture) {
@@ -236,5 +236,13 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                     .build();
         });
         models().cubeAll(BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER)+"_inventory", front);
+    }
+
+    private void registerPottedBlock(FlowerPotBlock block) {
+        Block realBlock = block.getFlower();
+        ResourceLocation plant = new ResourceLocation(BlockItemUtils.namespace(realBlock), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(realBlock));
+        ModelFile modelFile = models().withExistingParent(BlockItemUtils.name(block), "flower_pot_cross")
+                .texture("plant", plant);
+        getVariantBuilder(block).partialState().addModels(ConfiguredModel.builder().modelFile(modelFile).build());
     }
 }
