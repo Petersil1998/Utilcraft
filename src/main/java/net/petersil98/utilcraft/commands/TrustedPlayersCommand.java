@@ -10,8 +10,10 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.petersil98.utilcraft.Utilcraft;
+import net.petersil98.utilcraft.data.SimplePlayer;
 import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrustedPlayersCommand {
@@ -35,7 +37,7 @@ public class TrustedPlayersCommand {
     private static void grantTrust(CommandSource source, ServerPlayerEntity affectedPlayer) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
-        worldSavedData.addTrustedPlayer(player.getGameProfile().getId(), affectedPlayer.getGameProfile().getId(), affectedPlayer.getName().getString());
+        worldSavedData.addTrustedPlayer(player.getGameProfile().getId(), new SimplePlayer(affectedPlayer.getName().getString(), affectedPlayer.getGameProfile().getId()));
         player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_added", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
     }
 
@@ -49,7 +51,9 @@ public class TrustedPlayersCommand {
     private static void sendListOfTrustedPlayers(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
-        List<String> trustedPlayers = worldSavedData.getTrustedPlayerNames(player.getGameProfile().getId());
-        source.sendFeedback(new TranslationTextComponent(String.format("player_trusted.%s.list", Utilcraft.MOD_ID), String.join(", ", trustedPlayers)), false);
+        List<SimplePlayer> trustedPlayers = worldSavedData.getTrustedPlayers(player.getGameProfile().getId());
+        List<String> names = new ArrayList<>();
+        trustedPlayers.forEach(simplePlayer -> names.add(simplePlayer.getUsername()));
+        source.sendFeedback(new TranslationTextComponent(String.format("player_trusted.%s.list", Utilcraft.MOD_ID), String.join(", ", names)), false);
     }
 }

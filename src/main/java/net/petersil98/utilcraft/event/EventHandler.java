@@ -40,6 +40,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.data.KeyBindings;
+import net.petersil98.utilcraft.data.SimplePlayer;
 import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.home.HomeProvider;
@@ -122,8 +123,8 @@ public class EventHandler {
                 UUID playerUUID = player.getUniqueID();
                 if (ownerUUID != null && !ownerUUID.equals(playerUUID)) {
                     UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
-                    List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
-                    if(!trustedPlayers.contains(playerUUID)){
+                    List<SimplePlayer> trustedPlayers = worldSavedData.getTrustedPlayers(ownerUUID);
+                    if(trustedPlayers.size() == 0 || trustedPlayers.stream().noneMatch(simplePlayer -> simplePlayer.getUUID().equals(playerUUID))){
                         player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
                         event.setCanceled(true);
                     }
@@ -142,8 +143,8 @@ public class EventHandler {
                 UUID playerUUID = player.getGameProfile().getId();
                 if(ownerUUID != null && !ownerUUID.equals(playerUUID)) {
                     UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
-                    List<UUID> trustedPlayers = worldSavedData.getTrustedPlayerUUIDs(ownerUUID);
-                    if(!trustedPlayers.contains(playerUUID)){
+                    List<SimplePlayer> trustedPlayers = worldSavedData.getTrustedPlayers(ownerUUID);
+                    if(trustedPlayers.size() == 0 || trustedPlayers.stream().noneMatch(simplePlayer -> simplePlayer.getUUID().equals(playerUUID))){
                         player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
                         event.setUseBlock(Event.Result.DENY);
                     }
