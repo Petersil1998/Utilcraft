@@ -190,7 +190,9 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
                 .rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(UtilcraftItems.SPAWNER_ITEM).acceptFunction(
                         CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY).addOperation("", "BlockEntityTag", CopyNbt.Action.REPLACE)
-                ));
+                ).acceptCondition(MatchTool.builder(ItemPredicate.Builder.create()
+                        .enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
+                );
         return LootTable.builder().addLootPool(builder);
     }
 
