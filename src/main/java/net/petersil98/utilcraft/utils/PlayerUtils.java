@@ -41,7 +41,7 @@ public class PlayerUtils {
                         JsonObject stats = object.getAsJsonObject("stats");
                         JsonObject customStats = stats.getAsJsonObject(Stats.CUSTOM.getRegistryName().toString());
                         JsonPrimitive deaths = customStats.getAsJsonPrimitive(Stats.DEATHS.toString());
-                        playerDeaths.put(username, deaths.getAsInt());
+                        playerDeaths.put(username, deaths == null ? 0 : deaths.getAsInt());
                     }
                 }
             }
