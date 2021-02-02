@@ -16,8 +16,8 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
 
     private final ResourceLocation GUI = new ResourceLocation(Utilcraft.MOD_ID, "textures/gui/disenchantment_table_gui.png");
 
-    public DisenchantmentTableScreen(DisenchantmentTableContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
-        super(screenContainer, inv, titleIn);
+    public DisenchantmentTableScreen(DisenchantmentTableContainer screenContainer, PlayerInventory inv, ITextComponent title) {
+        super(screenContainer, inv, title);
     }
 
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -43,12 +43,11 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
         if (this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
             this.renderTooltip(matrixStack, this.hoveredSlot.getStack(), x, y);
         }
-
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY) {
-        drawString(matrixStack, Minecraft.getInstance().fontRenderer, "Disenchantment Table", 10, 10, 0xffffff);
+        drawString(matrixStack, Minecraft.getInstance().fontRenderer, "Disenchant", 10, 10, 0xffffff);
     }
 
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {

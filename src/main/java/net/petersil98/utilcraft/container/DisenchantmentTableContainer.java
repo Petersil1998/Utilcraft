@@ -36,7 +36,7 @@ public class DisenchantmentTableContainer extends Container {
     public DisenchantmentTableContainer(int id, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
         super(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER, id);
         this.worldPosCallable = worldPosCallable;
-        this.addSlot(new Slot(this.inputInventory, 0, 15, 47) {
+        this.addSlot(new Slot(this.inputInventory, 0, 15, 25) {
             /**
              * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
              */
@@ -52,7 +52,7 @@ public class DisenchantmentTableContainer extends Container {
                 return 1;
             }
         });
-        this.addSlot(new Slot(this.inputInventory, 1, 35, 47) {
+        this.addSlot(new Slot(this.inputInventory, 1, 35, 25) {
             /**
              * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
              */
@@ -69,7 +69,7 @@ public class DisenchantmentTableContainer extends Container {
             }
         });
 
-        this.addSlot(new Slot(this.outputInventory, 2, 129, 34) {
+        this.addSlot(new Slot(this.outputInventory, 2, 145, 25) {
             /**
              * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
              */
@@ -88,12 +88,12 @@ public class DisenchantmentTableContainer extends Container {
 
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 62 + i * 18));
             }
         }
 
         for(int k = 0; k < 9; ++k) {
-            this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 142));
+            this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 120));
         }
     }
 
