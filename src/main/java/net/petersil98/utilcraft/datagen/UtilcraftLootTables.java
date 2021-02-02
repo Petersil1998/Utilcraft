@@ -54,6 +54,7 @@ public class UtilcraftLootTables extends BaseLootTableProvider {
         addSimpleBlock(UtilcraftBlocks.SILVER_ORE);
         addPottedFlower(UtilcraftBlocks.POTTED_SAKURA_SAPLING, UtilcraftBlocks.SAKURA_SAPLING);
         addSpawnerLootTable();
+        addSilkTouchBlock(UtilcraftBlocks.GLASS_STAIRS);
     }
 
     private void addSimpleBlock(Block block) {
@@ -90,5 +91,9 @@ public class UtilcraftLootTables extends BaseLootTableProvider {
 
     private void addSpawnerLootTable() {
         lootTables.put(Blocks.SPAWNER, createSpawnerLootTable());
+    }
+
+    private void addSilkTouchBlock(Block block) {
+        lootTables.put(block, createSilkTouchBlock(block));
     }
 }
