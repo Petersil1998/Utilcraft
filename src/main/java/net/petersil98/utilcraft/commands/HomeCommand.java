@@ -1,7 +1,8 @@
 package net.petersil98.utilcraft.commands;
 
-import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -19,8 +20,9 @@ import java.util.Set;
 
 public class HomeCommand {
 
-    public static ArgumentBuilder<CommandSource, ?> register(){
-        return Commands.literal("home")
+    public static void register(CommandDispatcher<CommandSource> dispatcher){
+        LiteralCommandNode<CommandSource> commandNode = dispatcher.register(
+            Commands.literal(Utilcraft.MOD_ID).then(Commands.literal("home")
                 .executes(context -> {
                     teleportHome(context.getSource());
                     return 1;
@@ -28,7 +30,10 @@ public class HomeCommand {
                 .then(Commands.literal("set").executes(context -> {
                     setHome(context.getSource());
                     return 1;
-                }));
+                }))
+            )
+        );
+        dispatcher.register(Commands.literal(Utilcraft.MOD_ID_SHORT).redirect(commandNode));
     }
 
     private static void setHome(CommandSource source) throws CommandSyntaxException {
@@ -71,8 +76,6 @@ public class HomeCommand {
         } else {
             player.teleport(player.getServer().getWorld(World.OVERWORLD), position.getX(), position.getY(), position.getZ(), 0, 0);
         }
-
-
 
         player.setRotationYawHead(0);
 

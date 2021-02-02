@@ -38,10 +38,7 @@ import net.petersil98.utilcraft.network.PacketHandler;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
 import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
-import net.petersil98.utilcraft.screen.DisenchantmentTableScreen;
-import net.petersil98.utilcraft.screen.SecureChestScreen;
-import net.petersil98.utilcraft.screen.SushiMakerScreen;
-import net.petersil98.utilcraft.screen.TravelersBackpackScreen;
+import net.petersil98.utilcraft.screen.*;
 import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
 import net.petersil98.utilcraft.tile_entities.UtilcraftSignTileEntity;
 import net.petersil98.utilcraft.tile_entities.UtilcraftTileEntities;
@@ -64,6 +61,7 @@ import javax.annotation.Nonnull;
 public class Utilcraft {
 
     public static final String MOD_ID = "utilcraft";
+    public static final String MOD_ID_SHORT = "uc";
 
     public static boolean isVeinMinerActive = false;
 
@@ -155,6 +153,8 @@ public class Utilcraft {
             blockRegistryEvent.getRegistry().register(new GlassStairs().setRegistryName("glass_stairs"));
             blockRegistryEvent.getRegistry().register(new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT.delegate.get() ,() -> UtilcraftBlocks.SAKURA_SAPLING, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid()) {
             }.setRegistryName("potted_sakura_sapling"));
+            blockRegistryEvent.getRegistry().register(new SilverBlock().setRegistryName("silver_block"));
+            blockRegistryEvent.getRegistry().register(new ChunkLoader().setRegistryName("chunk_loader"));
         }
 
         @SubscribeEvent
@@ -196,6 +196,8 @@ public class Utilcraft {
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.REDSTONE_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("redstone_slab"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.SUSHI_MAKER, new Item.Properties().group(ITEM_GROUP)).setRegistryName("sushi_maker"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.GLASS_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("glass_stairs"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.SILVER_BLOCK, new Item.Properties().group(ITEM_GROUP)).setRegistryName("silver_block"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.CHUNK_LOADER, new Item.Properties().group(ITEM_GROUP)).setRegistryName("chunk_loader"));
 
             itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
             itemRegistryEvent.getRegistry().register(new AppleJuice().setRegistryName("apple_juice"));

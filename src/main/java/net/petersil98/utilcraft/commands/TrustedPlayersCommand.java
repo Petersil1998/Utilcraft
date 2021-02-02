@@ -1,7 +1,8 @@
 package net.petersil98.utilcraft.commands;
 
-import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
@@ -18,20 +19,24 @@ import java.util.List;
 
 public class TrustedPlayersCommand {
 
-    public static ArgumentBuilder<CommandSource, ?> register(){
-        return Commands.literal("trust")
-                .then(Commands.literal("grant").then(Commands.argument("player", EntityArgument.player()).executes(context -> {
-                    grantTrust(context.getSource(), EntityArgument.getPlayer(context, "player"));
-                    return 1;
-                })))
-                .then(Commands.literal("revoke").then(Commands.argument("player", EntityArgument.player()).executes(context -> {
-                    revokeTrust(context.getSource(), EntityArgument.getPlayer(context, "player"));
-                    return 1;
-                })))
-                .then(Commands.literal("list").executes(context -> {
-                    sendListOfTrustedPlayers(context.getSource());
-                    return 1;
-                }));
+    public static void register(CommandDispatcher<CommandSource> dispatcher){
+        LiteralCommandNode<CommandSource> commandNode = dispatcher.register(
+                Commands.literal(Utilcraft.MOD_ID).then(Commands.literal("trust")
+                        .then(Commands.literal("grant").then(Commands.argument("player", EntityArgument.player()).executes(context -> {
+                            grantTrust(context.getSource(), EntityArgument.getPlayer(context, "player"));
+                            return 1;
+                        })))
+                        .then(Commands.literal("revoke").then(Commands.argument("player", EntityArgument.player()).executes(context -> {
+                            revokeTrust(context.getSource(), EntityArgument.getPlayer(context, "player"));
+                            return 1;
+                        })))
+                        .then(Commands.literal("list").executes(context -> {
+                            sendListOfTrustedPlayers(context.getSource());
+                            return 1;
+                        }))
+                )
+        );
+        dispatcher.register(Commands.literal(Utilcraft.MOD_ID_SHORT).redirect(commandNode));
     }
 
     private static void grantTrust(CommandSource source, ServerPlayerEntity affectedPlayer) throws CommandSyntaxException {
