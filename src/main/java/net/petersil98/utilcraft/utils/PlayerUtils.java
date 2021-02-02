@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class PlayerUtils {
 
     private static Map<String, Integer> playerDeaths = new LinkedHashMap<>();
-    private static final int MAX_PLAYERS = 3;
 
     public static void setPlayerDeaths(MinecraftServer server, ServerPlayerEntity playerEntity) {
         playerDeaths.put(playerEntity.getName().getString(), playerEntity.getStats().getValue(Stats.CUSTOM.get(Stats.DEATHS)));
@@ -60,19 +59,9 @@ public class PlayerUtils {
     }
 
     private static void sort() {
-        Map<String, Integer> newMap = playerDeaths.entrySet().stream()
+        playerDeaths = playerDeaths.entrySet().stream()
                         .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
-        playerDeaths.clear();
-        int i = 0;
-        for (Map.Entry<String, Integer> entry : newMap.entrySet()) {
-            if (i < MAX_PLAYERS) {
-                playerDeaths.put(entry.getKey(), entry.getValue());
-            } else {
-                break;
-            }
-            i++;
-        }
     }
 }

@@ -196,6 +196,17 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
         return LootTable.builder().addLootPool(builder);
     }
 
+    protected LootTable.Builder createSilkTouchBlock(Block block) {
+        LootPool.Builder builder = LootPool.builder()
+                .name(BlockItemUtils.name(block))
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(block))
+                .acceptCondition(MatchTool.builder(ItemPredicate.Builder.create()
+                        .enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1))))
+                );
+        return LootTable.builder().addLootPool(builder);
+    }
+
     @Override
     public void act(@Nonnull DirectoryCache cache) {
         addTables();

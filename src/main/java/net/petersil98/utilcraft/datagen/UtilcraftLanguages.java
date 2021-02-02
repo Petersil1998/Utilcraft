@@ -99,6 +99,11 @@ public class UtilcraftLanguages {
             add("advancements.utilcraft.mine_rose_quartz.title", "Mine Rose Quartz");
             add("advancements.utilcraft.mine_rose_quartz.description", "Find and mine some Rose Quartz");
 
+            add("config.section.gui", "GUI Config");
+            add("config.number_player_deaths.description", "First x Players are shown in the Death-Scoreboard (0 to disable feature)");
+            add("config.number_player_deaths.title", "Death-Scoreboard Length (0 - 20)");
+
+            add("screen.utilcraft.config", "Utilcraft Configuration");
             add("screen.utilcraft.disenchantment_table", "Disenchantment Table");
             add("screen.utilcraft.secure_chest", "Secure Chest");
 
@@ -134,7 +139,7 @@ public class UtilcraftLanguages {
             add(UtilcraftBlocks.COMPRESSED_COBBLESTONE, "Gepresster Bruchstein");
             add(UtilcraftBlocks.SILVER_ORE, "Silbererz");
             add(UtilcraftBlocks.ROSE_QUARTZ_ORE, "Rosenquarzerz");
-            add(UtilcraftBlocks.ROSE_QUARTZ_BLOCK, "rosenquarzblock");
+            add(UtilcraftBlocks.ROSE_QUARTZ_BLOCK, "Rosenquarzblock");
             add(UtilcraftSideSlabs.SIDE_STONE_SLAB, "Seitliche Steinstufe");
             add(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB, "Seitliche Bruchsteinstufe");
             add(UtilcraftSideSlabs.SIDE_OAK_SLAB, "Seitliche Eichenholzstufe");
@@ -199,6 +204,11 @@ public class UtilcraftLanguages {
             add("advancements.utilcraft.mine_rose_quartz.title", "Baue Rosenquarz ab");
             add("advancements.utilcraft.mine_rose_quartz.description", "Finde und baue Rosenquarz ab");
 
+            add("config.section.gui", "GUI Konfiguration");
+            add("config.number_player_deaths.description", "Die Ersten x Spieler werden in dem Death-Scoreboard (0 um das Feature deaktivieren)");
+            add("config.number_player_deaths.title", "Death-Scoreboard Länge (0 - 20)");
+
+            add("screen.utilcraft.config", "Utilcraft Konfiguration");
             add("screen.utilcraft.disenchantment_table", "Entzaubertisch");
             add("screen.utilcraft.secure_chest", "Sichere Truhe");
 
