@@ -63,6 +63,7 @@ public class UtilcraftBlockStates extends BlockStateProvider {
         registerSushiMaker();
         registerStairs(UtilcraftBlocks.GLASS_STAIRS, Blocks.GLASS);
         registerPottedBlock(UtilcraftBlocks.POTTED_SAKURA_SAPLING);
+        simpleBlock(UtilcraftBlocks.SILVER_BLOCK);
     }
 
     private void registerSlab(SlabBlock block, Block texture) {

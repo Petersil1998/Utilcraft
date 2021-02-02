@@ -86,6 +86,7 @@ public class UtilcraftItemModels extends ItemModelProvider {
         registerHandheld(UtilcraftItems.TRAVELERS_BACKPACK);
         registerBlockItem(UtilcraftItems.SPAWNER_ITEM, Blocks.SPAWNER);
         registerBlockItem(UtilcraftBlocks.GLASS_STAIRS);
+        registerBlockItem(UtilcraftBlocks.SILVER_BLOCK);
     }
 
     private void registerHandheld(Item item) {

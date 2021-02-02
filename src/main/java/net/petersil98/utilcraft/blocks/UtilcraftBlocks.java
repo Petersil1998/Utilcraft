@@ -94,4 +94,10 @@ public class UtilcraftBlocks {
 
     @ObjectHolder("potted_sakura_sapling")
     public static FlowerPotBlock POTTED_SAKURA_SAPLING;
+
+    @ObjectHolder("silver_block")
+    public static SilverBlock SILVER_BLOCK;
+
+    @ObjectHolder("chunk_loader")
+    public static ChunkLoader CHUNK_LOADER;
 }
