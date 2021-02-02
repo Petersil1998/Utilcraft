@@ -38,6 +38,7 @@ public class UtilcraftBlockTags extends BlockTagsProvider {
         this.getOrCreateBuilder(BlockTags.WOODEN_PRESSURE_PLATES).add(SAKURA_PRESSURE_PLATE);
         this.getOrCreateBuilder(BlockTags.WOODEN_SLABS).add(SAKURA_SLAB);
         this.getOrCreateBuilder(BlockTags.WOODEN_TRAPDOORS).add(SAKURA_TRAPDOOR);
+        this.getOrCreateBuilder(BlockTags.BEACON_BASE_BLOCKS).add(ROSE_QUARTZ_BLOCK);
 
         this.getOrCreateBuilder(Tags.Blocks.FENCE_GATES_WOODEN).add(SAKURA_FENCE_GATE);
         this.getOrCreateBuilder(Tags.Blocks.FENCES_WOODEN).add(SAKURA_FENCE);
