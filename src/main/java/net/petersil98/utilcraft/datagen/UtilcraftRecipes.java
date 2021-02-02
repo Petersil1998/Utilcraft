@@ -87,6 +87,7 @@ public class UtilcraftRecipes extends RecipeProvider {
         registerSakuraButton(consumer);
         registerSakuraPlanks(consumer);
         registerSweetBerryJuice(consumer);
+        registerLeather(consumer);
     }
 
     private void registerSmeltingRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -674,6 +675,14 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .setGroup(Utilcraft.MOD_ID)
                 .addCriterion("juicer", InventoryChangeTrigger.Instance.forItems(UtilcraftItems.JUICER))
                 .addCriterion("sweet_berries", InventoryChangeTrigger.Instance.forItems(Items.SWEET_BERRIES))
+                .build(consumer);
+    }
+
+    private void registerLeather(Consumer<IFinishedRecipe> consumer) {
+        ShapelessRecipeBuilder.shapelessRecipe(Items.LEATHER, 5)
+                .addIngredient(Items.SADDLE)
+                .setGroup(Utilcraft.MOD_ID)
+                .addCriterion("saddle", InventoryChangeTrigger.Instance.forItems(Items.SADDLE))
                 .build(consumer);
     }
 
