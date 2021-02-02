@@ -19,13 +19,13 @@ import net.petersil98.utilcraft.items.RoseQuartzSuperShovel;
 import java.util.ArrayList;
 
 public class VeinMinerUtils {
-    public static boolean isSuperTool(Item mainItem){
-        return mainItem instanceof RoseQuartzSuperHammer || mainItem instanceof RoseQuartzSuperShovel;
+    public static boolean isSuperTool(Item item){
+        return item instanceof RoseQuartzSuperHammer || item instanceof RoseQuartzSuperShovel;
     }
 
     public static void get3x3FieldAroundTargetedBlock(final PlayerEntity player, ArrayList<BlockPos> affectedBlocks)
     {
-        final BlockRayTraceResult rayTrace = AbstractSuperTool.rayTracer(player.world, player, RayTraceContext.FluidMode.ANY);
+        final BlockRayTraceResult rayTrace = AbstractSuperTool.rayTracer(player.world, player, RayTraceContext.FluidMode.NONE);
         final BlockPos center = rayTrace.getPos();
         switch (rayTrace.getFace()) {
             case DOWN:
