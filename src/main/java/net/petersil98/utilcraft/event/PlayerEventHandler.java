@@ -3,6 +3,7 @@ package net.petersil98.utilcraft.event;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -15,9 +16,11 @@ import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.SimplePlayer;
 import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
+import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
-import net.petersil98.utilcraft.network.PacketHandler;
+import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.network.PlayerDeathStats;
+import net.petersil98.utilcraft.network.SyncDeathPoint;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
@@ -50,14 +53,28 @@ public class PlayerEventHandler {
 
     @SubscribeEvent
     public static void onPlayerCloneEvent(PlayerEvent.Clone event) {
+        adjustCapabilities(event.getOriginal(), event.getPlayer());
         if(event.isWasDeath()) {
             PlayerUtils.setPlayerDeaths(event.getPlayer().getServer(), (ServerPlayerEntity) event.getEntity());
-            PacketHandler.sendToClients(new PlayerDeathStats());
+            NetworkManager.sendToClients(new PlayerDeathStats());
+
+            event.getPlayer().getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
+                iLastDeath.setDeathPoint(event.getOriginal().getPosition());
+                iLastDeath.setDeathDimension(event.getOriginal().world.getDimensionKey().getLocation());
+                NetworkManager.sendToClient(new SyncDeathPoint(event.getOriginal().getPosition(), event.getOriginal().world.getDimensionKey().getLocation()), (ServerPlayerEntity) event.getPlayer());
+            });
         }
+    }
 
-        PlayerEntity original = event.getOriginal();
-        PlayerEntity clone = event.getPlayer();
+    @SubscribeEvent
+    public static void onPlayerLoginEvent(EntityJoinWorldEvent event) {
+        if(event.getEntity() instanceof ServerPlayerEntity) {
+            PlayerUtils.setPlayerDeaths(event.getEntity().getServer(), (ServerPlayerEntity) event.getEntity());
+            NetworkManager.sendToClients(new PlayerDeathStats());
+        }
+    }
 
+    private static void adjustCapabilities(PlayerEntity original, PlayerEntity clone) {
         AtomicReference<Boolean> veinMiner = new AtomicReference<>();
 
         original.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
@@ -69,6 +86,7 @@ public class PlayerEventHandler {
         });
 
         AtomicReference<BlockPos> blockPos = new AtomicReference<>();
+        AtomicReference<ResourceLocation> resourceLocation = new AtomicReference<>();
 
         original.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
             blockPos.set(iHome.getHome());
@@ -77,13 +95,15 @@ public class PlayerEventHandler {
         clone.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
             iHome.setHome(blockPos.get());
         });
-    }
 
-    @SubscribeEvent
-    public static void onPlayerLoginEvent(EntityJoinWorldEvent event) {
-        if(event.getEntity() instanceof ServerPlayerEntity) {
-            PlayerUtils.setPlayerDeaths(event.getEntity().getServer(), (ServerPlayerEntity) event.getEntity());
-            PacketHandler.sendToClients(new PlayerDeathStats());
-        }
+        original.getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
+            blockPos.set(iLastDeath.getDeathPoint());
+            resourceLocation.set(iLastDeath.getDeathDimension());
+        });
+
+        clone.getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
+            iLastDeath.setDeathPoint(blockPos.get());
+            iLastDeath.setDeathDimension(resourceLocation.get());
+        });
     }
 }

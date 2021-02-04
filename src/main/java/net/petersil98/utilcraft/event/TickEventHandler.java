@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
-import net.petersil98.utilcraft.network.PacketHandler;
+import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.network.ToggleVeinMiner;
 
 import java.lang.reflect.InvocationTargetException;
@@ -54,7 +54,7 @@ public class TickEventHandler {
     public static void toggleVeinMiner(TickEvent.ClientTickEvent event) {
         if(KeyBindings.VEIN_MINER.isPressed() && Minecraft.getInstance().currentScreen == null && !Minecraft.getInstance().gameSettings.showDebugInfo) {
             Utilcraft.isVeinMinerActive = !Utilcraft.isVeinMinerActive;
-            PacketHandler.sendToServer(new ToggleVeinMiner(Minecraft.getInstance().player.getUniqueID(), Utilcraft.isVeinMinerActive));
+            NetworkManager.sendToServer(new ToggleVeinMiner(Minecraft.getInstance().player.getUniqueID(), Utilcraft.isVeinMinerActive));
         }
     }
 }

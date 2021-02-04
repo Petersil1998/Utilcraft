@@ -32,9 +32,10 @@ import net.petersil98.utilcraft.config.Config;
 import net.petersil98.utilcraft.container.*;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
+import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
-import net.petersil98.utilcraft.network.PacketHandler;
+import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
 import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
@@ -82,7 +83,8 @@ public class Utilcraft {
     private void setup(final FMLCommonSetupEvent event) {
         CapabilityVeinMiner.register();
         CapabilityHome.register();
-        PacketHandler.registerMessages();
+        CapabilityLastDeath.register();
+        NetworkManager.registerMessages();
         UtilcraftGameRules.register();
         ((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(UtilcraftBlocks.SAKURA_SAPLING.getRegistryName(), () -> UtilcraftBlocks.POTTED_SAKURA_SAPLING);
     }
