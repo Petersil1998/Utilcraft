@@ -1,4 +1,4 @@
-package net.petersil98.utilcraft.renderer;
+package net.petersil98.utilcraft.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

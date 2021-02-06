@@ -7,8 +7,12 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.UsernameCache;
+import net.petersil98.utilcraft.data.capabilities.last_death.DefaultLastDeath;
+import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -19,6 +23,8 @@ import java.util.stream.Collectors;
 public class PlayerUtils {
 
     private static Map<String, Integer> playerDeaths = new LinkedHashMap<>();
+    private static final ILastDeath lastDeath = new DefaultLastDeath();
+    private static boolean veinMinerActive = false;
 
     public static void setPlayerDeaths(MinecraftServer server, ServerPlayerEntity playerEntity) {
         playerDeaths.put(playerEntity.getName().getString(), playerEntity.getStats().getValue(Stats.CUSTOM.get(Stats.DEATHS)));
@@ -63,5 +69,22 @@ public class PlayerUtils {
                         .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
+    }
+
+    public static void setLastDeath(BlockPos deathPoint, ResourceLocation dimension) {
+        lastDeath.setDeathPoint(deathPoint);
+        lastDeath.setDeathDimension(dimension);
+    }
+
+    public static ILastDeath getLastDeath() {
+        return lastDeath;
+    }
+
+    public static boolean isVeinMinerActive() {
+        return veinMinerActive;
+    }
+
+    public static void setVeinMinerActive(boolean isVeinMinerActive) {
+        PlayerUtils.veinMinerActive = isVeinMinerActive;
     }
 }

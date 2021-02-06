@@ -37,8 +37,8 @@ import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner
 import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
 import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
-import net.petersil98.utilcraft.renderer.SecureChestItemTileEntityRenderer;
-import net.petersil98.utilcraft.renderer.SecureChestTileEntityRenderer;
+import net.petersil98.utilcraft.render.SecureChestItemTileEntityRenderer;
+import net.petersil98.utilcraft.render.SecureChestTileEntityRenderer;
 import net.petersil98.utilcraft.screen.*;
 import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
 import net.petersil98.utilcraft.tile_entities.UtilcraftSignTileEntity;
@@ -63,8 +63,6 @@ public class Utilcraft {
 
     public static final String MOD_ID = "utilcraft";
     public static final String MOD_ID_SHORT = "uc";
-
-    public static boolean isVeinMinerActive = false;
 
     public static final ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
         @Override
@@ -105,8 +103,6 @@ public class Utilcraft {
         ClientSetup.registerItemProperties();
     }
 
-    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-    // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryMinecraftEvents {
         @SubscribeEvent

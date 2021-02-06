@@ -35,7 +35,7 @@ public class AttachCapabilities {
 
     @SubscribeEvent
     public static void attachLastDeathCapability(AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof PlayerEntity) {
+        if (event.getObject() instanceof ServerPlayerEntity) {
             LastDeathProvider provider = new LastDeathProvider();
             event.addCapability(new ResourceLocation(Utilcraft.MOD_ID, "last_death"), provider);
             event.addListener(provider::invalidate);

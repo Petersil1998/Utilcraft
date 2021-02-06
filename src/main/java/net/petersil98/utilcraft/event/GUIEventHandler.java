@@ -48,11 +48,11 @@ public class GUIEventHandler {
     }
 
     private static void addVeinMinerOverlay(MatrixStack matrixStack, int x, int y) {
-        TextFormatting format = Utilcraft.isVeinMinerActive ? TextFormatting.GREEN : TextFormatting.RED;
+        TextFormatting format = PlayerUtils.isVeinMinerActive() ? TextFormatting.GREEN : TextFormatting.RED;
         AbstractGui.drawString(
                 matrixStack,
                 Minecraft.getInstance().fontRenderer,
-                new TranslationTextComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, Utilcraft.isVeinMinerActive ? "active" : "inactive")).mergeStyle(format),
+                new TranslationTextComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, PlayerUtils.isVeinMinerActive() ? "active" : "inactive")).mergeStyle(format),
                 x, y, 0xffffff);
     }
 

@@ -1,11 +1,13 @@
 package net.petersil98.utilcraft.event;
 
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -52,7 +54,7 @@ public class PlayerEventHandler {
     }
 
     @SubscribeEvent
-    public static void onPlayerCloneEvent(PlayerEvent.Clone event) {
+    public static void onServerPlayerCloneEvent(PlayerEvent.Clone event) {
         adjustCapabilities(event.getOriginal(), event.getPlayer());
         if(event.isWasDeath()) {
             PlayerUtils.setPlayerDeaths(event.getPlayer().getServer(), (ServerPlayerEntity) event.getEntity());
@@ -61,7 +63,9 @@ public class PlayerEventHandler {
             event.getPlayer().getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
                 iLastDeath.setDeathPoint(event.getOriginal().getPosition());
                 iLastDeath.setDeathDimension(event.getOriginal().world.getDimensionKey().getLocation());
-                NetworkManager.sendToClient(new SyncDeathPoint(event.getOriginal().getPosition(), event.getOriginal().world.getDimensionKey().getLocation()), (ServerPlayerEntity) event.getPlayer());
+                if(iLastDeath.getDeathPoint() != null && iLastDeath.getDeathDimension() != null) {
+                    NetworkManager.sendToClient(new SyncDeathPoint(event.getOriginal().getPosition(), event.getOriginal().world.getDimensionKey().getLocation()), (ServerPlayerEntity) event.getPlayer());
+                }
             });
         }
     }
@@ -69,8 +73,14 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public static void onPlayerLoginEvent(EntityJoinWorldEvent event) {
         if(event.getEntity() instanceof ServerPlayerEntity) {
-            PlayerUtils.setPlayerDeaths(event.getEntity().getServer(), (ServerPlayerEntity) event.getEntity());
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+            PlayerUtils.setPlayerDeaths(player.getServer(), player);
             NetworkManager.sendToClients(new PlayerDeathStats());
+            event.getEntity().getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
+                if(iLastDeath.getDeathPoint() != null && iLastDeath.getDeathDimension() != null) {
+                    NetworkManager.sendToClient(new SyncDeathPoint(iLastDeath.getDeathPoint(), iLastDeath.getDeathDimension()), player);
+                }
+            });
         }
     }
 

@@ -1,14 +1,10 @@
 package net.petersil98.utilcraft.network;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath;
-import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
+import net.petersil98.utilcraft.utils.PlayerUtils;
 
 import java.util.function.Supplier;
 
@@ -33,14 +29,7 @@ public class SyncDeathPoint {
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ClientPlayerEntity player = Minecraft.getInstance().player;
-            LazyOptional<ILastDeath> optional = player.getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY);
-            player.getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
-                iLastDeath.setDeathPoint(deathPoint);
-                iLastDeath.setDeathDimension(dimension);
-            });
-        });
+        ctx.get().enqueueWork(() -> PlayerUtils.setLastDeath(deathPoint, dimension));
         return true;
     }
 }
