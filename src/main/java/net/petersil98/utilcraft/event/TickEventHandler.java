@@ -3,6 +3,7 @@ package net.petersil98.utilcraft.event;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -12,8 +13,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.KeyBindings;
+import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath;
 import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
 import net.petersil98.utilcraft.network.NetworkManager;
+import net.petersil98.utilcraft.network.SyncDeathPoint;
 import net.petersil98.utilcraft.network.ToggleVeinMiner;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
@@ -48,6 +51,22 @@ public class TickEventHandler {
                     world.getPlayers().stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> p_241131_0_.stopSleepInBed(false, false));
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTickEvent(TickEvent.PlayerTickEvent event) {
+        if(event.side.isServer() && event.phase == TickEvent.Phase.END) {
+            event.player.getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
+                if(iLastDeath.getDeathPoint() != null && iLastDeath.getDeathDimension() != null && event.player.world.getDimensionKey().getLocation().equals(iLastDeath.getDeathDimension())) {
+                    BlockPos pos = event.player.getPosition();
+                    if(iLastDeath.getDeathPoint().withinDistance(pos, 2)) {
+                        iLastDeath.setDeathPoint(null);
+                        iLastDeath.setDeathDimension(null);
+                        NetworkManager.sendToClient(new SyncDeathPoint(null, null), (ServerPlayerEntity) event.player);
+                    }
+                }
+            });
         }
     }
 

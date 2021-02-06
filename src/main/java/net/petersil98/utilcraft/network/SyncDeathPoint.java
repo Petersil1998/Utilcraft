@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 
 public class SyncDeathPoint {
 
-    private final BlockPos deathPoint;
-    private final ResourceLocation dimension;
+    private BlockPos deathPoint;
+    private ResourceLocation dimension;
 
     public SyncDeathPoint(BlockPos deathPoint, ResourceLocation dimension) {
         this.deathPoint = deathPoint;
@@ -19,13 +19,20 @@ public class SyncDeathPoint {
     }
 
     public SyncDeathPoint(PacketBuffer packetBuffer) {
-        deathPoint = packetBuffer.readBlockPos();
-        dimension =  packetBuffer.readResourceLocation();
+        try {
+            deathPoint = packetBuffer.readBlockPos();
+            dimension = packetBuffer.readResourceLocation();
+        } catch (IndexOutOfBoundsException ignored) {
+            deathPoint = null;
+            dimension = null;
+        }
     }
 
     public void encode(PacketBuffer buf) {
-        buf.writeBlockPos(deathPoint);
-        buf.writeResourceLocation(dimension);
+        if(deathPoint != null && dimension != null) {
+            buf.writeBlockPos(deathPoint);
+            buf.writeResourceLocation(dimension);
+        }
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
