@@ -19,8 +19,6 @@ import net.minecraft.tileentity.TileEntityMerger;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
@@ -28,7 +26,6 @@ import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 import javax.annotation.Nonnull;
 import java.util.Calendar;
 
-@OnlyIn(Dist.CLIENT)
 public class SecureChestTileEntityRenderer<T extends TileEntity & IChestLid> extends TileEntityRenderer<T> {
     private final ModelRenderer singleLid;
     private final ModelRenderer singleBottom;

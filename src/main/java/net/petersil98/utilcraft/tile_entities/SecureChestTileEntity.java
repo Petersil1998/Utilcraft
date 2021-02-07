@@ -160,7 +160,6 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public float getLidAngle(float partialTicks) {
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }

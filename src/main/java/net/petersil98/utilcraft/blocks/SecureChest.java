@@ -23,8 +23,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemStackHandler;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 
@@ -131,7 +129,6 @@ public class SecureChest extends Block implements IWaterLoggable {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static TileEntityMerger.ICallback<SecureChestTileEntity, Float2FloatFunction> getLidRotationCallback(final IChestLid lid) {
         return new TileEntityMerger.ICallback<SecureChestTileEntity, Float2FloatFunction>() {
             @Nonnull

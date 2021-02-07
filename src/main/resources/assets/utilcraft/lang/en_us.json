@@ -82,5 +82,6 @@
   "screen.utilcraft.disenchantment_table": "Disenchantment Table",
   "screen.utilcraft.secure_chest": "Secure Chest",
   "vein_miner.utilcraft.active": "Vein Miner active",
-  "vein_miner.utilcraft.inactive": "Vein Miner inactive"
+  "vein_miner.utilcraft.inactive": "Vein Miner inactive",
+  "version.utilcraft.new": "[Utilcraft] New Version %s available!"
 }

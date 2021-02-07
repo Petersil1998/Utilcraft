@@ -5,13 +5,17 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.VersionChecker;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.forgespi.language.IModInfo;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.SimplePlayer;
 import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
@@ -23,7 +27,10 @@ import net.petersil98.utilcraft.network.PlayerDeathStats;
 import net.petersil98.utilcraft.network.SyncDeathPoint;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.utils.PlayerUtils;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -79,6 +86,17 @@ public class PlayerEventHandler {
                     NetworkManager.sendToClient(new SyncDeathPoint(iLastDeath.getDeathPoint(), iLastDeath.getDeathDimension()), player);
                 }
             });
+
+            AtomicReference<IModInfo> modInfo = new AtomicReference<>();
+            ModList.get().getModContainerById(Utilcraft.MOD_ID).ifPresent(modContainer -> {
+                modInfo.set(modContainer.getModInfo());
+            });
+            VersionChecker.CheckResult result = VersionChecker.getResult(modInfo.get());
+            if(result.status == VersionChecker.Status.OUTDATED) {
+                List<ComparableVersion> sortedKeys = new ArrayList<>(result.changes.keySet());
+                Collections.sort(sortedKeys);
+                player.sendStatusMessage(new TranslationTextComponent(String.format("version.%s.new", Utilcraft.MOD_ID), sortedKeys.get(0).toString()), false);
+            }
         }
     }
 

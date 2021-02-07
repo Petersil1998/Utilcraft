@@ -19,7 +19,6 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -75,7 +74,6 @@ public class Utilcraft {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (minecraft, screen) -> new ConfigScreen(screen));
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -101,6 +99,7 @@ public class Utilcraft {
         ClientRegistry.bindTileEntityRenderer(UtilcraftTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
         ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
         ClientSetup.registerItemProperties();
+        ClientSetup.registerExtensionPoint();
     }
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -149,8 +148,7 @@ public class Utilcraft {
             blockRegistryEvent.getRegistry().register(new SideRedstoneSlab().setRegistryName("side_redstone_slab"));
             blockRegistryEvent.getRegistry().register(new SushiMaker().setRegistryName("sushi_maker"));
             blockRegistryEvent.getRegistry().register(new GlassStairs().setRegistryName("glass_stairs"));
-            blockRegistryEvent.getRegistry().register(new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT.delegate.get() ,() -> UtilcraftBlocks.SAKURA_SAPLING, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid()) {
-            }.setRegistryName("potted_sakura_sapling"));
+            blockRegistryEvent.getRegistry().register(new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT.delegate.get() ,() -> UtilcraftBlocks.SAKURA_SAPLING, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid()).setRegistryName("potted_sakura_sapling"));
             blockRegistryEvent.getRegistry().register(new SilverBlock().setRegistryName("silver_block"));
             blockRegistryEvent.getRegistry().register(new ChunkLoader().setRegistryName("chunk_loader"));
         }

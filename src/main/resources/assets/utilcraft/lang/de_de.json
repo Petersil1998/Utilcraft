@@ -82,5 +82,6 @@
   "screen.utilcraft.disenchantment_table": "Entzaubertisch",
   "screen.utilcraft.secure_chest": "Sichere Truhe",
   "vein_miner.utilcraft.active": "Vein Miner aktiv",
-  "vein_miner.utilcraft.inactive": "Vein Miner inaktiv"
+  "vein_miner.utilcraft.inactive": "Vein Miner inaktiv",
+  "version.utilcraft.new": "[Utilcraft] Neue Version %s verfügbar!"
 }

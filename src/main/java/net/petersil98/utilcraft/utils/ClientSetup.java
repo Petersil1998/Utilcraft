@@ -16,9 +16,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.items.TNTFinder;
+import net.petersil98.utilcraft.screen.ConfigScreen;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -118,5 +121,9 @@ public class ClientSetup {
             this.field_239446_b_ *= 0.8D;
             this.field_239445_a_ = MathHelper.positiveModulo(this.field_239445_a_ + this.field_239446_b_, 1.0D);
         }
+    }
+
+    public static void registerExtensionPoint() {
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (minecraft, screen) -> new ConfigScreen(screen));
     }
 }

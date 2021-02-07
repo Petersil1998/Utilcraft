@@ -6,8 +6,6 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -104,7 +102,6 @@ public class TravelersBackpackContainer extends Container {
         super.onContainerClosed(playerIn);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public int getNumRows() {
         return this.numRows;
     }

@@ -6,8 +6,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 
@@ -68,7 +66,6 @@ public enum UtilcraftArmorMaterial implements IArmorMaterial {
 
     @Nonnull
     @Override
-    @OnlyIn(Dist.CLIENT)
     public String getName() {
         return this.name;
     }

@@ -12,8 +12,6 @@ import net.minecraft.item.crafting.*;
 import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.recipes.UtilcraftRecipeTypes;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
@@ -177,13 +175,11 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
         return this.craftMatrix.getHeight();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public int getSize() {
         return 17;
     }
 
     @Nonnull
-    @OnlyIn(Dist.CLIENT)
     public RecipeBookCategory func_241850_m() {
         return RecipeBookCategory.CRAFTING;
     }

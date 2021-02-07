@@ -122,6 +122,8 @@ public class UtilcraftLanguages {
 
             add("key_bindings.utilcraft.category", "Utilcraft");
             add("key_bindings.utilcraft.vein_miner", "Toggle Vein Miner");
+
+            add("version.utilcraft.new", "[Utilcraft] New Version %s available!");
         }
     }
 
@@ -228,6 +230,8 @@ public class UtilcraftLanguages {
 
             add("key_bindings.utilcraft.category", "Utilcraft");
             add("key_bindings.utilcraft.vein_miner", "Vein Miner ein/ausschalten");
+
+            add("version.utilcraft.new", "[Utilcraft] Neue Version %s verfügbar!");
         }
     }
 }

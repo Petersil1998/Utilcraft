@@ -7,8 +7,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -24,7 +22,6 @@ public class GlassStairs extends StairsBlock {
         return VoxelShapes.empty();
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public float getAmbientOcclusionLightValue(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
         return 1.0F;
@@ -35,7 +32,6 @@ public class GlassStairs extends StairsBlock {
         return true;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public boolean isSideInvisible(@Nonnull BlockState state, BlockState adjacentBlockState, @Nonnull Direction side) {
         return adjacentBlockState.isIn(this) || super.isSideInvisible(state, adjacentBlockState, side);
     }
