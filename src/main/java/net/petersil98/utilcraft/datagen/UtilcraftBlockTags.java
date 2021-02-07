@@ -19,12 +19,13 @@ public class UtilcraftBlockTags extends BlockTagsProvider {
 
     @Override
     protected void registerTags() {
-        this.getOrCreateBuilder(UtilcraftTags.SIDE_SLABS_BLOCKS).add(SIDE_ACACIA_SLAB, SIDE_BIRCH_SLAB, SIDE_COBBLESTONE_SLAB, SIDE_DARK_OAK_SLAB, SIDE_GOLD_SLAB, SIDE_JUNGLE_SLAB, SIDE_OAK_SLAB, SIDE_REDSTONE_SLAB, SIDE_SAKURA_SLAB, SIDE_SPRUCE_SLAB, SIDE_STONE_SLAB);
+        this.getOrCreateBuilder(UtilcraftTags.BlockTags.SIDE_SLABS_BLOCKS).add(SIDE_ACACIA_SLAB, SIDE_BIRCH_SLAB, SIDE_COBBLESTONE_SLAB, SIDE_DARK_OAK_SLAB, SIDE_GOLD_SLAB, SIDE_JUNGLE_SLAB, SIDE_OAK_SLAB, SIDE_REDSTONE_SLAB, SIDE_SAKURA_SLAB, SIDE_SPRUCE_SLAB, SIDE_STONE_SLAB);
+        this.getOrCreateBuilder(UtilcraftTags.BlockTags.SAKURA_LOGS).add(SAKURA_LOG);
 
         this.getOrCreateBuilder(BlockTags.FENCE_GATES).add(SAKURA_FENCE_GATE);
         this.getOrCreateBuilder(BlockTags.FLOWER_POTS).add(POTTED_SAKURA_SAPLING);
         this.getOrCreateBuilder(BlockTags.LEAVES).add(SAKURA_LEAVES);
-        this.getOrCreateBuilder(BlockTags.LOGS).add(SAKURA_LOG);
+        this.getOrCreateBuilder(BlockTags.LOGS_THAT_BURN).addTag(UtilcraftTags.BlockTags.SAKURA_LOGS);
         this.getOrCreateBuilder(BlockTags.PLANKS).add(SAKURA_PLANKS);
         this.getOrCreateBuilder(BlockTags.SAPLINGS).add(SAKURA_SAPLING);
         this.getOrCreateBuilder(BlockTags.SLABS).add(GOLD_SLAB, REDSTONE_SLAB);
