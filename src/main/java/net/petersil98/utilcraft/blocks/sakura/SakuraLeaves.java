@@ -3,6 +3,7 @@ package net.petersil98.utilcraft.blocks.sakura;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
@@ -26,5 +27,15 @@ public class SakuraLeaves extends LeavesBlock {
 
     private static boolean isntSolid(BlockState state, IBlockReader reader, BlockPos pos) {
         return false;
+    }
+
+    @Override
+    public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
+        return 60;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
+        return 30;
     }
 }
