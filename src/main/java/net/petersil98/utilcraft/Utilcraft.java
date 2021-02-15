@@ -95,6 +95,7 @@ public class Utilcraft {
         ScreenManager.registerFactory(UtilcraftContainer.SECURE_CHEST_CONTAINER, SecureChestScreen::new);
         ScreenManager.registerFactory(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER, TravelersBackpackScreen::new);
         ScreenManager.registerFactory(UtilcraftContainer.SUSHI_MAKER_CONTAINER, SushiMakerScreen::new);
+        ScreenManager.registerFactory(UtilcraftContainer.ENTROPY_TABLE_CONTAINER, EntropyTableScreen::new);
         ClientRegistry.bindTileEntityRenderer(UtilcraftTileEntities.UTILCRAFT_SIGN, SignTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(UtilcraftTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
         ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
@@ -151,6 +152,7 @@ public class Utilcraft {
             blockRegistryEvent.getRegistry().register(new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT.delegate.get() ,() -> UtilcraftBlocks.SAKURA_SAPLING, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid()).setRegistryName("potted_sakura_sapling"));
             blockRegistryEvent.getRegistry().register(new SilverBlock().setRegistryName("silver_block"));
             blockRegistryEvent.getRegistry().register(new ChunkLoader().setRegistryName("chunk_loader"));
+            blockRegistryEvent.getRegistry().register(new EntropyTable().setRegistryName("entropy_table"));
         }
 
         @SubscribeEvent
@@ -194,6 +196,7 @@ public class Utilcraft {
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.GLASS_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("glass_stairs"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.SILVER_BLOCK, new Item.Properties().group(ITEM_GROUP)).setRegistryName("silver_block"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.CHUNK_LOADER, new Item.Properties().group(ITEM_GROUP)).setRegistryName("chunk_loader"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.ENTROPY_TABLE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("entropy_table"));
 
             itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
             itemRegistryEvent.getRegistry().register(new AppleJuice().setRegistryName("apple_juice"));
@@ -248,6 +251,7 @@ public class Utilcraft {
             containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SecureChestContainer(windowId, inv)).setRegistryName("secure_chest"));
             containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SushiMakerContainer(windowId, inv)).setRegistryName("sushi_maker"));
             containerRegister.getRegistry().register(IForgeContainerType.create(TravelersBackpackContainer::new).setRegistryName("travelers_backpack"));
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new EntropyTableContainer(windowId, inv)).setRegistryName("entropy_table"));
         }
 
         @SubscribeEvent

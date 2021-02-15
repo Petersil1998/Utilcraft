@@ -18,4 +18,7 @@ public class UtilcraftContainer {
 
     @ObjectHolder("sushi_maker")
     public static ContainerType<SushiMakerContainer> SUSHI_MAKER_CONTAINER;
+
+    @ObjectHolder("entropy_table")
+    public static ContainerType<EntropyTableContainer> ENTROPY_TABLE_CONTAINER;
 }

@@ -100,4 +100,7 @@ public class UtilcraftBlocks {
 
     @ObjectHolder("chunk_loader")
     public static ChunkLoader CHUNK_LOADER;
+
+    @ObjectHolder("entropy_table")
+    public static EntropyTable ENTROPY_TABLE;
 }
