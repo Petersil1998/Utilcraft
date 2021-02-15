@@ -49,10 +49,10 @@ public class ColorChooser extends Widget {
                     fill(matrixStack, x+radius+this.x, y+radius+this.y, x+radius+1+this.x, y+radius+1+this.y, hsv2rgb(hue, saturation, 1));
                 }
             }
+            text.renderButton(matrixStack, mouseX, mouseY, partialTicks);
+            fill(matrixStack, x+width-textHeight-1, y+width+9, x+width, y+width+10+textHeight+1, 0xFF9E9E9E);
+            fill(matrixStack, x+width-textHeight, y+width+10, x+width-1, y+width+10+textHeight, color);
         }
-        text.renderButton(matrixStack, mouseX, mouseY, partialTicks);
-        fill(matrixStack, x+width-textHeight-1, y+width+9, x+width, y+width+10+textHeight+1, 0xFF9E9E9E);
-        fill(matrixStack, x+width-textHeight, y+width+10, x+width-1, y+width+10+textHeight, color);
     }
 
     @Override
