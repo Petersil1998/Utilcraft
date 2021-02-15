@@ -7,11 +7,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.SecureChest;
 
+import javax.annotation.Nonnull;
+
 @Mod.EventBusSubscriber(modid = Utilcraft.MOD_ID)
 public class ExplosionEventHandler {
 
     @SubscribeEvent
-    public static void onExplosionEvent(ExplosionEvent.Detonate event) {
+    public static void onExplosionEvent(@Nonnull ExplosionEvent.Detonate event) {
         ServerWorld world = (ServerWorld)event.getWorld();
         event.getAffectedBlocks().removeIf(current -> world.getBlockState(current).getBlock() instanceof SecureChest);
     }

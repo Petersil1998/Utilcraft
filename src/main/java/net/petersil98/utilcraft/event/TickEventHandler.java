@@ -20,6 +20,7 @@ import net.petersil98.utilcraft.network.SyncDeathPoint;
 import net.petersil98.utilcraft.network.ToggleVeinMiner;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -31,7 +32,7 @@ public class TickEventHandler {
     private static final Method resetRainAndThunder = ObfuscationReflectionHelper.findMethod(ServerWorld.class, "func_73051_P");
 
     @SubscribeEvent
-    public static void onWorldTick(TickEvent.WorldTickEvent event) {
+    public static void onWorldTick(@Nonnull TickEvent.WorldTickEvent event) {
         if(event.world instanceof ServerWorld && !event.world.getGameRules().getBoolean(UtilcraftGameRules.DO_ALL_PLAYERS_NEED_SLEEP)) {
             ServerWorld world = (ServerWorld) event.world;
             List<ServerPlayerEntity> players = world.getServer().getPlayerList().getPlayers();
@@ -55,7 +56,7 @@ public class TickEventHandler {
     }
 
     @SubscribeEvent
-    public static void onTickEvent(TickEvent.PlayerTickEvent event) {
+    public static void onTickEvent(@Nonnull TickEvent.PlayerTickEvent event) {
         if(event.side.isServer() && event.phase == TickEvent.Phase.END) {
             event.player.getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
                 if(iLastDeath.getDeathPoint() != null && iLastDeath.getDeathDimension() != null && event.player.world.getDimensionKey().getLocation().equals(iLastDeath.getDeathDimension())) {
@@ -71,7 +72,7 @@ public class TickEventHandler {
     }
 
     @SubscribeEvent
-    public static void toggleVeinMiner(TickEvent.ClientTickEvent event) {
+    public static void toggleVeinMiner(@Nonnull TickEvent.ClientTickEvent event) {
         if(KeyBindings.VEIN_MINER.isPressed() && Minecraft.getInstance().currentScreen == null && !Minecraft.getInstance().gameSettings.showDebugInfo) {
             PlayerUtils.setVeinMinerActive(!PlayerUtils.isVeinMinerActive());
             NetworkManager.sendToServer(new ToggleVeinMiner(Minecraft.getInstance().player.getUniqueID(), PlayerUtils.isVeinMinerActive()));

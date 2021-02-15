@@ -14,12 +14,13 @@ import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.SimplePlayer;
 import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrustedPlayersCommand {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher){
+    public static void register(@Nonnull CommandDispatcher<CommandSource> dispatcher){
         LiteralCommandNode<CommandSource> commandNode = dispatcher.register(
                 Commands.literal(Utilcraft.MOD_ID).then(Commands.literal("trust")
                         .then(Commands.literal("grant").then(Commands.argument("player", EntityArgument.player()).executes(context -> {
@@ -39,21 +40,21 @@ public class TrustedPlayersCommand {
         dispatcher.register(Commands.literal(Utilcraft.MOD_ID_SHORT).redirect(commandNode));
     }
 
-    private static void grantTrust(CommandSource source, ServerPlayerEntity affectedPlayer) throws CommandSyntaxException {
+    private static void grantTrust(@Nonnull CommandSource source, @Nonnull ServerPlayerEntity affectedPlayer) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
         worldSavedData.addTrustedPlayer(player.getGameProfile().getId(), new SimplePlayer(affectedPlayer.getName().getString(), affectedPlayer.getGameProfile().getId()));
         player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_added", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
     }
 
-    private static void revokeTrust(CommandSource source, PlayerEntity affectedPlayer) throws CommandSyntaxException {
+    private static void revokeTrust(@Nonnull CommandSource source, @Nonnull PlayerEntity affectedPlayer) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
         worldSavedData.removedTrustedPlayer(player.getGameProfile().getId(), affectedPlayer.getGameProfile().getId());
         player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_removed", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
     }
 
-    private static void sendListOfTrustedPlayers(CommandSource source) throws CommandSyntaxException {
+    private static void sendListOfTrustedPlayers(@Nonnull CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
         List<SimplePlayer> trustedPlayers = worldSavedData.getTrustedPlayers(player.getGameProfile().getId());

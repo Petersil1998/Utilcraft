@@ -43,16 +43,16 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
         this.setDefaultState(this.getDefaultState().with(TYPE, SideSlabType.NORTH).with(WATERLOGGED, Boolean.FALSE));
     }
 
-    public boolean isTransparent(BlockState state) {
+    public boolean isTransparent(@Nonnull BlockState state) {
         return state.get(TYPE) != SideSlabType.DOUBLE;
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         builder.add(TYPE, WATERLOGGED);
     }
 
     @Nonnull
-    public VoxelShape getShape(BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         SideSlabType sideSlabType = state.get(TYPE);
         switch(sideSlabType) {
             case DOUBLE:
@@ -69,7 +69,7 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
     }
 
     @Nullable
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(@Nonnull BlockItemUseContext context) {
         BlockPos blockpos = context.getPos();
         BlockState blockstate = context.getWorld().getBlockState(blockpos);
         if (blockstate.getBlock() == this) {
@@ -92,7 +92,7 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
         }
     }
 
-    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+    public boolean isReplaceable(@Nonnull BlockState state, @Nonnull BlockItemUseContext useContext) {
         ItemStack itemstack = useContext.getItem();
         SideSlabType sideSlabType = state.get(TYPE);
         if (sideSlabType != SideSlabType.DOUBLE && itemstack.getItem() == this.asItem()) {
@@ -115,16 +115,16 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
     }
 
     @Nonnull
-    public FluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(@Nonnull BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
-    public boolean receiveFluid(@Nonnull IWorld worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull FluidState fluidStateIn) {
-        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.receiveFluid(worldIn, pos, state, fluidStateIn);
+    public boolean receiveFluid(@Nonnull IWorld world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluidState) {
+        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.receiveFluid(world, pos, state, fluidState);
     }
 
-    public boolean canContainFluid(@Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull Fluid fluidIn) {
-        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.canContainFluid(worldIn, pos, state, fluidIn);
+    public boolean canContainFluid(@Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Fluid fluid) {
+        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.canContainFluid(world, pos, state, fluid);
     }
 
     /**
@@ -134,17 +134,17 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
      * Note that this method should ideally consider only the specific face passed in.
      */
     @Nonnull
-    public BlockState updatePostPlacement(BlockState stateIn, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld worldIn, @Nonnull BlockPos currentPos, BlockPos facingPos) {
-        if (stateIn.get(WATERLOGGED)) {
-            worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+    public BlockState updatePostPlacement(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, BlockPos facingPos) {
+        if (state.get(WATERLOGGED)) {
+            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
-        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, PathType type) {
+    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, PathType type) {
         if (type == PathType.WATER) {
-            return worldIn.getFluidState(pos).isTagged(FluidTags.WATER);
+            return world.getFluidState(pos).isTagged(FluidTags.WATER);
         }
         return false;
     }

@@ -64,6 +64,7 @@ public class Utilcraft {
     public static final String MOD_ID_SHORT = "uc";
 
     public static final ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
+        @Nonnull
         @Override
         public ItemStack createIcon() {
             return new ItemStack(UtilcraftBlocks.GOLD_BRICK);
@@ -106,7 +107,7 @@ public class Utilcraft {
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryMinecraftEvents {
         @SubscribeEvent
-        public static void registerBlocks(final RegistryEvent.Register<Block> blockRegistryEvent) {
+        public static void registerBlocks(@Nonnull final RegistryEvent.Register<Block> blockRegistryEvent) {
             SakuraSign sign = new SakuraSign();
             sign.setRegistryName("sakura_sign");
 
@@ -156,7 +157,7 @@ public class Utilcraft {
         }
 
         @SubscribeEvent
-        public static void registerItems(final RegistryEvent.Register<Item> itemRegistryEvent) {
+        public static void registerItems(@Nonnull final RegistryEvent.Register<Item> itemRegistryEvent) {
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.GOLD_BRICK, new Item.Properties().group(ITEM_GROUP)).setRegistryName("gold_brick"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.GOLD_STAIRS, new Item.Properties().group(ITEM_GROUP)).setRegistryName("gold_stairs"));
             itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftBlocks.GOLD_SLAB, new Item.Properties().group(ITEM_GROUP)).setRegistryName("gold_slab"));
@@ -224,12 +225,12 @@ public class Utilcraft {
         }
 
         @SubscribeEvent
-        public static void registerBiomes(final RegistryEvent.Register<Biome> event){
+        public static void registerBiomes(@Nonnull final RegistryEvent.Register<Biome> event){
             //event.getRegistry().register(new GraveyardBiome().setRegistryName("graveyard"));
         }
 
         @SubscribeEvent
-        public static void registerEnchantments(final RegistryEvent.Register<Enchantment> enchantmentRegister) {
+        public static void registerEnchantments(@Nonnull final RegistryEvent.Register<Enchantment> enchantmentRegister) {
             enchantmentRegister.getRegistry().register(new BeheadingEnchantment().setRegistryName("beheading_enchantment"));
         }
 
@@ -239,14 +240,14 @@ public class Utilcraft {
         }
 
         @SubscribeEvent
-        public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> tileEntityRegister) {
+        public static void registerTileEntities(@Nonnull final RegistryEvent.Register<TileEntityType<?>> tileEntityRegister) {
             tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(DisenchantmentTableTileEntity::new, UtilcraftBlocks.DISENCHANTMENT_TABLE).build(null).setRegistryName("disenchantment_table"));
             tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(UtilcraftSignTileEntity::new, UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_WALL_SIGN).build(null).setRegistryName("mod_sign"));
             tileEntityRegister.getRegistry().register(TileEntityType.Builder.create(SecureChestTileEntity::new, UtilcraftBlocks.SECURE_CHEST).build(null).setRegistryName("secure_chest"));
         }
 
         @SubscribeEvent
-        public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> containerRegister) {
+        public static void registerContainer(@Nonnull final RegistryEvent.Register<ContainerType<?>> containerRegister) {
             containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new DisenchantmentTableContainer(windowId, inv)).setRegistryName("disenchantment_table"));
             containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SecureChestContainer(windowId, inv)).setRegistryName("secure_chest"));
             containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SushiMakerContainer(windowId, inv)).setRegistryName("sushi_maker"));
@@ -255,12 +256,12 @@ public class Utilcraft {
         }
 
         @SubscribeEvent
-        public static void registerRecipeSerializers(final RegistryEvent.Register<IRecipeSerializer<?>> recipeSerializerRegister) {
+        public static void registerRecipeSerializers(@Nonnull final RegistryEvent.Register<IRecipeSerializer<?>> recipeSerializerRegister) {
             recipeSerializerRegister.getRegistry().register(new SushiMakerRecipe.Serializer().setRegistryName("sushi_maker"));
         }
 
         @SubscribeEvent
-        public static void registerPaintingTypes(final RegistryEvent.Register<PaintingType> paintingTypeRegister) {
+        public static void registerPaintingTypes(@Nonnull final RegistryEvent.Register<PaintingType> paintingTypeRegister) {
             paintingTypeRegister.getRegistry().register(new PaintingType(16, 16).setRegistryName("frog"));
         }
     }
@@ -268,12 +269,12 @@ public class Utilcraft {
     public static class RegistryForgeEvents {
 
         @SubscribeEvent
-        public static void registerCommands(RegisterCommandsEvent event){
+        public static void registerCommands(@Nonnull RegisterCommandsEvent event){
             UtilcraftCommands.register(event.getDispatcher());
         }
 
         @SubscribeEvent
-        public static void registerBiomeAddons(BiomeLoadingEvent event){
+        public static void registerBiomeAddons(@Nonnull BiomeLoadingEvent event){
             WorldGeneration.addSilverOre(event.getGeneration());
             WorldGeneration.addRoseQuartzOre(event.getGeneration());
             WorldGeneration.addSakuraTrees(event.getGeneration(), event.getName());

@@ -72,7 +72,8 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
         return compound;
     }
 
-    public static UtilcraftWorldSavedData get(ServerWorld world) {
+    @Nonnull
+    public static UtilcraftWorldSavedData get(@Nonnull ServerWorld world) {
         DimensionSavedDataManager dataManager = world.getSavedData();
         return dataManager.getOrCreate(UtilcraftWorldSavedData::new, DATA_NAME);
     }

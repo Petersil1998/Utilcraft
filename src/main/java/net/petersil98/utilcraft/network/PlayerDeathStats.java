@@ -7,6 +7,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
+import javax.annotation.Nonnull;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -15,7 +16,7 @@ public class PlayerDeathStats {
 
     public PlayerDeathStats() {}
 
-    public PlayerDeathStats(PacketBuffer packetBuffer) {
+    public PlayerDeathStats(@Nonnull PacketBuffer packetBuffer) {
         CompoundNBT tag = packetBuffer.readCompoundTag();
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>(tag.getInt("size"));
         ListNBT list = (ListNBT) tag.get("playerDeaths");
@@ -26,7 +27,7 @@ public class PlayerDeathStats {
         PlayerUtils.setPlayerDeaths(map);
     }
 
-    public void encode(PacketBuffer buf) {
+    public void encode(@Nonnull PacketBuffer buf) {
         Map<String, Integer> playerDeaths = PlayerUtils.getPlayerDeaths();
         CompoundNBT tag = new CompoundNBT();
         ListNBT list = new ListNBT();
@@ -43,7 +44,7 @@ public class PlayerDeathStats {
         buf.writeCompoundTag(tag);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+    public boolean handle(@Nonnull Supplier<NetworkEvent.Context> ctx) {
         return true;
     }
 }

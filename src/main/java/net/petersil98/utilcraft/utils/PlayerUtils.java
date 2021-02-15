@@ -15,6 +15,7 @@ import net.petersil98.utilcraft.data.capabilities.last_death.DefaultLastDeath;
 import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
 import org.apache.commons.io.FilenameUtils;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
@@ -26,7 +27,7 @@ public class PlayerUtils {
     private static final ILastDeath lastDeath = new DefaultLastDeath();
     private static boolean veinMinerActive = false;
 
-    public static void setPlayerDeaths(MinecraftServer server, ServerPlayerEntity playerEntity) {
+    public static void setPlayerDeaths(@Nonnull MinecraftServer server, @Nonnull ServerPlayerEntity playerEntity) {
         playerDeaths.put(playerEntity.getName().getString(), playerEntity.getStats().getValue(Stats.CUSTOM.get(Stats.DEATHS)));
         List<ServerPlayerEntity> onlinePlayers = server.getPlayerList().getPlayers();
         for(ServerPlayerEntity onlinePlayer: onlinePlayers) {

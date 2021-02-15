@@ -72,8 +72,8 @@ public class ButchersKnife extends Item {
         return super.onItemUse(context);
     }
 
-    private void replaceBlocks(BlockPos pos1, Direction secondBlock, World world) {
-        world.setBlockState(pos1, UtilcraftBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock));
-        world.setBlockState(pos1.add(secondBlock.getDirectionVec()), UtilcraftBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock.getOpposite()));
+    private void replaceBlocks(BlockPos firstBlock, Direction secondBlock, @Nonnull World world) {
+        world.setBlockState(firstBlock, UtilcraftBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock));
+        world.setBlockState(firstBlock.add(secondBlock.getDirectionVec()), UtilcraftBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock.getOpposite()));
     }
 }

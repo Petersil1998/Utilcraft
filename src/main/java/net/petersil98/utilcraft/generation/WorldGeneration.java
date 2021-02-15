@@ -13,6 +13,7 @@ import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class WorldGeneration {
@@ -24,7 +25,7 @@ public class WorldGeneration {
             Biomes.SUNFLOWER_PLAINS.getLocation()
     );
 
-    public static void addSilverOre(BiomeGenerationSettings.Builder biome) {
+    public static void addSilverOre(@Nonnull BiomeGenerationSettings.Builder biome) {
         biome.withFeature(
                 GenerationStage.Decoration.UNDERGROUND_ORES,
                 Feature.ORE.withConfiguration(
@@ -37,7 +38,7 @@ public class WorldGeneration {
         );
     }
 
-    public static void addRoseQuartzOre(BiomeGenerationSettings.Builder biome) {
+    public static void addRoseQuartzOre(@Nonnull BiomeGenerationSettings.Builder biome) {
         biome.withFeature(
                 GenerationStage.Decoration.UNDERGROUND_ORES,
                 Feature.ORE.withConfiguration(
@@ -50,7 +51,7 @@ public class WorldGeneration {
         );
     }
 
-    public static void addSakuraTrees(BiomeGenerationSettings.Builder biome, ResourceLocation biomeName) {
+    public static void addSakuraTrees(@Nonnull BiomeGenerationSettings.Builder biome, @Nonnull ResourceLocation biomeName) {
         if(sakuraSpawnBiomes.contains(biomeName)) {
             biome.withFeature(
                     GenerationStage.Decoration.VEGETAL_DECORATION,

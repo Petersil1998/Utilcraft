@@ -9,12 +9,16 @@ import net.petersil98.utilcraft.enchantments.UtilcraftEnchantments;
 import net.petersil98.utilcraft.food.UtilcraftFoods;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 
+import javax.annotation.Nonnull;
+
 public class UtilcraftLanguages {
 
+    @Nonnull
     public static English getEnglish(DataGenerator generator){
         return new English(generator);
     }
 
+    @Nonnull
     public static German getGerman(DataGenerator generator){
         return new German(generator);
     }

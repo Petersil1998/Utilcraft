@@ -56,11 +56,11 @@ public class SecureChest extends Block implements IWaterLoggable {
     }
 
     @Nonnull
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SHAPE;
     }
 
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(@Nonnull BlockItemUseContext context) {
         Direction direction = context.getPlacementHorizontalFacing().getOpposite();
         FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
         boolean flag = context.hasSecondaryUseForPlayer();
@@ -76,7 +76,7 @@ public class SecureChest extends Block implements IWaterLoggable {
     }
 
     @Nonnull
-    public FluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(@Nonnull BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
@@ -84,7 +84,7 @@ public class SecureChest extends Block implements IWaterLoggable {
      * Returns facing pointing to a chest to form a double chest with, null otherwise
      */
     @Nullable
-    private Direction getDirectionToAttach(BlockItemUseContext context, Direction direction) {
+    private Direction getDirectionToAttach(@Nonnull BlockItemUseContext context, Direction direction) {
         BlockState blockstate = context.getWorld().getBlockState(context.getPos().offset(direction));
         return blockstate.isIn(this) ? blockstate.get(FACING) : null;
     }
@@ -92,35 +92,35 @@ public class SecureChest extends Block implements IWaterLoggable {
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
-    public void onBlockPlacedBy(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        TileEntity tileentity = world.getTileEntity(pos);
         if (tileentity instanceof SecureChestTileEntity) {
             ((SecureChestTileEntity) tileentity).setOwner(placer.getUniqueID());
             ((SecureChestTileEntity) tileentity).setCustomName(stack.getDisplayName());
         }
     }
 
-    public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (!state.isIn(newState.getBlock())) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            TileEntity tileentity = world.getTileEntity(pos);
             if (tileentity instanceof SecureChestTileEntity) {
                 ItemStackHandler inventory = ((SecureChestTileEntity)tileentity).getInventory();
                 for(int i = 0; i < inventory.getSlots(); ++i) {
-                    InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), inventory.extractItem(i, inventory.getStackInSlot(i).getCount(), false));
+                    InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), inventory.extractItem(i, inventory.getStackInSlot(i).getCount(), false));
                 }
-                worldIn.updateComparatorOutputLevel(pos, this);
+                world.updateComparatorOutputLevel(pos, this);
             }
 
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            super.onReplaced(state, world, pos, newState, isMoving);
         }
     }
 
     @Nonnull
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, @Nonnull BlockRayTraceResult hit) {
-        if (worldIn.isRemote) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
+        if (world.isRemote) {
             return ActionResultType.SUCCESS;
         } else {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof SecureChestTileEntity)
             {
                 player.openContainer((INamedContainerProvider) tileEntity);
@@ -129,6 +129,7 @@ public class SecureChest extends Block implements IWaterLoggable {
         }
     }
 
+    @Nonnull
     public static TileEntityMerger.ICallback<SecureChestTileEntity, Float2FloatFunction> getLidRotationCallback(final IChestLid lid) {
         return new TileEntityMerger.ICallback<SecureChestTileEntity, Float2FloatFunction>() {
             @Nonnull
@@ -149,20 +150,20 @@ public class SecureChest extends Block implements IWaterLoggable {
     }
 
     @Nonnull
-    public BlockState rotate(BlockState state, Rotation rot) {
+    public BlockState rotate(@Nonnull BlockState state, @Nonnull Rotation rot) {
         return state.with(FACING, rot.rotate(state.get(FACING)));
     }
 
     @Nonnull
-    public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+    public BlockState mirror(@Nonnull BlockState state, @Nonnull Mirror mirror) {
+        return state.rotate(mirror.toRotation(state.get(FACING)));
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
     }
 
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull PathType type) {
+    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull PathType type) {
         return false;
     }
 }

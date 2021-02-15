@@ -51,7 +51,7 @@ public class DisenchantmentTable extends Block {
     @Nonnull
     @Override
     @SuppressWarnings("deprecation")
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, BlockRayTraceResult hit) {
         if (world.isRemote) {
             return ActionResultType.SUCCESS;
         } else {
@@ -62,11 +62,11 @@ public class DisenchantmentTable extends Block {
 
 
     @Nullable
-    public INamedContainerProvider getContainer(@Nonnull BlockState state, World worldIn, @Nonnull BlockPos pos) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    public INamedContainerProvider getContainer(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
+        TileEntity tileentity = world.getTileEntity(pos);
         if (tileentity instanceof DisenchantmentTableTileEntity) {
             ITextComponent itextcomponent = ((INameable)tileentity).getDisplayName();
-            return new SimpleNamedContainerProvider((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, IWorldPosCallable.of(worldIn, pos)), itextcomponent);
+            return new SimpleNamedContainerProvider((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, IWorldPosCallable.of(world, pos)), itextcomponent);
         } else {
             return null;
         }
@@ -75,9 +75,9 @@ public class DisenchantmentTable extends Block {
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
-    public void onBlockPlacedBy(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, ItemStack stack) {
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         if (stack.hasDisplayName()) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            TileEntity tileentity = world.getTileEntity(pos);
             if (tileentity instanceof EnchantingTableTileEntity) {
                 ((EnchantingTableTileEntity)tileentity).setCustomName(stack.getDisplayName());
             }
@@ -85,7 +85,7 @@ public class DisenchantmentTable extends Block {
 
     }
 
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull PathType type) {
+    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull PathType type) {
         return false;
     }
 }

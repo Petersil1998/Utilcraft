@@ -7,6 +7,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
+import javax.annotation.Nonnull;
+
 public class SakuraLeaves extends LeavesBlock {
     public SakuraLeaves() {
         super(AbstractBlock.Properties
@@ -21,6 +23,7 @@ public class SakuraLeaves extends LeavesBlock {
         );
     }
 
+    @Nonnull
     private static Boolean allowsSpawnOnLeaves(BlockState state, IBlockReader reader, BlockPos pos, EntityType<?> entity) {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }

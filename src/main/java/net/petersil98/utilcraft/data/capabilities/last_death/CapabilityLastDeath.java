@@ -5,11 +5,11 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class CapabilityLastDeath {
@@ -24,7 +24,7 @@ public class CapabilityLastDeath {
 
         @Nullable
         @Override
-        public INBT writeNBT(Capability<ILastDeath> capability, ILastDeath instance, Direction side) {
+        public INBT writeNBT(Capability<ILastDeath> capability, @Nonnull ILastDeath instance, Direction side) {
             CompoundNBT tag = new CompoundNBT();
             BlockPos deathPoint = instance.getDeathPoint();
             ResourceLocation deathDimension = instance.getDeathDimension();
@@ -36,7 +36,7 @@ public class CapabilityLastDeath {
         }
 
         @Override
-        public void readNBT(Capability<ILastDeath> capability, ILastDeath instance, Direction side, INBT nbt) {
+        public void readNBT(Capability<ILastDeath> capability, @Nonnull ILastDeath instance, Direction side, INBT nbt) {
             CompoundNBT tag = ((CompoundNBT)nbt);
             if(tag.contains("deathPoint", 99) && tag.contains("deathDimension", 8)) {
                 instance.setDeathPoint(BlockPos.fromLong(tag.getLong("deathPoint")));

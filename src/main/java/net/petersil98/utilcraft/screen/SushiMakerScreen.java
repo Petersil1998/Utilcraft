@@ -8,20 +8,17 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.SushiMakerContainer;
 
 import javax.annotation.Nonnull;
 
-@OnlyIn(Dist.CLIENT)
 public class SushiMakerScreen extends ContainerScreen<SushiMakerContainer> {
     private static final ResourceLocation SUSHI_MAKER_GUI_TEXTURES = new ResourceLocation(Utilcraft.MOD_ID, "textures/gui/sushi_maker_gui.png");
     private boolean widthTooNarrow;
 
-    public SushiMakerScreen(SushiMakerContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
-        super(screenContainer, inv, titleIn);
+    public SushiMakerScreen(SushiMakerContainer screenContainer, PlayerInventory inv, ITextComponent title) {
+        super(screenContainer, inv, title);
     }
 
     protected void init() {
@@ -64,15 +61,15 @@ public class SushiMakerScreen extends ContainerScreen<SushiMakerContainer> {
         return this.widthTooNarrow || super.mouseClicked(mouseX, mouseY, button);
     }
 
-    protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeftIn, int guiTopIn, int mouseButton) {
-        return mouseX < (double)guiLeftIn || mouseY < (double)guiTopIn || mouseX >= (double)(guiLeftIn + this.xSize) || mouseY >= (double)(guiTopIn + this.ySize);
+    protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
+        return mouseX < (double)guiLeft || mouseY < (double)guiTop || mouseX >= (double)(guiLeft + this.xSize) || mouseY >= (double)(guiTop + this.ySize);
     }
 
     /**
      * Called when the mouse is clicked over a slot or outside the gui.
      */
-    protected void handleMouseClick(@Nonnull Slot slotIn, int slotId, int mouseButton, @Nonnull ClickType type) {
-        super.handleMouseClick(slotIn, slotId, mouseButton, type);
+    protected void handleMouseClick(@Nonnull Slot slot, int slotId, int mouseButton, @Nonnull ClickType type) {
+        super.handleMouseClick(slot, slotId, mouseButton, type);
     }
 
     public void onClose() {

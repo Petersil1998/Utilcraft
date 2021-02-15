@@ -5,7 +5,6 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

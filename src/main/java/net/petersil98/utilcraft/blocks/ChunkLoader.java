@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -36,11 +35,11 @@ public class ChunkLoader extends Block {
     }
 
     @Override
-    public void onReplaced(@Nonnull BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        if(worldIn instanceof ServerWorld) {
+    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        if(world instanceof ServerWorld) {
             for(int i = 0; i < RADIUS; i++) {
-                Chunk chunk = worldIn.getChunkAt(pos);
-                ((ServerWorld) worldIn).forceChunk(chunk.getPos().x, chunk.getPos().z, false);
+                Chunk chunk = world.getChunkAt(pos);
+                ((ServerWorld) world).forceChunk(chunk.getPos().x, chunk.getPos().z, false);
             }
         }
     }

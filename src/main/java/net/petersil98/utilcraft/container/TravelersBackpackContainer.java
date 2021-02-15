@@ -50,7 +50,7 @@ public class TravelersBackpackContainer extends Container {
             if(i == slotNumber)
                 this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 161 + offset){
                     @Override
-                    public boolean canTakeStack(@Nonnull PlayerEntity playerIn) {
+                    public boolean canTakeStack(@Nonnull PlayerEntity player) {
                         return false;
                     }
                 });
@@ -62,8 +62,8 @@ public class TravelersBackpackContainer extends Container {
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
-        return playerIn.inventory.getStackInSlot(slotNumber).getItem() instanceof TravelersBackpack;
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
+        return player.inventory.getStackInSlot(slotNumber).getItem() instanceof TravelersBackpack;
     }
 
     /**
@@ -71,7 +71,7 @@ public class TravelersBackpackContainer extends Container {
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity playerIn, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
@@ -98,8 +98,8 @@ public class TravelersBackpackContainer extends Container {
     /**
      * Called when the container is closed.
      */
-    public void onContainerClosed(@Nonnull PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
+    public void onContainerClosed(@Nonnull PlayerEntity player) {
+        super.onContainerClosed(player);
     }
 
     public int getNumRows() {

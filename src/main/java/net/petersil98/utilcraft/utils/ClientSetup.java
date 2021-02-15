@@ -95,7 +95,7 @@ public class ClientSetup {
                 }
             }
 
-            private double func_239443_a_(Vector3d p_239443_1_, Entity p_239443_2_) {
+            private double func_239443_a_(@Nonnull Vector3d p_239443_1_, @Nonnull Entity p_239443_2_) {
                 return Math.atan2(p_239443_1_.getZ() - p_239443_2_.getPosZ(), p_239443_1_.getX() - p_239443_2_.getPosX());
             }
         });

@@ -40,9 +40,9 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
     protected final Map<Block, LootTable.Builder> lootTables = new HashMap<>();
     private final DataGenerator generator;
 
-    public BaseLootTableProvider(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
-        this.generator = dataGeneratorIn;
+    public BaseLootTableProvider(DataGenerator dataGenerator) {
+        super(dataGenerator);
+        this.generator = dataGenerator;
     }
 
     protected abstract void addTables();
@@ -218,7 +218,7 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
         writeTables(cache, tables);
     }
 
-    private void writeTables(DirectoryCache cache, Map<ResourceLocation, LootTable> tables) {
+    private void writeTables(DirectoryCache cache, @Nonnull Map<ResourceLocation, LootTable> tables) {
         Path outputFolder = this.generator.getOutputFolder();
         tables.forEach((key, lootTable) -> {
             Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");

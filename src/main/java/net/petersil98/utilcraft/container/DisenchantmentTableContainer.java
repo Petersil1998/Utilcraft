@@ -100,9 +100,9 @@ public class DisenchantmentTableContainer extends Container {
     /**
      * Callback for when the crafting matrix is changed.
      */
-    public void onCraftMatrixChanged(@Nonnull IInventory inventoryIn) {
-        super.onCraftMatrixChanged(inventoryIn);
-        if (inventoryIn == this.inputInventory) {
+    public void onCraftMatrixChanged(@Nonnull IInventory inventory) {
+        super.onCraftMatrixChanged(inventory);
+        if (inventory == this.inputInventory) {
             this.updateRecipeOutput();
         }
 
@@ -122,16 +122,16 @@ public class DisenchantmentTableContainer extends Container {
         this.detectAndSendChanges();
     }
 
-    public void onContainerClosed(@Nonnull PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
-        this.worldPosCallable.consume((p_217004_2_, p_217004_3_) -> this.clearContainer(playerIn, playerIn.world, this.inputInventory));
+    public void onContainerClosed(@Nonnull PlayerEntity player) {
+        super.onContainerClosed(player);
+        this.worldPosCallable.consume((p_217004_2_, p_217004_3_) -> this.clearContainer(player, player.world, this.inputInventory));
     }
 
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
-        return isWithinUsableDistance(this.worldPosCallable, playerIn, UtilcraftBlocks.DISENCHANTMENT_TABLE);
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
+        return isWithinUsableDistance(this.worldPosCallable, player, UtilcraftBlocks.DISENCHANTMENT_TABLE);
     }
 
     /**
@@ -139,7 +139,7 @@ public class DisenchantmentTableContainer extends Container {
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity playerIn, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
@@ -178,7 +178,7 @@ public class DisenchantmentTableContainer extends Container {
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(playerIn, itemstack1);
+            slot.onTake(player, itemstack1);
         }
 
         return itemstack;
@@ -187,7 +187,8 @@ public class DisenchantmentTableContainer extends Container {
     /**
      * Removes all enchantments from the ItemStack. Note that the curses are not removed.
      */
-    private ItemStack removeEnchantments(ItemStack stack) {
+    @Nonnull
+    private ItemStack removeEnchantments(@Nonnull ItemStack stack) {
         ItemStack itemstack = stack.copy();
         itemstack.removeChildTag("Enchantments");
         itemstack.removeChildTag("StoredEnchantments");

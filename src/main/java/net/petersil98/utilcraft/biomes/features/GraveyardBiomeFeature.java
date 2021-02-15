@@ -19,11 +19,11 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
     }
 
     @Override
-    public void buildSurface(@Nonnull Random random, @Nonnull IChunk chunkIn, @Nonnull Biome biomeIn, int x, int z, int startHeight, double noise, @Nonnull BlockState defaultBlock, @Nonnull BlockState defaultFluid, int seaLevel, long seed, SurfaceBuilderConfig config) {
-        this.buildRealSurface(random, chunkIn, biomeIn, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTop(), config.getUnder(), config.getUnderWaterMaterial(), seaLevel);
+    public void buildSurface(@Nonnull Random random, @Nonnull IChunk chunk, @Nonnull Biome biome, int x, int z, int startHeight, double noise, @Nonnull BlockState defaultBlock, @Nonnull BlockState defaultFluid, int seaLevel, long seed, @Nonnull SurfaceBuilderConfig config) {
+        this.buildRealSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTop(), config.getUnder(), config.getUnderWaterMaterial(), seaLevel);
     }
 
-    protected void buildRealSurface(Random random, IChunk chunkIn, Biome biomeIn, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel){
+    protected void buildRealSurface(@Nonnull Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel){
         BlockState blockstate = top;
         BlockState blockstate1 = middle;
         BlockPos.Mutable blockPos = new BlockPos.Mutable();
@@ -34,7 +34,7 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
 
         for(int i1 = startHeight; i1 >= 0; --i1) {
             blockPos.setPos(k, i1, l);
-            BlockState blockstate2 = chunkIn.getBlockState(blockPos);
+            BlockState blockstate2 = chunk.getBlockState(blockPos);
             if (blockstate2.isAir()) {
                 i = -1;
             } else if (blockstate2.getBlock() == defaultBlock.getBlock()) {
@@ -48,7 +48,7 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
                     }
 
                     if (i1 < sealevel && (blockstate == null || blockstate.isAir())) {
-                        if (biomeIn.getTemperature(blockPos.setPos(x, i1, z)) < 0.15F) {
+                        if (biome.getTemperature(blockPos.setPos(x, i1, z)) < 0.15F) {
                             blockstate = Blocks.ICE.getDefaultState();
                         } else {
                             blockstate = defaultFluid;
@@ -59,17 +59,17 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
 
                     i = j;
                     if (i1 >= sealevel - 1) {
-                        chunkIn.setBlockState(blockPos, blockstate, false);
+                        chunk.setBlockState(blockPos, blockstate, false);
                     } else if (i1 < sealevel - 7 - j) {
                         blockstate = Blocks.AIR.getDefaultState();
                         blockstate1 = defaultBlock;
-                        chunkIn.setBlockState(blockPos, bottom, false);
+                        chunk.setBlockState(blockPos, bottom, false);
                     } else {
-                        chunkIn.setBlockState(blockPos, blockstate1, false);
+                        chunk.setBlockState(blockPos, blockstate1, false);
                     }
                 } else if (i > 0) {
                     --i;
-                    chunkIn.setBlockState(blockPos, blockstate1, false);
+                    chunk.setBlockState(blockPos, blockstate1, false);
                     if (i == 0 && blockstate1.getBlock() == Blocks.SAND && j > 1) {
                         i = random.nextInt(4) + Math.max(0, i1 - 63);
                         blockstate1 = blockstate1.getBlock() == Blocks.RED_SAND ? Blocks.RED_SANDSTONE.getDefaultState() : Blocks.SANDSTONE.getDefaultState();

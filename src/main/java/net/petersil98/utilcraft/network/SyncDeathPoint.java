@@ -6,6 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
+import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class SyncDeathPoint {
@@ -18,7 +19,7 @@ public class SyncDeathPoint {
         this.dimension = dimension;
     }
 
-    public SyncDeathPoint(PacketBuffer packetBuffer) {
+    public SyncDeathPoint(@Nonnull PacketBuffer packetBuffer) {
         try {
             deathPoint = packetBuffer.readBlockPos();
             dimension = packetBuffer.readResourceLocation();
@@ -28,14 +29,14 @@ public class SyncDeathPoint {
         }
     }
 
-    public void encode(PacketBuffer buf) {
+    public void encode(@Nonnull PacketBuffer buf) {
         if(deathPoint != null && dimension != null) {
             buf.writeBlockPos(deathPoint);
             buf.writeResourceLocation(dimension);
         }
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+    public boolean handle(@Nonnull Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> PlayerUtils.setLastDeath(deathPoint, dimension));
         return true;
     }

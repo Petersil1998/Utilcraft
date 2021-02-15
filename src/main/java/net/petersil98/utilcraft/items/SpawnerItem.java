@@ -21,16 +21,16 @@ public class SpawnerItem extends BlockItem {
         super(Blocks.SPAWNER, new Item.Properties());
     }
 
-    protected boolean onBlockPlaced(@Nonnull BlockPos pos, @Nonnull World worldIn, @Nullable PlayerEntity player, @Nonnull ItemStack stack, @Nonnull BlockState state) {
-        return setTileEntityNBT(worldIn, pos, stack);
+    protected boolean onBlockPlaced(@Nonnull BlockPos pos, @Nonnull World world, @Nullable PlayerEntity player, @Nonnull ItemStack stack, @Nonnull BlockState state) {
+        return setTileEntityNBT(world, pos, stack);
     }
 
-    public static boolean setTileEntityNBT(World worldIn, @Nonnull BlockPos pos, @Nonnull ItemStack stackIn) {
-        MinecraftServer minecraftserver = worldIn.getServer();
+    public static boolean setTileEntityNBT(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
+        MinecraftServer minecraftserver = world.getServer();
         if (minecraftserver != null) {
-            CompoundNBT compoundnbt = stackIn.getChildTag("BlockEntityTag");
+            CompoundNBT compoundnbt = stack.getChildTag("BlockEntityTag");
             if (compoundnbt != null) {
-                TileEntity tileentity = worldIn.getTileEntity(pos);
+                TileEntity tileentity = world.getTileEntity(pos);
                 if (tileentity != null) {
                     CompoundNBT original = tileentity.write(new CompoundNBT());
                     CompoundNBT old = original.copy();
@@ -39,7 +39,7 @@ public class SpawnerItem extends BlockItem {
                     original.putInt("y", pos.getY());
                     original.putInt("z", pos.getZ());
                     if (!original.equals(old)) {
-                        tileentity.read(worldIn.getBlockState(pos), original);
+                        tileentity.read(world.getBlockState(pos), original);
                         tileentity.markDirty();
                         return true;
                     }

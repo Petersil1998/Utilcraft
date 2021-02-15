@@ -25,6 +25,7 @@ import net.petersil98.utilcraft.config.Config;
 import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ import java.util.Map;
 public class GUIEventHandler {
 
     @SubscribeEvent
-    public static void addElementsToGUI(RenderGameOverlayEvent event) {
+    public static void addElementsToGUI(@Nonnull RenderGameOverlayEvent event) {
         if(!Minecraft.getInstance().gameSettings.showDebugInfo && event.getType().equals(RenderGameOverlayEvent.ElementType.ALL)) {
             addVeinMinerOverlay(event.getMatrixStack(), 10, event.getWindow().getScaledHeight()-20);
             addDeathsOverlay(event.getMatrixStack(), event.getWindow());
@@ -73,7 +74,7 @@ public class GUIEventHandler {
     }
 
     @SubscribeEvent
-    public static void renderDeathPointRay(RenderWorldLastEvent event) {
+    public static void renderDeathPointRay(@Nonnull RenderWorldLastEvent event) {
         ILastDeath lastDeath = PlayerUtils.getLastDeath();
         if(lastDeath != null && lastDeath.getDeathPoint() != null && lastDeath.getDeathDimension() != null) {
             ClientPlayerEntity player = Minecraft.getInstance().player;
@@ -87,7 +88,7 @@ public class GUIEventHandler {
 
                 Matrix4f matrix = matrixStack.getLast().getMatrix();
 
-                drawLine(buffer.getBuffer(RenderType.LINES), matrix, lastDeath.getDeathPoint());
+                drawLine(buffer.getBuffer(RenderType.LINES), matrix, lastDeath.getDeathPoint(), new Color(Config.DEATH_RAY_COLOR.get(), true));
 
                 matrixStack.pop();
 
@@ -96,8 +97,7 @@ public class GUIEventHandler {
         }
     }
 
-    private static void drawLine(IVertexBuilder builder, Matrix4f positionMatrix, BlockPos pos) {
-        Color color = new Color(Config.DEATH_RAY_COLOR.get(), true);
+    private static void drawLine(@Nonnull IVertexBuilder builder, Matrix4f positionMatrix, @Nonnull BlockPos pos, @Nonnull Color color) {
         builder.pos(positionMatrix, pos.getX(), pos.getY(), pos.getZ())
                 .color(color.getRed(), color.getGreen(),color.getBlue(),color.getAlpha())
                 .endVertex();

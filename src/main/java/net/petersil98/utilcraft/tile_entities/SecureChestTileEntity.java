@@ -41,8 +41,8 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     private ITextComponent customName;
 
-    protected SecureChestTileEntity(TileEntityType<?> typeIn) {
-        super(typeIn);
+    protected SecureChestTileEntity(TileEntityType<?> type) {
+        super(type);
     }
 
     public SecureChestTileEntity() {
@@ -140,11 +140,11 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     }
 
-    private void playSound(SoundEvent soundIn) {
+    private void playSound(SoundEvent sound) {
         double d0 = (double)this.pos.getX() + 0.5D;
         double d1 = (double)this.pos.getY() + 0.5D;
         double d2 = (double)this.pos.getZ() + 0.5D;
-        this.world.playSound(null, d0, d1, d2, soundIn, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        this.world.playSound(null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
     }
 
     /**

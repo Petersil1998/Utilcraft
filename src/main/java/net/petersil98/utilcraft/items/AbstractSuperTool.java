@@ -6,13 +6,16 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public abstract class AbstractSuperTool extends Item {
 
     public AbstractSuperTool(Properties properties) {
         super(properties);
     }
 
-    public static BlockRayTraceResult rayTracer(World worldIn, PlayerEntity player, RayTraceContext.FluidMode fluidMode) {
-        return rayTrace(worldIn, player, fluidMode);
+    @Nonnull
+    public static BlockRayTraceResult rayTracer(World world, PlayerEntity player, RayTraceContext.FluidMode fluidMode) {
+        return rayTrace(world, player, fluidMode);
     }
 }

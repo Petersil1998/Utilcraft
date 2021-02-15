@@ -32,8 +32,8 @@ public class SecureChestTileEntityRenderer<T extends TileEntity & IChestLid> ext
     private final ModelRenderer singleLatch;
     private boolean isChristmas;
 
-    public SecureChestTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
+    public SecureChestTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcher) {
+        super(rendererDispatcher);
         Calendar calendar = Calendar.getInstance();
         if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
             this.isChristmas = true;
@@ -50,36 +50,36 @@ public class SecureChestTileEntityRenderer<T extends TileEntity & IChestLid> ext
         this.singleLatch.rotationPointY = 8.0F;
     }
 
-    public void render(T tileEntityIn, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        World world = tileEntityIn.getWorld();
+    public void render(@Nonnull T tileEntity, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+        World world = tileEntity.getWorld();
         boolean flag = world != null;
-        BlockState blockstate = flag ? tileEntityIn.getBlockState() : UtilcraftBlocks.SECURE_CHEST.getDefaultState().with(SecureChest.FACING, Direction.SOUTH);
+        BlockState blockstate = flag ? tileEntity.getBlockState() : UtilcraftBlocks.SECURE_CHEST.getDefaultState().with(SecureChest.FACING, Direction.SOUTH);
         Block block = blockstate.getBlock();
         if (block instanceof SecureChest) {
-            matrixStackIn.push();
+            matrixStack.push();
             float f = blockstate.get(SecureChest.FACING).getHorizontalAngle();
-            matrixStackIn.translate(0.5D, 0.5D, 0.5D);
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-f));
-            matrixStackIn.translate(-0.5D, -0.5D, -0.5D);
+            matrixStack.translate(0.5D, 0.5D, 0.5D);
+            matrixStack.rotate(Vector3f.YP.rotationDegrees(-f));
+            matrixStack.translate(-0.5D, -0.5D, -0.5D);
             TileEntityMerger.ICallbackWrapper<? extends SecureChestTileEntity> icallbackwrapper = TileEntityMerger.ICallback::func_225537_b_;
-            float f1 = icallbackwrapper.apply(SecureChest.getLidRotationCallback(tileEntityIn)).get(partialTicks);
+            float f1 = icallbackwrapper.apply(SecureChest.getLidRotationCallback(tileEntity)).get(partialTicks);
             f1 = 1.0F - f1;
             f1 = 1.0F - f1 * f1 * f1;
-            int i = icallbackwrapper.apply(new DualBrightnessCallback<>()).applyAsInt(combinedLightIn);
-            RenderMaterial rendermaterial = this.getMaterial(tileEntityIn);
-            IVertexBuilder ivertexbuilder = rendermaterial.getBuffer(bufferIn, RenderType::getEntityCutout);
-            this.renderModels(matrixStackIn, ivertexbuilder, this.singleLid, this.singleLatch, this.singleBottom, f1, i, combinedOverlayIn);
+            int i = icallbackwrapper.apply(new DualBrightnessCallback<>()).applyAsInt(combinedLight);
+            RenderMaterial rendermaterial = this.getMaterial(tileEntity);
+            IVertexBuilder ivertexbuilder = rendermaterial.getBuffer(buffer, RenderType::getEntityCutout);
+            this.renderModels(matrixStack, ivertexbuilder, this.singleLid, this.singleLatch, this.singleBottom, f1, i, combinedOverlay);
 
-            matrixStackIn.pop();
+            matrixStack.pop();
         }
     }
 
-    private void renderModels(MatrixStack matrixStackIn, IVertexBuilder bufferIn, ModelRenderer chestLid, ModelRenderer chestLatch, ModelRenderer chestBottom, float lidAngle, int combinedLightIn, int combinedOverlayIn) {
+    private void renderModels(MatrixStack matrixStack, IVertexBuilder buffer, @Nonnull ModelRenderer chestLid, @Nonnull ModelRenderer chestLatch, @Nonnull ModelRenderer chestBottom, float lidAngle, int combinedLight, int combinedOverlay) {
         chestLid.rotateAngleX = -(lidAngle * ((float)Math.PI / 2F));
         chestLatch.rotateAngleX = chestLid.rotateAngleX;
-        chestLid.render(matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
-        chestLatch.render(matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
-        chestBottom.render(matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+        chestLid.render(matrixStack, buffer, combinedLight, combinedOverlay);
+        chestLatch.render(matrixStack, buffer, combinedLight, combinedOverlay);
+        chestBottom.render(matrixStack, buffer, combinedLight, combinedOverlay);
     }
 
     protected RenderMaterial getMaterial(T tileEntity) {

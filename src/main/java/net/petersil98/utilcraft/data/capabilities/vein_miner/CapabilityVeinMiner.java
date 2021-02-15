@@ -7,6 +7,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class CapabilityVeinMiner {
@@ -21,14 +22,14 @@ public class CapabilityVeinMiner {
 
         @Nullable
         @Override
-        public INBT writeNBT(Capability<IVeinMiner> capability, IVeinMiner instance, Direction side) {
+        public INBT writeNBT(Capability<IVeinMiner> capability, @Nonnull IVeinMiner instance, Direction side) {
             CompoundNBT tag = new CompoundNBT();
             tag.putBoolean("active", instance.getVeinMiner());
             return tag;
         }
 
         @Override
-        public void readNBT(Capability<IVeinMiner> capability, IVeinMiner instance, Direction side, INBT nbt) {
+        public void readNBT(Capability<IVeinMiner> capability, @Nonnull IVeinMiner instance, Direction side, INBT nbt) {
             boolean charge = ((CompoundNBT) nbt).getBoolean("active");
             instance.setVeinMiner(charge);
         }

@@ -3,21 +3,27 @@ package net.petersil98.utilcraft.utils;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
+import javax.annotation.Nonnull;
+
 public class BlockItemUtils {
 
-    public static String name(Item item) {
+    @Nonnull
+    public static String name(@Nonnull Item item) {
         return item.getRegistryName().getPath();
     }
 
-    public static String name(Block block) {
+    @Nonnull
+    public static String name(@Nonnull Block block) {
         return block.getRegistryName().getPath();
     }
 
-    public static String namespace(Item item) {
+    @Nonnull
+    public static String namespace(@Nonnull Item item) {
         return item.getRegistryName().getNamespace();
     }
 
-    public static String namespace(Block block) {
+    @Nonnull
+    public static String namespace(@Nonnull Block block) {
         return block.getRegistryName().getNamespace();
     }
 }

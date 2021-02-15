@@ -13,7 +13,7 @@ import java.util.Random;
 public class SakuraTree extends Tree {
     @Nullable
     @Override
-    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(@Nonnull Random randomIn, boolean p_225546_2_) {
+    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(@Nonnull Random random, boolean p_225546_2_) {
         return Feature.TREE.withConfiguration(UtilcraftBiomeFeatures.SAKURA_TREE_CONFIG);
     }
 }

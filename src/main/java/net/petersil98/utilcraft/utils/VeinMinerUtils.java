@@ -16,6 +16,7 @@ import net.petersil98.utilcraft.items.AbstractSuperTool;
 import net.petersil98.utilcraft.items.RoseQuartzSuperHammer;
 import net.petersil98.utilcraft.items.RoseQuartzSuperShovel;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class VeinMinerUtils {
@@ -94,7 +95,7 @@ public class VeinMinerUtils {
         }
     }
 
-    public static void getTree(BlockPos pos, ArrayList<BlockPos> tree, World world){
+    public static void getTree(@Nonnull BlockPos pos, @Nonnull ArrayList<BlockPos> tree, World world){
         BlockPos posToCheck = pos.south();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
@@ -234,15 +235,15 @@ public class VeinMinerUtils {
         return ForgeHooks.canHarvestBlock(block, player, world, pos) || item.canHarvestBlock(block);
     }
 
-    public static boolean areSameBlock(BlockPos pos1, BlockPos pos2, World world){
+    public static boolean areSameBlock(BlockPos pos1, BlockPos pos2, @Nonnull World world){
         return world.getBlockState(pos1).getBlock().equals(world.getBlockState(pos2).getBlock());
     }
 
-    public static boolean isLogBlock(Block block){
+    public static boolean isLogBlock(@Nonnull Block block){
         return block.isIn(BlockTags.LOGS);
     }
 
-    public static boolean isOreBlock(Block block) {
+    public static boolean isOreBlock(@Nonnull Block block) {
         return block.isIn(Tags.Blocks.ORES);
     }
 }

@@ -23,7 +23,7 @@ public class GlassStairs extends StairsBlock {
     }
 
     @Override
-    public float getAmbientOcclusionLightValue(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
+    public float getAmbientOcclusionLightValue(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return 1.0F;
     }
 
@@ -32,7 +32,7 @@ public class GlassStairs extends StairsBlock {
         return true;
     }
 
-    public boolean isSideInvisible(@Nonnull BlockState state, BlockState adjacentBlockState, @Nonnull Direction side) {
+    public boolean isSideInvisible(@Nonnull BlockState state, @Nonnull BlockState adjacentBlockState, @Nonnull Direction side) {
         return adjacentBlockState.isIn(this) || super.isSideInvisible(state, adjacentBlockState, side);
     }
 }

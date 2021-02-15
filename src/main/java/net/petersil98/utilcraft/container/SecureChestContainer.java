@@ -50,7 +50,7 @@ public class SecureChestContainer extends Container {
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
         return true;
     }
 
@@ -59,7 +59,7 @@ public class SecureChestContainer extends Container {
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity playerIn, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
@@ -86,8 +86,8 @@ public class SecureChestContainer extends Container {
     /**
      * Called when the container is closed.
      */
-    public void onContainerClosed(@Nonnull PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
+    public void onContainerClosed(@Nonnull PlayerEntity player) {
+        super.onContainerClosed(player);
     }
 
     public int getNumRows() {

@@ -29,17 +29,17 @@ public class TravelersBackpack extends Item {
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World worldIn, @Nonnull PlayerEntity playerIn, @Nonnull Hand handIn) {
-        playerIn.getHeldItem(handIn).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iInventory -> {
-            if(!playerIn.world.isRemote) {
-                INamedContainerProvider containerProvider = new SimpleNamedContainerProvider((id, inventory, player) -> new TravelersBackpackContainer(id, player.inventory, iInventory, player.inventory.currentItem), new StringTextComponent("Bag"));
-                NetworkHooks.openGui((ServerPlayerEntity)playerIn, containerProvider, packetBuffer -> {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
+        player.getHeldItem(hand).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iInventory -> {
+            if(!player.world.isRemote) {
+                INamedContainerProvider containerProvider = new SimpleNamedContainerProvider((id, inventory, playerEntity) -> new TravelersBackpackContainer(id, playerEntity.inventory, iInventory, playerEntity.inventory.currentItem), new StringTextComponent("Bag"));
+                NetworkHooks.openGui((ServerPlayerEntity)player, containerProvider, packetBuffer -> {
                     packetBuffer.writeInt(iInventory.getSlots());
-                    packetBuffer.writeInt(playerIn.inventory.currentItem);
+                    packetBuffer.writeInt(player.inventory.currentItem);
                 });
             }
         });
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        return super.onItemRightClick(world, player, hand);
     }
 
     @Nullable

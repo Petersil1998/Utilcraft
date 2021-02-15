@@ -2,7 +2,6 @@ package net.petersil98.utilcraft.loot_modifiers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -27,13 +26,13 @@ import java.util.List;
 import java.util.Random;
 
 public class BeheadingModifier extends LootModifier {
-    public BeheadingModifier(ILootCondition[] conditionsIn) {
-        super(conditionsIn);
+    public BeheadingModifier(ILootCondition[] conditions) {
+        super(conditions);
     }
 
     @Nonnull
     @Override
-    public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+    public List<ItemStack> doApply(List<ItemStack> generatedLoot, @Nonnull LootContext context) {
         Entity killer = context.get(LootParameters.KILLER_ENTITY);
         if (killer instanceof PlayerEntity) {
             PlayerEntity player = ((PlayerEntity) killer);
@@ -86,8 +85,8 @@ public class BeheadingModifier extends LootModifier {
 
     public static class Serializer extends GlobalLootModifierSerializer<BeheadingModifier> {
         @Override
-        public BeheadingModifier read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
-            return new BeheadingModifier(conditionsIn);
+        public BeheadingModifier read(ResourceLocation name, JsonObject object, ILootCondition[] conditions) {
+            return new BeheadingModifier(conditions);
         }
 
         @Override

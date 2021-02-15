@@ -39,13 +39,13 @@ public enum UtilcraftArmorMaterial implements IArmorMaterial {
     }
 
     @Override
-    public int getDurability(EquipmentSlotType slotIn) {
-        return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * this.maxDamageFactor;
+    public int getDurability(@Nonnull EquipmentSlotType slot) {
+        return MAX_DAMAGE_ARRAY[slot.getIndex()] * this.maxDamageFactor;
     }
 
     @Override
-    public int getDamageReductionAmount(EquipmentSlotType slotIn) {
-        return this.damageReductionAmountArray[slotIn.getIndex()];
+    public int getDamageReductionAmount(@Nonnull EquipmentSlotType slot) {
+        return this.damageReductionAmountArray[slot.getIndex()];
     }
 
     @Override
@@ -59,6 +59,7 @@ public enum UtilcraftArmorMaterial implements IArmorMaterial {
         return this.soundEvent;
     }
 
+    @Nonnull
     @Override
     public Ingredient getRepairMaterial() {
         return this.repairMaterial.getValue();

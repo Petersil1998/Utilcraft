@@ -8,6 +8,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class CapabilityHome {
@@ -22,7 +23,7 @@ public class CapabilityHome {
 
         @Nullable
         @Override
-        public INBT writeNBT(Capability<IHome> capability, IHome instance, Direction side) {
+        public INBT writeNBT(Capability<IHome> capability, @Nonnull IHome instance, Direction side) {
             CompoundNBT tag = new CompoundNBT();
             BlockPos home = instance.getHome();
             if(home != null) {
@@ -33,7 +34,7 @@ public class CapabilityHome {
         }
 
         @Override
-        public void readNBT(Capability<IHome> capability, IHome instance, Direction side, INBT nbt) {
+        public void readNBT(Capability<IHome> capability, @Nonnull IHome instance, Direction side, INBT nbt) {
             CompoundNBT tag = ((CompoundNBT)nbt);
             int[] cords = tag.getIntArray("home");
             BlockPos home = BlockPos.ZERO;

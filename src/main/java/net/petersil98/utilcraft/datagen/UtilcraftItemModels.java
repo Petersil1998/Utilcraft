@@ -14,7 +14,6 @@ import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
 import net.petersil98.utilcraft.food.UtilcraftFoods;
-import net.petersil98.utilcraft.items.SpawnerItem;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.utils.BlockItemUtils;
 

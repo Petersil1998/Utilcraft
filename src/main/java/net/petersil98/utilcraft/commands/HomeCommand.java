@@ -15,12 +15,13 @@ import net.minecraft.world.server.TicketType;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.Set;
 
 public class HomeCommand {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher){
+    public static void register(@Nonnull CommandDispatcher<CommandSource> dispatcher){
         LiteralCommandNode<CommandSource> commandNode = dispatcher.register(
             Commands.literal(Utilcraft.MOD_ID).then(Commands.literal("home")
                 .executes(context -> {
@@ -36,7 +37,7 @@ public class HomeCommand {
         dispatcher.register(Commands.literal(Utilcraft.MOD_ID_SHORT).redirect(commandNode));
     }
 
-    private static void setHome(CommandSource source) throws CommandSyntaxException {
+    private static void setHome(@Nonnull CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         BlockPos position = player.getPosition();
         player.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
@@ -45,7 +46,7 @@ public class HomeCommand {
         });
     }
 
-    private static void teleportHome(CommandSource source) throws CommandSyntaxException {
+    private static void teleportHome(@Nonnull CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.asPlayer();
         player.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
             BlockPos home = iHome.getHome();
@@ -58,7 +59,7 @@ public class HomeCommand {
         });
     }
 
-    private static void teleportToPos(ServerPlayerEntity player, BlockPos position) {
+    private static void teleportToPos(@Nonnull ServerPlayerEntity player, BlockPos position) {
         Set<SPlayerPositionLookPacket.Flags> set = EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class);
 
         set.add(SPlayerPositionLookPacket.Flags.X_ROT);

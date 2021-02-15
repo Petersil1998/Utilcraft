@@ -19,8 +19,8 @@ import java.util.function.Consumer;
 
 public class UtilcraftRecipes extends RecipeProvider {
 
-    public UtilcraftRecipes(DataGenerator generatorIn) {
-        super(generatorIn);
+    public UtilcraftRecipes(DataGenerator generator) {
+        super(generator);
     }
 
     @Override

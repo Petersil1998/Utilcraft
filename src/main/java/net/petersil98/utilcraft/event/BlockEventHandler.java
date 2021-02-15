@@ -20,6 +20,7 @@ import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +32,7 @@ import static net.petersil98.utilcraft.utils.VeinMinerUtils.*;
 public class BlockEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void veinMiner(final BlockEvent.BreakEvent event) {
+    public static void veinMiner(@Nonnull final BlockEvent.BreakEvent event) {
         Block minedBlock = event.getState().getBlock();
         AtomicBoolean veinMinerActive = new AtomicBoolean(false);
         if(event.getPlayer().getEntityWorld() instanceof ServerWorld) {
@@ -77,7 +78,7 @@ public class BlockEventHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void blockProtector(final BlockEvent.BreakEvent event) {
+    public static void blockProtector(@Nonnull final BlockEvent.BreakEvent event) {
         if(event.getPlayer() instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity)event.getPlayer();
             TileEntity te = player.getEntityWorld().getTileEntity(event.getPos());

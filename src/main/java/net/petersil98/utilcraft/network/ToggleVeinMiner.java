@@ -5,6 +5,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -18,17 +19,17 @@ public class ToggleVeinMiner {
         this.state = state;
     }
 
-    public ToggleVeinMiner(PacketBuffer packetBuffer) {
+    public ToggleVeinMiner(@Nonnull PacketBuffer packetBuffer) {
         this.player = packetBuffer.readUniqueId();
         this.state = packetBuffer.readBoolean();
     }
 
-    public void encode(PacketBuffer buf) {
+    public void encode(@Nonnull PacketBuffer buf) {
         buf.writeUniqueId(player);
         buf.writeBoolean(state);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+    public boolean handle(@Nonnull Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayerEntity playerEntity = ctx.get().getSender();
             if(playerEntity != null) {

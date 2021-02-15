@@ -34,49 +34,51 @@ public class SushiMakerRecipeBuilder {
     private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
     private String group;
 
-    public SushiMakerRecipeBuilder(IItemProvider resultIn, int countIn) {
-        this.result = resultIn.asItem();
-        this.count = countIn;
+    public SushiMakerRecipeBuilder(@Nonnull IItemProvider result, int count) {
+        this.result = result.asItem();
+        this.count = count;
     }
 
     /**
      * Creates a new builder for a shaped recipe.
      */
-    public static SushiMakerRecipeBuilder sushiMakerRecipe(IItemProvider resultIn) {
-        return sushiMakerRecipe(resultIn, 1);
+    @Nonnull
+    public static SushiMakerRecipeBuilder sushiMakerRecipe(IItemProvider result) {
+        return sushiMakerRecipe(result, 1);
     }
 
     /**
      * Creates a new builder for a shaped recipe.
      */
-    public static SushiMakerRecipeBuilder sushiMakerRecipe(IItemProvider resultIn, int countIn) {
-        return new SushiMakerRecipeBuilder(resultIn, countIn);
+    @Nonnull
+    public static SushiMakerRecipeBuilder sushiMakerRecipe(IItemProvider result, int count) {
+        return new SushiMakerRecipeBuilder(result, count);
     }
 
     /**
      * Adds a key to the recipe pattern.
      */
-    public SushiMakerRecipeBuilder key(Character symbol, ITag<Item> tagIn) {
-        return this.key(symbol, Ingredient.fromTag(tagIn));
+    public SushiMakerRecipeBuilder key(Character symbol, ITag<Item> tag) {
+        return this.key(symbol, Ingredient.fromTag(tag));
     }
 
     /**
      * Adds a key to the recipe pattern.
      */
-    public SushiMakerRecipeBuilder key(Character symbol, IItemProvider itemIn) {
-        return this.key(symbol, Ingredient.fromItems(itemIn));
+    public SushiMakerRecipeBuilder key(Character symbol, IItemProvider item) {
+        return this.key(symbol, Ingredient.fromItems(item));
     }
 
     /**
      * Adds a key to the recipe pattern.
      */
-    public SushiMakerRecipeBuilder key(Character symbol, Ingredient ingredientIn) {
+    public SushiMakerRecipeBuilder key(Character symbol, Ingredient ingredient) {
         if (this.key.containsKey(symbol)) {
             throw new IllegalArgumentException("Symbol '" + symbol + "' is already defined!");
         } else if (symbol == ' ') {
             throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
         } else {
-            this.key.put(symbol, ingredientIn);
+            this.key.put(symbol, ingredient);
             return this;
         }
     }
@@ -84,11 +86,11 @@ public class SushiMakerRecipeBuilder {
     /**
      * Adds a new entry to the patterns for this recipe.
      */
-    public SushiMakerRecipeBuilder patternLine(String patternIn) {
-        if (!this.pattern.isEmpty() && patternIn.length() != this.pattern.get(0).length()) {
+    public SushiMakerRecipeBuilder patternLine(String pattern) {
+        if (!this.pattern.isEmpty() && pattern.length() != this.pattern.get(0).length()) {
             throw new IllegalArgumentException("Pattern must be the same width on every line!");
         } else {
-            this.pattern.add(patternIn);
+            this.pattern.add(pattern);
             return this;
         }
     }
@@ -96,43 +98,43 @@ public class SushiMakerRecipeBuilder {
     /**
      * Adds a criterion needed to unlock the recipe.
      */
-    public SushiMakerRecipeBuilder addCriterion(String name, ICriterionInstance criterionIn) {
-        this.advancementBuilder.withCriterion(name, criterionIn);
+    public SushiMakerRecipeBuilder addCriterion(String name, ICriterionInstance criterion) {
+        this.advancementBuilder.withCriterion(name, criterion);
         return this;
     }
 
-    public SushiMakerRecipeBuilder setGroup(String groupIn) {
-        this.group = groupIn;
+    public SushiMakerRecipeBuilder setGroup(String group) {
+        this.group = group;
         return this;
     }
 
     /**
      * Builds this recipe into an {@link IFinishedRecipe}.
      */
-    public void build(Consumer<IFinishedRecipe> consumerIn) {
-        this.build(consumerIn, ForgeRegistries.ITEMS.getKey(this.result));
+    public void build(Consumer<IFinishedRecipe> consumer) {
+        this.build(consumer, ForgeRegistries.ITEMS.getKey(this.result));
     }
 
     /**
      * Builds this recipe into an {@link IFinishedRecipe}. Use {@link #build(Consumer)} if save is the same as the ID for
      * the result.
      */
-    public void build(Consumer<IFinishedRecipe> consumerIn, String save) {
+    public void build(Consumer<IFinishedRecipe> consumer, String save) {
         ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
         if ((new ResourceLocation(save)).equals(resourcelocation)) {
             throw new IllegalStateException("Shaped Recipe " + save + " should remove its 'save' argument");
         } else {
-            this.build(consumerIn, new ResourceLocation(save));
+            this.build(consumer, new ResourceLocation(save));
         }
     }
 
     /**
      * Builds this recipe into an {@link IFinishedRecipe}.
      */
-    public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+    public void build(@Nonnull Consumer<IFinishedRecipe> consumer, ResourceLocation id) {
         this.validate(id);
         this.advancementBuilder.withParentId(new ResourceLocation("recipes/root")).withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(id)).withRewards(AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(IRequirementsStrategy.OR);
-        consumerIn.accept(new Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getGroup().getPath() + "/" + id.getPath())));
+        consumer.accept(new Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getGroup().getPath() + "/" + id.getPath())));
     }
 
     /**
@@ -176,15 +178,15 @@ public class SushiMakerRecipeBuilder {
         private final Advancement.Builder advancementBuilder;
         private final ResourceLocation advancementId;
 
-        public Result(ResourceLocation idIn, Item resultIn, int countIn, String groupIn, List<String> patternIn, Map<Character, Ingredient> keyIn, Advancement.Builder advancementBuilderIn, ResourceLocation advancementIdIn) {
-            this.id = idIn;
-            this.result = resultIn;
-            this.count = countIn;
-            this.group = groupIn;
-            this.pattern = patternIn;
-            this.key = keyIn;
-            this.advancementBuilder = advancementBuilderIn;
-            this.advancementId = advancementIdIn;
+        public Result(ResourceLocation id, Item result, int count, String group, List<String> pattern, Map<Character, Ingredient> key, Advancement.Builder advancementBuilder, ResourceLocation advancementId) {
+            this.id = id;
+            this.result = result;
+            this.count = count;
+            this.group = group;
+            this.pattern = pattern;
+            this.key = key;
+            this.advancementBuilder = advancementBuilder;
+            this.advancementId = advancementId;
         }
 
         public void serialize(@Nonnull JsonObject json) {

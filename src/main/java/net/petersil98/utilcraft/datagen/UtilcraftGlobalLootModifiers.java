@@ -8,7 +8,6 @@ import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.loot.conditions.MatchTool;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.loot_modifiers.BeheadingModifier;
 import net.petersil98.utilcraft.enchantments.UtilcraftEnchantments;
 import net.petersil98.utilcraft.loot_modifiers.UtilcraftLootModifiers;

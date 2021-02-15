@@ -10,8 +10,8 @@ import net.petersil98.utilcraft.items.UtilcraftItems;
 
 public class UtilcraftLootTables extends BaseLootTableProvider {
 
-    public UtilcraftLootTables(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
+    public UtilcraftLootTables(DataGenerator dataGenerator) {
+        super(dataGenerator);
     }
 
     @Override
