@@ -7,6 +7,8 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
 
@@ -33,7 +35,7 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
     public void renderBackground(@Nonnull MatrixStack matrixStack, int vOffset) {
         if (this.minecraft.world != null) {
             this.fillGradient(matrixStack, 0, 0, this.width, this.height, -1072689136, -804253680);
-            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.BackgroundDrawnEvent(this, matrixStack));
+            MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.BackgroundDrawnEvent(this, matrixStack));
         } else {
             this.renderDirtBackground(vOffset);
         }
@@ -52,7 +54,7 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
 
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(GUI);
+        this.minecraft.getTextureManager().bindTexture(this.GUI);
         int relX = (this.width - this.xSize) / 2;
         int relY = (this.height - this.ySize) / 2;
         this.blit(matrixStack, relX, relY, 0, 0, this.xSize, this.ySize);

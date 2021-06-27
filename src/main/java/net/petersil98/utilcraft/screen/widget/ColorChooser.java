@@ -21,22 +21,22 @@ public class ColorChooser extends Widget {
 
     public ColorChooser(FontRenderer font, int x, int y, int width, int textHeight, ITextComponent title) {
         super(x, y, width, width, title);
-        radius =  width/2;
-        color = Config.DEATH_RAY_COLOR.get();
-        text = new TextFieldWidget(font, x, y+width+10, width-textHeight-5, textHeight, new TranslationTextComponent("config.number_player_deaths"));
-        text.setEnabled(false);
+        this.radius =  width/2;
+        this.color = Config.DEATH_RAY_COLOR.get();
+        this.text = new TextFieldWidget(font, x, y+width+10, width-textHeight-5, textHeight, new TranslationTextComponent("config.number_player_deaths"));
+        this.text.setEnabled(false);
         this.textHeight = textHeight;
-        updateColor();
+        this.updateColor();
     }
 
     @Override
     public void renderButton(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        if(visible) {
-            for (int x = -radius; x < radius; x++) {
-                for (int y = -radius; y < radius; y++) {
+        if(this.visible) {
+            for (int x = -this.radius; x < this.radius; x++) {
+                for (int y = -this.radius; y < this.radius; y++) {
                     double distance = sqrt(x*x + y*y);
 
-                    if (distance > radius) {
+                    if (distance > this.radius) {
                         continue;
                     }
 
@@ -44,33 +44,33 @@ public class ColorChooser extends Widget {
                     double degrees = toDegrees(angle);
 
                     float hue = (float) (degrees < 0 ? 360 + degrees : degrees);
-                    float saturation = (float) (distance/radius);
+                    float saturation = (float) (distance/this.radius);
 
-                    fill(matrixStack, x+radius+this.x, y+radius+this.y, x+radius+1+this.x, y+radius+1+this.y, hsv2rgb(hue, saturation, 1));
+                    fill(matrixStack, x+this.radius+this.x, y+this.radius+this.y, x+this.radius+1+this.x, y+this.radius+1+this.y, this.hsv2rgb(hue, saturation, 1));
                 }
             }
-            text.renderButton(matrixStack, mouseX, mouseY, partialTicks);
-            fill(matrixStack, x+width-textHeight-1, y+width+9, x+width, y+width+10+textHeight+1, 0xFF9E9E9E);
-            fill(matrixStack, x+width-textHeight, y+width+10, x+width-1, y+width+10+textHeight, color);
+            this.text.renderButton(matrixStack, mouseX, mouseY, partialTicks);
+            fill(matrixStack, this.x+this.width-this.textHeight-1, this.y+this.width+9, this.x+this.width, this.y+this.width+10+this.textHeight+1, 0xFF9E9E9E);
+            fill(matrixStack, this.x+this.width-this.textHeight, this.y+this.width+10, this.x+this.width-1, this.y+this.width+10+this.textHeight, this.color);
         }
     }
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        double distance = sqrt(pow(mouseX-x-radius, 2) + pow(mouseY-y-radius, 2));
-        if(distance <= radius) {
-            double angle = atan2(mouseY-y-radius, mouseX-x-radius);
+        double distance = sqrt(pow(mouseX-this.x-this.radius, 2) + pow(mouseY-this.y-this.radius, 2));
+        if(distance <= this.radius) {
+            double angle = atan2(mouseY-this.y-this.radius, mouseX-this.x-this.radius);
             double degrees = toDegrees(angle);
 
             float hue = (float) (degrees < 0 ? 360 + degrees : degrees);
-            float saturation = (float) (distance/radius);
-            color = hsv2rgb(hue, saturation, 1);
-            updateColor();
+            float saturation = (float) (distance/this.radius);
+            this.color = this.hsv2rgb(hue, saturation, 1);
+            this.updateColor();
         }
     }
 
     private void updateColor() {
-        text.setText(String.format("#%s", Integer.toHexString(color)).toUpperCase());
+        this.text.setText(String.format("#%s", Integer.toHexString(this.color)).toUpperCase());
     }
 
     public int hsv2rgb(float hue, float saturation, float value) {
@@ -111,6 +111,6 @@ public class ColorChooser extends Widget {
     }
 
     public int getColor() {
-        return color;
+        return this.color;
     }
 }

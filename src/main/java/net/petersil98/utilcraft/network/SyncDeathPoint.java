@@ -21,23 +21,23 @@ public class SyncDeathPoint {
 
     public SyncDeathPoint(@Nonnull PacketBuffer packetBuffer) {
         try {
-            deathPoint = packetBuffer.readBlockPos();
-            dimension = packetBuffer.readResourceLocation();
+            this.deathPoint = packetBuffer.readBlockPos();
+            this.dimension = packetBuffer.readResourceLocation();
         } catch (IndexOutOfBoundsException ignored) {
-            deathPoint = null;
-            dimension = null;
+            this.deathPoint = null;
+            this.dimension = null;
         }
     }
 
     public void encode(@Nonnull PacketBuffer buf) {
-        if(deathPoint != null && dimension != null) {
-            buf.writeBlockPos(deathPoint);
-            buf.writeResourceLocation(dimension);
+        if(this.deathPoint != null && this.dimension != null) {
+            buf.writeBlockPos(this.deathPoint);
+            buf.writeResourceLocation(this.dimension);
         }
     }
 
     public boolean handle(@Nonnull Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> PlayerUtils.setLastDeath(deathPoint, dimension));
+        ctx.get().enqueueWork(() -> PlayerUtils.setLastDeath(this.deathPoint, this.dimension));
         return true;
     }
 }

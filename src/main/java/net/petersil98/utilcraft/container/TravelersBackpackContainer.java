@@ -28,7 +28,7 @@ public class TravelersBackpackContainer extends Container {
         this.inventory = inventory;
         this.numRows = inventory.getSlots()/9;
         this.slotNumber = slotNumber;
-        addSlots(playerInventory);
+        this.addSlots(playerInventory);
     }
 
     protected void addSlots(PlayerInventory playerInventory)
@@ -37,7 +37,7 @@ public class TravelersBackpackContainer extends Container {
 
         for(int i = 0; i < this.numRows; ++i) {
             for(int j = 0; j < 9; ++j) {
-                this.addSlot(new SlotItemHandler(inventory, j + i * 9, 8 + j * 18, 18 + i * 18));
+                this.addSlot(new SlotItemHandler(this.inventory, j + i * 9, 8 + j * 18, 18 + i * 18));
             }
         }
         for(int i = 0; i < 3; ++i) {
@@ -47,7 +47,7 @@ public class TravelersBackpackContainer extends Container {
         }
 
         for(int i = 0; i < 9; ++i) {
-            if(i == slotNumber)
+            if(i == this.slotNumber)
                 this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 161 + offset){
                     @Override
                     public boolean canTakeStack(@Nonnull PlayerEntity player) {
@@ -63,7 +63,7 @@ public class TravelersBackpackContainer extends Container {
      * Determines whether supplied player can use this container
      */
     public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return player.inventory.getStackInSlot(slotNumber).getItem() instanceof TravelersBackpack;
+        return player.inventory.getStackInSlot(this.slotNumber).getItem() instanceof TravelersBackpack;
     }
 
     /**
@@ -75,17 +75,17 @@ public class TravelersBackpackContainer extends Container {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+            ItemStack slotStack = slot.getStack();
+            itemstack = slotStack.copy();
             if (index < this.numRows * 9) {
-                if (!this.mergeItemStack(itemstack1, this.numRows * 9, this.inventorySlots.size(), true)) {
+                if (!this.mergeItemStack(slotStack, this.numRows * 9, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, this.numRows * 9, false)) {
+            } else if (!this.mergeItemStack(slotStack, 0, this.numRows * 9, false)) {
                 return ItemStack.EMPTY;
             }
 
-            if (itemstack1.isEmpty()) {
+            if (slotStack.isEmpty()) {
                 slot.putStack(ItemStack.EMPTY);
             } else {
                 slot.onSlotChanged();

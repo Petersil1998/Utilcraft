@@ -108,7 +108,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     @Nonnull
     @Override
     public String getGroup() {
-        return group;
+        return this.group;
     }
 
     @Nonnull
@@ -120,7 +120,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     @Nonnull
     @Override
     public ResourceLocation getId() {
-        return id;
+        return this.id;
     }
 
     @Nonnull

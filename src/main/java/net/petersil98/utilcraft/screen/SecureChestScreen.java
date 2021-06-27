@@ -36,7 +36,7 @@ public class SecureChestScreen extends ContainerScreen<SecureChestContainer> {
 
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(CHEST_GUI_TEXTURE);
+        this.minecraft.getTextureManager().bindTexture(this.CHEST_GUI_TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
         this.blit(matrixStack, i, j, 0, 0, this.xSize, this.inventoryRows * 18 + 17);

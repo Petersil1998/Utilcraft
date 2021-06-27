@@ -58,16 +58,16 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     @Override
     public Container createMenu(int id, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
         markDirty();
-        return new SecureChestContainer(id, playerInventory, inventory);
+        return new SecureChestContainer(id, playerInventory, this.inventory);
     }
 
     public void read(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
         super.read(state, nbt);
         if(nbt.contains("items")) {
-            inventory.deserializeNBT((CompoundNBT) nbt.get("items"));
+            this.inventory.deserializeNBT((CompoundNBT) nbt.get("items"));
         }
         if(nbt.hasUniqueId("owner")) {
-            owner = nbt.getUniqueId("owner");
+            this.owner = nbt.getUniqueId("owner");
         }
         if (nbt.contains("CustomName", 8)) {
             this.customName = ITextComponent.Serializer.getComponentFromJson(nbt.getString("CustomName"));
@@ -77,9 +77,9 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     @Nonnull
     public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
-        compound.put("items", inventory.serializeNBT());
-        if(owner != null) {
-            compound.putUniqueId("owner", owner);
+        compound.put("items", this.inventory.serializeNBT());
+        if(this.owner != null) {
+            compound.putUniqueId("owner", this.owner);
         }
         if (this.hasCustomName()) {
             compound.putString("CustomName", ITextComponent.Serializer.toJson(this.customName));
@@ -176,14 +176,14 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     }
 
     public UUID getOwner(){
-        return owner;
+        return this.owner;
     }
 
     public ItemStackHandler getInventory() {
-        return inventory;
+        return this.inventory;
     }
 
     public int getInventorySize() {
-        return inventory.getSlots();
+        return this.inventory.getSlots();
     }
 }

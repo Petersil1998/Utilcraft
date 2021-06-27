@@ -64,8 +64,8 @@ public class BlockEventHandler {
                                 block.harvestBlock(world, player, blockpos, blockstate, null, player.getHeldItemMainhand());
                                 block.onBlockHarvested(world, blockpos, blockstate, player);
                                 int bonusLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, mainItem);
-                                int silklevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, mainItem);
-                                event.setExpToDrop(event.getExpToDrop()+blockstate.getExpDrop(world, blockpos, bonusLevel, silklevel));
+                                int silkLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, mainItem);
+                                event.setExpToDrop(event.getExpToDrop()+blockstate.getExpDrop(world, blockpos, bonusLevel, silkLevel));
                                 if (!blockpos.equals(event.getPos())) {
                                     player.getHeldItemMainhand().damageItem(1, player, (onBroken) -> onBroken.sendBreakAnimation(player.getActiveHand()));
                                 }

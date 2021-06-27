@@ -25,8 +25,8 @@ public class ToggleVeinMiner {
     }
 
     public void encode(@Nonnull PacketBuffer buf) {
-        buf.writeUniqueId(player);
-        buf.writeBoolean(state);
+        buf.writeUniqueId(this.player);
+        buf.writeBoolean(this.state);
     }
 
     public boolean handle(@Nonnull Supplier<NetworkEvent.Context> ctx) {
@@ -34,7 +34,7 @@ public class ToggleVeinMiner {
             ServerPlayerEntity playerEntity = ctx.get().getSender();
             if(playerEntity != null) {
                 playerEntity.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
-                    iVeinMiner.setVeinMiner(state);
+                    iVeinMiner.setVeinMiner(this.state);
                 });
             }
         });

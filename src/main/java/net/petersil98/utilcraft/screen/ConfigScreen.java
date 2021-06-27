@@ -28,53 +28,53 @@ public class ConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        deaths = new TextFieldWidget(font, width / 2 - 100, 116, 200, 20, new TranslationTextComponent("config.number_player_deaths"));
-        deaths.setMaxStringLength(2);
-        deaths.setFocused2(true);
-        deaths.setText(String.valueOf(Config.DEATHS_OVERLAY_PLAYERS.get()));
-        children.add(deaths);
-        setFocusedDefault(deaths);
+        this.deaths = new TextFieldWidget(this.font, this.width / 2 - 100, 116, 200, 20, new TranslationTextComponent("config.number_player_deaths"));
+        this.deaths.setMaxStringLength(2);
+        this.deaths.setFocused2(true);
+        this.deaths.setText(String.valueOf(Config.DEATHS_OVERLAY_PLAYERS.get()));
+        this.children.add(this.deaths);
+        this.setFocusedDefault(this.deaths);
 
-        colorChooser = new ColorChooser(font, width/2 - 50,200, 100, 20,new StringTextComponent("Death Point Ray Color"));
-        children.add(colorChooser);
+        this.colorChooser = new ColorChooser(this.font, this.width/2 - 50,200, 100, 20,new StringTextComponent("Death Point Ray Color"));
+        this.children.add(this.colorChooser);
     }
 
     @Override
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrixStack);
-        TextUtils.drawCenterText(matrixStack, font, title.getString(),  width, 2, 0xFFFFFF);
-        drawString(matrixStack, font, GUI_SECTION, width / 2 - font.getStringWidth(GUI_SECTION.getString())/2, 60, 0xCCF7B5);
-        drawString(matrixStack, font, PLAYER_DEATHS_TITLE, width / 2 - font.getStringWidth(PLAYER_DEATHS_TITLE.getString())/2, 90, 0xCCF7B5);
-        drawString(matrixStack, font, PLAYER_DEATHS_DESCRIPTION, width / 2 - font.getStringWidth(PLAYER_DEATHS_DESCRIPTION.getString())/2, 145, 0xCCF7B5);
-        deaths.render(matrixStack, mouseX, mouseY, partialTicks);
-        colorChooser.render(matrixStack, mouseX, mouseY, partialTicks);
+        TextUtils.drawCenterText(matrixStack, this.font, this.title.getString(),  this.width, 2, 0xFFFFFF);
+        drawString(matrixStack, this.font, this.GUI_SECTION, this.width / 2 - this.font.getStringWidth(this.GUI_SECTION.getString())/2, 60, 0xCCF7B5);
+        drawString(matrixStack, this.font, this.PLAYER_DEATHS_TITLE, this.width / 2 - this.font.getStringWidth(this.PLAYER_DEATHS_TITLE.getString())/2, 90, 0xCCF7B5);
+        drawString(matrixStack, this.font, this.PLAYER_DEATHS_DESCRIPTION, this.width / 2 - this.font.getStringWidth(this.PLAYER_DEATHS_DESCRIPTION.getString())/2, 145, 0xCCF7B5);
+        this.deaths.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.colorChooser.render(matrixStack, mouseX, mouseY, partialTicks);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
     public void onClose() {
-        checkInput();
+        this.checkInput();
     }
 
     private void checkInput() {
         try {
-            int config = Integer.parseInt(deaths.getText());
+            int config = Integer.parseInt(this.deaths.getText());
             if (config >= 0 && config <= Config.DEATHS_OVERLAY_PLAYERS_MAX) {
                 Config.DEATHS_OVERLAY_PLAYERS.set(config);
                 Config.DEATHS_OVERLAY_PLAYERS.save();
             }
         } catch (NumberFormatException ignored) {}
-        Config.DEATH_RAY_COLOR.set(colorChooser.getColor());
+        Config.DEATH_RAY_COLOR.set(this.colorChooser.getColor());
         Config.DEATH_RAY_COLOR.save();
     }
 
     @Override
     public void tick() {
-        deaths.tick();
+        this.deaths.tick();
     }
 
     @Override
     public void closeScreen() {
-        minecraft.displayGuiScreen(this.previousScreen);
+        this.minecraft.displayGuiScreen(this.previousScreen);
     }
 }

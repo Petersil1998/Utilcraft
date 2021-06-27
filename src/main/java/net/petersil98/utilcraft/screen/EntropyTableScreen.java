@@ -47,7 +47,7 @@ public class EntropyTableScreen extends ContainerScreen<EntropyTableContainer> {
 
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(SUSHI_MAKER_GUI_TEXTURES);
+        this.minecraft.getTextureManager().bindTexture(this.SUSHI_MAKER_GUI_TEXTURES);
         int i = this.guiLeft;
         int j = (this.height - this.ySize) / 2;
         this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);

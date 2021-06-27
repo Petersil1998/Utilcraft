@@ -83,9 +83,7 @@ public class PlayerEventHandler {
             });
 
             AtomicReference<IModInfo> modInfo = new AtomicReference<>();
-            ModList.get().getModContainerById(Utilcraft.MOD_ID).ifPresent(modContainer -> {
-                modInfo.set(modContainer.getModInfo());
-            });
+            ModList.get().getModContainerById(Utilcraft.MOD_ID).ifPresent(modContainer -> modInfo.set(modContainer.getModInfo()));
             VersionChecker.CheckResult result = VersionChecker.getResult(modInfo.get());
             if(result.status == VersionChecker.Status.OUTDATED) {
                 List<ComparableVersion> sortedKeys = new ArrayList<>(result.changes.keySet());

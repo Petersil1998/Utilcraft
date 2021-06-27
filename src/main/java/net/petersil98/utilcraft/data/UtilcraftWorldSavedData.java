@@ -47,7 +47,7 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
     @Nonnull
     @Override
     public CompoundNBT write(@Nonnull CompoundNBT compound) {
-        Iterator<Map.Entry<UUID, List<SimplePlayer>>> iterator = players.entrySet().iterator();
+        Iterator<Map.Entry<UUID, List<SimplePlayer>>> iterator = this.players.entrySet().iterator();
         ListNBT players = new ListNBT();
         while (iterator.hasNext()) {
             Map.Entry<UUID, List<SimplePlayer>> pair = iterator.next();
@@ -101,6 +101,6 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
     }
 
     public List<SimplePlayer> getTrustedPlayers(UUID player) {
-        return players.containsKey(player) ? players.get(player) : Lists.newArrayList();
+        return this.players.containsKey(player) ? this.players.get(player) : Lists.newArrayList();
     }
 }
