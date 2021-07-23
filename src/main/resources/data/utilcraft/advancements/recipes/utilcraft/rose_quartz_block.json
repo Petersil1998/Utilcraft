@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:rose_quartz_block"
+    ]
+  },
+  "criteria": {
+    "rose_quartz": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "utilcraft:rose_quartz"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:rose_quartz_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "rose_quartz",
+      "has_the_recipe"
+    ]
+  ]
+}

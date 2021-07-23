@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "utilcraft:sakura_stairs",
+    "utilcraft:gold_stairs",
+    "utilcraft:redstone_stairs",
+    "utilcraft:glass_stairs"
+  ]
+}

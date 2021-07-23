@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "utilcraft",
+  "ingredients": [
+    {
+      "item": "utilcraft:compressed_cobblestone"
+    }
+  ],
+  "result": {
+    "item": "minecraft:cobblestone",
+    "count": 9
+  }
+}

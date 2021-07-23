@@ -1,0 +1,76 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:travelers_backpack"
+    ]
+  },
+  "criteria": {
+    "barrel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:barrel"
+          }
+        ]
+      }
+    },
+    "string": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:string"
+          }
+        ]
+      }
+    },
+    "obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:obsidian"
+          }
+        ]
+      }
+    },
+    "leather": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:leather"
+          }
+        ]
+      }
+    },
+    "diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:diamond"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:travelers_backpack"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "barrel",
+      "string",
+      "obsidian",
+      "leather",
+      "diamond",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:apple_juice"
+    ]
+  },
+  "criteria": {
+    "juicer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "utilcraft:juicer"
+          }
+        ]
+      }
+    },
+    "apple": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:apple"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:apple_juice"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "juicer",
+      "apple",
+      "has_the_recipe"
+    ]
+  ]
+}

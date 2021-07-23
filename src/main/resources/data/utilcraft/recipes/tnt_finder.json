@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    " + ",
+    "+#+",
+    " + "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:compass"
+    },
+    "+": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "utilcraft:tnt_finder"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "utilcraft:gold_brick"
+    }
+  },
+  "result": {
+    "item": "utilcraft:gold_slab",
+    "count": 6
+  }
+}

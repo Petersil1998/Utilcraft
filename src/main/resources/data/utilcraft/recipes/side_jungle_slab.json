@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    "#",
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:jungle_planks"
+    }
+  },
+  "result": {
+    "item": "utilcraft:side_jungle_slab",
+    "count": 6
+  }
+}

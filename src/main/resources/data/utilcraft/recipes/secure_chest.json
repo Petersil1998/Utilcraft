@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "*": {
+      "item": "utilcraft:silver_ingot"
+    }
+  },
+  "result": {
+    "item": "utilcraft:secure_chest"
+  }
+}

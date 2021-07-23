@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "utilcraft:gold_brick",
+    "count": 4
+  }
+}

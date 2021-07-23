@@ -1,0 +1,107 @@
+package net.petersil98.utilcraft.datagen;
+
+import net.minecraft.block.*;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.HoeItem;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
+import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
+import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
+import net.petersil98.utilcraft.items.UtilcraftItems;
+
+import net.minecraft.world.level.block.BeetrootBlock;
+import net.minecraft.world.level.block.BellBlock;
+import net.minecraft.world.level.block.DiodeBlock;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.KelpPlantBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SignBlock;
+
+public class UtilcraftLootTables extends BaseLootTableProvider {
+
+    public UtilcraftLootTables(DataGenerator dataGenerator) {
+        super(dataGenerator);
+    }
+
+    @Override
+    protected void addTables() {
+        addSimpleBlock(UtilcraftBlocks.COMPRESSED_COBBLESTONE);
+        addSimpleBlock(UtilcraftBlocks.DISENCHANTMENT_TABLE);
+        addSimpleBlock(UtilcraftBlocks.GOLD_BRICK);
+        addSlab(UtilcraftBlocks.GOLD_SLAB);
+        addSimpleBlock(UtilcraftBlocks.GOLD_STAIRS);
+        addSimpleBlock(UtilcraftBlocks.GOLD_WALL);
+        addSlab(UtilcraftBlocks.REDSTONE_SLAB);
+        addSimpleBlock(UtilcraftBlocks.REDSTONE_STAIRS);
+        addSimpleBlock(UtilcraftBlocks.ROSE_QUARTZ_BLOCK);
+        addOreBlock(UtilcraftBlocks.ROSE_QUARTZ_ORE, UtilcraftItems.ROSE_QUARTZ);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_BUTTON);
+        addDoor(UtilcraftBlocks.SAKURA_DOOR);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_FENCE);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_FENCE_GATE);
+        addLeave(UtilcraftBlocks.SAKURA_LEAVES, UtilcraftBlocks.SAKURA_SAPLING,true, true);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_LOG);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_PLANKS);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_PRESSURE_PLATE);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_SAPLING);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_SIGN);
+        addSlab(UtilcraftBlocks.SAKURA_SLAB);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_STAIRS);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_TRAPDOOR);
+        addSimpleBlockWithName(UtilcraftBlocks.SECURE_CHEST);
+        addSideSlab(UtilcraftSideSlabs.SIDE_ACACIA_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_BIRCH_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_DARK_OAK_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_GOLD_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_JUNGLE_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_OAK_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_SAKURA_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB);
+        addSideSlab(UtilcraftSideSlabs.SIDE_STONE_SLAB);
+        addSimpleBlock(UtilcraftBlocks.SILVER_ORE);
+        addPottedFlower(UtilcraftBlocks.POTTED_SAKURA_SAPLING, UtilcraftBlocks.SAKURA_SAPLING);
+        addSpawnerLootTable();
+        addSilkTouchBlock(UtilcraftBlocks.GLASS_STAIRS);
+    }
+
+    private void addSimpleBlock(BeetrootBlock block) {
+        lootTables.put(block, createSimpleTable(block));
+    }
+
+    private void addSimpleBlockWithName(BeetrootBlock block) {
+        lootTables.put(block, createSimpleTableWithName(block));
+    }
+
+    private void addSlab(SignBlock block) {
+        lootTables.put(block, createSlabTable(block));
+    }
+
+    private void addSideSlab(SideSlabBlock block) {
+        lootTables.put(block, createSideSlabTable(block));
+    }
+
+    private void addOreBlock(BeetrootBlock block, HoeItem drop) {
+        lootTables.put(block, createOreTable(block, drop));
+    }
+
+    private void addDoor(DiodeBlock block) {
+        lootTables.put(block, createDoorTable(block));
+    }
+
+    private void addLeave(KelpPlantBlock block, RotatedPillarBlock sapling, boolean dropSticks, boolean dropApples) {
+        lootTables.put(block, createLeaveTable(block, sapling, dropSticks, dropApples));
+    }
+
+    private void addPottedFlower(FireBlock potBlock, BeetrootBlock flowerBlock) {
+        lootTables.put(potBlock, createPottedFlower((FireBlock) BellBlock.FLOWER_POT, flowerBlock));
+    }
+
+    private void addSpawnerLootTable() {
+        lootTables.put(BellBlock.SPAWNER, createSpawnerLootTable());
+    }
+
+    private void addSilkTouchBlock(BeetrootBlock block) {
+        lootTables.put(block, createSilkTouchBlock(block));
+    }
+}

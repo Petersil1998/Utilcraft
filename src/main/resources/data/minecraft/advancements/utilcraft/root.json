@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "item": "utilcraft:sakura_leaves"
+    },
+    "title": {
+      "translate": "advancements.utilcraft.root.title"
+    },
+    "description": {
+      "translate": "advancements.utilcraft.root.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "utilcraft:textures/gui/advancements/backgrounds/background.png"
+  },
+  "criteria": {
+    "place_sakura_sapling": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "utilcraft:sakura_sapling"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_sakura_sapling"
+    ]
+  ]
+}

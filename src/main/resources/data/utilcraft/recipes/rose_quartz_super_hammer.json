@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "utilcraft:rose_quartz_pickaxe"
+    }
+  },
+  "result": {
+    "item": "utilcraft:rose_quartz_super_hammer"
+  }
+}

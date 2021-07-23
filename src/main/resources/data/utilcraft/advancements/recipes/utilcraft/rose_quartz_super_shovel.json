@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:rose_quartz_super_shovel"
+    ]
+  },
+  "criteria": {
+    "rose_quartz_shovel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "utilcraft:rose_quartz_shovel"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:rose_quartz_super_shovel"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "rose_quartz_shovel",
+      "has_the_recipe"
+    ]
+  ]
+}

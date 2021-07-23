@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "utilcraft",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "result": {
+    "item": "utilcraft:compressed_cobblestone"
+  }
+}

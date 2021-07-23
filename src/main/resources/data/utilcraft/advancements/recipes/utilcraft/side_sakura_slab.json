@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:side_sakura_slab"
+    ]
+  },
+  "criteria": {
+    "sakura_planks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "utilcraft:sakura_planks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:side_sakura_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "sakura_planks",
+      "has_the_recipe"
+    ]
+  ]
+}

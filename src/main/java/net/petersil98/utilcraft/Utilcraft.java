@@ -1,76 +1,294 @@
 package net.petersil98.utilcraft;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.block.*;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.client.gui.screens.LanguageSelectScreen;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.ChunkBufferBuilderPack;
+import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
+import net.minecraft.world.item.enchantment.DamageEnchantment;
+import net.minecraft.world.entity.decoration.HangingEntity;
+import net.minecraft.world.inventory.LecternMenu;
+import net.minecraft.item.*;
+import net.minecraft.world.item.crafting.MapExtendingRecipe;
+import net.minecraft.world.level.block.entity.BellBlockEntity;
+import net.minecraft.world.level.biome.AmbientAdditionsSettings;
+import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.petersil98.utilcraft.blocks.*;
+import net.petersil98.utilcraft.config.Config;
+import net.petersil98.utilcraft.container.*;
+import net.petersil98.utilcraft.data.KeyBindings;
+import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
+import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath;
+import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
+import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
+import net.petersil98.utilcraft.network.NetworkManager;
+import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
+import net.petersil98.utilcraft.render.SecureChestItemTileEntityRenderer;
+import net.petersil98.utilcraft.render.SecureChestTileEntityRenderer;
+import net.petersil98.utilcraft.screen.*;
+import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
+import net.petersil98.utilcraft.tile_entities.UtilcraftSignTileEntity;
+import net.petersil98.utilcraft.tile_entities.UtilcraftTileEntities;
+import net.petersil98.utilcraft.blocks.sakura.*;
+import net.petersil98.utilcraft.blocks.sideslabs.*;
+import net.petersil98.utilcraft.commands.UtilcraftCommands;
+import net.petersil98.utilcraft.enchantments.BeheadingEnchantment;
+import net.petersil98.utilcraft.loot_modifiers.BeheadingModifier;
+import net.petersil98.utilcraft.food.AppleJuice;
+import net.petersil98.utilcraft.food.Baguette;
+import net.petersil98.utilcraft.food.SweetBerryJuice;
+import net.petersil98.utilcraft.generation.WorldGeneration;
+import net.petersil98.utilcraft.items.*;
+import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.utils.ClientSetup;
 
-import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
-// The value here should match an entry in the META-INF/mods.toml file
-@Mod("utilcraft")
-public class Utilcraft
-{
-    // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ChorusFruitItem;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.level.block.BeetrootBlock;
+import net.minecraft.world.level.block.BellBlock;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
+
+@Mod(Utilcraft.MOD_ID)
+public class Utilcraft {
+
+    public static final String MOD_ID = "utilcraft";
+    public static final String MOD_ID_SHORT = "uc";
+
+    public static final ChorusFruitItem ITEM_GROUP = new ChorusFruitItem(MOD_ID) {
+        @Nonnull
+        @Override
+        public ItemCooldowns makeIcon() {
+            return new ItemCooldowns(UtilcraftBlocks.GOLD_BRICK);
+        }
+    };
 
     public Utilcraft() {
-        // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the enqueueIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    private void setup(final FMLCommonSetupEvent event) {
+        CapabilityVeinMiner.register();
+        CapabilityHome.register();
+        CapabilityLastDeath.register();
+        NetworkManager.registerMessages();
+        UtilcraftGameRules.register();
+        ((FireBlock)BellBlock.FLOWER_POT).addPlant(UtilcraftBlocks.SAKURA_SAPLING.getRegistryName(), () -> UtilcraftBlocks.POTTED_SAKURA_SAPLING);
     }
 
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+    private void clientSetup(final FMLClientSetupEvent event){
+        ChunkBufferBuilderPack.setRenderLayer(UtilcraftBlocks.SAKURA_SAPLING, MultiBufferSource.cutout());
+        ChunkBufferBuilderPack.setRenderLayer(UtilcraftBlocks.SAKURA_TRAPDOOR, MultiBufferSource.cutout());
+        ChunkBufferBuilderPack.setRenderLayer(UtilcraftBlocks.SAKURA_DOOR, MultiBufferSource.cutout());
+        ChunkBufferBuilderPack.setRenderLayer(UtilcraftBlocks.GLASS_STAIRS, MultiBufferSource.cutout());
+        ChunkBufferBuilderPack.setRenderLayer(UtilcraftBlocks.POTTED_SAKURA_SAPLING, MultiBufferSource.cutout());
+        LanguageSelectScreen.register(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER, DisenchantmentTableScreen::new);
+        LanguageSelectScreen.register(UtilcraftContainer.SECURE_CHEST_CONTAINER, SecureChestScreen::new);
+        LanguageSelectScreen.register(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER, TravelersBackpackScreen::new);
+        LanguageSelectScreen.register(UtilcraftContainer.SUSHI_MAKER_CONTAINER, SushiMakerScreen::new);
+        LanguageSelectScreen.register(UtilcraftContainer.ENTROPY_TABLE_CONTAINER, EntropyTableScreen::new);
+        ClientRegistry.bindTileEntityRenderer(UtilcraftTileEntities.UTILCRAFT_SIGN, BrightnessCombiner::new);
+        ClientRegistry.bindTileEntityRenderer(UtilcraftTileEntities.SECURE_CHEST, SecureChestTileEntityRenderer::new);
+        ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
+        ClientSetup.registerItemProperties();
+        ClientSetup.registerExtensionPoint();
     }
 
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m->m.messageSupplier().get()).
-                collect(Collectors.toList()));
-    }
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
-
-    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-    // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
+    public static class RegistryMinecraftEvents {
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            // register a new block here
-            LOGGER.info("HELLO from Register Block");
+        public static void registerBlocks(@Nonnull final RegistryEvent.Register<BeetrootBlock> blockRegistryEvent) {
+            SakuraSign sign = new SakuraSign();
+            sign.setRegistryName("sakura_sign");
+
+            blockRegistryEvent.getRegistry().register(new GoldBrick().setRegistryName("gold_brick"));
+            blockRegistryEvent.getRegistry().register(new GoldStairs().setRegistryName("gold_stairs"));
+            blockRegistryEvent.getRegistry().register(new GoldSlab().setRegistryName("gold_slab"));
+            blockRegistryEvent.getRegistry().register(new GoldWall().setRegistryName("gold_wall"));
+            blockRegistryEvent.getRegistry().register(new CompressedCobblestone().setRegistryName("compressed_cobblestone"));
+            blockRegistryEvent.getRegistry().register(new SilverOre().setRegistryName("silver_ore"));
+            blockRegistryEvent.getRegistry().register(new RoseQuartzOre().setRegistryName("rose_quartz_ore"));
+            blockRegistryEvent.getRegistry().register(new RoseQuartzBlock().setRegistryName("rose_quartz_block"));
+            blockRegistryEvent.getRegistry().register(new SideStoneSlab().setRegistryName("side_stone_slab"));
+            blockRegistryEvent.getRegistry().register(new SideCobblestoneSlab().setRegistryName("side_cobblestone_slab"));
+            blockRegistryEvent.getRegistry().register(new SideOakSlab().setRegistryName("side_oak_slab"));
+            blockRegistryEvent.getRegistry().register(new SideSpruceSlab().setRegistryName("side_spruce_slab"));
+            blockRegistryEvent.getRegistry().register(new SideBirchSlab().setRegistryName("side_birch_slab"));
+            blockRegistryEvent.getRegistry().register(new SideJungleSlab().setRegistryName("side_jungle_slab"));
+            blockRegistryEvent.getRegistry().register(new SideAcaciaSlab().setRegistryName("side_acacia_slab"));
+            blockRegistryEvent.getRegistry().register(new SideDarkOakSlab().setRegistryName("side_dark_oak_slab"));
+            blockRegistryEvent.getRegistry().register(new SideSakuraSlab().setRegistryName("side_sakura_slab"));
+            blockRegistryEvent.getRegistry().register(new SideGoldSlab().setRegistryName("side_gold_slab"));
+            blockRegistryEvent.getRegistry().register(new SakuraLeaves().setRegistryName("sakura_leaves"));
+            blockRegistryEvent.getRegistry().register(new SakuraLog().setRegistryName("sakura_log"));
+            blockRegistryEvent.getRegistry().register(new SakuraPlanks().setRegistryName("sakura_planks"));
+            blockRegistryEvent.getRegistry().register(new SakuraSapling().setRegistryName("sakura_sapling"));
+            blockRegistryEvent.getRegistry().register(new SakuraSlab().setRegistryName("sakura_slab"));
+            blockRegistryEvent.getRegistry().register(new SakuraStairs().setRegistryName("sakura_stairs"));
+            blockRegistryEvent.getRegistry().register(new SakuraFence().setRegistryName("sakura_fence"));
+            blockRegistryEvent.getRegistry().register(new SakuraFenceGate().setRegistryName("sakura_fence_gate"));
+            blockRegistryEvent.getRegistry().register(new SakuraPressurePlate().setRegistryName("sakura_pressure_plate"));
+            blockRegistryEvent.getRegistry().register(new SakuraTrapdoor().setRegistryName("sakura_trapdoor"));
+            blockRegistryEvent.getRegistry().register(sign);
+            blockRegistryEvent.getRegistry().register(new SakuraWallSign(sign).setRegistryName("sakura_wall_sign"));
+            blockRegistryEvent.getRegistry().register(new SakuraButton().setRegistryName("sakura_button"));
+            blockRegistryEvent.getRegistry().register(new SakuraDoor().setRegistryName("sakura_door"));
+            blockRegistryEvent.getRegistry().register(new DisenchantmentTable().setRegistryName("disenchantment_table"));
+            blockRegistryEvent.getRegistry().register(new SecureChest().setRegistryName("secure_chest"));
+            blockRegistryEvent.getRegistry().register(new RedstoneStairs().setRegistryName("redstone_stairs"));
+            blockRegistryEvent.getRegistry().register(new RedstoneSlab().setRegistryName("redstone_slab"));
+            blockRegistryEvent.getRegistry().register(new SideRedstoneSlab().setRegistryName("side_redstone_slab"));
+            blockRegistryEvent.getRegistry().register(new SushiMaker().setRegistryName("sushi_maker"));
+            blockRegistryEvent.getRegistry().register(new GlassStairs().setRegistryName("glass_stairs"));
+            blockRegistryEvent.getRegistry().register(new FireBlock(() -> (FireBlock) BellBlock.FLOWER_POT.delegate.get() ,() -> UtilcraftBlocks.SAKURA_SAPLING, PistonMovingBlockEntity.Properties.of(FluidState.DECORATION).instabreak().noOcclusion()).setRegistryName("potted_sakura_sapling"));
+            blockRegistryEvent.getRegistry().register(new SilverBlock().setRegistryName("silver_block"));
+            blockRegistryEvent.getRegistry().register(new ChunkLoader().setRegistryName("chunk_loader"));
+            blockRegistryEvent.getRegistry().register(new EntropyTable().setRegistryName("entropy_table"));
+        }
+
+        @SubscribeEvent
+        public static void registerItems(@Nonnull final RegistryEvent.Register<HoeItem> itemRegistryEvent) {
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.GOLD_BRICK, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("gold_brick"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.GOLD_STAIRS, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("gold_stairs"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.GOLD_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("gold_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.GOLD_WALL, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("gold_wall"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.COMPRESSED_COBBLESTONE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("compressed_cobblestone"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SILVER_ORE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("silver_ore"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.ROSE_QUARTZ_ORE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("rose_quartz_ore"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.ROSE_QUARTZ_BLOCK, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("rose_quartz_block"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_STONE_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_stone_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_cobblestone_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_OAK_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_oak_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_spruce_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_BIRCH_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_birch_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_JUNGLE_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_jungle_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_ACACIA_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_acacia_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_DARK_OAK_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_dark_oak_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_SAKURA_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_sakura_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_GOLD_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_gold_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("side_redstone_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_LEAVES, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_leaves"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_LOG, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_log"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_PLANKS, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_planks"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_SAPLING, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_sapling"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_STAIRS, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_stairs"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_FENCE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_fence"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_FENCE_GATE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_fence_gate"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_PRESSURE_PLATE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_pressure_plate"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_TRAPDOOR, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_trapdoor"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_BUTTON, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_button"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SAKURA_DOOR, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sakura_door"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.DISENCHANTMENT_TABLE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("disenchantment_table"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SECURE_CHEST, new HoeItem.Properties().setISTER(() -> SecureChestItemTileEntityRenderer::new).tab(ITEM_GROUP)).setRegistryName("secure_chest"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.REDSTONE_STAIRS, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("redstone_stairs"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.REDSTONE_SLAB, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("redstone_slab"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SUSHI_MAKER, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("sushi_maker"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.GLASS_STAIRS, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("glass_stairs"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.SILVER_BLOCK, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("silver_block"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.CHUNK_LOADER, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("chunk_loader"));
+            itemRegistryEvent.getRegistry().register(new BannerItem(UtilcraftBlocks.ENTROPY_TABLE, new HoeItem.Properties().tab(ITEM_GROUP)).setRegistryName("entropy_table"));
+
+            itemRegistryEvent.getRegistry().register(new Juicer().setRegistryName("juicer"));
+            itemRegistryEvent.getRegistry().register(new AppleJuice().setRegistryName("apple_juice"));
+            itemRegistryEvent.getRegistry().register(new SweetBerryJuice().setRegistryName("sweet_berry_juice"));
+            itemRegistryEvent.getRegistry().register(new Flour().setRegistryName("flour"));
+            itemRegistryEvent.getRegistry().register(new Baguette().setRegistryName("baguette"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartz().setRegistryName("rose_quartz"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzHelmet().setRegistryName("rose_quartz_helmet"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzChestplate().setRegistryName("rose_quartz_chestplate"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzLeggings().setRegistryName("rose_quartz_leggings"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzBoots().setRegistryName("rose_quartz_boots"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzPickaxe().setRegistryName("rose_quartz_pickaxe"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzSword().setRegistryName("rose_quartz_sword"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzShovel().setRegistryName("rose_quartz_shovel"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzHoe().setRegistryName("rose_quartz_hoe"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzAxe().setRegistryName("rose_quartz_axe"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzSuperHammer().setRegistryName("rose_quartz_super_hammer"));
+            itemRegistryEvent.getRegistry().register(new RoseQuartzSuperShovel().setRegistryName("rose_quartz_super_shovel"));
+            itemRegistryEvent.getRegistry().register(new SakuraSignItem().setRegistryName("sakura_sign"));
+            itemRegistryEvent.getRegistry().register(new TravelersBackpack().setRegistryName("travelers_backpack"));
+            itemRegistryEvent.getRegistry().register(new TNTFinder().setRegistryName("tnt_finder"));
+            itemRegistryEvent.getRegistry().register(new SilverIngot().setRegistryName("silver_ingot"));
+            itemRegistryEvent.getRegistry().register(new ButchersKnife().setRegistryName("butchers_knife"));
+            itemRegistryEvent.getRegistry().register(new SpawnerItem().setRegistryName("spawner_item"));
+        }
+
+        @SubscribeEvent
+        public static void registerBiomes(@Nonnull final RegistryEvent.Register<AmbientAdditionsSettings> event){
+            //event.getRegistry().register(new GraveyardBiome().setRegistryName("graveyard"));
+        }
+
+        @SubscribeEvent
+        public static void registerEnchantments(@Nonnull final RegistryEvent.Register<DamageEnchantment> enchantmentRegister) {
+            enchantmentRegister.getRegistry().register(new BeheadingEnchantment().setRegistryName("beheading_enchantment"));
+        }
+
+        @SubscribeEvent
+        public static void registerModifierSerializers(@Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+            event.getRegistry().register(new BeheadingModifier.Serializer().setRegistryName("beheading"));
+        }
+
+        @SubscribeEvent
+        public static void registerTileEntities(@Nonnull final RegistryEvent.Register<BellBlockEntity<?>> tileEntityRegister) {
+            tileEntityRegister.getRegistry().register(BellBlockEntity.Builder.of(DisenchantmentTableTileEntity::new, UtilcraftBlocks.DISENCHANTMENT_TABLE).build(null).setRegistryName("disenchantment_table"));
+            tileEntityRegister.getRegistry().register(BellBlockEntity.Builder.of(UtilcraftSignTileEntity::new, UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_WALL_SIGN).build(null).setRegistryName("mod_sign"));
+            tileEntityRegister.getRegistry().register(BellBlockEntity.Builder.of(SecureChestTileEntity::new, UtilcraftBlocks.SECURE_CHEST).build(null).setRegistryName("secure_chest"));
+        }
+
+        @SubscribeEvent
+        public static void registerContainer(@Nonnull final RegistryEvent.Register<LecternMenu<?>> containerRegister) {
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new DisenchantmentTableContainer(windowId, inv)).setRegistryName("disenchantment_table"));
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SecureChestContainer(windowId, inv)).setRegistryName("secure_chest"));
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new SushiMakerContainer(windowId, inv)).setRegistryName("sushi_maker"));
+            containerRegister.getRegistry().register(IForgeContainerType.create(TravelersBackpackContainer::new).setRegistryName("travelers_backpack"));
+            containerRegister.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new EntropyTableContainer(windowId, inv)).setRegistryName("entropy_table"));
+        }
+
+        @SubscribeEvent
+        public static void registerRecipeSerializers(@Nonnull final RegistryEvent.Register<MapExtendingRecipe<?>> recipeSerializerRegister) {
+            recipeSerializerRegister.getRegistry().register(new SushiMakerRecipe.Serializer().setRegistryName("sushi_maker"));
+        }
+
+        @SubscribeEvent
+        public static void registerPaintingTypes(@Nonnull final RegistryEvent.Register<HangingEntity> paintingTypeRegister) {
+            paintingTypeRegister.getRegistry().register(new HangingEntity(16, 16).setRegistryName("frog"));
+        }
+    }
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE)
+    public static class RegistryForgeEvents {
+
+        @SubscribeEvent
+        public static void registerCommands(@Nonnull RegisterCommandsEvent event){
+            UtilcraftCommands.register(event.getDispatcher());
+        }
+
+        @SubscribeEvent
+        public static void registerBiomeAddons(@Nonnull BiomeLoadingEvent event){
+            WorldGeneration.addSilverOre(event.getGeneration());
+            WorldGeneration.addRoseQuartzOre(event.getGeneration());
+            if(WorldGeneration.SAKURA_SPAWN_BIOMES.contains(event.getName())) {
+                WorldGeneration.addSakuraTrees(event.getGeneration());
+            }
         }
     }
 }

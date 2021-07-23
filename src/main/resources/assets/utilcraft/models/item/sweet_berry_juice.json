@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "utilcraft:item/sweet_berry_juice"
+  }
+}

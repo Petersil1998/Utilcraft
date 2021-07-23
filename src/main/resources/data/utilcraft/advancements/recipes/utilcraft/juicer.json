@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:juicer"
+    ]
+  },
+  "criteria": {
+    "iron_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:iron_ingot"
+          }
+        ]
+      }
+    },
+    "smooth_stone_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:smooth_stone_slab"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:juicer"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "iron_ingot",
+      "smooth_stone_slab",
+      "has_the_recipe"
+    ]
+  ]
+}

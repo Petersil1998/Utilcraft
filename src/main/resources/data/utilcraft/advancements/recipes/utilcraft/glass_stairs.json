@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "utilcraft:glass_stairs"
+    ]
+  },
+  "criteria": {
+    "glass": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:glass"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "utilcraft:glass_stairs"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "glass",
+      "has_the_recipe"
+    ]
+  ]
+}
