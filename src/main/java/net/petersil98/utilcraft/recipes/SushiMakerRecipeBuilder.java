@@ -31,7 +31,7 @@ public class SushiMakerRecipeBuilder {
     private final int count;
     private final List<String> pattern = Lists.newArrayList();
     private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
-    private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+    private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
     private String group;
 
     public SushiMakerRecipeBuilder(@Nonnull IItemProvider result, int count) {
@@ -59,14 +59,14 @@ public class SushiMakerRecipeBuilder {
      * Adds a key to the recipe pattern.
      */
     public SushiMakerRecipeBuilder key(Character symbol, ITag<Item> tag) {
-        return this.key(symbol, Ingredient.fromTag(tag));
+        return this.key(symbol, Ingredient.of(tag));
     }
 
     /**
      * Adds a key to the recipe pattern.
      */
     public SushiMakerRecipeBuilder key(Character symbol, IItemProvider item) {
-        return this.key(symbol, Ingredient.fromItems(item));
+        return this.key(symbol, Ingredient.of(item));
     }
 
     /**
@@ -99,7 +99,7 @@ public class SushiMakerRecipeBuilder {
      * Adds a criterion needed to unlock the recipe.
      */
     public SushiMakerRecipeBuilder addCriterion(String name, ICriterionInstance criterion) {
-        this.advancementBuilder.withCriterion(name, criterion);
+        this.advancementBuilder.addCriterion(name, criterion);
         return this;
     }
 
@@ -133,8 +133,8 @@ public class SushiMakerRecipeBuilder {
      */
     public void build(@Nonnull Consumer<IFinishedRecipe> consumer, ResourceLocation id) {
         this.validate(id);
-        this.advancementBuilder.withParentId(new ResourceLocation("recipes/root")).withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(id)).withRewards(AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(IRequirementsStrategy.OR);
-        consumer.accept(new Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getGroup().getPath() + "/" + id.getPath())));
+        this.advancementBuilder.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id)).rewards(AdvancementRewards.Builder.recipe(id)).requirements(IRequirementsStrategy.OR);
+        consumer.accept(new Result(id, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
     }
 
     /**
@@ -189,7 +189,7 @@ public class SushiMakerRecipeBuilder {
             this.advancementId = advancementId;
         }
 
-        public void serialize(@Nonnull JsonObject json) {
+        public void serializeRecipeData(@Nonnull JsonObject json) {
             if (!this.group.isEmpty()) {
                 json.addProperty("group", this.group);
             }
@@ -204,7 +204,7 @@ public class SushiMakerRecipeBuilder {
             JsonObject jsonobject = new JsonObject();
 
             for(Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
-                jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().serialize());
+                jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
             }
 
             json.add("key", jsonobject);
@@ -218,7 +218,7 @@ public class SushiMakerRecipeBuilder {
         }
 
         @Nonnull
-        public IRecipeSerializer<?> getSerializer() {
+        public IRecipeSerializer<?> getType() {
             return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
         }
 
@@ -226,7 +226,7 @@ public class SushiMakerRecipeBuilder {
          * Gets the ID for the recipe.
          */
         @Nonnull
-        public ResourceLocation getID() {
+        public ResourceLocation getId() {
             return this.id;
         }
 
@@ -234,8 +234,8 @@ public class SushiMakerRecipeBuilder {
          * Gets the JSON for the advancement that unlocks this recipe. Null if there is no advancement.
          */
         @Nullable
-        public JsonObject getAdvancementJson() {
-            return this.advancementBuilder.serialize();
+        public JsonObject serializeAdvancement() {
+            return this.advancementBuilder.serializeToJson();
         }
 
         /**
@@ -243,7 +243,7 @@ public class SushiMakerRecipeBuilder {
          * is non-null.
          */
         @Nullable
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return this.advancementId;
         }
     }

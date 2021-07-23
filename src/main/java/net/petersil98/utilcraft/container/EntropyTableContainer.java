@@ -28,7 +28,7 @@ public class EntropyTableContainer extends RecipeBookContainer<CraftingInventory
     private final PlayerEntity player;
 
     public EntropyTableContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, IWorldPosCallable.DUMMY);
+        this(id, playerInventory, IWorldPosCallable.NULL);
     }
 
     public EntropyTableContainer(int id, @Nonnull PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
@@ -51,13 +51,13 @@ public class EntropyTableContainer extends RecipeBookContainer<CraftingInventory
     }
 
     protected static void updateCraftingResult(int id, @Nonnull World world, PlayerEntity player, CraftingInventory inventory, CraftResultInventory inventoryResult) {
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)player;
             ItemStack itemstack = ItemStack.EMPTY;
-            Item usedItem = inventory.getStackInSlot(0).getItem();
-            List<ICraftingRecipe> recipes = world.getServer().getRecipeManager().getRecipesForType(IRecipeType.CRAFTING);
+            Item usedItem = inventory.getItem(0).getItem();
+            List<ICraftingRecipe> recipes = world.getServer().getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
             List<IRecipe<?>> recipeList = recipes.stream().filter((recipe) -> {
-                if(recipe.getRecipeOutput().getItem().equals(usedItem) && recipe.getRecipeOutput().getCount() == 1) {
+                if(recipe.getResultItem().getItem().equals(usedItem) && recipe.getResultItem().getCount() == 1) {
                     for(int i = 0; i < recipe.getIngredients().size()-1; i++) {
                         Ingredient ingredient = recipe.getIngredients().get(i);
                         Ingredient ingredient2 = recipe.getIngredients().get(i+1);
@@ -71,49 +71,49 @@ public class EntropyTableContainer extends RecipeBookContainer<CraftingInventory
             }).collect(Collectors.toList());
             if (recipeList.size() > 0 && recipeList.get(0).getIngredients().size() > 0) {
                 List<Ingredient> realIngredients = recipeList.get(0).getIngredients().stream().filter(ingredient -> !ingredient.equals(Ingredient.EMPTY)).collect(Collectors.toList());
-                Item result = realIngredients.get(0).getMatchingStacks()[0].getItem();
+                Item result = realIngredients.get(0).getItems()[0].getItem();
                 int amount = realIngredients.size();
                 itemstack = new ItemStack(result, amount);
             }
 
-            inventoryResult.setInventorySlotContents(0, itemstack);
-            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 0, itemstack));
+            inventoryResult.setItem(0, itemstack);
+            serverplayerentity.connection.send(new SSetSlotPacket(id, 0, itemstack));
         }
     }
 
     /**
      * Callback for when the crafting matrix is changed.
      */
-    public void onCraftMatrixChanged(@Nonnull IInventory inventory) {
-        this.worldPosCallable.consume((p_217069_1_, p_217069_2_) -> updateCraftingResult(this.windowId, p_217069_1_, this.player, this.craftMatrix, this.craftResult));
+    public void slotsChanged(@Nonnull IInventory inventory) {
+        this.worldPosCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(this.containerId, p_217069_1_, this.player, this.craftMatrix, this.craftResult));
     }
 
-    public void fillStackedContents(@Nonnull RecipeItemHelper itemHelper) {
+    public void fillCraftSlotsStackedContents(@Nonnull RecipeItemHelper itemHelper) {
         this.craftMatrix.fillStackedContents(itemHelper);
     }
 
-    public void clear() {
-        this.craftMatrix.clear();
-        this.craftResult.clear();
+    public void clearCraftingContent() {
+        this.craftMatrix.clearContent();
+        this.craftResult.clearContent();
     }
 
-    public boolean matches(@Nonnull IRecipe<? super CraftingInventory> recipe) {
-        return recipe.matches(this.craftMatrix, this.player.world);
+    public boolean recipeMatches(@Nonnull IRecipe<? super CraftingInventory> recipe) {
+        return recipe.matches(this.craftMatrix, this.player.level);
     }
 
     /**
      * Called when the container is closed.
      */
-    public void onContainerClosed(@Nonnull PlayerEntity player) {
-        super.onContainerClosed(player);
-        this.worldPosCallable.consume((p_217068_2_, p_217068_3_) -> this.clearContainer(player, p_217068_2_, this.craftMatrix));
+    public void removed(@Nonnull PlayerEntity player) {
+        super.removed(player);
+        this.worldPosCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(player, p_217068_2_, this.craftMatrix));
     }
 
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return isWithinUsableDistance(this.worldPosCallable, player, UtilcraftBlocks.ENTROPY_TABLE);
+    public boolean stillValid(@Nonnull PlayerEntity player) {
+        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.ENTROPY_TABLE);
     }
 
     /**
@@ -121,37 +121,37 @@ public class EntropyTableContainer extends RecipeBookContainer<CraftingInventory
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(@Nonnull PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack slotStack = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack slotStack = slot.getItem();
             stack = slotStack.copy();
             if (index == 0) {
-                this.worldPosCallable.consume((p_217067_2_, p_217067_3_) -> slotStack.getItem().onCreated(slotStack, p_217067_2_, player));
-                if (!this.mergeItemStack(slotStack, getSize(), 38, true)) {
+                this.worldPosCallable.execute((p_217067_2_, p_217067_3_) -> slotStack.getItem().onCraftedBy(slotStack, p_217067_2_, player));
+                if (!this.moveItemStackTo(slotStack, getSize(), 38, true)) {
                     return ItemStack.EMPTY;
                 }
 
-                slot.onSlotChange(slotStack, stack);
+                slot.onQuickCraft(slotStack, stack);
             } else if (index >= getSize() && index < 38) {
-                if (!this.mergeItemStack(slotStack, 1, getSize(), false)) {
+                if (!this.moveItemStackTo(slotStack, 1, getSize(), false)) {
                     if (index < 29) {
-                        if (!this.mergeItemStack(slotStack, 29, 38, false)) {
+                        if (!this.moveItemStackTo(slotStack, 29, 38, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (!this.mergeItemStack(slotStack, getSize(), 29, false)) {
+                    } else if (!this.moveItemStackTo(slotStack, getSize(), 29, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
-            } else if (!this.mergeItemStack(slotStack, getSize(), 38, false)) {
+            } else if (!this.moveItemStackTo(slotStack, getSize(), 38, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (slotStack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (slotStack.getCount() == stack.getCount()) {
@@ -160,7 +160,7 @@ public class EntropyTableContainer extends RecipeBookContainer<CraftingInventory
 
             ItemStack takenStack = slot.onTake(player, slotStack);
             if (index == 0) {
-                player.dropItem(takenStack, false);
+                player.drop(takenStack, false);
             }
         }
 
@@ -171,19 +171,19 @@ public class EntropyTableContainer extends RecipeBookContainer<CraftingInventory
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is
      * null for the initial slot that was double-clicked.
      */
-    public boolean canMergeSlot(@Nonnull ItemStack stack, @Nonnull Slot slot) {
-        return slot.inventory != this.craftResult && super.canMergeSlot(stack, slot);
+    public boolean canTakeItemForPickAll(@Nonnull ItemStack stack, @Nonnull Slot slot) {
+        return slot.container != this.craftResult && super.canTakeItemForPickAll(stack, slot);
     }
 
-    public int getOutputSlot() {
+    public int getResultSlotIndex() {
         return 0;
     }
 
-    public int getWidth() {
+    public int getGridWidth() {
         return this.craftMatrix.getWidth();
     }
 
-    public int getHeight() {
+    public int getGridHeight() {
         return this.craftMatrix.getHeight();
     }
 
@@ -192,7 +192,7 @@ public class EntropyTableContainer extends RecipeBookContainer<CraftingInventory
     }
 
     @Nonnull
-    public RecipeBookCategory func_241850_m() {
+    public RecipeBookCategory getRecipeBookType() {
         return RecipeBookCategory.CRAFTING;
     }
 }

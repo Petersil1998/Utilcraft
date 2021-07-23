@@ -20,31 +20,31 @@ import javax.annotation.Nonnull;
 
 public class SushiMaker extends Block {
 
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
     public SushiMaker(){
-        super(AbstractBlock.Properties.from(Blocks.CRAFTING_TABLE));
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
+        super(AbstractBlock.Properties.copy(Blocks.CRAFTING_TABLE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
-        if (world.isRemote) {
+    public ActionResultType use(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
+        if (world.isClientSide) {
             return ActionResultType.SUCCESS;
         } else {
-            player.openContainer(state.getContainer(world, pos));
+            player.openMenu(state.getMenuProvider(world, pos));
             return ActionResultType.CONSUME;
         }
     }
 
     @Override
-    public INamedContainerProvider getContainer(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
-        return new SimpleNamedContainerProvider((id, inventory, player) -> new SushiMakerContainer(id, inventory, IWorldPosCallable.of(world, pos)), new StringTextComponent("Sushi Maker"));
+    public INamedContainerProvider getMenuProvider(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
+        return new SimpleNamedContainerProvider((id, inventory, player) -> new SushiMakerContainer(id, inventory, IWorldPosCallable.create(world, pos)), new StringTextComponent("Sushi Maker"));
     }
 
     @Override
-    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 }

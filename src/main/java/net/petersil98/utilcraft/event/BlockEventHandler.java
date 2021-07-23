@@ -35,10 +35,10 @@ public class BlockEventHandler {
     public static void veinMiner(@Nonnull final BlockEvent.BreakEvent event) {
         Block minedBlock = event.getState().getBlock();
         AtomicBoolean veinMinerActive = new AtomicBoolean(false);
-        if(event.getPlayer().getEntityWorld() instanceof ServerWorld) {
+        if(event.getPlayer().getCommandSenderWorld() instanceof ServerWorld) {
             ServerPlayerEntity player = (ServerPlayerEntity)event.getPlayer();
-            ServerWorld world = player.getServerWorld();
-            ItemStack mainItem = player.getHeldItemMainhand();
+            ServerWorld world = player.getLevel();
+            ItemStack mainItem = player.getMainHandItem();
             player.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
                 veinMinerActive.set(iVeinMiner.getVeinMiner());
             });
@@ -58,16 +58,16 @@ public class BlockEventHandler {
                 for (BlockPos blockpos : blocksToHarvest) {
                     BlockState blockstate = world.getBlockState(blockpos);
                     if (playerCanHarvestBlock(blockstate, mainItem, blockpos, world, player)) {
-                        if (mainItem.getMaxDamage() > mainItem.getDamage() + 1) {
+                        if (mainItem.getMaxDamage() > mainItem.getDamageValue() + 1) {
                             if (blockstate.removedByPlayer(world, blockpos, player, true, world.getFluidState(blockpos))) {
                                 Block block = blockstate.getBlock();
-                                block.harvestBlock(world, player, blockpos, blockstate, null, player.getHeldItemMainhand());
-                                block.onBlockHarvested(world, blockpos, blockstate, player);
-                                int bonusLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, mainItem);
-                                int silkLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, mainItem);
+                                block.playerDestroy(world, player, blockpos, blockstate, null, player.getMainHandItem());
+                                block.playerWillDestroy(world, blockpos, blockstate, player);
+                                int bonusLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, mainItem);
+                                int silkLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, mainItem);
                                 event.setExpToDrop(event.getExpToDrop()+blockstate.getExpDrop(world, blockpos, bonusLevel, silkLevel));
                                 if (!blockpos.equals(event.getPos())) {
-                                    player.getHeldItemMainhand().damageItem(1, player, (onBroken) -> onBroken.sendBreakAnimation(player.getActiveHand()));
+                                    player.getMainHandItem().hurtAndBreak(1, player, (onBroken) -> onBroken.broadcastBreakEvent(player.getUsedItemHand()));
                                 }
                             }
                         }
@@ -81,15 +81,15 @@ public class BlockEventHandler {
     public static void blockProtector(@Nonnull final BlockEvent.BreakEvent event) {
         if(event.getPlayer() instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity)event.getPlayer();
-            TileEntity te = player.getEntityWorld().getTileEntity(event.getPos());
+            TileEntity te = player.getCommandSenderWorld().getBlockEntity(event.getPos());
             if (te instanceof SecureChestTileEntity) {
                 UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
-                UUID playerUUID = player.getUniqueID();
+                UUID playerUUID = player.getUUID();
                 if (ownerUUID != null && !ownerUUID.equals(playerUUID)) {
-                    UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
+                    UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());
                     List<SimplePlayer> trustedPlayers = worldSavedData.getTrustedPlayers(ownerUUID);
                     if(trustedPlayers.size() == 0 || trustedPlayers.stream().noneMatch(simplePlayer -> simplePlayer.getUUID().equals(playerUUID))){
-                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
+                        player.displayClientMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
                         event.setCanceled(true);
                     }
                 }

@@ -21,26 +21,26 @@ public class SpawnerItem extends BlockItem {
         super(Blocks.SPAWNER, new Item.Properties());
     }
 
-    protected boolean onBlockPlaced(@Nonnull BlockPos pos, @Nonnull World world, @Nullable PlayerEntity player, @Nonnull ItemStack stack, @Nonnull BlockState state) {
+    protected boolean updateCustomBlockEntityTag(@Nonnull BlockPos pos, @Nonnull World world, @Nullable PlayerEntity player, @Nonnull ItemStack stack, @Nonnull BlockState state) {
         return setTileEntityNBT(world, pos, stack);
     }
 
     public static boolean setTileEntityNBT(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
         MinecraftServer minecraftserver = world.getServer();
         if (minecraftserver != null) {
-            CompoundNBT compoundnbt = stack.getChildTag("BlockEntityTag");
+            CompoundNBT compoundnbt = stack.getTagElement("BlockEntityTag");
             if (compoundnbt != null) {
-                TileEntity tileentity = world.getTileEntity(pos);
+                TileEntity tileentity = world.getBlockEntity(pos);
                 if (tileentity != null) {
-                    CompoundNBT original = tileentity.write(new CompoundNBT());
+                    CompoundNBT original = tileentity.save(new CompoundNBT());
                     CompoundNBT old = original.copy();
                     original.merge(compoundnbt);
                     original.putInt("x", pos.getX());
                     original.putInt("y", pos.getY());
                     original.putInt("z", pos.getZ());
                     if (!original.equals(old)) {
-                        tileentity.read(world.getBlockState(pos), original);
-                        tileentity.markDirty();
+                        tileentity.load(world.getBlockState(pos), original);
+                        tileentity.setChanged();
                         return true;
                     }
                 }
@@ -52,7 +52,7 @@ public class SpawnerItem extends BlockItem {
 
     @Nonnull
     @Override
-    public String getTranslationKey() {
+    public String getDescriptionId() {
         return "item.utilcraft.spawner_item";
     }
 }

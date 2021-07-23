@@ -20,17 +20,17 @@ public class GravestoneFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean generate(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random random, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean place(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random random, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         int i = 0;
 
         for(int j = 0; j < 128; ++j)
         {
-            BlockState state = UtilcraftBlocks.GOLD_BRICK.getDefaultState();
-            BlockPos blockpos = pos.add(random.nextInt(4) - random.nextInt(4), random.nextInt(4) - random.nextInt(4), random.nextInt(4) - random.nextInt(4));
+            BlockState state = UtilcraftBlocks.GOLD_BRICK.defaultBlockState();
+            BlockPos blockpos = pos.offset(random.nextInt(4) - random.nextInt(4), random.nextInt(4) - random.nextInt(4), random.nextInt(4) - random.nextInt(4));
 
-            if (world.isAirBlock(blockpos))
+            if (world.isEmptyBlock(blockpos))
             {
-                world.setBlockState(blockpos, state, 2);
+                world.setBlock(blockpos, state, 2);
 
                 ++i;
             }

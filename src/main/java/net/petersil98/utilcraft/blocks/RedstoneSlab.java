@@ -7,6 +7,6 @@ import net.minecraft.block.SlabBlock;
 public class RedstoneSlab extends SlabBlock {
 
     public RedstoneSlab() {
-        super(AbstractBlock.Properties.from(Blocks.REDSTONE_BLOCK));
+        super(AbstractBlock.Properties.copy(Blocks.REDSTONE_BLOCK));
     }
 }

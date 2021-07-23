@@ -8,6 +8,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.item.Item.Properties;
+
 public abstract class AbstractSuperTool extends Item {
 
     public AbstractSuperTool(Properties properties) {
@@ -16,6 +18,6 @@ public abstract class AbstractSuperTool extends Item {
 
     @Nonnull
     public static BlockRayTraceResult rayTracer(World world, PlayerEntity player, RayTraceContext.FluidMode fluidMode) {
-        return rayTrace(world, player, fluidMode);
+        return getPlayerPOVHitResult(world, player, fluidMode);
     }
 }

@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockReader;
 public class SideSpruceSlab extends SideSlabBlock {
 
     public SideSpruceSlab() {
-        super(AbstractBlock.Properties.from(Blocks.SPRUCE_WOOD));
+        super(AbstractBlock.Properties.copy(Blocks.SPRUCE_WOOD));
     }
 
     @Override

@@ -41,25 +41,25 @@ public class TrustedPlayersCommand {
     }
 
     private static void grantTrust(@Nonnull CommandSource source, @Nonnull ServerPlayerEntity affectedPlayer) throws CommandSyntaxException {
-        ServerPlayerEntity player = source.asPlayer();
-        UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
+        ServerPlayerEntity player = source.getPlayerOrException();
+        UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());
         worldSavedData.addTrustedPlayer(player.getGameProfile().getId(), new SimplePlayer(affectedPlayer.getName().getString(), affectedPlayer.getGameProfile().getId()));
-        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_added", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
+        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_added", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.NIL_UUID);
     }
 
     private static void revokeTrust(@Nonnull CommandSource source, @Nonnull PlayerEntity affectedPlayer) throws CommandSyntaxException {
-        ServerPlayerEntity player = source.asPlayer();
-        UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
+        ServerPlayerEntity player = source.getPlayerOrException();
+        UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());
         worldSavedData.removedTrustedPlayer(player.getGameProfile().getId(), affectedPlayer.getGameProfile().getId());
-        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_removed", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.DUMMY_UUID);
+        player.sendMessage(new TranslationTextComponent(String.format("player_trusted.%s.player_removed", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.NIL_UUID);
     }
 
     private static void sendListOfTrustedPlayers(@Nonnull CommandSource source) throws CommandSyntaxException {
-        ServerPlayerEntity player = source.asPlayer();
-        UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
+        ServerPlayerEntity player = source.getPlayerOrException();
+        UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());
         List<SimplePlayer> trustedPlayers = worldSavedData.getTrustedPlayers(player.getGameProfile().getId());
         List<String> names = new ArrayList<>();
         trustedPlayers.forEach(simplePlayer -> names.add(simplePlayer.getUsername()));
-        source.sendFeedback(new TranslationTextComponent(String.format("player_trusted.%s.list", Utilcraft.MOD_ID), String.join(", ", names)), false);
+        source.sendSuccess(new TranslationTextComponent(String.format("player_trusted.%s.list", Utilcraft.MOD_ID), String.join(", ", names)), false);
     }
 }

@@ -4,13 +4,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.petersil98.utilcraft.Utilcraft;
 
+import net.minecraft.item.Item.Properties;
+
 public class Juicer extends Item {
 
     public Juicer() {
         super(new Properties()
-                .group(Utilcraft.ITEM_GROUP)
-                .maxStackSize(1)
-                .containerItem(UtilcraftItems.JUICER)
+                .tab(Utilcraft.ITEM_GROUP)
+                .stacksTo(1)
+                .craftRemainder(UtilcraftItems.JUICER)
         );
     }
 

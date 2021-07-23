@@ -21,22 +21,22 @@ import javax.annotation.Nonnull;
 public class EntropyTable extends Block {
 
     public EntropyTable(){
-        super(AbstractBlock.Properties.from(Blocks.CRAFTING_TABLE));
+        super(AbstractBlock.Properties.copy(Blocks.CRAFTING_TABLE));
     }
 
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
-        if (world.isRemote) {
+    public ActionResultType use(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
+        if (world.isClientSide) {
             return ActionResultType.SUCCESS;
         } else {
-            player.openContainer(state.getContainer(world, pos));
+            player.openMenu(state.getMenuProvider(world, pos));
             return ActionResultType.CONSUME;
         }
     }
 
     @Override
-    public INamedContainerProvider getContainer(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
-        return new SimpleNamedContainerProvider((id, inventory, player) -> new EntropyTableContainer(id, inventory, IWorldPosCallable.of(world, pos)), new StringTextComponent("Sushi Maker"));
+    public INamedContainerProvider getMenuProvider(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
+        return new SimpleNamedContainerProvider((id, inventory, player) -> new EntropyTableContainer(id, inventory, IWorldPosCallable.create(world, pos)), new StringTextComponent("Sushi Maker"));
     }
 }

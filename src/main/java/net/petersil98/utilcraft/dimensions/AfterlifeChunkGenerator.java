@@ -16,46 +16,46 @@ import javax.annotation.Nonnull;
 public class AfterlifeChunkGenerator extends ChunkGenerator {
 
     public AfterlifeChunkGenerator(BiomeProvider biomeProvider){
-        super(biomeProvider, DimensionSettings.func_242746_i().getStructures());
+        super(biomeProvider, DimensionSettings.bootstrap().structureSettings());
     }
 
     public static final Codec<AfterlifeChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
             instance.group(
                     BiomeProvider.CODEC.fieldOf("biome_source")
-                            .forGetter((generator) -> generator.biomeProvider)
+                            .forGetter((generator) -> generator.biomeSource)
             ).apply(instance, instance.stable(AfterlifeChunkGenerator::new))
     );
 
     @Nonnull
     @Override
-    protected Codec<? extends ChunkGenerator> func_230347_a_() {
+    protected Codec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 
     @Nonnull
     @Override
-    public ChunkGenerator func_230349_a_(long p_230349_1_) {
+    public ChunkGenerator withSeed(long p_230349_1_) {
         return this;
     }
 
     @Override
-    public void generateSurface(@Nonnull WorldGenRegion p_225551_1_, @Nonnull IChunk p_225551_2_) {
+    public void buildSurfaceAndBedrock(@Nonnull WorldGenRegion p_225551_1_, @Nonnull IChunk p_225551_2_) {
 
     }
 
     @Override
-    public void func_230352_b_(@Nonnull IWorld p_230352_1_, @Nonnull StructureManager p_230352_2_, @Nonnull IChunk p_230352_3_) {
+    public void fillFromNoise(@Nonnull IWorld p_230352_1_, @Nonnull StructureManager p_230352_2_, @Nonnull IChunk p_230352_3_) {
 
     }
 
     @Override
-    public int getHeight(int x, int z, @Nonnull Heightmap.Type heightmapType) {
+    public int getBaseHeight(int x, int z, @Nonnull Heightmap.Type heightmapType) {
         return 0;
     }
 
     @Nonnull
     @Override
-    public IBlockReader func_230348_a_(int p_230348_1_, int p_230348_2_) {
+    public IBlockReader getBaseColumn(int p_230348_1_, int p_230348_2_) {
         return new Blockreader(new BlockState[0]);
     }
 }

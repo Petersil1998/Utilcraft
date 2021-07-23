@@ -5,12 +5,14 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class SilverBlock extends Block {
     public SilverBlock() {
         super(Properties
-                .create(Material.IRON, MaterialColor.WHITE_TERRACOTTA)
-                .setRequiresTool()
-                .hardnessAndResistance(3.0F, 3.0F)
+                .of(Material.METAL, MaterialColor.TERRACOTTA_WHITE)
+                .requiresCorrectToolForDrops()
+                .strength(3.0F, 3.0F)
                 .sound(SoundType.METAL)
         );
     }

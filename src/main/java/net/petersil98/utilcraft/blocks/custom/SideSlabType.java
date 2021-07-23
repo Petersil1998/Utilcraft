@@ -23,7 +23,7 @@ public enum SideSlabType implements IStringSerializable {
     }
 
     @Nonnull
-    public String getString() {
+    public String getSerializedName() {
         return this.name;
     }
 

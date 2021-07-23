@@ -17,7 +17,7 @@ public class UtilcraftItemTags extends ItemTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
         this.copy(BlockTags.LEAVES, ItemTags.LEAVES);
         this.copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
         this.copy(BlockTags.PLANKS, ItemTags.PLANKS);
@@ -38,6 +38,6 @@ public class UtilcraftItemTags extends ItemTagsProvider {
 
         this.copy(UtilcraftTags.BlockTags.SAKURA_LOGS, UtilcraftTags.ItemTags.SAKURA_LOGS);
 
-        this.getOrCreateBuilder(ItemTags.BEACON_PAYMENT_ITEMS).add(UtilcraftItems.ROSE_QUARTZ);
+        this.tag(ItemTags.BEACON_PAYMENT_ITEMS).add(UtilcraftItems.ROSE_QUARTZ);
     }
 }

@@ -9,9 +9,9 @@ import net.minecraft.block.material.MaterialColor;
 public class RoseQuartzBlock extends Block {
     public RoseQuartzBlock() {
         super(AbstractBlock.Properties
-                .create(Material.IRON, MaterialColor.PINK)
-                .setRequiresTool()
-                .hardnessAndResistance(5.0F, 6.0F)
+                .of(Material.METAL, MaterialColor.COLOR_PINK)
+                .requiresCorrectToolForDrops()
+                .strength(5.0F, 6.0F)
                 .sound(SoundType.METAL)
         );
     }

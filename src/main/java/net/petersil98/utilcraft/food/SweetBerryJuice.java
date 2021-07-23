@@ -4,17 +4,19 @@ import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.petersil98.utilcraft.Utilcraft;
 
+import net.minecraft.item.Item.Properties;
+
 public class SweetBerryJuice extends Item {
 
     public SweetBerryJuice(){
         super(new Properties()
             .food(new Food.Builder()
-                .hunger(4)
-                .fastToEat()
-                .saturation(0.8f)
+                .nutrition(4)
+                .fast()
+                .saturationMod(0.8f)
                 .build()
             )
-            .group(Utilcraft.ITEM_GROUP)
+            .tab(Utilcraft.ITEM_GROUP)
         );
     }
 }

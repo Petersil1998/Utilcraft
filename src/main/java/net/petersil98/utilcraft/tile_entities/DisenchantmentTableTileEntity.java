@@ -20,8 +20,8 @@ public class DisenchantmentTableTileEntity extends TileEntity implements INameab
     }
 
     @Nonnull
-    public CompoundNBT write(@Nonnull CompoundNBT compound) {
-        super.write(compound);
+    public CompoundNBT save(@Nonnull CompoundNBT compound) {
+        super.save(compound);
         if (this.hasCustomName()) {
             compound.putString("CustomName", ITextComponent.Serializer.toJson(this.customName));
         }
@@ -29,10 +29,10 @@ public class DisenchantmentTableTileEntity extends TileEntity implements INameab
         return compound;
     }
 
-    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
-        super.read(state, nbt);
+    public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
+        super.load(state, nbt);
         if (nbt.contains("CustomName", 8)) {
-            this.customName = ITextComponent.Serializer.getComponentFromJson(nbt.getString("CustomName"));
+            this.customName = ITextComponent.Serializer.fromJson(nbt.getString("CustomName"));
         }
 
     }

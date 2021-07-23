@@ -10,9 +10,9 @@ public class SakuraPressurePlate extends PressurePlateBlock {
     public SakuraPressurePlate() {
         super(PressurePlateBlock.Sensitivity.EVERYTHING,
                 AbstractBlock.Properties
-                        .create(Material.WOOD, new SakuraPlanks().getMaterialColor())
-                        .doesNotBlockMovement()
-                        .hardnessAndResistance(0.5F)
+                        .of(Material.WOOD, new SakuraPlanks().defaultMaterialColor())
+                        .noCollission()
+                        .strength(0.5F)
                         .sound(SoundType.WOOD)
         );
     }

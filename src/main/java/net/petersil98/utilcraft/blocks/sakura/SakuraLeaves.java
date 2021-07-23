@@ -12,14 +12,14 @@ import javax.annotation.Nonnull;
 public class SakuraLeaves extends LeavesBlock {
     public SakuraLeaves() {
         super(AbstractBlock.Properties
-                .create(Material.LEAVES)
-                .hardnessAndResistance(0.2F)
-                .tickRandomly()
-                .sound(SoundType.PLANT)
-                .notSolid()
-                .setAllowsSpawn(SakuraLeaves::allowsSpawnOnLeaves)
-                .setSuffocates(SakuraLeaves::isntSolid)
-                .setBlocksVision(SakuraLeaves::isntSolid)
+                .of(Material.LEAVES)
+                .strength(0.2F)
+                .randomTicks()
+                .sound(SoundType.GRASS)
+                .noOcclusion()
+                .isValidSpawn(SakuraLeaves::allowsSpawnOnLeaves)
+                .isSuffocating(SakuraLeaves::isntSolid)
+                .isViewBlocking(SakuraLeaves::isntSolid)
         );
     }
 

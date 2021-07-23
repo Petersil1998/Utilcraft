@@ -6,6 +6,6 @@ import net.minecraft.block.SlabBlock;
 public class GoldSlab extends SlabBlock {
 
     public GoldSlab() {
-        super(AbstractBlock.Properties.from(new GoldBrick()));
+        super(AbstractBlock.Properties.copy(new GoldBrick()));
     }
 }

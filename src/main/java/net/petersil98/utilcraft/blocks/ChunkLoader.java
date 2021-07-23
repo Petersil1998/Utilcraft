@@ -20,26 +20,26 @@ public class ChunkLoader extends Block {
 
     public ChunkLoader() {
         super(AbstractBlock.Properties
-                .create(Material.ROCK)
+                .of(Material.STONE)
         );
     }
 
     @Override
-    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable LivingEntity placer, @Nonnull ItemStack stack) {
+    public void setPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable LivingEntity placer, @Nonnull ItemStack stack) {
         if(world instanceof ServerWorld) {
             for(int i = 0; i < RADIUS; i++) {
                 Chunk chunk = world.getChunkAt(pos);
-                ((ServerWorld) world).forceChunk(chunk.getPos().x, chunk.getPos().z, true);
+                ((ServerWorld) world).setChunkForced(chunk.getPos().x, chunk.getPos().z, true);
             }
         }
     }
 
     @Override
-    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onRemove(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if(world instanceof ServerWorld) {
             for(int i = 0; i < RADIUS; i++) {
                 Chunk chunk = world.getChunkAt(pos);
-                ((ServerWorld) world).forceChunk(chunk.getPos().x, chunk.getPos().z, false);
+                ((ServerWorld) world).setChunkForced(chunk.getPos().x, chunk.getPos().z, false);
             }
         }
     }

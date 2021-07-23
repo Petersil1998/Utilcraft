@@ -13,8 +13,8 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public enum UtilcraftArmorMaterial implements IArmorMaterial {
-    ROSE_QUARTZ(Utilcraft.MOD_ID+":rose_quartz", 40, new int[]{4, 7, 9, 4}, 20, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 5.0F, 0.1F, () -> {
-        return Ingredient.fromItems(UtilcraftItems.ROSE_QUARTZ);
+    ROSE_QUARTZ(Utilcraft.MOD_ID+":rose_quartz", 40, new int[]{4, 7, 9, 4}, 20, SoundEvents.ARMOR_EQUIP_DIAMOND, 5.0F, 0.1F, () -> {
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
     });
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
@@ -39,30 +39,30 @@ public enum UtilcraftArmorMaterial implements IArmorMaterial {
     }
 
     @Override
-    public int getDurability(@Nonnull EquipmentSlotType slot) {
+    public int getDurabilityForSlot(@Nonnull EquipmentSlotType slot) {
         return MAX_DAMAGE_ARRAY[slot.getIndex()] * this.maxDamageFactor;
     }
 
     @Override
-    public int getDamageReductionAmount(@Nonnull EquipmentSlotType slot) {
+    public int getDefenseForSlot(@Nonnull EquipmentSlotType slot) {
         return this.damageReductionAmountArray[slot.getIndex()];
     }
 
     @Override
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return this.enchantability;
     }
 
     @Nonnull
     @Override
-    public SoundEvent getSoundEvent() {
+    public SoundEvent getEquipSound() {
         return this.soundEvent;
     }
 
     @Nonnull
     @Override
-    public Ingredient getRepairMaterial() {
-        return this.repairMaterial.getValue();
+    public Ingredient getRepairIngredient() {
+        return this.repairMaterial.get();
     }
 
     @Nonnull

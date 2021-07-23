@@ -33,30 +33,30 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
     public static final EnumProperty<SideSlabType> TYPE = UtilcraftBlockStateProperties.SIDE_SLAB_TYPE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final String NAME = "side_slab";
-    protected static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(16.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
-    protected static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D);
-    protected static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
-    protected static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 16.0D, 16.0D, 16.0D, 8.0D);
+    protected static final VoxelShape EAST_SHAPE = Block.box(16.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
+    protected static final VoxelShape NORTH_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 8.0D);
+    protected static final VoxelShape WEST_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
+    protected static final VoxelShape SOUTH_SHAPE = Block.box(0.0D, 0.0D, 16.0D, 16.0D, 16.0D, 8.0D);
 
     public SideSlabBlock(AbstractBlock.Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState().with(TYPE, SideSlabType.NORTH).with(WATERLOGGED, Boolean.FALSE));
+        this.registerDefaultState(this.defaultBlockState().setValue(TYPE, SideSlabType.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
-    public boolean isTransparent(@Nonnull BlockState state) {
-        return state.get(TYPE) != SideSlabType.DOUBLE;
+    public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
+        return state.getValue(TYPE) != SideSlabType.DOUBLE;
     }
 
-    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         builder.add(TYPE, WATERLOGGED);
     }
 
     @Nonnull
     public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-        SideSlabType sideSlabType = state.get(TYPE);
+        SideSlabType sideSlabType = state.getValue(TYPE);
         switch(sideSlabType) {
             case DOUBLE:
-                return VoxelShapes.fullCube();
+                return VoxelShapes.block();
             case EAST:
                 return EAST_SHAPE;
             case SOUTH:
@@ -70,40 +70,40 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
 
     @Nullable
     public BlockState getStateForPlacement(@Nonnull BlockItemUseContext context) {
-        BlockPos blockpos = context.getPos();
-        BlockState blockstate = context.getWorld().getBlockState(blockpos);
+        BlockPos blockpos = context.getClickedPos();
+        BlockState blockstate = context.getLevel().getBlockState(blockpos);
         if (blockstate.getBlock() == this) {
-            return blockstate.with(TYPE, SideSlabType.DOUBLE).with(WATERLOGGED, Boolean.FALSE);
+            return blockstate.setValue(TYPE, SideSlabType.DOUBLE).setValue(WATERLOGGED, Boolean.FALSE);
         } else {
-            FluidState fluidstate = context.getWorld().getFluidState(blockpos);
-            BlockState blockstate1 = this.getDefaultState().with(TYPE, SideSlabType.NORTH).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER);
-            Direction direction = context.getPlacementHorizontalFacing();
-            Vector3d vector = context.getHitVec();
+            FluidState fluidstate = context.getLevel().getFluidState(blockpos);
+            BlockState blockstate1 = this.defaultBlockState().setValue(TYPE, SideSlabType.NORTH).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+            Direction direction = context.getHorizontalDirection();
+            Vector3d vector = context.getClickLocation();
             double diffX = vector.x - (double)blockpos.getX();
             double diffZ = vector.z - (double)blockpos.getZ();
             switch (direction){
                 case EAST:
                 case WEST:
-                    return !(diffX > 0.5D) ? blockstate1.with(TYPE, SideSlabType.WEST) : blockstate1.with(TYPE, SideSlabType.EAST);
+                    return !(diffX > 0.5D) ? blockstate1.setValue(TYPE, SideSlabType.WEST) : blockstate1.setValue(TYPE, SideSlabType.EAST);
                 case SOUTH:
                 default:
-                    return !(diffZ > 0.5D) ? blockstate1.with(TYPE, SideSlabType.NORTH) : blockstate1.with(TYPE, SideSlabType.SOUTH);
+                    return !(diffZ > 0.5D) ? blockstate1.setValue(TYPE, SideSlabType.NORTH) : blockstate1.setValue(TYPE, SideSlabType.SOUTH);
             }
         }
     }
 
-    public boolean isReplaceable(@Nonnull BlockState state, @Nonnull BlockItemUseContext useContext) {
-        ItemStack itemstack = useContext.getItem();
-        SideSlabType sideSlabType = state.get(TYPE);
+    public boolean canBeReplaced(@Nonnull BlockState state, @Nonnull BlockItemUseContext useContext) {
+        ItemStack itemstack = useContext.getItemInHand();
+        SideSlabType sideSlabType = state.getValue(TYPE);
         if (sideSlabType != SideSlabType.DOUBLE && itemstack.getItem() == this.asItem()) {
             if (useContext.replacingClickedOnBlock()) {
-                if (useContext.getFace() == Direction.NORTH && sideSlabType == SideSlabType.SOUTH)
+                if (useContext.getClickedFace() == Direction.NORTH && sideSlabType == SideSlabType.SOUTH)
                     return true;
-                if (useContext.getFace() == Direction.EAST && sideSlabType == SideSlabType.WEST)
+                if (useContext.getClickedFace() == Direction.EAST && sideSlabType == SideSlabType.WEST)
                     return true;
-                if (useContext.getFace() == Direction.SOUTH && sideSlabType == SideSlabType.NORTH)
+                if (useContext.getClickedFace() == Direction.SOUTH && sideSlabType == SideSlabType.NORTH)
                     return true;
-                if (useContext.getFace() == Direction.WEST && sideSlabType == SideSlabType.EAST)
+                if (useContext.getClickedFace() == Direction.WEST && sideSlabType == SideSlabType.EAST)
                     return true;
                 return false;
             } else {
@@ -116,15 +116,15 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
 
     @Nonnull
     public FluidState getFluidState(@Nonnull BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    public boolean receiveFluid(@Nonnull IWorld world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluidState) {
-        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.receiveFluid(world, pos, state, fluidState);
+    public boolean placeLiquid(@Nonnull IWorld world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull FluidState fluidState) {
+        return state.getValue(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.placeLiquid(world, pos, state, fluidState);
     }
 
-    public boolean canContainFluid(@Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Fluid fluid) {
-        return state.get(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.canContainFluid(world, pos, state, fluid);
+    public boolean canPlaceLiquid(@Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Fluid fluid) {
+        return state.getValue(TYPE) != SideSlabType.DOUBLE && IWaterLoggable.super.canPlaceLiquid(world, pos, state, fluid);
     }
 
     /**
@@ -134,17 +134,17 @@ public class SideSlabBlock extends Block implements IWaterLoggable {
      * Note that this method should ideally consider only the specific face passed in.
      */
     @Nonnull
-    public BlockState updatePostPlacement(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, BlockPos facingPos) {
-        if (state.get(WATERLOGGED)) {
-            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+    public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, BlockPos facingPos) {
+        if (state.getValue(WATERLOGGED)) {
+            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
 
-        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, PathType type) {
+    public boolean isPathfindable(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, PathType type) {
         if (type == PathType.WATER) {
-            return world.getFluidState(pos).isTagged(FluidTags.WATER);
+            return world.getFluidState(pos).is(FluidTags.WATER);
         }
         return false;
     }

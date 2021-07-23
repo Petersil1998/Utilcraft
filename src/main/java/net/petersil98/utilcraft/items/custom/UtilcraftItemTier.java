@@ -10,10 +10,10 @@ import java.util.function.Supplier;
 
 public enum UtilcraftItemTier implements IItemTier {
     ROSE_QUARTZ(5,3021,10.0F,5.0F, 20,()-> {
-        return Ingredient.fromItems(UtilcraftItems.ROSE_QUARTZ);
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
     }),
     SUPER_ROSE_QUARTZ(5,3021*9,10.0F,5.0F, 20,()-> {
-        return Ingredient.fromItems(UtilcraftItems.ROSE_QUARTZ);
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
     });
 
     private final int harvestLevel;
@@ -33,33 +33,33 @@ public enum UtilcraftItemTier implements IItemTier {
     }
 
     @Override
-    public int getMaxUses() {
+    public int getUses() {
         return this.maxUses;
     }
 
     @Override
-    public float getEfficiency() {
+    public float getSpeed() {
         return this.efficiency;
     }
 
     @Override
-    public float getAttackDamage() {
+    public float getAttackDamageBonus() {
         return this.attackDamage;
     }
 
     @Override
-    public int getHarvestLevel() {
+    public int getLevel() {
         return this.harvestLevel;
     }
 
     @Override
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return this.enchantability;
     }
 
     @Nonnull
     @Override
-    public Ingredient getRepairMaterial() {
-        return this.repairMaterial.getValue();
+    public Ingredient getRepairIngredient() {
+        return this.repairMaterial.get();
     }
 }

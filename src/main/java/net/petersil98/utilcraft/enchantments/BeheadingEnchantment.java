@@ -10,6 +10,8 @@ import net.minecraft.inventory.EquipmentSlotType;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 public class BeheadingEnchantment extends LootBonusEnchantment {
     public BeheadingEnchantment() {
         super(Rarity.RARE, EnchantmentType.WEAPON, EquipmentSlotType.MAINHAND);
@@ -22,13 +24,13 @@ public class BeheadingEnchantment extends LootBonusEnchantment {
         return 4;
     }
 
-    public boolean canApplyTogether(@Nonnull Enchantment enchantment) {
-        return super.canApplyTogether(enchantment) && enchantment != Enchantments.LOOTING;
+    public boolean checkCompatibility(@Nonnull Enchantment enchantment) {
+        return super.checkCompatibility(enchantment) && enchantment != Enchantments.MOB_LOOTING;
     }
 
     @Override
-    public void onEntityDamaged(@Nonnull LivingEntity user, @Nonnull Entity target, int level) {
-        super.onEntityDamaged(user, target, level);
+    public void doPostAttack(@Nonnull LivingEntity user, @Nonnull Entity target, int level) {
+        super.doPostAttack(user, target, level);
     }
 
     public static int getHeadDropChance(int level){

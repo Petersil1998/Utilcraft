@@ -9,7 +9,7 @@ import net.minecraft.world.IBlockReader;
 
 public class SideJungleSlab extends SideSlabBlock{
     public SideJungleSlab() {
-        super(AbstractBlock.Properties.from(Blocks.JUNGLE_WOOD));
+        super(AbstractBlock.Properties.copy(Blocks.JUNGLE_WOOD));
     }
 
     @Override

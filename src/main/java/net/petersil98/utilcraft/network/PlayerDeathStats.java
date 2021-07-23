@@ -17,7 +17,7 @@ public class PlayerDeathStats {
     public PlayerDeathStats() {}
 
     public PlayerDeathStats(@Nonnull PacketBuffer packetBuffer) {
-        CompoundNBT tag = packetBuffer.readCompoundTag();
+        CompoundNBT tag = packetBuffer.readNbt();
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>(tag.getInt("size"));
         ListNBT list = (ListNBT) tag.get("playerDeaths");
         for (INBT inbt : list) {
@@ -41,7 +41,7 @@ public class PlayerDeathStats {
         }
         tag.put("playerDeaths", list);
         tag.putInt("size", playerDeaths.size());
-        buf.writeCompoundTag(tag);
+        buf.writeNbt(tag);
     }
 
     public boolean handle(@Nonnull Supplier<NetworkEvent.Context> ctx) {

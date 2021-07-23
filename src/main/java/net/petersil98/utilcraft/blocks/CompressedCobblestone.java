@@ -7,6 +7,6 @@ import net.minecraft.block.Blocks;
 public class CompressedCobblestone extends Block {
 
     public CompressedCobblestone() {
-        super(AbstractBlock.Properties.from(Blocks.COBBLESTONE));
+        super(AbstractBlock.Properties.copy(Blocks.COBBLESTONE));
     }
 }

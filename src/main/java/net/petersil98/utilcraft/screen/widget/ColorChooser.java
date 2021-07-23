@@ -24,7 +24,7 @@ public class ColorChooser extends Widget {
         this.radius =  width/2;
         this.color = Config.DEATH_RAY_COLOR.get();
         this.text = new TextFieldWidget(font, x, y+width+10, width-textHeight-5, textHeight, new TranslationTextComponent("config.number_player_deaths"));
-        this.text.setEnabled(false);
+        this.text.setEditable(false);
         this.textHeight = textHeight;
         this.updateColor();
     }
@@ -70,7 +70,7 @@ public class ColorChooser extends Widget {
     }
 
     private void updateColor() {
-        this.text.setText(String.format("#%s", Integer.toHexString(this.color)).toUpperCase());
+        this.text.setValue(String.format("#%s", Integer.toHexString(this.color)).toUpperCase());
     }
 
     public int hsv2rgb(float hue, float saturation, float value) {

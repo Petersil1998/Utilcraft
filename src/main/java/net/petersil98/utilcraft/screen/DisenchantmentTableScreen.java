@@ -25,7 +25,7 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     public void renderBackground(@Nonnull MatrixStack matrixStack) {
@@ -33,7 +33,7 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
     }
 
     public void renderBackground(@Nonnull MatrixStack matrixStack, int vOffset) {
-        if (this.minecraft.world != null) {
+        if (this.minecraft.level != null) {
             this.fillGradient(matrixStack, 0, 0, this.width, this.height, -1072689136, -804253680);
             MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.BackgroundDrawnEvent(this, matrixStack));
         } else {
@@ -41,22 +41,22 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
         }
     }
 
-    protected void func_230459_a_(MatrixStack matrixStack, int x, int y) {
-        if (this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
-            this.renderTooltip(matrixStack, this.hoveredSlot.getStack(), x, y);
+    protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
+        if (this.minecraft.player.inventory.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
+            this.renderTooltip(matrixStack, this.hoveredSlot.getItem(), x, y);
         }
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY) {
-        drawString(matrixStack, Minecraft.getInstance().fontRenderer, "Disenchant", 10, 10, 0xffffff);
+    protected void renderLabels(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY) {
+        drawString(matrixStack, Minecraft.getInstance().font, "Disenchant", 10, 10, 0xffffff);
     }
 
-    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(this.GUI);
-        int relX = (this.width - this.xSize) / 2;
-        int relY = (this.height - this.ySize) / 2;
-        this.blit(matrixStack, relX, relY, 0, 0, this.xSize, this.ySize);
+        this.minecraft.getTextureManager().bind(this.GUI);
+        int relX = (this.width - this.imageWidth) / 2;
+        int relY = (this.height - this.imageHeight) / 2;
+        this.blit(matrixStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
     }
 }

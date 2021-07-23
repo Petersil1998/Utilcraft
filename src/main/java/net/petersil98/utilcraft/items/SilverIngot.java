@@ -6,7 +6,7 @@ import net.petersil98.utilcraft.Utilcraft;
 public class SilverIngot extends Item {
     public SilverIngot() {
         super(new Item.Properties()
-                .group(Utilcraft.ITEM_GROUP)
+                .tab(Utilcraft.ITEM_GROUP)
         );
     }
 }

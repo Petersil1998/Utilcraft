@@ -24,10 +24,10 @@ public class SushiMakerScreen extends ContainerScreen<SushiMakerContainer> {
     protected void init() {
         super.init();
         this.widthTooNarrow = this.width < 379;
-        this.titleX = 11;
-        this.playerInventoryTitleY += 18;
+        this.titleLabelX = 11;
+        this.inventoryLabelY += 18;
         this.height += 18;
-        this.ySize += 18;
+        this.imageHeight += 18;
     }
 
     public void tick() {
@@ -37,24 +37,24 @@ public class SushiMakerScreen extends ContainerScreen<SushiMakerContainer> {
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         if (this.widthTooNarrow) {
-            this.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, mouseX, mouseY);
+            this.renderBg(matrixStack, partialTicks, mouseX, mouseY);
         } else {
             super.render(matrixStack, mouseX, mouseY, partialTicks);
         }
 
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
-    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(this.SUSHI_MAKER_GUI_TEXTURES);
-        int i = this.guiLeft;
-        int j = (this.height - this.ySize) / 2;
-        this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
+        this.minecraft.getTextureManager().bind(this.SUSHI_MAKER_GUI_TEXTURES);
+        int i = this.leftPos;
+        int j = (this.height - this.imageHeight) / 2;
+        this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
     }
 
-    protected boolean isPointInRegion(int x, int y, int width, int height, double mouseX, double mouseY) {
-        return !this.widthTooNarrow && super.isPointInRegion(x, y, width, height, mouseX, mouseY);
+    protected boolean isHovering(int x, int y, int width, int height, double mouseX, double mouseY) {
+        return !this.widthTooNarrow && super.isHovering(x, y, width, height, mouseX, mouseY);
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -62,17 +62,17 @@ public class SushiMakerScreen extends ContainerScreen<SushiMakerContainer> {
     }
 
     protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
-        return mouseX < (double)guiLeft || mouseY < (double)guiTop || mouseX >= (double)(guiLeft + this.xSize) || mouseY >= (double)(guiTop + this.ySize);
+        return mouseX < (double)guiLeft || mouseY < (double)guiTop || mouseX >= (double)(guiLeft + this.imageWidth) || mouseY >= (double)(guiTop + this.imageHeight);
     }
 
     /**
      * Called when the mouse is clicked over a slot or outside the gui.
      */
-    protected void handleMouseClick(@Nonnull Slot slot, int slotId, int mouseButton, @Nonnull ClickType type) {
-        super.handleMouseClick(slot, slotId, mouseButton, type);
+    protected void slotClicked(@Nonnull Slot slot, int slotId, int mouseButton, @Nonnull ClickType type) {
+        super.slotClicked(slot, slotId, mouseButton, type);
     }
 
-    public void onClose() {
-        super.onClose();
+    public void removed() {
+        super.removed();
     }
 }

@@ -24,22 +24,22 @@ import javax.annotation.Nullable;
 public class TravelersBackpack extends Item {
 
     public TravelersBackpack() {
-        super(new Item.Properties().group(Utilcraft.ITEM_GROUP).maxStackSize(1));
+        super(new Item.Properties().tab(Utilcraft.ITEM_GROUP).stacksTo(1));
     }
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
-        player.getHeldItem(hand).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iInventory -> {
-            if(!player.world.isRemote) {
-                INamedContainerProvider containerProvider = new SimpleNamedContainerProvider((id, inventory, playerEntity) -> new TravelersBackpackContainer(id, playerEntity.inventory, iInventory, playerEntity.inventory.currentItem), new StringTextComponent("Bag"));
+    public ActionResult<ItemStack> use(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
+        player.getItemInHand(hand).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iInventory -> {
+            if(!player.level.isClientSide) {
+                INamedContainerProvider containerProvider = new SimpleNamedContainerProvider((id, inventory, playerEntity) -> new TravelersBackpackContainer(id, playerEntity.inventory, iInventory, playerEntity.inventory.selected), new StringTextComponent("Bag"));
                 NetworkHooks.openGui((ServerPlayerEntity)player, containerProvider, packetBuffer -> {
                     packetBuffer.writeInt(iInventory.getSlots());
-                    packetBuffer.writeInt(player.inventory.currentItem);
+                    packetBuffer.writeInt(player.inventory.selected);
                 });
             }
         });
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 
     @Nullable

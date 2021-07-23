@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockReader;
 public class SakuraStairs extends StairsBlock {
 
     public SakuraStairs(){
-        super(() -> new SakuraPlanks().getDefaultState(), AbstractBlock.Properties.from(new SakuraPlanks()));
+        super(() -> new SakuraPlanks().defaultBlockState(), AbstractBlock.Properties.copy(new SakuraPlanks()));
     }
 
     @Override

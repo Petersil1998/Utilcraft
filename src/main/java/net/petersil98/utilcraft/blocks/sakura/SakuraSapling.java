@@ -8,10 +8,10 @@ import net.minecraft.block.material.Material;
 public class SakuraSapling extends SaplingBlock {
     public SakuraSapling() {
         super(new SakuraTree(), AbstractBlock.Properties
-                .create(Material.PLANTS)
-                .doesNotBlockMovement()
-                .tickRandomly()
-                .zeroHardnessAndResistance()
-                .sound(SoundType.PLANT));
+                .of(Material.PLANT)
+                .noCollission()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.GRASS));
     }
 }

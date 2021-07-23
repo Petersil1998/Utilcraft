@@ -29,7 +29,7 @@ public class CapabilityLastDeath {
             BlockPos deathPoint = instance.getDeathPoint();
             ResourceLocation deathDimension = instance.getDeathDimension();
             if(deathPoint != null && deathDimension != null) {
-                tag.putLong("deathPoint", deathPoint.toLong());
+                tag.putLong("deathPoint", deathPoint.asLong());
                 tag.putString("deathDimension", deathDimension.toString());
             }
             return tag;
@@ -39,7 +39,7 @@ public class CapabilityLastDeath {
         public void readNBT(Capability<ILastDeath> capability, @Nonnull ILastDeath instance, Direction side, INBT nbt) {
             CompoundNBT tag = ((CompoundNBT)nbt);
             if(tag.contains("deathPoint", 99) && tag.contains("deathDimension", 8)) {
-                instance.setDeathPoint(BlockPos.fromLong(tag.getLong("deathPoint")));
+                instance.setDeathPoint(BlockPos.of(tag.getLong("deathPoint")));
                 instance.setDeathDimension(new ResourceLocation(tag.getString("deathDimension")));
             }
         }

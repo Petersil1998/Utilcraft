@@ -9,9 +9,9 @@ public class GoldBrick extends Block {
 
     public GoldBrick() {
         super(AbstractBlock.Properties
-                .create(Material.IRON)
+                .of(Material.METAL)
                 .sound(SoundType.METAL)
-                .hardnessAndResistance(3,6)
+                .strength(3,6)
         );
     }
 }

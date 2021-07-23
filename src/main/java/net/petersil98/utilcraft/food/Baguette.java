@@ -4,15 +4,17 @@ import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.petersil98.utilcraft.Utilcraft;
 
+import net.minecraft.item.Item.Properties;
+
 public class Baguette extends Item {
 
     public Baguette(){
         super(new Properties()
                 .food(new Food.Builder()
-                        .hunger(6)
+                        .nutrition(6)
                         .build()
                 )
-                .group(Utilcraft.ITEM_GROUP)
+                .tab(Utilcraft.ITEM_GROUP)
         );
     }
 }

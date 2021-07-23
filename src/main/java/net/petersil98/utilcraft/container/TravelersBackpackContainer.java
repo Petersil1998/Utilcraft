@@ -50,7 +50,7 @@ public class TravelersBackpackContainer extends Container {
             if(i == this.slotNumber)
                 this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 161 + offset){
                     @Override
-                    public boolean canTakeStack(@Nonnull PlayerEntity player) {
+                    public boolean mayPickup(@Nonnull PlayerEntity player) {
                         return false;
                     }
                 });
@@ -62,8 +62,8 @@ public class TravelersBackpackContainer extends Container {
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return player.inventory.getStackInSlot(this.slotNumber).getItem() instanceof TravelersBackpack;
+    public boolean stillValid(@Nonnull PlayerEntity player) {
+        return player.inventory.getItem(this.slotNumber).getItem() instanceof TravelersBackpack;
     }
 
     /**
@@ -71,24 +71,24 @@ public class TravelersBackpackContainer extends Container {
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(@Nonnull PlayerEntity player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack slotStack = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack slotStack = slot.getItem();
             itemstack = slotStack.copy();
             if (index < this.numRows * 9) {
-                if (!this.mergeItemStack(slotStack, this.numRows * 9, this.inventorySlots.size(), true)) {
+                if (!this.moveItemStackTo(slotStack, this.numRows * 9, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(slotStack, 0, this.numRows * 9, false)) {
+            } else if (!this.moveItemStackTo(slotStack, 0, this.numRows * 9, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (slotStack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
         }
 
@@ -98,8 +98,8 @@ public class TravelersBackpackContainer extends Container {
     /**
      * Called when the container is closed.
      */
-    public void onContainerClosed(@Nonnull PlayerEntity player) {
-        super.onContainerClosed(player);
+    public void removed(@Nonnull PlayerEntity player) {
+        super.removed(player);
     }
 
     public int getNumRows() {

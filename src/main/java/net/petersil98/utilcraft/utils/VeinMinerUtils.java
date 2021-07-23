@@ -26,9 +26,9 @@ public class VeinMinerUtils {
 
     public static void get3x3FieldAroundTargetedBlock(final PlayerEntity player, ArrayList<BlockPos> affectedBlocks)
     {
-        final BlockRayTraceResult rayTrace = AbstractSuperTool.rayTracer(player.world, player, RayTraceContext.FluidMode.NONE);
-        final BlockPos center = rayTrace.getPos();
-        switch (rayTrace.getFace()) {
+        final BlockRayTraceResult rayTrace = AbstractSuperTool.rayTracer(player.level, player, RayTraceContext.FluidMode.NONE);
+        final BlockPos center = rayTrace.getBlockPos();
+        switch (rayTrace.getDirection()) {
             case DOWN:
             case UP:
                 affectedBlocks.add(center.west());
@@ -43,27 +43,27 @@ public class VeinMinerUtils {
                 break;
             case NORTH:
             case SOUTH:
-                affectedBlocks.add(center.up());
-                affectedBlocks.add(center.down());
+                affectedBlocks.add(center.above());
+                affectedBlocks.add(center.below());
                 affectedBlocks.add(center.west());
                 affectedBlocks.add(center.east());
 
-                affectedBlocks.add(center.west().up());
-                affectedBlocks.add(center.west().down());
-                affectedBlocks.add(center.east().up());
-                affectedBlocks.add(center.east().down());
+                affectedBlocks.add(center.west().above());
+                affectedBlocks.add(center.west().below());
+                affectedBlocks.add(center.east().above());
+                affectedBlocks.add(center.east().below());
                 break;
             case EAST:
             case WEST:
-                affectedBlocks.add(center.up());
-                affectedBlocks.add(center.down());
+                affectedBlocks.add(center.above());
+                affectedBlocks.add(center.below());
                 affectedBlocks.add(center.north());
                 affectedBlocks.add(center.south());
 
-                affectedBlocks.add(center.north().up());
-                affectedBlocks.add(center.north().down());
-                affectedBlocks.add(center.south().up());
-                affectedBlocks.add(center.south().down());
+                affectedBlocks.add(center.north().above());
+                affectedBlocks.add(center.north().below());
+                affectedBlocks.add(center.south().above());
+                affectedBlocks.add(center.south().below());
                 break;
         }
     }
@@ -85,13 +85,13 @@ public class VeinMinerUtils {
             vein.add(pos.west());
             getVein(pos.west(), vein, world);
         }
-        if (!vein.contains(pos.up()) && areSameBlock(pos, pos.up(), world)) {
-            vein.add(pos.up());
-            getVein(pos.up(), vein, world);
+        if (!vein.contains(pos.above()) && areSameBlock(pos, pos.above(), world)) {
+            vein.add(pos.above());
+            getVein(pos.above(), vein, world);
         }
-        if (!vein.contains(pos.down()) && areSameBlock(pos, pos.down(), world)) {
-            vein.add(pos.down());
-            getVein(pos.down(), vein, world);
+        if (!vein.contains(pos.below()) && areSameBlock(pos, pos.below(), world)) {
+            vein.add(pos.below());
+            getVein(pos.below(), vein, world);
         }
     }
 
@@ -116,12 +116,12 @@ public class VeinMinerUtils {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.up();
+        posToCheck = pos.above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.down();
+        posToCheck = pos.below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
@@ -137,32 +137,32 @@ public class VeinMinerUtils {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.north().up();
+        posToCheck = pos.north().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.north().down();
+        posToCheck = pos.north().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.north().east().up();
+        posToCheck = pos.north().east().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.north().east().down();
+        posToCheck = pos.north().east().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.north().west().up();
+        posToCheck = pos.north().west().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.north().west().down();
+        posToCheck = pos.north().west().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
@@ -178,53 +178,53 @@ public class VeinMinerUtils {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.south().up();
+        posToCheck = pos.south().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.south().down();
+        posToCheck = pos.south().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.south().east().up();
+        posToCheck = pos.south().east().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.south().east().down();
+        posToCheck = pos.south().east().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.south().west().up();
+        posToCheck = pos.south().west().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.south().west().down();
+        posToCheck = pos.south().west().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
 
-        posToCheck = pos.east().up();
+        posToCheck = pos.east().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.east().down();
+        posToCheck = pos.east().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.west().up();
+        posToCheck = pos.west().above();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
         }
-        posToCheck = pos.west().down();
+        posToCheck = pos.west().below();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
             getTree(posToCheck, tree, world);
@@ -232,7 +232,7 @@ public class VeinMinerUtils {
     }
 
     public static boolean playerCanHarvestBlock(BlockState block, ItemStack item, BlockPos pos, World world, PlayerEntity player){
-        return ForgeHooks.canHarvestBlock(block, player, world, pos) || item.canHarvestBlock(block);
+        return ForgeHooks.canHarvestBlock(block, player, world, pos) || item.isCorrectToolForDrops(block);
     }
 
     public static boolean areSameBlock(BlockPos pos1, BlockPos pos2, @Nonnull World world){
@@ -240,10 +240,10 @@ public class VeinMinerUtils {
     }
 
     public static boolean isLogBlock(@Nonnull Block block){
-        return block.isIn(BlockTags.LOGS);
+        return block.is(BlockTags.LOGS);
     }
 
     public static boolean isOreBlock(@Nonnull Block block) {
-        return block.isIn(Tags.Blocks.ORES);
+        return block.is(Tags.Blocks.ORES);
     }
 }

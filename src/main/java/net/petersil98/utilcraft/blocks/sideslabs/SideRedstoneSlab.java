@@ -6,6 +6,6 @@ import net.minecraft.block.Blocks;
 public class SideRedstoneSlab extends SideSlabBlock {
 
     public SideRedstoneSlab() {
-        super(AbstractBlock.Properties.from(Blocks.REDSTONE_BLOCK));
+        super(AbstractBlock.Properties.copy(Blocks.REDSTONE_BLOCK));
     }
 }

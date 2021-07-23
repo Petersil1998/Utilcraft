@@ -6,6 +6,6 @@ import net.petersil98.utilcraft.items.custom.UtilcraftItemTier;
 
 public class RoseQuartzSword extends SwordItem {
     public RoseQuartzSword() {
-        super(UtilcraftItemTier.ROSE_QUARTZ, 5, -2.0F, new Item.Properties().group(Utilcraft.ITEM_GROUP));
+        super(UtilcraftItemTier.ROSE_QUARTZ, 5, -2.0F, new Item.Properties().tab(Utilcraft.ITEM_GROUP));
     }
 }

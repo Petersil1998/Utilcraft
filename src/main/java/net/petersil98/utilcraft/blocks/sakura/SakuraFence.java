@@ -13,8 +13,8 @@ public class SakuraFence extends FenceBlock {
 
     public SakuraFence() {
         super(AbstractBlock.Properties
-                .create(Material.WOOD, new SakuraPlanks().getMaterialColor())
-                .hardnessAndResistance(2.0F, 3.0F)
+                .of(Material.WOOD, new SakuraPlanks().defaultMaterialColor())
+                .strength(2.0F, 3.0F)
                 .sound(SoundType.WOOD)
         );
     }

@@ -9,7 +9,7 @@ import net.minecraft.world.IBlockReader;
 
 public class SideAcaciaSlab extends SideSlabBlock{
     public SideAcaciaSlab() {
-        super(AbstractBlock.Properties.from(Blocks.ACACIA_WOOD));
+        super(AbstractBlock.Properties.copy(Blocks.ACACIA_WOOD));
     }
 
     @Override

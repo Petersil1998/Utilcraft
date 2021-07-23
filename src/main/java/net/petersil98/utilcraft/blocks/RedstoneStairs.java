@@ -5,6 +5,6 @@ import net.minecraft.block.*;
 public class RedstoneStairs extends StairsBlock {
 
     public RedstoneStairs() {
-        super(() -> new GoldBrick().getDefaultState(), AbstractBlock.Properties.from(Blocks.REDSTONE_BLOCK));
+        super(() -> new GoldBrick().defaultBlockState(), AbstractBlock.Properties.copy(Blocks.REDSTONE_BLOCK));
     }
 }

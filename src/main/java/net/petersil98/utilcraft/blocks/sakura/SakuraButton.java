@@ -9,9 +9,9 @@ public class SakuraButton extends WoodButtonBlock {
 
     public SakuraButton() {
         super(AbstractBlock.Properties
-                .create(Material.MISCELLANEOUS)
-                .doesNotBlockMovement()
-                .hardnessAndResistance(0.5F)
+                .of(Material.DECORATION)
+                .noCollission()
+                .strength(0.5F)
                 .sound(SoundType.WOOD)
         );
     }

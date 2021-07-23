@@ -38,23 +38,23 @@ public class HomeCommand {
     }
 
     private static void setHome(@Nonnull CommandSource source) throws CommandSyntaxException {
-        ServerPlayerEntity player = source.asPlayer();
-        BlockPos position = player.getPosition();
+        ServerPlayerEntity player = source.getPlayerOrException();
+        BlockPos position = player.blockPosition();
         player.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
             iHome.setHome(position);
-            source.sendFeedback(new TranslationTextComponent(String.format("home.%s.set_home", Utilcraft.MOD_ID)), false);
+            source.sendSuccess(new TranslationTextComponent(String.format("home.%s.set_home", Utilcraft.MOD_ID)), false);
         });
     }
 
     private static void teleportHome(@Nonnull CommandSource source) throws CommandSyntaxException {
-        ServerPlayerEntity player = source.asPlayer();
+        ServerPlayerEntity player = source.getPlayerOrException();
         player.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
             BlockPos home = iHome.getHome();
             if(home != null && !home.equals(BlockPos.ZERO)) {
                 teleportToPos(player, home);
-                source.sendFeedback(new TranslationTextComponent(String.format("home.%s.teleported", Utilcraft.MOD_ID)), false);
+                source.sendSuccess(new TranslationTextComponent(String.format("home.%s.teleported", Utilcraft.MOD_ID)), false);
             } else {
-                source.sendFeedback(new TranslationTextComponent(String.format("home.%s.not_set", Utilcraft.MOD_ID)), false);
+                source.sendSuccess(new TranslationTextComponent(String.format("home.%s.not_set", Utilcraft.MOD_ID)), false);
             }
         });
     }
@@ -66,22 +66,22 @@ public class HomeCommand {
         set.add(SPlayerPositionLookPacket.Flags.Y_ROT);
 
         ChunkPos chunkpos = new ChunkPos(position);
-        player.getServerWorld().getChunkProvider().registerTicket(TicketType.POST_TELEPORT, chunkpos, 1, player.getEntityId());
+        player.getLevel().getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, player.getId());
         player.stopRiding();
         if (player.isSleeping()) {
             player.stopSleepInBed(true, true);
         }
 
-        if (player.getServer().getWorld(World.OVERWORLD).equals(player.getServerWorld())) {
-            player.connection.setPlayerLocation(position.getX(), position.getY(), position.getZ(), 0, 0, set);
+        if (player.getServer().getLevel(World.OVERWORLD).equals(player.getLevel())) {
+            player.connection.teleport(position.getX(), position.getY(), position.getZ(), 0, 0, set);
         } else {
-            player.teleport(player.getServer().getWorld(World.OVERWORLD), position.getX(), position.getY(), position.getZ(), 0, 0);
+            player.teleportTo(player.getServer().getLevel(World.OVERWORLD), position.getX(), position.getY(), position.getZ(), 0, 0);
         }
 
-        player.setRotationYawHead(0);
+        player.setYHeadRot(0);
 
-        if (!player.isElytraFlying()) {
-            player.setMotion(player.getMotion().mul(1.0D, 0.0D, 1.0D));
+        if (!player.isFallFlying()) {
+            player.setDeltaMovement(player.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D));
             player.setOnGround(true);
         }
     }

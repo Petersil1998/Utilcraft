@@ -37,15 +37,15 @@ public class PlayerEventHandler {
     public static void onPlayerRightClickBlock(@Nonnull PlayerInteractEvent.RightClickBlock event){
         if(event.getEntity() instanceof ServerPlayerEntity){
             ServerPlayerEntity player = (ServerPlayerEntity)event.getEntity();
-            TileEntity te = player.getServerWorld().getTileEntity(event.getPos());
+            TileEntity te = player.getLevel().getBlockEntity(event.getPos());
             if(te instanceof SecureChestTileEntity){
                 UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
                 UUID playerUUID = player.getGameProfile().getId();
                 if(ownerUUID != null && !ownerUUID.equals(playerUUID)) {
-                    UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getServerWorld());
+                    UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());
                     List<SimplePlayer> trustedPlayers = worldSavedData.getTrustedPlayers(ownerUUID);
                     if(trustedPlayers.size() == 0 || trustedPlayers.stream().noneMatch(simplePlayer -> simplePlayer.getUUID().equals(playerUUID))){
-                        player.sendStatusMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
+                        player.displayClientMessage(new TranslationTextComponent(String.format("protection.%s.block_protected", Utilcraft.MOD_ID)), true);
                         event.setUseBlock(Event.Result.DENY);
                     }
                 }
@@ -61,10 +61,10 @@ public class PlayerEventHandler {
             NetworkManager.sendToClients(new PlayerDeathStats());
 
             event.getPlayer().getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {
-                iLastDeath.setDeathPoint(event.getOriginal().getPosition());
-                iLastDeath.setDeathDimension(event.getOriginal().world.getDimensionKey().getLocation());
+                iLastDeath.setDeathPoint(event.getOriginal().blockPosition());
+                iLastDeath.setDeathDimension(event.getOriginal().level.dimension().location());
                 if(iLastDeath.getDeathPoint() != null && iLastDeath.getDeathDimension() != null) {
-                    NetworkManager.sendToClient(new SyncDeathPoint(event.getOriginal().getPosition(), event.getOriginal().world.getDimensionKey().getLocation()), (ServerPlayerEntity) event.getPlayer());
+                    NetworkManager.sendToClient(new SyncDeathPoint(event.getOriginal().blockPosition(), event.getOriginal().level.dimension().location()), (ServerPlayerEntity) event.getPlayer());
                 }
             });
         }
@@ -88,7 +88,7 @@ public class PlayerEventHandler {
             if(result.status == VersionChecker.Status.OUTDATED) {
                 List<ComparableVersion> sortedKeys = new ArrayList<>(result.changes.keySet());
                 Collections.sort(sortedKeys);
-                player.sendStatusMessage(new TranslationTextComponent(String.format("version.%s.new", Utilcraft.MOD_ID), sortedKeys.get(0).toString()), false);
+                player.displayClientMessage(new TranslationTextComponent(String.format("version.%s.new", Utilcraft.MOD_ID), sortedKeys.get(0).toString()), false);
             }
         }
     }

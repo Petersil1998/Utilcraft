@@ -88,9 +88,9 @@ public class UtilcraftBlockStates extends BlockStateProvider {
         ModelFile pressed = models().singleTexture(BlockItemUtils.name(block)+"_pressed", mcLoc(ModelProvider.BLOCK_FOLDER+"/button_pressed"), location);
         models().singleTexture(BlockItemUtils.name(block)+"_inventory", mcLoc(ModelProvider.BLOCK_FOLDER+"/button_inventory"), location);
         getVariantBuilder(block).forAllStates(blockState -> {
-            Direction facing = blockState.get(AbstractButtonBlock.HORIZONTAL_FACING);
-            AttachFace face = blockState.get(AbstractButtonBlock.FACE);
-            boolean powered = blockState.get(AbstractButtonBlock.POWERED);
+            Direction facing = blockState.getValue(AbstractButtonBlock.FACING);
+            AttachFace face = blockState.getValue(AbstractButtonBlock.FACE);
+            boolean powered = blockState.getValue(AbstractButtonBlock.POWERED);
             int yRot = 0;
             int xRot = 0;
             boolean uvlock = false;
@@ -154,7 +154,7 @@ public class UtilcraftBlockStates extends BlockStateProvider {
         ModelFile pressurePlateUp = models().singleTexture(BlockItemUtils.name(block), mcLoc(ModelProvider.BLOCK_FOLDER+"/pressure_plate_up"), location);
         ModelFile pressurePlateDown = models().singleTexture(BlockItemUtils.name(block)+"_down", mcLoc(ModelProvider.BLOCK_FOLDER+"/pressure_plate_down"), location);
         getVariantBuilder(block).forAllStates(blockState -> ConfiguredModel.builder()
-                .modelFile(blockState.get(PressurePlateBlock.POWERED) ? pressurePlateDown : pressurePlateUp)
+                .modelFile(blockState.getValue(PressurePlateBlock.POWERED) ? pressurePlateDown : pressurePlateUp)
                 .build());
     }
 
@@ -213,7 +213,7 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                 .element().face(Direction.EAST).texture("#corner").rotation(ModelBuilder.FaceRotation.UPSIDE_DOWN).end().end()
                 .element().face(Direction.WEST).texture("#corner").end().end();
         getVariantBuilder(UtilcraftBlocks.SUSHI_MAKER).forAllStates(blockState -> {
-            Direction facing = blockState.get(SushiMaker.FACING);
+            Direction facing = blockState.getValue(SushiMaker.FACING);
             int rotX = 0;
             int rotY = 0;
             switch (facing) {
@@ -240,7 +240,7 @@ public class UtilcraftBlockStates extends BlockStateProvider {
     }
 
     private void registerPottedBlock(FlowerPotBlock block) {
-        Block realBlock = block.getFlower();
+        Block realBlock = block.getContent();
         ResourceLocation plant = new ResourceLocation(BlockItemUtils.namespace(realBlock), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(realBlock));
         ModelFile modelFile = models().withExistingParent(BlockItemUtils.name(block), "flower_pot_cross")
                 .texture("plant", plant);

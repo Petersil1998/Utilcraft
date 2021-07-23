@@ -20,12 +20,12 @@ public class ToggleVeinMiner {
     }
 
     public ToggleVeinMiner(@Nonnull PacketBuffer packetBuffer) {
-        this.player = packetBuffer.readUniqueId();
+        this.player = packetBuffer.readUUID();
         this.state = packetBuffer.readBoolean();
     }
 
     public void encode(@Nonnull PacketBuffer buf) {
-        buf.writeUniqueId(this.player);
+        buf.writeUUID(this.player);
         buf.writeBoolean(this.state);
     }
 

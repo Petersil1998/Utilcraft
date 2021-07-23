@@ -57,29 +57,29 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
 
     @Override
     public Container createMenu(int id, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
-        markDirty();
+        setChanged();
         return new SecureChestContainer(id, playerInventory, this.inventory);
     }
 
-    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
-        super.read(state, nbt);
+    public void load(@Nonnull BlockState state, @Nonnull CompoundNBT nbt) {
+        super.load(state, nbt);
         if(nbt.contains("items")) {
             this.inventory.deserializeNBT((CompoundNBT) nbt.get("items"));
         }
-        if(nbt.hasUniqueId("owner")) {
-            this.owner = nbt.getUniqueId("owner");
+        if(nbt.hasUUID("owner")) {
+            this.owner = nbt.getUUID("owner");
         }
         if (nbt.contains("CustomName", 8)) {
-            this.customName = ITextComponent.Serializer.getComponentFromJson(nbt.getString("CustomName"));
+            this.customName = ITextComponent.Serializer.fromJson(nbt.getString("CustomName"));
         }
     }
 
     @Nonnull
-    public CompoundNBT write(@Nonnull CompoundNBT compound) {
-        super.write(compound);
+    public CompoundNBT save(@Nonnull CompoundNBT compound) {
+        super.save(compound);
         compound.put("items", this.inventory.serializeNBT());
         if(this.owner != null) {
-            compound.putUniqueId("owner", this.owner);
+            compound.putUUID("owner", this.owner);
         }
         if (this.hasCustomName()) {
             compound.putString("CustomName", ITextComponent.Serializer.toJson(this.customName));
@@ -114,7 +114,7 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     public void tick() {
         this.prevLidAngle = this.lidAngle;
         if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-            this.playSound(SoundEvents.BLOCK_CHEST_OPEN);
+            this.playSound(SoundEvents.CHEST_OPEN);
         }
 
         if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
@@ -130,7 +130,7 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
             }
 
             if (this.lidAngle < 0.5F && f1 >= 0.5F) {
-                this.playSound(SoundEvents.BLOCK_CHEST_CLOSE);
+                this.playSound(SoundEvents.CHEST_CLOSE);
             }
 
             if (this.lidAngle < 0.0F) {
@@ -141,26 +141,26 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     }
 
     private void playSound(SoundEvent sound) {
-        double d0 = (double)this.pos.getX() + 0.5D;
-        double d1 = (double)this.pos.getY() + 0.5D;
-        double d2 = (double)this.pos.getZ() + 0.5D;
-        this.world.playSound(null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        double d0 = (double)this.worldPosition.getX() + 0.5D;
+        double d1 = (double)this.worldPosition.getY() + 0.5D;
+        double d2 = (double)this.worldPosition.getZ() + 0.5D;
+        this.level.playSound(null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
     }
 
     /**
      * See {@link Block#eventReceived} for more information. This must return true serverside before it is called
      * clientside.
      */
-    public boolean receiveClientEvent(int id, int type) {
+    public boolean triggerEvent(int id, int type) {
         if (id == 1) {
             this.numPlayersUsing = type;
             return true;
         } else {
-            return super.receiveClientEvent(id, type);
+            return super.triggerEvent(id, type);
         }
     }
 
-    public float getLidAngle(float partialTicks) {
+    public float getOpenNess(float partialTicks) {
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 

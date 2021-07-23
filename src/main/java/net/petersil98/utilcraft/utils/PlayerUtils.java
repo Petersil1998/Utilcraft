@@ -35,7 +35,7 @@ public class PlayerUtils {
             playerDeaths.put(onlinePlayer.getName().getString(), deaths);
         }
         try {
-            File statsFolder = server.func_240776_a_(FolderName.STATS).toFile();
+            File statsFolder = server.getWorldPath(FolderName.PLAYER_STATS_DIR).toFile();
             if(statsFolder.isDirectory() && statsFolder.listFiles() != null && statsFolder.listFiles().length > 0) {
                 for (File playerStatFile : statsFolder.listFiles()) {
                     String uuid = FilenameUtils.removeExtension(playerStatFile.getName());

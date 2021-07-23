@@ -17,63 +17,63 @@ import javax.annotation.Nonnull;
 public class ButchersKnife extends Item {
 
     public ButchersKnife() {
-        super(new Item.Properties().group(Utilcraft.ITEM_GROUP));
+        super(new Item.Properties().tab(Utilcraft.ITEM_GROUP));
     }
 
     @Nonnull
     @Override
-    public ActionResultType onItemUse(@Nonnull ItemUseContext context) {
-        BlockPos pos = context.getPos();
-        World world = context.getWorld();
+    public ActionResultType useOn(@Nonnull ItemUseContext context) {
+        BlockPos pos = context.getClickedPos();
+        World world = context.getLevel();
         Block block = world.getBlockState(pos).getBlock();
-        if(block.matchesBlock(Blocks.FURNACE)) {
+        if(block.is(Blocks.FURNACE)) {
             Block toCheck = world.getBlockState(pos.north()).getBlock();
-            if(toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
+            if(toCheck.is(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.NORTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.south()).getBlock();
-            if (toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
+            if (toCheck.is(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.SOUTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.east()).getBlock();
-            if (toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
+            if (toCheck.is(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.EAST, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.west()).getBlock();
-            if (toCheck.matchesBlock(Blocks.CRAFTING_TABLE)) {
+            if (toCheck.is(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.WEST, world);
                 return ActionResultType.SUCCESS;
             }
-        } else if (block.getBlock().matchesBlock(Blocks.CRAFTING_TABLE)) {
+        } else if (block.getBlock().is(Blocks.CRAFTING_TABLE)) {
             Block toCheck = world.getBlockState(pos.north()).getBlock();
-            if(toCheck.matchesBlock(Blocks.FURNACE)) {
+            if(toCheck.is(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.NORTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.south()).getBlock();
-            if (toCheck.matchesBlock(Blocks.FURNACE)) {
+            if (toCheck.is(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.SOUTH, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.east()).getBlock();
-            if (toCheck.matchesBlock(Blocks.FURNACE)) {
+            if (toCheck.is(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.EAST, world);
                 return ActionResultType.SUCCESS;
             }
             toCheck = world.getBlockState(pos.west()).getBlock();
-            if (toCheck.matchesBlock(Blocks.FURNACE)) {
+            if (toCheck.is(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.WEST, world);
                 return ActionResultType.SUCCESS;
             }
         }
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 
     private void replaceBlocks(BlockPos firstBlock, Direction secondBlock, @Nonnull World world) {
-        world.setBlockState(firstBlock, UtilcraftBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock));
-        world.setBlockState(firstBlock.add(secondBlock.getDirectionVec()), UtilcraftBlocks.SUSHI_MAKER.getDefaultState().with(SushiMaker.FACING, secondBlock.getOpposite()));
+        world.setBlockAndUpdate(firstBlock, UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock));
+        world.setBlockAndUpdate(firstBlock.offset(secondBlock.getNormal()), UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock.getOpposite()));
     }
 }

@@ -9,8 +9,8 @@ public class SakuraSignItem extends SignItem {
 
     public SakuraSignItem() {
         super(new Item.Properties()
-                .maxStackSize(16)
-                .group(Utilcraft.ITEM_GROUP),
+                .stacksTo(16)
+                .tab(Utilcraft.ITEM_GROUP),
                 UtilcraftBlocks.SAKURA_SIGN,
                 UtilcraftBlocks.SAKURA_WALL_SIGN
         );

@@ -30,13 +30,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class SecureChest extends Block implements IWaterLoggable {
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    protected static final VoxelShape SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
+    protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
     public SecureChest() {
-        super(AbstractBlock.Properties.from(Blocks.CHEST));
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.FALSE));
+        super(AbstractBlock.Properties.copy(Blocks.CHEST));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SecureChest extends Block implements IWaterLoggable {
     }
 
     @Nonnull
-    public BlockRenderType getRenderType(@Nonnull BlockState state) {
+    public BlockRenderType getRenderShape(@Nonnull BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
@@ -61,10 +61,10 @@ public class SecureChest extends Block implements IWaterLoggable {
     }
 
     public BlockState getStateForPlacement(@Nonnull BlockItemUseContext context) {
-        Direction direction = context.getPlacementHorizontalFacing().getOpposite();
-        FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
-        boolean flag = context.hasSecondaryUseForPlayer();
-        Direction direction1 = context.getFace();
+        Direction direction = context.getHorizontalDirection().getOpposite();
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        boolean flag = context.isSecondaryUseActive();
+        Direction direction1 = context.getClickedFace();
         if (direction1.getAxis().isHorizontal() && flag) {
             Direction direction2 = this.getDirectionToAttach(context, direction1.getOpposite());
             if (direction2 != null && direction2.getAxis() != direction1.getAxis()) {
@@ -72,12 +72,12 @@ public class SecureChest extends Block implements IWaterLoggable {
             }
         }
 
-        return this.getDefaultState().with(FACING, direction).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER);
+        return this.defaultBlockState().setValue(FACING, direction).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
     @Nonnull
     public FluidState getFluidState(@Nonnull BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     /**
@@ -85,45 +85,45 @@ public class SecureChest extends Block implements IWaterLoggable {
      */
     @Nullable
     private Direction getDirectionToAttach(@Nonnull BlockItemUseContext context, Direction direction) {
-        BlockState blockstate = context.getWorld().getBlockState(context.getPos().offset(direction));
-        return blockstate.isIn(this) ? blockstate.get(FACING) : null;
+        BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos().relative(direction));
+        return blockstate.is(this) ? blockstate.getValue(FACING) : null;
     }
 
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
-    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        TileEntity tileentity = world.getTileEntity(pos);
+    public void setPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        TileEntity tileentity = world.getBlockEntity(pos);
         if (tileentity instanceof SecureChestTileEntity) {
-            ((SecureChestTileEntity) tileentity).setOwner(placer.getUniqueID());
-            ((SecureChestTileEntity) tileentity).setCustomName(stack.getDisplayName());
+            ((SecureChestTileEntity) tileentity).setOwner(placer.getUUID());
+            ((SecureChestTileEntity) tileentity).setCustomName(stack.getHoverName());
         }
     }
 
-    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        if (!state.isIn(newState.getBlock())) {
-            TileEntity tileentity = world.getTileEntity(pos);
+    public void onRemove(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            TileEntity tileentity = world.getBlockEntity(pos);
             if (tileentity instanceof SecureChestTileEntity) {
                 ItemStackHandler inventory = ((SecureChestTileEntity)tileentity).getInventory();
                 for(int i = 0; i < inventory.getSlots(); ++i) {
-                    InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), inventory.extractItem(i, inventory.getStackInSlot(i).getCount(), false));
+                    InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), inventory.extractItem(i, inventory.getStackInSlot(i).getCount(), false));
                 }
-                world.updateComparatorOutputLevel(pos, this);
+                world.updateNeighbourForOutputSignal(pos, this);
             }
 
-            super.onReplaced(state, world, pos, newState, isMoving);
+            super.onRemove(state, world, pos, newState, isMoving);
         }
     }
 
     @Nonnull
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
-        if (world.isRemote) {
+    public ActionResultType use(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
+        if (world.isClientSide) {
             return ActionResultType.SUCCESS;
         } else {
-            TileEntity tileEntity = world.getTileEntity(pos);
+            TileEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof SecureChestTileEntity)
             {
-                player.openContainer((INamedContainerProvider) tileEntity);
+                player.openMenu((INamedContainerProvider) tileEntity);
             }
             return ActionResultType.CONSUME;
         }
@@ -133,37 +133,37 @@ public class SecureChest extends Block implements IWaterLoggable {
     public static TileEntityMerger.ICallback<SecureChestTileEntity, Float2FloatFunction> getLidRotationCallback(final IChestLid lid) {
         return new TileEntityMerger.ICallback<SecureChestTileEntity, Float2FloatFunction>() {
             @Nonnull
-            public Float2FloatFunction func_225539_a_(@Nonnull SecureChestTileEntity p_225539_1_, @Nonnull SecureChestTileEntity p_225539_2_) {
-                return (angle) -> Math.max(p_225539_1_.getLidAngle(angle), p_225539_2_.getLidAngle(angle));
+            public Float2FloatFunction acceptDouble(@Nonnull SecureChestTileEntity p_225539_1_, @Nonnull SecureChestTileEntity p_225539_2_) {
+                return (angle) -> Math.max(p_225539_1_.getOpenNess(angle), p_225539_2_.getOpenNess(angle));
             }
 
             @Nonnull
-            public Float2FloatFunction func_225538_a_(@Nonnull SecureChestTileEntity p_225538_1_) {
-                return p_225538_1_::getLidAngle;
+            public Float2FloatFunction acceptSingle(@Nonnull SecureChestTileEntity p_225538_1_) {
+                return p_225538_1_::getOpenNess;
             }
 
             @Nonnull
-            public Float2FloatFunction func_225537_b_() {
-                return lid::getLidAngle;
+            public Float2FloatFunction acceptNone() {
+                return lid::getOpenNess;
             }
         };
     }
 
     @Nonnull
     public BlockState rotate(@Nonnull BlockState state, @Nonnull Rotation rot) {
-        return state.with(FACING, rot.rotate(state.get(FACING)));
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Nonnull
     public BlockState mirror(@Nonnull BlockState state, @Nonnull Mirror mirror) {
-        return state.rotate(mirror.toRotation(state.get(FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
-    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
     }
 
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull PathType type) {
+    public boolean isPathfindable(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull PathType type) {
         return false;
     }
 }

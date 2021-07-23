@@ -34,8 +34,8 @@ public class GUIEventHandler {
 
     @SubscribeEvent
     public static void addElementsToGUI(@Nonnull RenderGameOverlayEvent event) {
-        if(!Minecraft.getInstance().gameSettings.showDebugInfo && event.getType().equals(RenderGameOverlayEvent.ElementType.ALL)) {
-            addVeinMinerOverlay(event.getMatrixStack(), 10, event.getWindow().getScaledHeight()-20);
+        if(!Minecraft.getInstance().options.renderDebug && event.getType().equals(RenderGameOverlayEvent.ElementType.ALL)) {
+            addVeinMinerOverlay(event.getMatrixStack(), 10, event.getWindow().getGuiScaledHeight()-20);
             addDeathsOverlay(event.getMatrixStack(), event.getWindow());
         }
     }
@@ -44,8 +44,8 @@ public class GUIEventHandler {
         TextFormatting format = PlayerUtils.isVeinMinerActive() ? TextFormatting.GREEN : TextFormatting.RED;
         AbstractGui.drawString(
                 matrixStack,
-                Minecraft.getInstance().fontRenderer,
-                new TranslationTextComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, PlayerUtils.isVeinMinerActive() ? "active" : "inactive")).mergeStyle(format),
+                Minecraft.getInstance().font,
+                new TranslationTextComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, PlayerUtils.isVeinMinerActive() ? "active" : "inactive")).withStyle(format),
                 x, y, 0xffffff);
     }
 
@@ -53,16 +53,16 @@ public class GUIEventHandler {
         Map<String, Integer> playerDeaths = PlayerUtils.getPlayerDeaths();
         int size = Math.min(playerDeaths.size(), Config.DEATHS_OVERLAY_PLAYERS.get());
         if(size > 0) {
-            FontRenderer renderer = Minecraft.getInstance().fontRenderer;
-            int height = window.getScaledHeight() / 2;
-            int lineHeight = renderer.FONT_HEIGHT + 2;
+            FontRenderer renderer = Minecraft.getInstance().font;
+            int height = window.getGuiScaledHeight() / 2;
+            int lineHeight = renderer.lineHeight + 2;
             int offset = size / 2 * lineHeight;
             int i = 0;
             for (Map.Entry<String, Integer> playerDeath : playerDeaths.entrySet()) {
                 if (i >= size) return;
                 String message = String.format("%s: %d", playerDeath.getKey(), playerDeath.getValue());
                 int y = height - offset + i * lineHeight;
-                int x = window.getScaledWidth() - renderer.getStringWidth(message) - 10;
+                int x = window.getGuiScaledWidth() - renderer.width(message) - 10;
                 AbstractGui.drawString(
                         matrixStack,
                         renderer,
@@ -78,30 +78,30 @@ public class GUIEventHandler {
         ILastDeath lastDeath = PlayerUtils.getLastDeath();
         if(lastDeath != null && lastDeath.getDeathPoint() != null && lastDeath.getDeathDimension() != null) {
             ClientPlayerEntity player = Minecraft.getInstance().player;
-            if(player.world.getDimensionKey().getLocation().equals(lastDeath.getDeathDimension())) {
+            if(player.level.dimension().location().equals(lastDeath.getDeathDimension())) {
                 MatrixStack matrixStack = event.getMatrixStack();
-                matrixStack.push();
+                matrixStack.pushPose();
 
-                Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+                Vector3d projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
                 matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-                IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-                Matrix4f matrix = matrixStack.getLast().getMatrix();
+                Matrix4f matrix = matrixStack.last().pose();
 
                 drawLine(buffer.getBuffer(RenderType.LINES), matrix, lastDeath.getDeathPoint(), new Color(Config.DEATH_RAY_COLOR.get(), true));
 
-                matrixStack.pop();
+                matrixStack.popPose();
 
-                buffer.finish(RenderType.LINES);
+                buffer.endBatch(RenderType.LINES);
             }
         }
     }
 
     private static void drawLine(@Nonnull IVertexBuilder builder, Matrix4f positionMatrix, @Nonnull BlockPos pos, @Nonnull Color color) {
-        builder.pos(positionMatrix, pos.getX(), pos.getY(), pos.getZ())
+        builder.vertex(positionMatrix, pos.getX(), pos.getY(), pos.getZ())
                 .color(color.getRed(), color.getGreen(),color.getBlue(),color.getAlpha())
                 .endVertex();
-        builder.pos(positionMatrix, pos.getX(), pos.getY()+200, pos.getZ())
+        builder.vertex(positionMatrix, pos.getX(), pos.getY()+200, pos.getZ())
                 .color(color.getRed(), color.getGreen(),color.getBlue(),color.getAlpha())
                 .endVertex();
     }

@@ -13,17 +13,17 @@ import javax.annotation.Nonnull;
 public class GlassStairs extends StairsBlock {
 
     public GlassStairs() {
-        super(Blocks.GLASS::getDefaultState, AbstractBlock.Properties.from(Blocks.GLASS));
+        super(Blocks.GLASS::defaultBlockState, AbstractBlock.Properties.copy(Blocks.GLASS));
     }
 
     @Nonnull
     @Override
-    public VoxelShape getRayTraceShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
+    public VoxelShape getVisualShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return VoxelShapes.empty();
     }
 
     @Override
-    public float getAmbientOcclusionLightValue(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+    public float getShadeBrightness(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return 1.0F;
     }
 
@@ -32,7 +32,7 @@ public class GlassStairs extends StairsBlock {
         return true;
     }
 
-    public boolean isSideInvisible(@Nonnull BlockState state, @Nonnull BlockState adjacentBlockState, @Nonnull Direction side) {
-        return adjacentBlockState.isIn(this) || super.isSideInvisible(state, adjacentBlockState, side);
+    public boolean skipRendering(@Nonnull BlockState state, @Nonnull BlockState adjacentBlockState, @Nonnull Direction side) {
+        return adjacentBlockState.is(this) || super.skipRendering(state, adjacentBlockState, side);
     }
 }

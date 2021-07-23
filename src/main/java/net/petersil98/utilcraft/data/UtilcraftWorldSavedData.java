@@ -25,16 +25,16 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT nbt) {
+    public void load(@Nonnull CompoundNBT nbt) {
         try {
             ListNBT players = (ListNBT)nbt.get("players");
             for (INBT playerTag: players){
                 CompoundNBT player = (CompoundNBT)playerTag;
-                UUID playerUUID = player.getUniqueId("player");
+                UUID playerUUID = player.getUUID("player");
                 ListNBT trustedPlayers = (ListNBT)player.get("trustedPlayers");
                 List<SimplePlayer> trustedPlayersList = new ArrayList<>();
                 for(INBT trustedPlayerTag: trustedPlayers){
-                    UUID trustedPlayer = ((CompoundNBT)trustedPlayerTag).getUniqueId("trustedPlayer");
+                    UUID trustedPlayer = ((CompoundNBT)trustedPlayerTag).getUUID("trustedPlayer");
                     String trustedPlayerName = ((CompoundNBT)trustedPlayerTag).getString("trustedPlayerName");
                     trustedPlayersList.add(new SimplePlayer(trustedPlayerName, trustedPlayer));
                 }
@@ -46,7 +46,7 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
 
     @Nonnull
     @Override
-    public CompoundNBT write(@Nonnull CompoundNBT compound) {
+    public CompoundNBT save(@Nonnull CompoundNBT compound) {
         Iterator<Map.Entry<UUID, List<SimplePlayer>>> iterator = this.players.entrySet().iterator();
         ListNBT players = new ListNBT();
         while (iterator.hasNext()) {
@@ -57,13 +57,13 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
             while (trustedPlayerIterator.hasNext()){
                 SimplePlayer trustedPlayer = trustedPlayerIterator.next();
                 CompoundNBT tag = new CompoundNBT();
-                tag.putUniqueId("trustedPlayer", trustedPlayer.getUUID());
+                tag.putUUID("trustedPlayer", trustedPlayer.getUUID());
                 tag.putString("trustedPlayerName", trustedPlayer.getUsername());
                 trustedPlayers.add(tag);
                 trustedPlayerIterator.remove();
             }
             CompoundNBT tag = new CompoundNBT();
-            tag.putUniqueId("player", player);
+            tag.putUUID("player", player);
             tag.put("trustedPlayers", trustedPlayers);
             players.add(tag);
             iterator.remove();
@@ -74,8 +74,8 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
 
     @Nonnull
     public static UtilcraftWorldSavedData get(@Nonnull ServerWorld world) {
-        DimensionSavedDataManager dataManager = world.getSavedData();
-        return dataManager.getOrCreate(UtilcraftWorldSavedData::new, DATA_NAME);
+        DimensionSavedDataManager dataManager = world.getDataStorage();
+        return dataManager.computeIfAbsent(UtilcraftWorldSavedData::new, DATA_NAME);
     }
 
     public void addTrustedPlayer(UUID playerUUID, SimplePlayer trustedPlayer){
@@ -86,7 +86,7 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
         } else {
             players.put(playerUUID, Lists.newArrayList(trustedPlayer));
         }
-        markDirty();
+        setDirty();
     }
 
     public void removedTrustedPlayer(UUID playerUUID, UUID trustedPlayerUUID){
@@ -97,7 +97,7 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
                 }
             });
         }
-        markDirty();
+        setDirty();
     }
 
     public List<SimplePlayer> getTrustedPlayers(UUID player) {

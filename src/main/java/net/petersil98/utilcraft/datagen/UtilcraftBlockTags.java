@@ -18,31 +18,31 @@ public class UtilcraftBlockTags extends BlockTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
-        this.getOrCreateBuilder(UtilcraftTags.BlockTags.SIDE_SLABS_BLOCKS).add(SIDE_ACACIA_SLAB, SIDE_BIRCH_SLAB, SIDE_COBBLESTONE_SLAB, SIDE_DARK_OAK_SLAB, SIDE_GOLD_SLAB, SIDE_JUNGLE_SLAB, SIDE_OAK_SLAB, SIDE_REDSTONE_SLAB, SIDE_SAKURA_SLAB, SIDE_SPRUCE_SLAB, SIDE_STONE_SLAB);
-        this.getOrCreateBuilder(UtilcraftTags.BlockTags.SAKURA_LOGS).add(SAKURA_LOG);
+    protected void addTags() {
+        this.tag(UtilcraftTags.BlockTags.SIDE_SLABS_BLOCKS).add(SIDE_ACACIA_SLAB, SIDE_BIRCH_SLAB, SIDE_COBBLESTONE_SLAB, SIDE_DARK_OAK_SLAB, SIDE_GOLD_SLAB, SIDE_JUNGLE_SLAB, SIDE_OAK_SLAB, SIDE_REDSTONE_SLAB, SIDE_SAKURA_SLAB, SIDE_SPRUCE_SLAB, SIDE_STONE_SLAB);
+        this.tag(UtilcraftTags.BlockTags.SAKURA_LOGS).add(SAKURA_LOG);
 
-        this.getOrCreateBuilder(BlockTags.FENCE_GATES).add(SAKURA_FENCE_GATE);
-        this.getOrCreateBuilder(BlockTags.FLOWER_POTS).add(POTTED_SAKURA_SAPLING);
-        this.getOrCreateBuilder(BlockTags.LEAVES).add(SAKURA_LEAVES);
-        this.getOrCreateBuilder(BlockTags.LOGS_THAT_BURN).addTag(UtilcraftTags.BlockTags.SAKURA_LOGS);
-        this.getOrCreateBuilder(BlockTags.PLANKS).add(SAKURA_PLANKS);
-        this.getOrCreateBuilder(BlockTags.SAPLINGS).add(SAKURA_SAPLING);
-        this.getOrCreateBuilder(BlockTags.SLABS).add(GOLD_SLAB, REDSTONE_SLAB);
-        this.getOrCreateBuilder(BlockTags.STAIRS).add(SAKURA_STAIRS, GOLD_STAIRS, REDSTONE_STAIRS, GLASS_STAIRS);
-        this.getOrCreateBuilder(BlockTags.STANDING_SIGNS).add(SAKURA_SIGN);
-        this.getOrCreateBuilder(BlockTags.WALL_SIGNS).add(SAKURA_WALL_SIGN);
-        this.getOrCreateBuilder(BlockTags.WALLS).add(GOLD_WALL);
-        this.getOrCreateBuilder(BlockTags.WOODEN_BUTTONS).add(SAKURA_BUTTON);
-        this.getOrCreateBuilder(BlockTags.WOODEN_DOORS).add(SAKURA_DOOR);
-        this.getOrCreateBuilder(BlockTags.WOODEN_FENCES).add(SAKURA_FENCE);
-        this.getOrCreateBuilder(BlockTags.WOODEN_PRESSURE_PLATES).add(SAKURA_PRESSURE_PLATE);
-        this.getOrCreateBuilder(BlockTags.WOODEN_SLABS).add(SAKURA_SLAB);
-        this.getOrCreateBuilder(BlockTags.WOODEN_TRAPDOORS).add(SAKURA_TRAPDOOR);
-        this.getOrCreateBuilder(BlockTags.BEACON_BASE_BLOCKS).add(ROSE_QUARTZ_BLOCK);
+        this.tag(BlockTags.FENCE_GATES).add(SAKURA_FENCE_GATE);
+        this.tag(BlockTags.FLOWER_POTS).add(POTTED_SAKURA_SAPLING);
+        this.tag(BlockTags.LEAVES).add(SAKURA_LEAVES);
+        this.tag(BlockTags.LOGS_THAT_BURN).addTag(UtilcraftTags.BlockTags.SAKURA_LOGS);
+        this.tag(BlockTags.PLANKS).add(SAKURA_PLANKS);
+        this.tag(BlockTags.SAPLINGS).add(SAKURA_SAPLING);
+        this.tag(BlockTags.SLABS).add(GOLD_SLAB, REDSTONE_SLAB);
+        this.tag(BlockTags.STAIRS).add(SAKURA_STAIRS, GOLD_STAIRS, REDSTONE_STAIRS, GLASS_STAIRS);
+        this.tag(BlockTags.STANDING_SIGNS).add(SAKURA_SIGN);
+        this.tag(BlockTags.WALL_SIGNS).add(SAKURA_WALL_SIGN);
+        this.tag(BlockTags.WALLS).add(GOLD_WALL);
+        this.tag(BlockTags.WOODEN_BUTTONS).add(SAKURA_BUTTON);
+        this.tag(BlockTags.WOODEN_DOORS).add(SAKURA_DOOR);
+        this.tag(BlockTags.WOODEN_FENCES).add(SAKURA_FENCE);
+        this.tag(BlockTags.WOODEN_PRESSURE_PLATES).add(SAKURA_PRESSURE_PLATE);
+        this.tag(BlockTags.WOODEN_SLABS).add(SAKURA_SLAB);
+        this.tag(BlockTags.WOODEN_TRAPDOORS).add(SAKURA_TRAPDOOR);
+        this.tag(BlockTags.BEACON_BASE_BLOCKS).add(ROSE_QUARTZ_BLOCK);
 
-        this.getOrCreateBuilder(Tags.Blocks.FENCE_GATES_WOODEN).add(SAKURA_FENCE_GATE);
-        this.getOrCreateBuilder(Tags.Blocks.FENCES_WOODEN).add(SAKURA_FENCE);
-        this.getOrCreateBuilder(Tags.Blocks.ORES).add(SILVER_ORE, ROSE_QUARTZ_ORE);
+        this.tag(Tags.Blocks.FENCE_GATES_WOODEN).add(SAKURA_FENCE_GATE);
+        this.tag(Tags.Blocks.FENCES_WOODEN).add(SAKURA_FENCE);
+        this.tag(Tags.Blocks.ORES).add(SILVER_ORE, ROSE_QUARTZ_ORE);
     }
 }

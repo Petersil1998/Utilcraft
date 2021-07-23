@@ -8,9 +8,9 @@ import net.minecraft.block.material.MaterialColor;
 public class SilverOre extends OreBlock {
     public SilverOre() {
         super(AbstractBlock.Properties
-                .create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA)
-                .setRequiresTool()
-                .hardnessAndResistance(3.0F, 3.0F)
+                .of(Material.STONE, MaterialColor.TERRACOTTA_WHITE)
+                .requiresCorrectToolForDrops()
+                .strength(3.0F, 3.0F)
         );
     }
 }

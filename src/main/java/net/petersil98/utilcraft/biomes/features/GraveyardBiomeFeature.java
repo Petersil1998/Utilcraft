@@ -19,8 +19,8 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
     }
 
     @Override
-    public void buildSurface(@Nonnull Random random, @Nonnull IChunk chunk, @Nonnull Biome biome, int x, int z, int startHeight, double noise, @Nonnull BlockState defaultBlock, @Nonnull BlockState defaultFluid, int seaLevel, long seed, @Nonnull SurfaceBuilderConfig config) {
-        this.buildRealSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTop(), config.getUnder(), config.getUnderWaterMaterial(), seaLevel);
+    public void apply(@Nonnull Random random, @Nonnull IChunk chunk, @Nonnull Biome biome, int x, int z, int startHeight, double noise, @Nonnull BlockState defaultBlock, @Nonnull BlockState defaultFluid, int seaLevel, long seed, @Nonnull SurfaceBuilderConfig config) {
+        this.buildRealSurface(random, chunk, biome, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTopMaterial(), config.getUnderMaterial(), config.getUnderwaterMaterial(), seaLevel);
     }
 
     protected void buildRealSurface(@Nonnull Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel){
@@ -33,14 +33,14 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
         int l = z & 15;
 
         for(int i1 = startHeight; i1 >= 0; --i1) {
-            blockPos.setPos(k, i1, l);
+            blockPos.set(k, i1, l);
             BlockState currentBlockState = chunk.getBlockState(blockPos);
             if (currentBlockState.isAir()) {
                 i = -1;
             } else if (currentBlockState.getBlock() == defaultBlock.getBlock()) {
                 if (i == -1) {
                     if (j <= 0) {
-                        topBlockState = Blocks.AIR.getDefaultState();
+                        topBlockState = Blocks.AIR.defaultBlockState();
                         middleBlockState = defaultBlock;
                     } else if (i1 >= sealevel - 4 && i1 <= sealevel + 1) {
                         topBlockState = top;
@@ -48,20 +48,20 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
                     }
 
                     if (i1 < sealevel && (topBlockState == null || topBlockState.isAir())) {
-                        if (biome.getTemperature(blockPos.setPos(x, i1, z)) < 0.15F) {
-                            topBlockState = Blocks.ICE.getDefaultState();
+                        if (biome.getTemperature(blockPos.set(x, i1, z)) < 0.15F) {
+                            topBlockState = Blocks.ICE.defaultBlockState();
                         } else {
                             topBlockState = defaultFluid;
                         }
 
-                        blockPos.setPos(k, i1, l);
+                        blockPos.set(k, i1, l);
                     }
 
                     i = j;
                     if (i1 >= sealevel - 1) {
                         chunk.setBlockState(blockPos, topBlockState, false);
                     } else if (i1 < sealevel - 7 - j) {
-                        topBlockState = Blocks.AIR.getDefaultState();
+                        topBlockState = Blocks.AIR.defaultBlockState();
                         middleBlockState = defaultBlock;
                         chunk.setBlockState(blockPos, bottom, false);
                     } else {
@@ -72,7 +72,7 @@ public class GraveyardBiomeFeature extends SurfaceBuilder<SurfaceBuilderConfig> 
                     chunk.setBlockState(blockPos, middleBlockState, false);
                     if (i == 0 && middleBlockState.getBlock() == Blocks.SAND && j > 1) {
                         i = random.nextInt(4) + Math.max(0, i1 - 63);
-                        middleBlockState = middleBlockState.getBlock() == Blocks.RED_SAND ? Blocks.RED_SANDSTONE.getDefaultState() : Blocks.SANDSTONE.getDefaultState();
+                        middleBlockState = middleBlockState.getBlock() == Blocks.RED_SAND ? Blocks.RED_SANDSTONE.defaultBlockState() : Blocks.SANDSTONE.defaultBlockState();
                     }
                 }
             }

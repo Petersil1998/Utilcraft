@@ -5,6 +5,6 @@ import net.minecraft.block.Blocks;
 
 public class SideCobblestoneSlab extends SideSlabBlock{
     public SideCobblestoneSlab() {
-        super(AbstractBlock.Properties.from(Blocks.COBBLESTONE));
+        super(AbstractBlock.Properties.copy(Blocks.COBBLESTONE));
     }
 }

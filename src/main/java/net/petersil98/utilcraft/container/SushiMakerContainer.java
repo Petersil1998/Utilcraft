@@ -26,7 +26,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
     private final PlayerEntity player;
 
     public SushiMakerContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, IWorldPosCallable.DUMMY);
+        this(id, playerInventory, IWorldPosCallable.NULL);
     }
 
     public SushiMakerContainer(int id, @Nonnull PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
@@ -53,55 +53,55 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
     }
 
     protected static void updateCraftingResult(int id, @Nonnull World world, PlayerEntity player, CraftingInventory inventory, CraftResultInventory inventoryResult) {
-        if (!world.isRemote) {
+        if (!world.isClientSide) {
             ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)player;
             ItemStack itemstack = ItemStack.EMPTY;
-            Optional<SushiMakerRecipe> optional = world.getServer().getRecipeManager().getRecipe(UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE, inventory, world);
+            Optional<SushiMakerRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE, inventory, world);
             if (optional.isPresent()) {
                 SushiMakerRecipe icraftingrecipe = optional.get();
-                if (inventoryResult.canUseRecipe(world, serverplayerentity, icraftingrecipe)) {
-                    itemstack = icraftingrecipe.getCraftingResult(inventory);
+                if (inventoryResult.setRecipeUsed(world, serverplayerentity, icraftingrecipe)) {
+                    itemstack = icraftingrecipe.assemble(inventory);
                 }
             }
 
-            inventoryResult.setInventorySlotContents(0, itemstack);
-            serverplayerentity.connection.sendPacket(new SSetSlotPacket(id, 0, itemstack));
+            inventoryResult.setItem(0, itemstack);
+            serverplayerentity.connection.send(new SSetSlotPacket(id, 0, itemstack));
         }
     }
 
     /**
      * Callback for when the crafting matrix is changed.
      */
-    public void onCraftMatrixChanged(@Nonnull IInventory inventory) {
-        this.worldPosCallable.consume((p_217069_1_, p_217069_2_) -> updateCraftingResult(this.windowId, p_217069_1_, this.player, this.craftMatrix, this.craftResult));
+    public void slotsChanged(@Nonnull IInventory inventory) {
+        this.worldPosCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(this.containerId, p_217069_1_, this.player, this.craftMatrix, this.craftResult));
     }
 
-    public void fillStackedContents(@Nonnull RecipeItemHelper itemHelper) {
+    public void fillCraftSlotsStackedContents(@Nonnull RecipeItemHelper itemHelper) {
         this.craftMatrix.fillStackedContents(itemHelper);
     }
 
-    public void clear() {
-        this.craftMatrix.clear();
-        this.craftResult.clear();
+    public void clearCraftingContent() {
+        this.craftMatrix.clearContent();
+        this.craftResult.clearContent();
     }
 
-    public boolean matches(@Nonnull IRecipe<? super CraftingInventory> recipe) {
-        return recipe.matches(this.craftMatrix, this.player.world);
+    public boolean recipeMatches(@Nonnull IRecipe<? super CraftingInventory> recipe) {
+        return recipe.matches(this.craftMatrix, this.player.level);
     }
 
     /**
      * Called when the container is closed.
      */
-    public void onContainerClosed(@Nonnull PlayerEntity player) {
-        super.onContainerClosed(player);
-        this.worldPosCallable.consume((p_217068_2_, p_217068_3_) -> this.clearContainer(player, p_217068_2_, this.craftMatrix));
+    public void removed(@Nonnull PlayerEntity player) {
+        super.removed(player);
+        this.worldPosCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(player, p_217068_2_, this.craftMatrix));
     }
 
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return isWithinUsableDistance(this.worldPosCallable, player, UtilcraftBlocks.SUSHI_MAKER);
+    public boolean stillValid(@Nonnull PlayerEntity player) {
+        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.SUSHI_MAKER);
     }
 
     /**
@@ -109,37 +109,37 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(@Nonnull PlayerEntity player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
-                this.worldPosCallable.consume((p_217067_2_, p_217067_3_) -> itemstack1.getItem().onCreated(itemstack1, p_217067_2_, player));
-                if (!this.mergeItemStack(itemstack1, getSize(), 53, true)) {
+                this.worldPosCallable.execute((p_217067_2_, p_217067_3_) -> itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, player));
+                if (!this.moveItemStackTo(itemstack1, getSize(), 53, true)) {
                     return ItemStack.EMPTY;
                 }
 
-                slot.onSlotChange(itemstack1, itemstack);
+                slot.onQuickCraft(itemstack1, itemstack);
             } else if (index >= getSize() && index < 53) {
-                if (!this.mergeItemStack(itemstack1, 1, getSize(), false)) {
+                if (!this.moveItemStackTo(itemstack1, 1, getSize(), false)) {
                     if (index < 44) {
-                        if (!this.mergeItemStack(itemstack1, 44, 53, false)) {
+                        if (!this.moveItemStackTo(itemstack1, 44, 53, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (!this.mergeItemStack(itemstack1, getSize(), 44, false)) {
+                    } else if (!this.moveItemStackTo(itemstack1, getSize(), 44, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
-            } else if (!this.mergeItemStack(itemstack1, getSize(), 53, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, getSize(), 53, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
@@ -148,7 +148,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
 
             ItemStack itemstack2 = slot.onTake(player, itemstack1);
             if (index == 0) {
-                player.dropItem(itemstack2, false);
+                player.drop(itemstack2, false);
             }
         }
 
@@ -159,19 +159,19 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is
      * null for the initial slot that was double-clicked.
      */
-    public boolean canMergeSlot(@Nonnull ItemStack stack, @Nonnull Slot slot) {
-        return slot.inventory != this.craftResult && super.canMergeSlot(stack, slot);
+    public boolean canTakeItemForPickAll(@Nonnull ItemStack stack, @Nonnull Slot slot) {
+        return slot.container != this.craftResult && super.canTakeItemForPickAll(stack, slot);
     }
 
-    public int getOutputSlot() {
+    public int getResultSlotIndex() {
         return 0;
     }
 
-    public int getWidth() {
+    public int getGridWidth() {
         return this.craftMatrix.getWidth();
     }
 
-    public int getHeight() {
+    public int getGridHeight() {
         return this.craftMatrix.getHeight();
     }
 
@@ -180,7 +180,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
     }
 
     @Nonnull
-    public RecipeBookCategory func_241850_m() {
+    public RecipeBookCategory getRecipeBookType() {
         return RecipeBookCategory.CRAFTING;
     }
 }

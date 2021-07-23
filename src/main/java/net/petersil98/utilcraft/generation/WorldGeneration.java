@@ -19,55 +19,55 @@ import java.util.List;
 public class WorldGeneration {
 
     public static List<ResourceLocation> sakuraSpawnBiomes = Lists.newArrayList(
-            Biomes.PLAINS.getLocation(),
-            Biomes.FOREST.getLocation(),
-            Biomes.FLOWER_FOREST.getLocation(),
-            Biomes.SUNFLOWER_PLAINS.getLocation()
+            Biomes.PLAINS.location(),
+            Biomes.FOREST.location(),
+            Biomes.FLOWER_FOREST.location(),
+            Biomes.SUNFLOWER_PLAINS.location()
     );
 
     public static void addSilverOre(@Nonnull BiomeGenerationSettings.Builder biome) {
-        biome.withFeature(
+        biome.addFeature(
                 GenerationStage.Decoration.UNDERGROUND_ORES,
-                Feature.ORE.withConfiguration(
+                Feature.ORE.configured(
                         new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-                                UtilcraftBlocks.SILVER_ORE.getDefaultState(),
+                                OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                UtilcraftBlocks.SILVER_ORE.defaultBlockState(),
                                 17
                         )
-                ).range(128).square()
+                ).range(128).squared()
         );
     }
 
     public static void addRoseQuartzOre(@Nonnull BiomeGenerationSettings.Builder biome) {
-        biome.withFeature(
+        biome.addFeature(
                 GenerationStage.Decoration.UNDERGROUND_ORES,
-                Feature.ORE.withConfiguration(
+                Feature.ORE.configured(
                         new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
-                                UtilcraftBlocks.ROSE_QUARTZ_ORE.getDefaultState(),
+                                OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                UtilcraftBlocks.ROSE_QUARTZ_ORE.defaultBlockState(),
                                 4
                         )
-                ).range(20).square()
+                ).range(20).squared()
         );
     }
 
     public static void addSakuraTrees(@Nonnull BiomeGenerationSettings.Builder biome, @Nonnull ResourceLocation biomeName) {
         if(sakuraSpawnBiomes.contains(biomeName)) {
-            biome.withFeature(
+            biome.addFeature(
                     GenerationStage.Decoration.VEGETAL_DECORATION,
                     Feature.TREE
-                            .withConfiguration(
+                            .configured(
                                     new BaseTreeFeatureConfig.Builder(
-                                            new SimpleBlockStateProvider(UtilcraftBlocks.SAKURA_LOG.getDefaultState()),
-                                            new SimpleBlockStateProvider(UtilcraftBlocks.SAKURA_LEAVES.getDefaultState()),
-                                            new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+                                            new SimpleBlockStateProvider(UtilcraftBlocks.SAKURA_LOG.defaultBlockState()),
+                                            new SimpleBlockStateProvider(UtilcraftBlocks.SAKURA_LEAVES.defaultBlockState()),
+                                            new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
                                             new StraightTrunkPlacer(4, 2, 0),
                                             new TwoLayerFeature(1, 0, 1))
-                                            .setIgnoreVines()
+                                            .ignoreVines()
                                             .build()
                             )
-                            .withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
-                            .withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1)))
+                            .decorated(Features.Placements.HEIGHTMAP_SQUARE)
+                            .decorated(Placement.COUNT_EXTRA.configured(new AtSurfaceWithExtraConfig(1, 0.1F, 1)))
             );
         }
     }

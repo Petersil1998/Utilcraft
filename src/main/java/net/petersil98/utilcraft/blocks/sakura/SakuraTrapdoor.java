@@ -11,11 +11,11 @@ public class SakuraTrapdoor extends TrapDoorBlock {
 
     public SakuraTrapdoor() {
         super(AbstractBlock.Properties
-                .create(Material.WOOD, MaterialColor.WOOD)
-                .hardnessAndResistance(3.0F)
+                .of(Material.WOOD, MaterialColor.WOOD)
+                .strength(3.0F)
                 .sound(SoundType.WOOD)
-                .notSolid()
-                .setAllowsSpawn(SakuraTrapdoor::neverAllowSpawn)
+                .noOcclusion()
+                .isValidSpawn(SakuraTrapdoor::neverAllowSpawn)
         );
     }
 

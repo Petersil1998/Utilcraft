@@ -40,8 +40,8 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(@Nonnull CraftingInventory inv) {
-        return this.getRecipeOutput().copy();
+    public ItemStack assemble(@Nonnull CraftingInventory inv) {
+        return this.getResultItem().copy();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
                     }
                 }
 
-                if (!ingredient.test(craftingInventory.getStackInSlot(i + j * craftingInventory.getWidth()))) {
+                if (!ingredient.test(craftingInventory.getItem(i + j * craftingInventory.getWidth()))) {
                     return false;
                 }
             }
@@ -84,13 +84,13 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width >= this.recipeWidth && height >= this.recipeHeight;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return this.result;
     }
 
@@ -101,7 +101,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return false;
     }
 
@@ -113,7 +113,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
 
     @Nonnull
     @Override
-    public ItemStack getIcon() {
+    public ItemStack getToastSymbol() {
         return new ItemStack(new BlockItem(UtilcraftBlocks.SUSHI_MAKER, new Item.Properties()));
     }
 
@@ -222,7 +222,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
             throw new JsonSyntaxException("Invalid pattern: empty pattern not allowed");
         } else {
             for(int i = 0; i < astring.length; ++i) {
-                String s = JSONUtils.getString(jsonArr.get(i), "pattern[" + i + "]");
+                String s = JSONUtils.convertToString(jsonArr.get(i), "pattern[" + i + "]");
                 if (s.length() > 4) {
                     throw new JsonSyntaxException("Invalid pattern: too many columns, " + 4 + " is maximum");
                 }
@@ -254,7 +254,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
                 throw new JsonSyntaxException("Invalid key entry: ' ' is a reserved symbol.");
             }
 
-            map.put(entry.getKey(), Ingredient.deserialize(entry.getValue()));
+            map.put(entry.getKey(), Ingredient.fromJson(entry.getValue()));
         }
 
         map.put(" ", Ingredient.EMPTY);
@@ -263,41 +263,41 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<SushiMakerRecipe> {
         @Nonnull
-        public SushiMakerRecipe read(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-            String group = JSONUtils.getString(json, "group", "");
-            Map<String, Ingredient> map = SushiMakerRecipe.deserializeKey(JSONUtils.getJsonObject(json, "key"));
-            String[] astring = SushiMakerRecipe.shrink(SushiMakerRecipe.patternFromJson(JSONUtils.getJsonArray(json, "pattern")));
+        public SushiMakerRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
+            String group = JSONUtils.getAsString(json, "group", "");
+            Map<String, Ingredient> map = SushiMakerRecipe.deserializeKey(JSONUtils.getAsJsonObject(json, "key"));
+            String[] astring = SushiMakerRecipe.shrink(SushiMakerRecipe.patternFromJson(JSONUtils.getAsJsonArray(json, "pattern")));
             int width = astring[0].length();
             int height = astring.length;
             NonNullList<Ingredient> nonnulllist = SushiMakerRecipe.deserializeIngredients(astring, map, width, height);
-            ItemStack result = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+            ItemStack result = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
             return new SushiMakerRecipe(recipeId, group, width, height, nonnulllist, result);
         }
 
-        public SushiMakerRecipe read(@Nonnull ResourceLocation recipeId, @Nonnull PacketBuffer buffer) {
+        public SushiMakerRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull PacketBuffer buffer) {
             int width = buffer.readVarInt();
             int height = buffer.readVarInt();
-            String group = buffer.readString(32767);
+            String group = buffer.readUtf(32767);
             NonNullList<Ingredient> ingredients = NonNullList.withSize(width * height, Ingredient.EMPTY);
 
             for(int i = 0; i < ingredients.size(); ++i) {
-                ingredients.set(i, Ingredient.read(buffer));
+                ingredients.set(i, Ingredient.fromNetwork(buffer));
             }
 
-            ItemStack result = buffer.readItemStack();
+            ItemStack result = buffer.readItem();
             return new SushiMakerRecipe(recipeId, group, width, height, ingredients, result);
         }
 
-        public void write(@Nonnull PacketBuffer buffer, @Nonnull SushiMakerRecipe recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, @Nonnull SushiMakerRecipe recipe) {
             buffer.writeVarInt(recipe.recipeWidth);
             buffer.writeVarInt(recipe.recipeHeight);
-            buffer.writeString(recipe.group);
+            buffer.writeUtf(recipe.group);
 
             for(Ingredient ingredient : recipe.ingredients) {
-                ingredient.write(buffer);
+                ingredient.toNetwork(buffer);
             }
 
-            buffer.writeItemStack(recipe.result);
+            buffer.writeItem(recipe.result);
         }
     }
 }

@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockReader;
 public class SideOakSlab extends SideSlabBlock{
 
     public SideOakSlab() {
-        super(AbstractBlock.Properties.from(Blocks.OAK_WOOD));
+        super(AbstractBlock.Properties.copy(Blocks.OAK_WOOD));
     }
 
     @Override

@@ -5,6 +5,6 @@ import net.petersil98.utilcraft.blocks.GoldBrick;
 
 public class SideGoldSlab extends SideSlabBlock{
     public SideGoldSlab() {
-        super(AbstractBlock.Properties.from(new GoldBrick()));
+        super(AbstractBlock.Properties.copy(new GoldBrick()));
     }
 }

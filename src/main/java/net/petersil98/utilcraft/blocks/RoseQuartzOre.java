@@ -7,9 +7,9 @@ import net.minecraft.block.material.Material;
 public class RoseQuartzOre extends OreBlock {
     public RoseQuartzOre() {
         super(AbstractBlock.Properties
-                .create(Material.ROCK)
-                .setRequiresTool()
-                .hardnessAndResistance(3.0F, 3.0F)
+                .of(Material.STONE)
+                .requiresCorrectToolForDrops()
+                .strength(3.0F, 3.0F)
                 .harvestLevel(4)
         );
     }

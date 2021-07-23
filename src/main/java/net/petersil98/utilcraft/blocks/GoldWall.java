@@ -6,6 +6,6 @@ import net.minecraft.block.WallBlock;
 public class GoldWall extends WallBlock {
 
     public GoldWall() {
-        super(AbstractBlock.Properties.from(new GoldBrick()));
+        super(AbstractBlock.Properties.copy(new GoldBrick()));
     }
 }

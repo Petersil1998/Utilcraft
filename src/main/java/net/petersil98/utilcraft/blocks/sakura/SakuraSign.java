@@ -12,9 +12,9 @@ public class SakuraSign extends StandingSignBlock {
 
     public SakuraSign() {
         super(AbstractBlock.Properties
-                .create(Material.WOOD)
-                .doesNotBlockMovement()
-                .hardnessAndResistance(1.0F)
+                .of(Material.WOOD)
+                .noCollission()
+                .strength(1.0F)
                 .sound(SoundType.WOOD),
                 WoodType.OAK);
     }

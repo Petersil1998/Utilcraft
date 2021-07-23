@@ -31,9 +31,9 @@ import javax.annotation.Nullable;
 public class DisenchantmentTable extends Block {
     public DisenchantmentTable() {
         super(AbstractBlock.Properties
-                .create(Material.ROCK, MaterialColor.RED)
-                .setRequiresTool()
-                .hardnessAndResistance(5.0F, 1200.0F)
+                .of(Material.STONE, MaterialColor.COLOR_RED)
+                .requiresCorrectToolForDrops()
+                .strength(5.0F, 1200.0F)
         );
     }
 
@@ -51,22 +51,22 @@ public class DisenchantmentTable extends Block {
     @Nonnull
     @Override
     @SuppressWarnings("deprecation")
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, BlockRayTraceResult hit) {
-        if (world.isRemote) {
+    public ActionResultType use(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, BlockRayTraceResult hit) {
+        if (world.isClientSide) {
             return ActionResultType.SUCCESS;
         } else {
-            player.openContainer(state.getContainer(world, pos));
+            player.openMenu(state.getMenuProvider(world, pos));
             return ActionResultType.CONSUME;
         }
     }
 
 
     @Nullable
-    public INamedContainerProvider getContainer(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
-        TileEntity tileentity = world.getTileEntity(pos);
+    public INamedContainerProvider getMenuProvider(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
+        TileEntity tileentity = world.getBlockEntity(pos);
         if (tileentity instanceof DisenchantmentTableTileEntity) {
             ITextComponent itextcomponent = ((INameable)tileentity).getDisplayName();
-            return new SimpleNamedContainerProvider((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, IWorldPosCallable.of(world, pos)), itextcomponent);
+            return new SimpleNamedContainerProvider((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, IWorldPosCallable.create(world, pos)), itextcomponent);
         } else {
             return null;
         }
@@ -75,17 +75,17 @@ public class DisenchantmentTable extends Block {
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
-    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        if (stack.hasDisplayName()) {
-            TileEntity tileentity = world.getTileEntity(pos);
+    public void setPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        if (stack.hasCustomHoverName()) {
+            TileEntity tileentity = world.getBlockEntity(pos);
             if (tileentity instanceof EnchantingTableTileEntity) {
-                ((EnchantingTableTileEntity)tileentity).setCustomName(stack.getDisplayName());
+                ((EnchantingTableTileEntity)tileentity).setCustomName(stack.getHoverName());
             }
         }
 
     }
 
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull PathType type) {
+    public boolean isPathfindable(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull PathType type) {
         return false;
     }
 }

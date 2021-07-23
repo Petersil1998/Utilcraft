@@ -14,8 +14,8 @@ public class SakuraLog extends RotatedPillarBlock {
 
     public SakuraLog() {
         super(AbstractBlock.Properties
-                .create(Material.WOOD, (blockState) -> blockState.get(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.PINK : MaterialColor.WOOD)
-                .hardnessAndResistance(2.0F)
+                .of(Material.WOOD, (blockState) -> blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.COLOR_PINK : MaterialColor.WOOD)
+                .strength(2.0F)
                 .sound(SoundType.WOOD)
         );
     }

@@ -12,11 +12,11 @@ public class SakuraWallSign extends WallSignBlock {
 
     public SakuraWallSign(Block sign) {
         super(AbstractBlock.Properties
-                .create(Material.WOOD)
-                .doesNotBlockMovement()
-                .hardnessAndResistance(1.0F)
+                .of(Material.WOOD)
+                .noCollission()
+                .strength(1.0F)
                 .sound(SoundType.WOOD)
-                .lootFrom(sign)
+                .dropsLike(sign)
                 , WoodType.OAK)
         ;
     }
