@@ -3,7 +3,6 @@ package net.petersil98.utilcraft.blocks.sideslabs;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -39,7 +38,7 @@ public class SideSlabBlock extends Block implements SimpleWaterloggedBlock {
     protected static final VoxelShape WEST_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 8.0D, 16.0D, 16.0D);
     protected static final VoxelShape SOUTH_SHAPE = Block.box(0.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D);
 
-    public SideSlabBlock(BlockBehaviour.Properties properties) {
+    public SideSlabBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(TYPE, SideSlabType.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
