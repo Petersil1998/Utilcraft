@@ -44,7 +44,7 @@ public class WorldGeneration {
                                 UtilcraftBlocks.SILVER_ORE.defaultBlockState(),
                                 17
                         )
-                ).range(new RangeDecoratorConfiguration(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(128)))).squared()
+                ).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(128)).squared()
         );
     }
 
@@ -57,7 +57,7 @@ public class WorldGeneration {
                                 UtilcraftBlocks.ROSE_QUARTZ_ORE.defaultBlockState(),
                                 4
                         )
-                ).range(new RangeDecoratorConfiguration(UniformHeight.of(VerticalAnchor.aboveBottom(0), VerticalAnchor.belowTop(20)))).squared()
+                ).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(20)).squared()
         );
     }
 
