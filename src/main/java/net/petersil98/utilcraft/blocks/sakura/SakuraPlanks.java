@@ -13,7 +13,7 @@ import net.minecraft.world.level.BlockGetter;
 public class SakuraPlanks extends Block {
 
     public SakuraPlanks() {
-        super(BlockBehaviour.Properties
+        super(Properties
                 .of(Material.WOOD, MaterialColor.WOOD)
                 .strength(2.0F, 3.0F)
                 .sound(SoundType.WOOD)

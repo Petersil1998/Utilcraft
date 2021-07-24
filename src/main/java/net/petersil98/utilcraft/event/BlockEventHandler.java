@@ -18,7 +18,7 @@ import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.SimplePlayer;
 import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
-import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestBlockEntity;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -82,8 +82,8 @@ public class BlockEventHandler {
         if(event.getPlayer() instanceof ServerPlayer) {
             ServerPlayer player = (ServerPlayer)event.getPlayer();
             BlockEntity te = player.getCommandSenderWorld().getBlockEntity(event.getPos());
-            if (te instanceof SecureChestTileEntity) {
-                UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
+            if (te instanceof SecureChestBlockEntity) {
+                UUID ownerUUID = ((SecureChestBlockEntity)te).getOwner();
                 UUID playerUUID = player.getUUID();
                 if (ownerUUID != null && !ownerUUID.equals(playerUUID)) {
                     UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());

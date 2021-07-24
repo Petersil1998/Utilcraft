@@ -32,7 +32,7 @@ import net.minecraft.world.level.block.entity.LidBlockEntity;
         value = Dist.CLIENT,
         _interface = LidBlockEntity.class
 )
-public class SecureChestTileEntity extends BlockEntity implements LidBlockEntity, Nameable, MenuProvider {
+public class SecureChestBlockEntity extends BlockEntity implements LidBlockEntity, Nameable, MenuProvider {
     ItemStackHandler inventory = new ItemStackHandler(27);
     /** The current angle of the lid (between 0 and 1) */
     protected float lidAngle;
@@ -45,18 +45,18 @@ public class SecureChestTileEntity extends BlockEntity implements LidBlockEntity
 
     private Component customName;
 
-    protected SecureChestTileEntity(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState) {
+    protected SecureChestBlockEntity(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState) {
         super(type, blockPos, blockState);
     }
 
-    public SecureChestTileEntity(BlockPos blockPos, BlockState blockState) {
-        this(UtilcraftTileEntities.SECURE_CHEST, blockPos, blockState);
+    public SecureChestBlockEntity(BlockPos blockPos, BlockState blockState) {
+        this(UtilcraftBlockEntities.SECURE_CHEST, blockPos, blockState);
     }
 
     @Nonnull
     @Override
     public BlockEntityType<?> getType() {
-        return UtilcraftTileEntities.SECURE_CHEST;
+        return UtilcraftBlockEntities.SECURE_CHEST;
     }
 
     @Override

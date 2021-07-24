@@ -12,10 +12,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.petersil98.utilcraft.blocks.SecureChest;
-import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestBlockEntity;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import javax.annotation.Nonnull;
@@ -25,7 +24,7 @@ public class SecureChestItemBlockEntityRenderer extends BlockEntityWithoutLevelR
 
     public static final BlockEntityWithoutLevelRenderer SECURE_CHEST_ITEM_RENDERER = new SecureChestItemBlockEntityRenderer(() -> Minecraft.getInstance().getBlockEntityRenderDispatcher(), () -> Minecraft.getInstance().getEntityModels());
 
-    private final SecureChestTileEntity chest = new SecureChestTileEntity(BlockPos.ZERO, UtilcraftBlocks.SECURE_CHEST.defaultBlockState());
+    private final SecureChestBlockEntity chest = new SecureChestBlockEntity(BlockPos.ZERO, UtilcraftBlocks.SECURE_CHEST.defaultBlockState());
     private final Supplier<BlockEntityRenderDispatcher> renderDispatcher;
 
     private SecureChestItemBlockEntityRenderer(Supplier<BlockEntityRenderDispatcher> renderDispatcher, Supplier<EntityModelSet> modelSet) {

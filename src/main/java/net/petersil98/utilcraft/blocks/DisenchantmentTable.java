@@ -1,12 +1,8 @@
 package net.petersil98.utilcraft.blocks;
 
 import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,9 +22,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
-import net.petersil98.utilcraft.block_entities.DisenchantmentTableTileEntity;
+import net.petersil98.utilcraft.block_entities.DisenchantmentTableBlockEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +31,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class DisenchantmentTable extends Block implements EntityBlock {
     public DisenchantmentTable() {
-        super(BlockBehaviour.Properties
+        super(Properties
                 .of(Material.STONE, MaterialColor.COLOR_RED)
                 .requiresCorrectToolForDrops()
                 .strength(5.0F, 1200.0F)
@@ -58,10 +53,10 @@ public class DisenchantmentTable extends Block implements EntityBlock {
 
     @Nullable
     public MenuProvider getMenuProvider(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos) {
-        BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof DisenchantmentTableTileEntity) {
-            Component itextcomponent = ((Nameable)tileentity).getDisplayName();
-            return new SimpleMenuProvider((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, ContainerLevelAccess.create(world, pos)), itextcomponent);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof DisenchantmentTableBlockEntity) {
+            Component name = ((Nameable)blockEntity).getDisplayName();
+            return new SimpleMenuProvider((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, ContainerLevelAccess.create(world, pos)), name);
         } else {
             return null;
         }
@@ -72,9 +67,9 @@ public class DisenchantmentTable extends Block implements EntityBlock {
      */
     public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         if (stack.hasCustomHoverName()) {
-            BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof EnchantmentTableBlockEntity) {
-                ((EnchantmentTableBlockEntity)tileentity).setCustomName(stack.getHoverName());
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof EnchantmentTableBlockEntity) {
+                ((EnchantmentTableBlockEntity)blockEntity).setCustomName(stack.getHoverName());
             }
         }
 
@@ -88,6 +83,6 @@ public class DisenchantmentTable extends Block implements EntityBlock {
     @Override
     @ParametersAreNonnullByDefault
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new DisenchantmentTableTileEntity(blockPos, blockState);
+        return new DisenchantmentTableBlockEntity(blockPos, blockState);
     }
 }

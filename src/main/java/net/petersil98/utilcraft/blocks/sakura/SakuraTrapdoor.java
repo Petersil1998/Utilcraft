@@ -8,13 +8,12 @@ import net.minecraft.world.level.BlockGetter;
 
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TrapDoorBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SakuraTrapdoor extends TrapDoorBlock {
 
     public SakuraTrapdoor() {
-        super(BlockBehaviour.Properties
+        super(Properties
                 .of(Material.WOOD, MaterialColor.WOOD)
                 .strength(3.0F)
                 .sound(SoundType.WOOD)

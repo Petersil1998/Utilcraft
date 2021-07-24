@@ -7,15 +7,15 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 
-public class UtilcraftSignTileEntity extends SignBlockEntity {
+public class UtilcraftSignBlockEntity extends SignBlockEntity {
 
-    public UtilcraftSignTileEntity(BlockPos blockPos, BlockState blockState) {
+    public UtilcraftSignBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(blockPos, blockState);
     }
 
     @Nonnull
     @Override
     public BlockEntityType<?> getType() {
-        return UtilcraftTileEntities.UTILCRAFT_SIGN;
+        return UtilcraftBlockEntities.UTILCRAFT_SIGN;
     }
 }

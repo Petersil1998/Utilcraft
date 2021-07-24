@@ -20,7 +20,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.world.level.Level;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.SecureChest;
-import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestBlockEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Calendar;
@@ -42,10 +42,10 @@ public class SecureChestBlockEntityRenderer<T extends BlockEntity & LidBlockEnti
         this.singleLatch = modelpart.getChild("lock");
     }
 
-    public void render(@Nonnull T tileEntity, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        Level world = tileEntity.getLevel();
+    public void render(@Nonnull T blockEntity, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+        Level world = blockEntity.getLevel();
         boolean flag = world != null;
-        BlockState blockstate = flag ? tileEntity.getBlockState() : UtilcraftBlocks.SECURE_CHEST.defaultBlockState().setValue(SecureChest.FACING, Direction.SOUTH);
+        BlockState blockstate = flag ? blockEntity.getBlockState() : UtilcraftBlocks.SECURE_CHEST.defaultBlockState().setValue(SecureChest.FACING, Direction.SOUTH);
         Block block = blockstate.getBlock();
         if (block instanceof SecureChest) {
             matrixStack.pushPose();
@@ -53,12 +53,12 @@ public class SecureChestBlockEntityRenderer<T extends BlockEntity & LidBlockEnti
             matrixStack.translate(0.5D, 0.5D, 0.5D);
             matrixStack.mulPose(Vector3f.YP.rotationDegrees(-f));
             matrixStack.translate(-0.5D, -0.5D, -0.5D);
-            DoubleBlockCombiner.NeighborCombineResult<? extends SecureChestTileEntity> icallbackwrapper = DoubleBlockCombiner.Combiner::acceptNone;
-            float f1 = icallbackwrapper.apply(SecureChest.getLidRotationCallback(tileEntity)).get(partialTicks);
+            DoubleBlockCombiner.NeighborCombineResult<? extends SecureChestBlockEntity> icallbackwrapper = DoubleBlockCombiner.Combiner::acceptNone;
+            float f1 = icallbackwrapper.apply(SecureChest.getLidRotationCallback(blockEntity)).get(partialTicks);
             f1 = 1.0F - f1;
             f1 = 1.0F - f1 * f1 * f1;
             int i = icallbackwrapper.apply(new BrightnessCombiner<>()).applyAsInt(combinedLight);
-            Material rendermaterial = this.getMaterial(tileEntity);
+            Material rendermaterial = this.getMaterial(blockEntity);
             VertexConsumer ivertexbuilder = rendermaterial.buffer(buffer, RenderType::entityCutout);
             this.renderModels(matrixStack, ivertexbuilder, this.singleLid, this.singleLatch, this.singleBottom, f1, i, combinedOverlay);
 
@@ -74,7 +74,7 @@ public class SecureChestBlockEntityRenderer<T extends BlockEntity & LidBlockEnti
         chestBottom.render(matrixStack, buffer, combinedLight, combinedOverlay);
     }
 
-    protected Material getMaterial(T tileEntity) {
-        return Sheets.chooseMaterial(tileEntity, ChestType.SINGLE, this.isChristmas);
+    protected Material getMaterial(T blockEntity) {
+        return Sheets.chooseMaterial(blockEntity, ChestType.SINGLE, this.isChristmas);
     }
 }

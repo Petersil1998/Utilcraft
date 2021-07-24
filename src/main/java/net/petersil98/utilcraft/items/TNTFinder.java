@@ -6,7 +6,7 @@ import net.petersil98.utilcraft.Utilcraft;
 public class TNTFinder extends Item {
 
     public TNTFinder(){
-        super(new Item.Properties().tab(Utilcraft.ITEM_GROUP).stacksTo(1));
+        super(new Properties().tab(Utilcraft.ITEM_GROUP).stacksTo(1));
     }
 
     public static int getRadius(){

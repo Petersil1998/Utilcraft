@@ -12,12 +12,12 @@ import net.petersil98.utilcraft.Utilcraft;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class DisenchantmentTableTileEntity extends BlockEntity implements Nameable {
+public class DisenchantmentTableBlockEntity extends BlockEntity implements Nameable {
 
     private Component customName;
 
-    public DisenchantmentTableTileEntity(BlockPos blockPos, BlockState blockState) {
-        super(UtilcraftTileEntities.DISENCHANTMENT_BLOCK, blockPos, blockState);
+    public DisenchantmentTableBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(UtilcraftBlockEntities.DISENCHANTMENT_BLOCK, blockPos, blockState);
     }
 
     @Nonnull

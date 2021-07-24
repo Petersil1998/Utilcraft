@@ -1,6 +1,5 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
@@ -21,7 +20,7 @@ import javax.annotation.Nonnull;
 public class EntropyTable extends Block {
 
     public EntropyTable(){
-        super(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE));
+        super(Properties.copy(Blocks.CRAFTING_TABLE));
     }
 
     @Nonnull

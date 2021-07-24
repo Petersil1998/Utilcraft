@@ -5,7 +5,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.*;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.Containers;
@@ -24,7 +23,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemStackHandler;
-import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestBlockEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -89,18 +88,18 @@ public class SecureChest extends Block implements SimpleWaterloggedBlock, Entity
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
     public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof SecureChestTileEntity) {
-            ((SecureChestTileEntity) tileentity).setOwner(placer.getUUID());
-            ((SecureChestTileEntity) tileentity).setCustomName(stack.getHoverName());
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof SecureChestBlockEntity) {
+            ((SecureChestBlockEntity) blockEntity).setOwner(placer.getUUID());
+            ((SecureChestBlockEntity) blockEntity).setCustomName(stack.getHoverName());
         }
     }
 
     public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock())) {
-            BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof SecureChestTileEntity) {
-                ItemStackHandler inventory = ((SecureChestTileEntity)tileentity).getInventory();
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof SecureChestBlockEntity) {
+                ItemStackHandler inventory = ((SecureChestBlockEntity)blockEntity).getInventory();
                 for(int i = 0; i < inventory.getSlots(); ++i) {
                     Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), inventory.extractItem(i, inventory.getStackInSlot(i).getCount(), false));
                 }
@@ -116,25 +115,25 @@ public class SecureChest extends Block implements SimpleWaterloggedBlock, Entity
         if (world.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof SecureChestTileEntity)
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof SecureChestBlockEntity)
             {
-                player.openMenu((MenuProvider) tileEntity);
+                player.openMenu((MenuProvider) blockEntity);
             }
             return InteractionResult.CONSUME;
         }
     }
 
     @Nonnull
-    public static DoubleBlockCombiner.Combiner<SecureChestTileEntity, Float2FloatFunction> getLidRotationCallback(final LidBlockEntity lid) {
+    public static DoubleBlockCombiner.Combiner<SecureChestBlockEntity, Float2FloatFunction> getLidRotationCallback(final LidBlockEntity lid) {
         return new DoubleBlockCombiner.Combiner<>() {
             @Nonnull
-            public Float2FloatFunction acceptDouble(@Nonnull SecureChestTileEntity p_225539_1_, @Nonnull SecureChestTileEntity p_225539_2_) {
+            public Float2FloatFunction acceptDouble(@Nonnull SecureChestBlockEntity p_225539_1_, @Nonnull SecureChestBlockEntity p_225539_2_) {
                 return (angle) -> Math.max(p_225539_1_.getOpenNess(angle), p_225539_2_.getOpenNess(angle));
             }
 
             @Nonnull
-            public Float2FloatFunction acceptSingle(@Nonnull SecureChestTileEntity p_225538_1_) {
+            public Float2FloatFunction acceptSingle(@Nonnull SecureChestBlockEntity p_225538_1_) {
                 return p_225538_1_::getOpenNess;
             }
 
@@ -167,7 +166,7 @@ public class SecureChest extends Block implements SimpleWaterloggedBlock, Entity
     @Override
     @ParametersAreNonnullByDefault
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new SecureChestTileEntity(blockPos, blockState);
+        return new SecureChestBlockEntity(blockPos, blockState);
     }
 }
 

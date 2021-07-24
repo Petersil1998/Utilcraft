@@ -1,6 +1,5 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -13,7 +12,7 @@ import net.minecraft.world.level.BlockGetter;
 public class SakuraLog extends RotatedPillarBlock {
 
     public SakuraLog() {
-        super(BlockBehaviour.Properties
+        super(Properties
                 .of(Material.WOOD, (blockState) -> blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.COLOR_PINK : MaterialColor.WOOD)
                 .strength(2.0F)
                 .sound(SoundType.WOOD)

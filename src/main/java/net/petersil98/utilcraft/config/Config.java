@@ -1,10 +1,6 @@
 package net.petersil98.utilcraft.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.petersil98.utilcraft.Utilcraft;
 
 public class Config {
 

@@ -19,7 +19,7 @@ import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath
 import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.network.PlayerDeathStats;
 import net.petersil98.utilcraft.network.SyncDeathPoint;
-import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestBlockEntity;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 
@@ -38,8 +38,8 @@ public class PlayerEventHandler {
         if(event.getEntity() instanceof ServerPlayer){
             ServerPlayer player = (ServerPlayer)event.getEntity();
             BlockEntity te = player.getLevel().getBlockEntity(event.getPos());
-            if(te instanceof SecureChestTileEntity){
-                UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
+            if(te instanceof SecureChestBlockEntity){
+                UUID ownerUUID = ((SecureChestBlockEntity)te).getOwner();
                 UUID playerUUID = player.getGameProfile().getId();
                 if(ownerUUID != null && !ownerUUID.equals(playerUUID)) {
                     UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());

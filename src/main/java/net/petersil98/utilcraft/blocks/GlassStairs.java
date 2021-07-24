@@ -11,13 +11,12 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GlassStairs extends StairBlock {
 
     public GlassStairs() {
-        super(Blocks.GLASS::defaultBlockState, BlockBehaviour.Properties.copy(Blocks.GLASS));
+        super(Blocks.GLASS::defaultBlockState, Properties.copy(Blocks.GLASS));
     }
 
     @Nonnull

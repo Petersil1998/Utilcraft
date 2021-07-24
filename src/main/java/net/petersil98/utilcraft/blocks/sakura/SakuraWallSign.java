@@ -4,18 +4,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.petersil98.utilcraft.block_entities.UtilcraftSignTileEntity;
+import net.petersil98.utilcraft.block_entities.UtilcraftSignBlockEntity;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class SakuraWallSign extends WallSignBlock implements EntityBlock {
 
     public SakuraWallSign(Block sign) {
-        super(BlockBehaviour.Properties
+        super(Properties
                 .of(Material.WOOD)
                 .noCollission()
                 .strength(1.0F)
@@ -27,6 +26,6 @@ public class SakuraWallSign extends WallSignBlock implements EntityBlock {
     @Override
     @ParametersAreNonnullByDefault
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new UtilcraftSignTileEntity(blockPos, blockState);
+        return new UtilcraftSignBlockEntity(blockPos, blockState);
     }
 }

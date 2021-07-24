@@ -10,12 +10,11 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SakuraLeaves extends LeavesBlock {
     public SakuraLeaves() {
-        super(BlockBehaviour.Properties
+        super(Properties
                 .of(Material.LEAVES)
                 .strength(0.2F)
                 .randomTicks()

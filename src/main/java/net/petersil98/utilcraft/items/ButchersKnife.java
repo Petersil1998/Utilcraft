@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 public class ButchersKnife extends Item {
 
     public ButchersKnife() {
-        super(new Item.Properties().tab(Utilcraft.ITEM_GROUP));
+        super(new Properties().tab(Utilcraft.ITEM_GROUP));
     }
 
     @Nonnull

@@ -1,6 +1,5 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.core.Direction;
@@ -10,7 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 public class SakuraStairs extends StairBlock {
 
     public SakuraStairs(){
-        super(() -> new SakuraPlanks().defaultBlockState(), BlockBehaviour.Properties.copy(new SakuraPlanks()));
+        super(() -> new SakuraPlanks().defaultBlockState(), Properties.copy(new SakuraPlanks()));
     }
 
     @Override

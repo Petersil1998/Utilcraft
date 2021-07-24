@@ -9,6 +9,6 @@ import net.minecraft.world.item.Item;
 
 public class RoseQuartzHelmet extends ArmorItem {
     public RoseQuartzHelmet() {
-        super(UtilcraftArmorMaterial.ROSE_QUARTZ, EquipmentSlot.HEAD, new Item.Properties().tab(Utilcraft.ITEM_GROUP));
+        super(UtilcraftArmorMaterial.ROSE_QUARTZ, EquipmentSlot.HEAD, new Properties().tab(Utilcraft.ITEM_GROUP));
     }
 }

@@ -37,9 +37,9 @@ import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 import net.petersil98.utilcraft.render.SecureChestBlockEntityRenderer;
 import net.petersil98.utilcraft.screen.*;
-import net.petersil98.utilcraft.block_entities.DisenchantmentTableTileEntity;
-import net.petersil98.utilcraft.block_entities.UtilcraftSignTileEntity;
-import net.petersil98.utilcraft.block_entities.UtilcraftTileEntities;
+import net.petersil98.utilcraft.block_entities.DisenchantmentTableBlockEntity;
+import net.petersil98.utilcraft.block_entities.UtilcraftSignBlockEntity;
+import net.petersil98.utilcraft.block_entities.UtilcraftBlockEntities;
 import net.petersil98.utilcraft.blocks.sakura.*;
 import net.petersil98.utilcraft.blocks.sideslabs.*;
 import net.petersil98.utilcraft.commands.UtilcraftCommands;
@@ -50,7 +50,7 @@ import net.petersil98.utilcraft.food.Baguette;
 import net.petersil98.utilcraft.food.SweetBerryJuice;
 import net.petersil98.utilcraft.generation.WorldGeneration;
 import net.petersil98.utilcraft.items.*;
-import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestBlockEntity;
 import net.petersil98.utilcraft.utils.ClientSetup;
 
 import javax.annotation.Nonnull;
@@ -104,8 +104,8 @@ public class Utilcraft {
         MenuScreens.register(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER, TravelersBackpackScreen::new);
         MenuScreens.register(UtilcraftContainer.SUSHI_MAKER_CONTAINER, SushiMakerScreen::new);
         MenuScreens.register(UtilcraftContainer.ENTROPY_TABLE_CONTAINER, EntropyTableScreen::new);
-        BlockEntityRenderers.register(UtilcraftTileEntities.UTILCRAFT_SIGN, SignRenderer::new);
-        BlockEntityRenderers.register(UtilcraftTileEntities.SECURE_CHEST, SecureChestBlockEntityRenderer::new);
+        BlockEntityRenderers.register(UtilcraftBlockEntities.UTILCRAFT_SIGN, SignRenderer::new);
+        BlockEntityRenderers.register(UtilcraftBlockEntities.SECURE_CHEST, SecureChestBlockEntityRenderer::new);
         ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
         ClientSetup.registerItemProperties();
         ClientSetup.registerExtensionPoint();
@@ -247,10 +247,10 @@ public class Utilcraft {
         }
 
         @SubscribeEvent
-        public static void registerTileEntities(@Nonnull final RegistryEvent.Register<BlockEntityType<?>> tileEntityRegister) {
-            tileEntityRegister.getRegistry().register(BlockEntityType.Builder.of(DisenchantmentTableTileEntity::new, UtilcraftBlocks.DISENCHANTMENT_TABLE).build(null).setRegistryName("disenchantment_table"));
-            tileEntityRegister.getRegistry().register(BlockEntityType.Builder.of(UtilcraftSignTileEntity::new, UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_WALL_SIGN).build(null).setRegistryName("mod_sign"));
-            tileEntityRegister.getRegistry().register(BlockEntityType.Builder.of(SecureChestTileEntity::new, UtilcraftBlocks.SECURE_CHEST).build(null).setRegistryName("secure_chest"));
+        public static void registerBlockEntities(@Nonnull final RegistryEvent.Register<BlockEntityType<?>> blockEntityRegister) {
+            blockEntityRegister.getRegistry().register(BlockEntityType.Builder.of(DisenchantmentTableBlockEntity::new, UtilcraftBlocks.DISENCHANTMENT_TABLE).build(null).setRegistryName("disenchantment_table"));
+            blockEntityRegister.getRegistry().register(BlockEntityType.Builder.of(UtilcraftSignBlockEntity::new, UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_WALL_SIGN).build(null).setRegistryName("mod_sign"));
+            blockEntityRegister.getRegistry().register(BlockEntityType.Builder.of(SecureChestBlockEntity::new, UtilcraftBlocks.SECURE_CHEST).build(null).setRegistryName("secure_chest"));
         }
 
         @SubscribeEvent

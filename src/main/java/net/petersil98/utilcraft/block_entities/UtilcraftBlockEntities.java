@@ -5,14 +5,14 @@ import net.minecraftforge.registries.ObjectHolder;
 import net.petersil98.utilcraft.Utilcraft;
 
 @ObjectHolder(Utilcraft.MOD_ID)
-public class UtilcraftTileEntities {
+public class UtilcraftBlockEntities {
 
     @ObjectHolder("disenchantment_table")
-    public static BlockEntityType<DisenchantmentTableTileEntity> DISENCHANTMENT_BLOCK;
+    public static BlockEntityType<DisenchantmentTableBlockEntity> DISENCHANTMENT_BLOCK;
 
     @ObjectHolder("mod_sign")
-    public static BlockEntityType<UtilcraftSignTileEntity> UTILCRAFT_SIGN;
+    public static BlockEntityType<UtilcraftSignBlockEntity> UTILCRAFT_SIGN;
 
     @ObjectHolder("secure_chest")
-    public static BlockEntityType<SecureChestTileEntity> SECURE_CHEST;
+    public static BlockEntityType<SecureChestBlockEntity> SECURE_CHEST;
 }
