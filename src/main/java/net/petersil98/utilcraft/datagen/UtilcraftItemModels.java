@@ -1,9 +1,9 @@
 package net.petersil98.utilcraft.datagen;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.BellBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -53,7 +53,7 @@ public class UtilcraftItemModels extends ItemModelProvider {
         registerHandheld(UtilcraftItems.ROSE_QUARTZ_SUPER_SHOVEL);
         registerHandheld(UtilcraftItems.ROSE_QUARTZ_SWORD);
         registerBlockItem(UtilcraftBlocks.SAKURA_BUTTON, "_inventory");
-        registerGeneratedItem(UtilcraftBlocks.SAKURA_DOOR, BellBlock.OAK_DOOR);
+        registerGeneratedItem(UtilcraftBlocks.SAKURA_DOOR, Blocks.OAK_DOOR);
         registerBlockItem(UtilcraftBlocks.SAKURA_FENCE, "_inventory");
         registerBlockItem(UtilcraftBlocks.SAKURA_FENCE_GATE);
         registerBlockItem(UtilcraftBlocks.SAKURA_LEAVES);
@@ -61,7 +61,7 @@ public class UtilcraftItemModels extends ItemModelProvider {
         registerBlockItem(UtilcraftBlocks.SAKURA_PLANKS);
         registerBlockItem(UtilcraftBlocks.SAKURA_PRESSURE_PLATE);
         registerGeneratedBlock(UtilcraftBlocks.SAKURA_SAPLING, UtilcraftBlocks.SAKURA_SAPLING);
-        registerGeneratedItem(UtilcraftBlocks.SAKURA_SIGN, BellBlock.OAK_SIGN);
+        registerGeneratedItem(UtilcraftBlocks.SAKURA_SIGN, Blocks.OAK_SIGN);
         registerBlockItem(UtilcraftBlocks.SAKURA_SLAB);
         registerBlockItem(UtilcraftBlocks.SAKURA_STAIRS);
         registerBlockItem(UtilcraftBlocks.SAKURA_TRAPDOOR, "_bottom");
@@ -83,48 +83,48 @@ public class UtilcraftItemModels extends ItemModelProvider {
         registerHandheld(UtilcraftFoods.SWEET_BERRY_JUICE);
         registerTNTFinder();
         registerHandheld(UtilcraftItems.TRAVELERS_BACKPACK);
-        registerBlockItem(UtilcraftItems.SPAWNER_ITEM, BellBlock.SPAWNER);
+        registerBlockItem(UtilcraftItems.SPAWNER_ITEM, Blocks.SPAWNER);
         registerBlockItem(UtilcraftBlocks.GLASS_STAIRS);
         registerBlockItem(UtilcraftBlocks.SILVER_BLOCK);
     }
 
-    private void registerHandheld(HoeItem item) {
+    private void registerHandheld(Item item) {
         registerHandheld(item, item);
     }
 
-    private void registerHandheld(HoeItem item, HoeItem texture) {
+    private void registerHandheld(Item item, Item texture) {
         ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(texture), ITEM_FOLDER +"/"+BlockItemUtils.name(texture));
         singleTexture(BlockItemUtils.name(item), mcLoc(ITEM_FOLDER+"/handheld"), "layer0", location);
     }
 
-    private void registerGeneratedItem(BeetrootBlock block, BeetrootBlock realItem) {
+    private void registerGeneratedItem(Block block, Block realItem) {
         ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(realItem), ITEM_FOLDER +"/"+BlockItemUtils.name(realItem));
         singleTexture(BlockItemUtils.name(block), mcLoc(ITEM_FOLDER+"/generated"), "layer0", location);
     }
 
-    private void registerGeneratedBlock(BeetrootBlock block, BeetrootBlock realItem) {
+    private void registerGeneratedBlock(Block block, Block realItem) {
         ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(realItem), BLOCK_FOLDER +"/"+BlockItemUtils.name(realItem));
         singleTexture(BlockItemUtils.name(block), mcLoc(ITEM_FOLDER+"/generated"), "layer0", location);
     }
 
-    private void registerBlockItem(BeetrootBlock block) {
+    private void registerBlockItem(Block block) {
         registerBlockItem(block, "");
     }
 
-    private void registerBlockItem(BeetrootBlock block, String key) {
+    private void registerBlockItem(Block block, String key) {
         registerBlockItem(block, block, key);
     }
 
-    private void registerBlockItem(HoeItem item, BeetrootBlock texture) {
+    private void registerBlockItem(Item item, Block texture) {
         registerBlockItem(item, texture, "");
     }
 
-    private void registerBlockItem(BeetrootBlock block, BeetrootBlock texture, String key) {
+    private void registerBlockItem(Block block, Block texture, String key) {
         ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(texture), BLOCK_FOLDER +"/"+BlockItemUtils.name(texture)+key);
         withExistingParent(BlockItemUtils.name(block), location);
     }
 
-    private void registerBlockItem(HoeItem item, BeetrootBlock texture, String key) {
+    private void registerBlockItem(Item item, Block texture, String key) {
         ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(texture), BLOCK_FOLDER +"/"+BlockItemUtils.name(texture)+key);
         withExistingParent(BlockItemUtils.name(item), location);
     }

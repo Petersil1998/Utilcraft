@@ -1,20 +1,19 @@
 package net.petersil98.utilcraft.datagen;
 
-import net.minecraft.block.*;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.BellBlock;
-import net.minecraft.world.level.block.DiodeBlock;
-import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.block.KelpPlantBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SignBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.SlabBlock;
 
 public class UtilcraftLootTables extends BaseLootTableProvider {
 
@@ -65,15 +64,15 @@ public class UtilcraftLootTables extends BaseLootTableProvider {
         addSilkTouchBlock(UtilcraftBlocks.GLASS_STAIRS);
     }
 
-    private void addSimpleBlock(BeetrootBlock block) {
+    private void addSimpleBlock(Block block) {
         lootTables.put(block, createSimpleTable(block));
     }
 
-    private void addSimpleBlockWithName(BeetrootBlock block) {
+    private void addSimpleBlockWithName(Block block) {
         lootTables.put(block, createSimpleTableWithName(block));
     }
 
-    private void addSlab(SignBlock block) {
+    private void addSlab(SlabBlock block) {
         lootTables.put(block, createSlabTable(block));
     }
 
@@ -81,27 +80,27 @@ public class UtilcraftLootTables extends BaseLootTableProvider {
         lootTables.put(block, createSideSlabTable(block));
     }
 
-    private void addOreBlock(BeetrootBlock block, HoeItem drop) {
+    private void addOreBlock(Block block, Item drop) {
         lootTables.put(block, createOreTable(block, drop));
     }
 
-    private void addDoor(DiodeBlock block) {
+    private void addDoor(DoorBlock block) {
         lootTables.put(block, createDoorTable(block));
     }
 
-    private void addLeave(KelpPlantBlock block, RotatedPillarBlock sapling, boolean dropSticks, boolean dropApples) {
+    private void addLeave(LeavesBlock block, SaplingBlock sapling, boolean dropSticks, boolean dropApples) {
         lootTables.put(block, createLeaveTable(block, sapling, dropSticks, dropApples));
     }
 
-    private void addPottedFlower(FireBlock potBlock, BeetrootBlock flowerBlock) {
-        lootTables.put(potBlock, createPottedFlower((FireBlock) BellBlock.FLOWER_POT, flowerBlock));
+    private void addPottedFlower(FlowerPotBlock potBlock, Block flowerBlock) {
+        lootTables.put(potBlock, createPottedFlower((FlowerPotBlock) Blocks.FLOWER_POT, flowerBlock));
     }
 
     private void addSpawnerLootTable() {
-        lootTables.put(BellBlock.SPAWNER, createSpawnerLootTable());
+        lootTables.put(Blocks.SPAWNER, createSpawnerLootTable());
     }
 
-    private void addSilkTouchBlock(BeetrootBlock block) {
+    private void addSilkTouchBlock(Block block) {
         lootTables.put(block, createSilkTouchBlock(block));
     }
 }

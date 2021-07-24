@@ -1,19 +1,19 @@
 package net.petersil98.utilcraft.items.custom;
 
-import net.minecraft.world.item.SuspiciousStewItem;
-import net.minecraft.world.item.crafting.FireworkRocketRecipe;
-import net.minecraft.util.HttpUtil;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.util.LazyLoadedValue;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public enum UtilcraftItemTier implements SuspiciousStewItem {
+public enum UtilcraftItemTier implements Tier {
     ROSE_QUARTZ(5,3021,10.0F,5.0F, 20,()-> {
-        return FireworkRocketRecipe.of(UtilcraftItems.ROSE_QUARTZ);
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
     }),
     SUPER_ROSE_QUARTZ(5,3021*9,10.0F,5.0F, 20,()-> {
-        return FireworkRocketRecipe.of(UtilcraftItems.ROSE_QUARTZ);
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
     });
 
     private final int harvestLevel;
@@ -21,15 +21,15 @@ public enum UtilcraftItemTier implements SuspiciousStewItem {
     private final float efficiency;
     private final float attackDamage;
     private final int enchantability;
-    private final HttpUtil<FireworkRocketRecipe> repairMaterial;
+    private final LazyLoadedValue<Ingredient> repairMaterial;
 
-    UtilcraftItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, Supplier<FireworkRocketRecipe> repairMaterial) {
+    UtilcraftItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, Supplier<Ingredient> repairMaterial) {
         this.harvestLevel = harvestLevel;
         this.maxUses = maxUses;
         this.efficiency = efficiency;
         this.attackDamage = attackDamage;
         this.enchantability = enchantability;
-        this.repairMaterial = new HttpUtil<>(repairMaterial);
+        this.repairMaterial = new LazyLoadedValue<>(repairMaterial);
     }
 
     @Override
@@ -59,7 +59,7 @@ public enum UtilcraftItemTier implements SuspiciousStewItem {
 
     @Nonnull
     @Override
-    public FireworkRocketRecipe getRepairIngredient() {
+    public Ingredient getRepairIngredient() {
         return this.repairMaterial.get();
     }
 }

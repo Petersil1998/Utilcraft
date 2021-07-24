@@ -1,16 +1,17 @@
 package net.petersil98.utilcraft.screen;
 
-import com.mojang.blaze3d.vertex.BufferVertexConsumer;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.screens.controls.package-info;
-import net.minecraft.world.entity.package-info;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.petersil98.utilcraft.container.TravelersBackpackContainer;
 
 import javax.annotation.Nonnull;
 
-public class TravelersBackpackScreen extends package-info<TravelersBackpackContainer> {
+public class TravelersBackpackScreen extends AbstractContainerScreen<TravelersBackpackContainer> {
     /**
      * The ResourceLocation containing the chest GUI texture.
      */
@@ -20,7 +21,7 @@ public class TravelersBackpackScreen extends package-info<TravelersBackpackConta
      */
     private final int inventoryRows;
 
-    public TravelersBackpackScreen(TravelersBackpackContainer container, package-info playerInventory, Component title) {
+    public TravelersBackpackScreen(TravelersBackpackContainer container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.passEvents = false;
         this.inventoryRows = container.getNumRows();
@@ -28,15 +29,18 @@ public class TravelersBackpackScreen extends package-info<TravelersBackpackConta
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
-    public void render(@Nonnull BufferVertexConsumer matrixStack, int mouseX, int mouseY, float partialTicks) {
+    @Override
+    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
-    protected void renderBg(@Nonnull BufferVertexConsumer matrixStack, float partialTicks, int x, int y) {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(this.CHEST_GUI_TEXTURE);
+    @Override
+    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int x, int y) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, CHEST_GUI_TEXTURE);
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.inventoryRows * 18 + 17);

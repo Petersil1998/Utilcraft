@@ -1,16 +1,16 @@
 package net.petersil98.utilcraft.event;
 
-import net.minecraft.client.KeyMapping;
-import net.minecraft.world.entity.ItemBasedSteering;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ExplosionDamageCalculator;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.KeyBindings;
 import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath;
@@ -38,18 +38,18 @@ public class TickEventHandler {
             List<ServerPlayer> players = world.getServer().getPlayerList().getPlayers();
             for (ServerPlayer player : players) {
                 if (player.isSleepingLongEnough()) {
-                    if (world.getGameRules().getBoolean(ExplosionDamageCalculator.RULE_DAYLIGHT)) {
+                    if (world.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
                         long l = world.getDayTime() + 24000L;
                         world.setDayTime(ForgeEventFactory.onSleepFinished(world, l - l % 24000L, world.getDayTime()));
                     }
 
-                    if (world.getGameRules().getBoolean(ExplosionDamageCalculator.RULE_WEATHER_CYCLE)) {
+                    if (world.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
                         try {
                             resetRainAndThunder.invoke(world);
                         } catch (IllegalAccessException | InvocationTargetException ignored) {}
                     }
 
-                    world.players().stream().filter(ItemBasedSteering::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> p_241131_0_.stopSleepInBed(false, false));
+                    world.players().stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> p_241131_0_.stopSleepInBed(false, false));
                 }
             }
         }
@@ -73,9 +73,9 @@ public class TickEventHandler {
 
     @SubscribeEvent
     public static void toggleVeinMiner(@Nonnull TickEvent.ClientTickEvent event) {
-        if(KeyBindings.VEIN_MINER.consumeClick() && KeyMapping.getInstance().screen == null && !KeyMapping.getInstance().options.renderDebug) {
+        if(KeyBindings.VEIN_MINER.consumeClick() && Minecraft.getInstance().screen == null && !Minecraft.getInstance().options.renderDebug) {
             PlayerUtils.setVeinMinerActive(!PlayerUtils.isVeinMinerActive());
-            NetworkManager.sendToServer(new ToggleVeinMiner(KeyMapping.getInstance().player.getUUID(), PlayerUtils.isVeinMinerActive()));
+            NetworkManager.sendToServer(new ToggleVeinMiner(Minecraft.getInstance().player.getUUID(), PlayerUtils.isVeinMinerActive()));
         }
     }
 }

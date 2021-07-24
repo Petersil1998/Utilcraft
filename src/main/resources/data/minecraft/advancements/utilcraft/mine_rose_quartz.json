@@ -21,7 +21,9 @@
       "conditions": {
         "items": [
           {
-            "item": "utilcraft:rose_quartz"
+            "items": [
+              "utilcraft:rose_quartz"
+            ]
           }
         ]
       }

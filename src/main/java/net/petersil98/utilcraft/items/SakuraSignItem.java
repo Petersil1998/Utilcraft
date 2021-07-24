@@ -1,14 +1,14 @@
 package net.petersil98.utilcraft.items;
 
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SignItem;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
-public class SakuraSignItem extends ShearsItem {
+public class SakuraSignItem extends SignItem {
 
     public SakuraSignItem() {
-        super(new HoeItem.Properties()
+        super(new Item.Properties()
                 .stacksTo(16)
                 .tab(Utilcraft.ITEM_GROUP),
                 UtilcraftBlocks.SAKURA_SIGN,

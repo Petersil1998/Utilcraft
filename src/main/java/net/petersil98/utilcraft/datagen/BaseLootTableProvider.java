@@ -6,18 +6,17 @@ import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.block.*;
 import net.minecraft.data.*;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemNameBlockItem;
-import net.minecraft.loot.*;
-import net.minecraft.loot.conditions.*;
-import net.minecraft.loot.functions.*;
-import net.minecraft.world.level.block.state.properties.ComparatorMode;
-import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ForgeLootTableProvider;
+import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
@@ -32,35 +31,33 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.BellBlock;
-import net.minecraft.world.level.block.DiodeBlock;
-import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.block.SignBlock;
-import net.minecraft.world.level.storage.WritableLevelData;
-import net.minecraft.world.level.storage.loot.IntLimiter;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootContextUser;
-import net.minecraft.world.level.storage.loot.PredicateManager;
-import net.minecraft.world.level.storage.loot.Serializer;
-import net.minecraft.world.level.storage.loot.entries.DynamicLoot;
-import net.minecraft.world.level.storage.loot.entries.SequentialEntry;
-import net.minecraft.world.level.storage.loot.entries.TagEntry;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
+import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
-import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction;
-import net.minecraft.world.level.storage.loot.package-info;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.level.storage.loot.predicates.ConditionUserBuilder;
+import net.minecraft.world.level.storage.loot.functions.CopyNameFunction;
+import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 
-public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
+public abstract class BaseLootTableProvider extends LootTableProvider {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-    protected final Map<BeetrootBlock, LootContext.Builder> lootTables = new HashMap<>();
+    protected final Map<Block, LootTable.Builder> lootTables = new HashMap<>();
     private final DataGenerator generator;
 
     public BaseLootTableProvider(DataGenerator dataGenerator) {
@@ -70,183 +67,183 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
 
     protected abstract void addTables();
 
-    protected LootContext.Builder createSlabTable(BeetrootBlock block) {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createSlabTable(Block block) {
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(block)
-                        .apply(TagEntry.explosionDecay())
-                        .apply(SetAttributesFunction.setCount(new WritableLevelData(2))
-                                .when(ExplosionCondition.hasBlockStateProperties(block)
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(block)
+                        .apply(ApplyExplosionDecay.explosionDecay())
+                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))
+                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                         .setProperties(StatePropertiesPredicate.Builder
                                             .properties()
-                                            .hasProperty(SignBlock.TYPE, Property.DOUBLE))))
+                                            .hasProperty(SlabBlock.TYPE, SlabType.DOUBLE))))
                 );
-        return LootContext.lootTable().withPool(builder);
+        return LootTable.lootTable().withPool(builder);
     }
 
-    protected LootContext.Builder createSideSlabTable(BeetrootBlock block) {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createSideSlabTable(Block block) {
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(block)
-                        .apply(TagEntry.explosionDecay())
-                        .apply(SetAttributesFunction.setCount(new WritableLevelData(2))
-                                .when(ExplosionCondition.hasBlockStateProperties(block)
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(block)
+                        .apply(ApplyExplosionDecay.explosionDecay())
+                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))
+                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                         .setProperties(StatePropertiesPredicate.Builder
                                                 .properties()
                                                 .hasProperty(SideSlabBlock.TYPE, SideSlabType.DOUBLE))))
                 );
-        return LootContext.lootTable().withPool(builder);
+        return LootTable.lootTable().withPool(builder);
     }
 
-    protected LootContext.Builder createDoorTable(BeetrootBlock block) {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createDoorTable(Block block) {
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(block)
-                        .when(ExplosionCondition.hasBlockStateProperties(block).
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(block)
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).
                                 setProperties(StatePropertiesPredicate.Builder
                                         .properties()
-                                        .hasProperty(DiodeBlock.HALF, ComparatorMode.LOWER)
+                                        .hasProperty(DoorBlock.HALF, DoubleBlockHalf.LOWER)
                                 )
                         )
-                ).when(ConditionUserBuilder.survivesExplosion());
-        return LootContext.lootTable().withPool(builder);
+                ).when(ExplosionCondition.survivesExplosion());
+        return LootTable.lootTable().withPool(builder);
     }
 
-    protected LootContext.Builder createOreTable(BeetrootBlock block, HoeItem drop) {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createOreTable(Block block, Item drop) {
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(block)
-                        .when(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(EnchantmentCategory.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
-                        .otherwise(DynamicLoot.lootTableItem(drop)
-                                .apply(SequentialEntry.addOreBonusCount(EnchantmentCategory.BLOCK_FORTUNE))
-                                .apply(TagEntry.explosionDecay())
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(block)
+                        .when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
+                        .otherwise(LootItem.lootTableItem(drop)
+                                .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+                                .apply(ApplyExplosionDecay.explosionDecay())
                         )
                 );
-        return LootContext.lootTable().withPool(builder);
+        return LootTable.lootTable().withPool(builder);
     }
 
-    protected LootContext.Builder createLeaveTable(BeetrootBlock block, BeetrootBlock sapling, boolean dropSticks, boolean dropApples) {
-        LootContext.Builder table = LootContext.lootTable();
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createLeaveTable(Block block, Block sapling, boolean dropSticks, boolean dropApples) {
+        LootTable.Builder table = LootTable.lootTable();
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(Serializer.alternatives()
-                        .otherwise(DynamicLoot.lootTableItem(block)
-                                    .when(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item().of(ItemNameBlockItem.SHEARS))
-                                            .or(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item()
-                                                    .hasEnchantment(new EnchantmentPredicate(EnchantmentCategory.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))))
-                        .otherwise(DynamicLoot.lootTableItem(sapling)
-                                .when(ConditionUserBuilder.survivesExplosion())
-                                .when(LootContextParams.bonusLevelFlatChance(EnchantmentCategory.BLOCK_FORTUNE, 0.05f, 0.0625f, 0.083333336f, 0.1f))));
+                .setRolls(ConstantValue.exactly(1))
+                .add(AlternativesEntry.alternatives()
+                        .otherwise(LootItem.lootTableItem(block)
+                                    .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS))
+                                            .or(MatchTool.toolMatches(ItemPredicate.Builder.item()
+                                                    .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))))
+                        .otherwise(LootItem.lootTableItem(sapling)
+                                .when(ExplosionCondition.survivesExplosion())
+                                .when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, 0.05f, 0.0625f, 0.083333336f, 0.1f))));
         table.withPool(builder);
 
         if(dropSticks) {
-            IntLimiter.Serializer builder2 = IntLimiter.lootPool()
+            LootPool.Builder builder2 = LootPool.lootPool()
                     .name(BlockItemUtils.name(block))
-                    .setRolls(WritableLevelData.exactly(1))
-                    .add(DynamicLoot.lootTableItem(ItemNameBlockItem.STICK)
-                            .when(LootContextParams.bonusLevelFlatChance(EnchantmentCategory.BLOCK_FORTUNE, 0.02f, 0.022222223f, 0.025f, 0.033333335f, 0.1f))
-                            .apply(SetAttributesFunction.setCount(PredicateManager.between(1.0f, 2.0f)))
-                            .apply(TagEntry.explosionDecay()))
-                    .when(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item().of(ItemNameBlockItem.SHEARS))
-                            .or(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item()
-                                    .hasEnchantment(new EnchantmentPredicate(EnchantmentCategory.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))).invert());
+                    .setRolls(ConstantValue.exactly(1))
+                    .add(LootItem.lootTableItem(Items.STICK)
+                            .when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, 0.02f, 0.022222223f, 0.025f, 0.033333335f, 0.1f))
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 2.0f)))
+                            .apply(ApplyExplosionDecay.explosionDecay()))
+                    .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS))
+                            .or(MatchTool.toolMatches(ItemPredicate.Builder.item()
+                                    .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))).invert());
             table.withPool(builder2);
         }
 
         if(dropApples) {
-            IntLimiter.Serializer builder3 = IntLimiter.lootPool()
+            LootPool.Builder builder3 = LootPool.lootPool()
                     .name(BlockItemUtils.name(block))
-                    .setRolls(WritableLevelData.exactly(1))
-                    .add(DynamicLoot.lootTableItem(ItemNameBlockItem.APPLE)
-                            .when(LootContextParams.bonusLevelFlatChance(EnchantmentCategory.BLOCK_FORTUNE, 0.005f, 0.0055555557f, 0.00625f, 0.008333334f, 0.025f))
-                            .when(ConditionUserBuilder.survivesExplosion()))
-                    .when(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item().of(ItemNameBlockItem.SHEARS))
-                            .or(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item()
-                                    .hasEnchantment(new EnchantmentPredicate(EnchantmentCategory.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))).invert());
+                    .setRolls(ConstantValue.exactly(1))
+                    .add(LootItem.lootTableItem(Items.APPLE)
+                            .when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, 0.005f, 0.0055555557f, 0.00625f, 0.008333334f, 0.025f))
+                            .when(ExplosionCondition.survivesExplosion()))
+                    .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS))
+                            .or(MatchTool.toolMatches(ItemPredicate.Builder.item()
+                                    .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))).invert());
             table.withPool(builder3);
         }
 
         return table;
     }
 
-    protected LootContext.Builder createSimpleTable(BeetrootBlock block) {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createSimpleTable(Block block) {
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(block))
-                .when(ConditionUserBuilder.survivesExplosion());
-        return LootContext.lootTable().withPool(builder);
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(block))
+                .when(ExplosionCondition.survivesExplosion());
+        return LootTable.lootTable().withPool(builder);
     }
 
-    protected LootContext.Builder createSimpleTableWithName(BeetrootBlock block) {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createSimpleTableWithName(Block block) {
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(block)
-                        .apply(ApplyBonusCount.copyName(ApplyBonusCount.BinomialWithBonusCount.BLOCK_ENTITY)))
-                .when(ConditionUserBuilder.survivesExplosion());
-        return LootContext.lootTable().withPool(builder);
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(block)
+                        .apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY)))
+                .when(ExplosionCondition.survivesExplosion());
+        return LootTable.lootTable().withPool(builder);
     }
 
-    protected LootContext.Builder createPottedFlower(FireBlock potBlock, BeetrootBlock flowerBlock) {
-        IntLimiter.Serializer pot = IntLimiter.lootPool()
+    protected LootTable.Builder createPottedFlower(FlowerPotBlock potBlock, Block flowerBlock) {
+        LootPool.Builder pot = LootPool.lootPool()
                 .name(BlockItemUtils.name(potBlock))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(potBlock))
-                .when(ConditionUserBuilder.survivesExplosion());
-        IntLimiter.Serializer flower = IntLimiter.lootPool()
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(potBlock))
+                .when(ExplosionCondition.survivesExplosion());
+        LootPool.Builder flower = LootPool.lootPool()
                 .name(BlockItemUtils.name(potBlock))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(flowerBlock))
-                .when(ConditionUserBuilder.survivesExplosion());
-        return LootContext.lootTable().withPool(pot).withPool(flower);
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(flowerBlock))
+                .when(ExplosionCondition.survivesExplosion());
+        return LootTable.lootTable().withPool(pot).withPool(flower);
     }
 
-    protected LootContext.Builder createSpawnerLootTable() {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
-                .name(BlockItemUtils.name(BellBlock.SPAWNER))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(UtilcraftItems.SPAWNER_ITEM).apply(
-                        ApplyExplosionDecay.copyData(ApplyExplosionDecay.Source.BLOCK_ENTITY).copy("", "BlockEntityTag", ApplyExplosionDecay.Action.REPLACE)
-                ).when(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item()
-                        .hasEnchantment(new EnchantmentPredicate(EnchantmentCategory.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
+    protected LootTable.Builder createSpawnerLootTable() {
+        LootPool.Builder builder = LootPool.lootPool()
+                .name(BlockItemUtils.name(Blocks.SPAWNER))
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(UtilcraftItems.SPAWNER_ITEM).apply(
+                        CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("", "BlockEntityTag", CopyNbtFunction.MergeStrategy.REPLACE)
+                ).when(MatchTool.toolMatches(ItemPredicate.Builder.item()
+                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
                 );
-        return LootContext.lootTable().withPool(builder);
+        return LootTable.lootTable().withPool(builder);
     }
 
-    protected LootContext.Builder createSilkTouchBlock(BeetrootBlock block) {
-        IntLimiter.Serializer builder = IntLimiter.lootPool()
+    protected LootTable.Builder createSilkTouchBlock(Block block) {
+        LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(block))
-                .setRolls(WritableLevelData.exactly(1))
-                .add(DynamicLoot.lootTableItem(block))
-                .when(LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item()
-                        .hasEnchantment(new EnchantmentPredicate(EnchantmentCategory.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(block))
+                .when(MatchTool.toolMatches(ItemPredicate.Builder.item()
+                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))
                 );
-        return LootContext.lootTable().withPool(builder);
+        return LootTable.lootTable().withPool(builder);
     }
 
     @Override
     public void run(@Nonnull HashCache cache) {
         addTables();
 
-        Map<ResourceLocation, LootContext> tables = new HashMap<>();
-        for (Map.Entry<BeetrootBlock, LootContext.Builder> entry : lootTables.entrySet()) {
-            tables.put(entry.getKey().getLootTable(), entry.getValue().setParamSet(package-info.BLOCK).build());
+        Map<ResourceLocation, LootTable> tables = new HashMap<>();
+        for (Map.Entry<Block, LootTable.Builder> entry : lootTables.entrySet()) {
+            tables.put(entry.getKey().getLootTable(), entry.getValue().setParamSet(LootContextParamSets.BLOCK).build());
         }
         writeTables(cache, tables);
     }
 
-    private void writeTables(HashCache cache, @Nonnull Map<ResourceLocation, LootContext> tables) {
+    private void writeTables(HashCache cache, @Nonnull Map<ResourceLocation, LootTable> tables) {
         Path outputFolder = this.generator.getOutputFolder();
         tables.forEach((key, lootTable) -> {
             Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");
             try {
-                DataProvider.save(GSON, cache, LootContextUser.serialize(lootTable), path);
+                DataProvider.save(GSON, cache, LootTables.serialize(lootTable), path);
             } catch (IOException e) {
                 LOGGER.error("Couldn't write loot table {}", path, e);
             }

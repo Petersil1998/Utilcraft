@@ -1,36 +1,39 @@
 package net.petersil98.utilcraft.screen.widget;
 
-import com.mojang.blaze3d.vertex.BufferVertexConsumer;
-import net.minecraft.client.color.item.ItemColor;
-import net.minecraft.client.gui.components.ComponentRenderUtils;
-import net.minecraft.client.gui.components.AbstractOptionSliderButton;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarratedElementType;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.petersil98.utilcraft.config.Config;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static java.lang.Math.*;
 
-public class ColorChooser extends AbstractOptionSliderButton {
+public class ColorChooser extends AbstractWidget {
 
     private int color;
     private final int radius;
-    private final ComponentRenderUtils text;
+    private final EditBox text;
     private final int textHeight;
 
-    public ColorChooser(ItemColor font, int x, int y, int width, int textHeight, Component title) {
+    public ColorChooser(Font font, int x, int y, int width, int textHeight, Component title) {
         super(x, y, width, width, title);
         this.radius =  width/2;
         this.color = Config.DEATH_RAY_COLOR.get();
-        this.text = new ComponentRenderUtils(font, x, y+width+10, width-textHeight-5, textHeight, new TranslatableComponent("config.number_player_deaths"));
+        this.text = new EditBox(font, x, y+width+10, width-textHeight-5, textHeight, new TranslatableComponent("config.number_player_deaths"));
         this.text.setEditable(false);
         this.textHeight = textHeight;
         this.updateColor();
     }
 
     @Override
-    public void renderButton(@Nonnull BufferVertexConsumer matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void renderButton(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if(this.visible) {
             for (int x = -this.radius; x < this.radius; x++) {
                 for (int y = -this.radius; y < this.radius; y++) {
@@ -112,5 +115,11 @@ public class ColorChooser extends AbstractOptionSliderButton {
 
     public int getColor() {
         return this.color;
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    public void updateNarration(NarrationElementOutput elementOutput) {
+        this.defaultButtonNarrationText(elementOutput);
     }
 }

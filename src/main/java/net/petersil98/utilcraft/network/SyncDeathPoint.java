@@ -3,7 +3,7 @@ package net.petersil98.utilcraft.network;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
 import javax.annotation.Nonnull;

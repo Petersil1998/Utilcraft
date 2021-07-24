@@ -1,11 +1,11 @@
 package net.petersil98.utilcraft.datagen;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.world.level.block.BellBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.data.*;
-import net.minecraft.world.item.ItemNameBlockItem;
-import net.minecraft.world.item.crafting.FireworkRocketRecipe;
-import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
@@ -30,7 +30,7 @@ public class UtilcraftRecipes extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
         registerShapedRecipes(consumer);
         registerShapelessRecipes(consumer);
         registerSmeltingRecipes(consumer);
@@ -111,12 +111,12 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("-")
                 .define('*', UtilcraftItems.SILVER_INGOT)
-                .define('#', ItemNameBlockItem.DRIED_KELP)
-                .define('-', ItemNameBlockItem.STICK)
+                .define('#', Items.DRIED_KELP)
+                .define('-', Items.STICK)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("silver_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.SILVER_INGOT))
-                .unlockedBy("dried_kelp", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.DRIED_KELP))
-                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("dried_kelp", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DRIED_KELP))
+                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -125,9 +125,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
-                .define('#', BellBlock.COBBLESTONE)
+                .define('#', Blocks.COBBLESTONE)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.COBBLESTONE))
+                .unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
                 .save(consumer);
     }
 
@@ -136,22 +136,22 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern(" # ")
                 .pattern("+*+")
                 .pattern("***")
-                .define('#', ItemNameBlockItem.BOOK)
+                .define('#', Items.BOOK)
                 .define('+', UtilcraftItems.ROSE_QUARTZ)
-                .define('*', BellBlock.OBSIDIAN)
+                .define('*', Blocks.OBSIDIAN)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("book", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.BOOK))
+                .unlockedBy("book", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BOOK))
                 .unlockedBy("rose_quartz", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.ROSE_QUARTZ))
-                .unlockedBy("obsidian", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.OBSIDIAN))
+                .unlockedBy("obsidian", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.OBSIDIAN))
                 .save(consumer);
     }
 
     private void registerFlour(Consumer<FinishedRecipe> consumer) {
         ShapedRecipeBuilder.shaped(UtilcraftItems.FLOUR)
                 .pattern("##")
-                .define('#', ItemNameBlockItem.WHEAT)
+                .define('#', Items.WHEAT)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("wheat", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.WHEAT))
+                .unlockedBy("wheat", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WHEAT))
                 .save(consumer);
     }
 
@@ -159,9 +159,9 @@ public class UtilcraftRecipes extends RecipeProvider {
         ShapedRecipeBuilder.shaped(UtilcraftBlocks.GOLD_BRICK, 4)
                 .pattern("##")
                 .pattern("##")
-                .define('#', ItemNameBlockItem.GOLD_INGOT)
+                .define('#', Items.GOLD_INGOT)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("gold_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.GOLD_INGOT))
+                .unlockedBy("gold_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_INGOT))
                 .save(consumer);
     }
 
@@ -199,20 +199,20 @@ public class UtilcraftRecipes extends RecipeProvider {
         ShapedRecipeBuilder.shaped(UtilcraftItems.JUICER)
                 .pattern(" # ")
                 .pattern("---")
-                .define('#', ItemNameBlockItem.IRON_INGOT)
-                .define('-', BellBlock.SMOOTH_STONE_SLAB)
+                .define('#', Items.IRON_INGOT)
+                .define('-', Blocks.SMOOTH_STONE_SLAB)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("iron_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.IRON_INGOT))
-                .unlockedBy("smooth_stone_slab", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.SMOOTH_STONE_SLAB))
+                .unlockedBy("iron_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(Items.IRON_INGOT))
+                .unlockedBy("smooth_stone_slab", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.SMOOTH_STONE_SLAB))
                 .save(consumer);
     }
 
     private void registerRedstoneSlab(Consumer<FinishedRecipe> consumer) {
         ShapedRecipeBuilder.shaped(UtilcraftBlocks.REDSTONE_SLAB)
                 .pattern("###")
-                .define('#', BellBlock.REDSTONE_BLOCK)
+                .define('#', Blocks.REDSTONE_BLOCK)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("redstone_block", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.REDSTONE_BLOCK))
+                .unlockedBy("redstone_block", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.REDSTONE_BLOCK))
                 .save(consumer);
     }
 
@@ -221,9 +221,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#  ")
                 .pattern("## ")
                 .pattern("###")
-                .define('#', BellBlock.REDSTONE_BLOCK)
+                .define('#', Blocks.REDSTONE_BLOCK)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("redstone_block", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.REDSTONE_BLOCK))
+                .unlockedBy("redstone_block", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.REDSTONE_BLOCK))
                 .save(consumer);
     }
 
@@ -233,10 +233,10 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#*")
                 .pattern(" *")
                 .define('#', UtilcraftItems.ROSE_QUARTZ)
-                .define('*', ItemNameBlockItem.STICK)
+                .define('*', Items.STICK)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("rose_quartz", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.ROSE_QUARTZ))
-                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -288,10 +288,10 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern(" *")
                 .pattern(" *")
                 .define('#', UtilcraftItems.ROSE_QUARTZ)
-                .define('*', ItemNameBlockItem.STICK)
+                .define('*', Items.STICK)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("rose_quartz", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.ROSE_QUARTZ))
-                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -312,10 +312,10 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern(" * ")
                 .pattern(" * ")
                 .define('#', UtilcraftItems.ROSE_QUARTZ)
-                .define('*', ItemNameBlockItem.STICK)
+                .define('*', Items.STICK)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("rose_quartz", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.ROSE_QUARTZ))
-                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -325,10 +325,10 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("*")
                 .pattern("*")
                 .define('#', UtilcraftItems.ROSE_QUARTZ)
-                .define('*', ItemNameBlockItem.STICK)
+                .define('*', Items.STICK)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("rose_quartz", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.ROSE_QUARTZ))
-                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -360,12 +360,12 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern(" # ")
                 .pattern("-*-")
                 .define('#', UtilcraftItems.ROSE_QUARTZ)
-                .define('*', ItemNameBlockItem.STICK)
-                .define('-', BellBlock.ROSE_BUSH)
+                .define('*', Items.STICK)
+                .define('-', Blocks.ROSE_BUSH)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("rose_quartz", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.ROSE_QUARTZ))
-                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
-                .unlockedBy("rose_bush", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.ROSE_BUSH))
+                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
+                .unlockedBy("rose_bush", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.ROSE_BUSH))
                 .save(consumer);
     }
 
@@ -384,11 +384,11 @@ public class UtilcraftRecipes extends RecipeProvider {
         ShapedRecipeBuilder.shaped(UtilcraftBlocks.SAKURA_FENCE)
                 .pattern("W#W")
                 .pattern("W#W")
-                .define('#', ItemNameBlockItem.STICK)
+                .define('#', Items.STICK)
                 .define('W', UtilcraftBlocks.SAKURA_PLANKS)
                 .group("wooden_fence")
                 .unlockedBy("sakura_planks", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftBlocks.SAKURA_PLANKS))
-                .unlockedBy("sticks", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("sticks", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -396,11 +396,11 @@ public class UtilcraftRecipes extends RecipeProvider {
         ShapedRecipeBuilder.shaped(UtilcraftBlocks.SAKURA_FENCE_GATE)
                 .pattern("#W#")
                 .pattern("#W#")
-                .define('#', ItemNameBlockItem.STICK)
+                .define('#', Items.STICK)
                 .define('W', UtilcraftBlocks.SAKURA_PLANKS)
                 .group("wooden_fence_gate")
                 .unlockedBy("sakura_planks", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftBlocks.SAKURA_PLANKS))
-                .unlockedBy("sticks", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("sticks", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -419,10 +419,10 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("###")
                 .pattern(" X ")
                 .define('#', UtilcraftBlocks.SAKURA_PLANKS)
-                .define('X', ItemNameBlockItem.STICK)
+                .define('X', Items.STICK)
                 .group("sign")
                 .unlockedBy("sakura_planks", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftBlocks.SAKURA_PLANKS))
-                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STICK))
+                .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
     }
 
@@ -461,10 +461,10 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("###")
                 .pattern("#*#")
                 .pattern("###")
-                .define('#', FireworkRocketRecipe.of(EntityTypeTags.PLANKS))
+                .define('#', Ingredient.of(ItemTags.PLANKS))
                 .define('*', UtilcraftItems.SILVER_INGOT)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("planks", has(EntityTypeTags.PLANKS))
+                .unlockedBy("planks", has(ItemTags.PLANKS))
                 .unlockedBy("silver_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.SILVER_INGOT))
                 .save(consumer);
     }
@@ -474,9 +474,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.ACACIA_PLANKS)
+                .define('#', Blocks.ACACIA_PLANKS)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("acacia_planks", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.ACACIA_PLANKS))
+                .unlockedBy("acacia_planks", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.ACACIA_PLANKS))
                 .save(consumer);
     }
 
@@ -485,9 +485,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.BIRCH_PLANKS)
+                .define('#', Blocks.BIRCH_PLANKS)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("birch_planks", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.BIRCH_PLANKS))
+                .unlockedBy("birch_planks", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.BIRCH_PLANKS))
                 .save(consumer);
     }
 
@@ -496,9 +496,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.COBBLESTONE)
+                .define('#', Blocks.COBBLESTONE)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.COBBLESTONE))
+                .unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
                 .save(consumer);
     }
 
@@ -507,9 +507,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.DARK_OAK_PLANKS)
+                .define('#', Blocks.DARK_OAK_PLANKS)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("dark_oak_planks", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.DARK_OAK_PLANKS))
+                .unlockedBy("dark_oak_planks", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.DARK_OAK_PLANKS))
                 .save(consumer);
     }
 
@@ -529,9 +529,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.JUNGLE_PLANKS)
+                .define('#', Blocks.JUNGLE_PLANKS)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("jungle_planks", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.JUNGLE_PLANKS))
+                .unlockedBy("jungle_planks", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.JUNGLE_PLANKS))
                 .save(consumer);
     }
 
@@ -540,9 +540,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.OAK_PLANKS)
+                .define('#', Blocks.OAK_PLANKS)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("oak_planks", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.OAK_PLANKS))
+                .unlockedBy("oak_planks", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.OAK_PLANKS))
                 .save(consumer);
     }
 
@@ -551,9 +551,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.REDSTONE_BLOCK)
+                .define('#', Blocks.REDSTONE_BLOCK)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("redstone_block", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.REDSTONE_BLOCK))
+                .unlockedBy("redstone_block", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.REDSTONE_BLOCK))
                 .save(consumer);
     }
 
@@ -573,9 +573,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.SPRUCE_PLANKS)
+                .define('#', Blocks.SPRUCE_PLANKS)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("spruce_planks", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.SPRUCE_PLANKS))
+                .unlockedBy("spruce_planks", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.SPRUCE_PLANKS))
                 .save(consumer);
     }
 
@@ -584,9 +584,9 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#")
                 .pattern("#")
                 .pattern("#")
-                .define('#', BellBlock.STONE)
+                .define('#', Blocks.STONE)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("stone", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.STONE))
+                .unlockedBy("stone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
                 .save(consumer);
     }
 
@@ -595,11 +595,11 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern(" + ")
                 .pattern("+#+")
                 .pattern(" + ")
-                .define('#', ItemNameBlockItem.COMPASS)
-                .define('+', BellBlock.TNT)
+                .define('#', Items.COMPASS)
+                .define('+', Blocks.TNT)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("stone", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.COMPASS))
-                .unlockedBy("tnt", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.TNT))
+                .unlockedBy("stone", InventoryChangeTrigger.TriggerInstance.hasItems(Items.COMPASS))
+                .unlockedBy("tnt", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TNT))
                 .save(consumer);
     }
 
@@ -608,17 +608,17 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("*X*")
                 .pattern("-#-")
                 .pattern("000")
-                .define('#', BellBlock.BARREL)
-                .define('-', ItemNameBlockItem.STRING)
-                .define('0', BellBlock.OBSIDIAN)
-                .define('*', ItemNameBlockItem.LEATHER)
-                .define('X', ItemNameBlockItem.DIAMOND)
+                .define('#', Blocks.BARREL)
+                .define('-', Items.STRING)
+                .define('0', Blocks.OBSIDIAN)
+                .define('*', Items.LEATHER)
+                .define('X', Items.DIAMOND)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("barrel", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.BARREL))
-                .unlockedBy("string", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.STRING))
-                .unlockedBy("obsidian", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.OBSIDIAN))
-                .unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.LEATHER))
-                .unlockedBy("diamond", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.DIAMOND))
+                .unlockedBy("barrel", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.BARREL))
+                .unlockedBy("string", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STRING))
+                .unlockedBy("obsidian", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.OBSIDIAN))
+                .unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+                .unlockedBy("diamond", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND))
                 .save(consumer);
     }
 
@@ -627,23 +627,23 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("#  ")
                 .pattern("## ")
                 .pattern("###")
-                .define('#', BellBlock.GLASS)
-                .unlockedBy("glass", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.GLASS))
+                .define('#', Blocks.GLASS)
+                .unlockedBy("glass", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.GLASS))
                 .save(consumer);
     }
 
     private void registerAppleJuice(Consumer<FinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapeless(UtilcraftFoods.APPLE_JUICE)
-                .requires(ItemNameBlockItem.APPLE)
+                .requires(Items.APPLE)
                 .requires(UtilcraftItems.JUICER)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("juicer", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.JUICER))
-                .unlockedBy("apple", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.APPLE))
+                .unlockedBy("apple", InventoryChangeTrigger.TriggerInstance.hasItems(Items.APPLE))
                 .save(consumer);
     }
 
     private void registerCobblestone(Consumer<FinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapeless(BellBlock.COBBLESTONE, 9)
+        ShapelessRecipeBuilder.shapeless(Blocks.COBBLESTONE, 9)
                 .requires(UtilcraftBlocks.COMPRESSED_COBBLESTONE)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("compressed_cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftBlocks.COMPRESSED_COBBLESTONE))
@@ -676,34 +676,34 @@ public class UtilcraftRecipes extends RecipeProvider {
 
     private void registerSweetBerryJuice(Consumer<FinishedRecipe> consumer) {
         ShapelessRecipeBuilder.shapeless(UtilcraftFoods.SWEET_BERRY_JUICE)
-                .requires(ItemNameBlockItem.SWEET_BERRIES)
+                .requires(Items.SWEET_BERRIES)
                 .requires(UtilcraftItems.JUICER)
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("juicer", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.JUICER))
-                .unlockedBy("sweet_berries", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.SWEET_BERRIES))
+                .unlockedBy("sweet_berries", InventoryChangeTrigger.TriggerInstance.hasItems(Items.SWEET_BERRIES))
                 .save(consumer);
     }
 
     private void registerLeather(Consumer<FinishedRecipe> consumer) {
-        ShapelessRecipeBuilder.shapeless(ItemNameBlockItem.LEATHER, 5)
-                .requires(ItemNameBlockItem.SADDLE)
+        ShapelessRecipeBuilder.shapeless(Items.LEATHER, 5)
+                .requires(Items.SADDLE)
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("saddle", InventoryChangeTrigger.TriggerInstance.hasItems(ItemNameBlockItem.SADDLE))
+                .unlockedBy("saddle", InventoryChangeTrigger.TriggerInstance.hasItems(Items.SADDLE))
                 .save(consumer);
     }
 
     private void registerBaguette(Consumer<FinishedRecipe> consumer) {
-        SimpleCookingRecipeBuilder.smelting(FireworkRocketRecipe.of(UtilcraftItems.FLOUR), UtilcraftFoods.BAGUETTE, 0.15f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(UtilcraftItems.FLOUR), UtilcraftFoods.BAGUETTE, 0.15f, 200)
                 .unlockedBy("flour", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.FLOUR))
                 .save(consumer);
     }
 
     private void registerSilverIngot(Consumer<FinishedRecipe> consumer) {
-        SimpleCookingRecipeBuilder.smelting(FireworkRocketRecipe.of(UtilcraftBlocks.SILVER_ORE), UtilcraftItems.SILVER_INGOT, 0.8f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(UtilcraftBlocks.SILVER_ORE), UtilcraftItems.SILVER_INGOT, 0.8f, 200)
                 .unlockedBy("silver_ore", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftBlocks.SILVER_ORE))
                 .save(consumer);
 
-        SimpleCookingRecipeBuilder.blasting(FireworkRocketRecipe.of(UtilcraftBlocks.SILVER_ORE), UtilcraftItems.SILVER_INGOT, 0.8f, 100)
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(UtilcraftBlocks.SILVER_ORE), UtilcraftItems.SILVER_INGOT, 0.8f, 100)
                 .unlockedBy("silver_ore", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftBlocks.SILVER_ORE))
                 .save(consumer, new ResourceLocation(Utilcraft.MOD_ID, UtilcraftItems.SILVER_INGOT.getRegistryName().getPath()+"_from_blasting"));
     }
@@ -714,11 +714,11 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .patternLine("#  #")
                 .patternLine("#  #")
                 .patternLine("****")
-                .key('#', BellBlock.COBBLESTONE)
-                .key('*', BellBlock.OBSIDIAN)
+                .key('#', Blocks.COBBLESTONE)
+                .key('*', Blocks.OBSIDIAN)
                 .setGroup(Utilcraft.MOD_ID)
-                .addCriterion("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.COBBLESTONE))
-                .addCriterion("obsidian", InventoryChangeTrigger.TriggerInstance.hasItems(BellBlock.OBSIDIAN))
+                .addCriterion("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+                .addCriterion("obsidian", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.OBSIDIAN))
                 .build(consumer);
     }
 }

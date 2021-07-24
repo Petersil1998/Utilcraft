@@ -1,18 +1,18 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.SnowyDirtBlock;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 
-public class RoseQuartzBlock extends BeetrootBlock {
+public class RoseQuartzBlock extends Block {
     public RoseQuartzBlock() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.METAL, Fluids.COLOR_PINK)
+        super(BlockBehaviour.Properties
+                .of(Material.METAL, MaterialColor.COLOR_PINK)
                 .requiresCorrectToolForDrops()
                 .strength(5.0F, 6.0F)
-                .sound(SnowyDirtBlock.METAL)
+                .sound(SoundType.METAL)
         );
     }
 }

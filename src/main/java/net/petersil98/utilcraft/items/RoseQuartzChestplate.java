@@ -1,14 +1,14 @@
 package net.petersil98.utilcraft.items;
 
-import net.minecraft.world.entity.EntityEvent;
-import net.minecraft.world.inventory.StonecutterMenu;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.items.custom.UtilcraftArmorMaterial;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
-public class RoseQuartzChestplate extends StonecutterMenu {
+public class RoseQuartzChestplate extends ArmorItem {
     public RoseQuartzChestplate() {
-        super(UtilcraftArmorMaterial.ROSE_QUARTZ, EntityEvent.CHEST, new Properties().tab(Utilcraft.ITEM_GROUP));
+        super(UtilcraftArmorMaterial.ROSE_QUARTZ, EquipmentSlot.CHEST, new Properties().tab(Utilcraft.ITEM_GROUP));
     }
 }

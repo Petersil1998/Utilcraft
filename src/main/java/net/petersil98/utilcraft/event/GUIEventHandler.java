@@ -1,17 +1,17 @@
 package net.petersil98.utilcraft.event;
 
-import com.mojang.blaze3d.vertex.BufferVertexConsumer;
-import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
-import com.mojang.blaze3d.platform.SnooperAccess;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.particle.WakeParticle;
-import net.minecraft.client.color.item.package-info;
-import net.minecraft.client.color.item.ItemColor;
-import net.minecraft.client.renderer.FogRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.platform.Window;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import com.mojang.math.Matrix4f;
-import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -34,26 +34,26 @@ public class GUIEventHandler {
 
     @SubscribeEvent
     public static void addElementsToGUI(@Nonnull RenderGameOverlayEvent event) {
-        if(!KeyMapping.getInstance().options.renderDebug && event.getType().equals(RenderGameOverlayEvent.ElementType.ALL)) {
+        if(!Minecraft.getInstance().options.renderDebug && event.getType().equals(RenderGameOverlayEvent.ElementType.ALL)) {
             addVeinMinerOverlay(event.getMatrixStack(), 10, event.getWindow().getGuiScaledHeight()-20);
             addDeathsOverlay(event.getMatrixStack(), event.getWindow());
         }
     }
 
-    private static void addVeinMinerOverlay(BufferVertexConsumer matrixStack, int x, int y) {
+    private static void addVeinMinerOverlay(PoseStack matrixStack, int x, int y) {
         ChatFormatting format = PlayerUtils.isVeinMinerActive() ? ChatFormatting.GREEN : ChatFormatting.RED;
-        package-info.drawString(
+        GuiComponent.drawString(
                 matrixStack,
-                KeyMapping.getInstance().font,
+                Minecraft.getInstance().font,
                 new TranslatableComponent(String.format("vein_miner.%s.%s", Utilcraft.MOD_ID, PlayerUtils.isVeinMinerActive() ? "active" : "inactive")).withStyle(format),
                 x, y, 0xffffff);
     }
 
-    private static void addDeathsOverlay(BufferVertexConsumer matrixStack, SnooperAccess window) {
+    private static void addDeathsOverlay(PoseStack matrixStack, Window window) {
         Map<String, Integer> playerDeaths = PlayerUtils.getPlayerDeaths();
         int size = Math.min(playerDeaths.size(), Config.DEATHS_OVERLAY_PLAYERS.get());
         if(size > 0) {
-            ItemColor renderer = KeyMapping.getInstance().font;
+            Font renderer = Minecraft.getInstance().font;
             int height = window.getGuiScaledHeight() / 2;
             int lineHeight = renderer.lineHeight + 2;
             int offset = size / 2 * lineHeight;
@@ -63,7 +63,7 @@ public class GUIEventHandler {
                 String message = String.format("%s: %d", playerDeath.getKey(), playerDeath.getValue());
                 int y = height - offset + i * lineHeight;
                 int x = window.getGuiScaledWidth() - renderer.width(message) - 10;
-                package-info.drawString(
+                GuiComponent.drawString(
                         matrixStack,
                         renderer,
                         new TextComponent(message),
@@ -77,27 +77,27 @@ public class GUIEventHandler {
     public static void renderDeathPointRay(@Nonnull RenderWorldLastEvent event) {
         ILastDeath lastDeath = PlayerUtils.getLastDeath();
         if(lastDeath != null && lastDeath.getDeathPoint() != null && lastDeath.getDeathDimension() != null) {
-            WakeParticle player = KeyMapping.getInstance().player;
+            LocalPlayer player = Minecraft.getInstance().player;
             if(player.level.dimension().location().equals(lastDeath.getDeathDimension())) {
-                BufferVertexConsumer matrixStack = event.getMatrixStack();
+                PoseStack matrixStack = event.getMatrixStack();
                 matrixStack.pushPose();
 
-                EntityHitResult projectedView = KeyMapping.getInstance().gameRenderer.getMainCamera().getPosition();
+                Vec3 projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
                 matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-                FogRenderer.FogMode buffer = KeyMapping.getInstance().renderBuffers().bufferSource();
+                MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
                 Matrix4f matrix = matrixStack.last().pose();
 
-                drawLine(buffer.getBuffer(MultiBufferSource.LINES), matrix, lastDeath.getDeathPoint(), new Color(Config.DEATH_RAY_COLOR.get(), true));
+                drawLine(buffer.getBuffer(RenderType.LINES), matrix, lastDeath.getDeathPoint(), new Color(Config.DEATH_RAY_COLOR.get(), true));
 
                 matrixStack.popPose();
 
-                buffer.endBatch(MultiBufferSource.LINES);
+                buffer.endBatch(RenderType.LINES);
             }
         }
     }
 
-    private static void drawLine(@Nonnull SheetedDecalTextureGenerator builder, Matrix4f positionMatrix, @Nonnull BlockPos pos, @Nonnull Color color) {
+    private static void drawLine(@Nonnull VertexConsumer builder, Matrix4f positionMatrix, @Nonnull BlockPos pos, @Nonnull Color color) {
         builder.vertex(positionMatrix, pos.getX(), pos.getY(), pos.getZ())
                 .color(color.getRed(), color.getGreen(),color.getBlue(),color.getAlpha())
                 .endVertex();

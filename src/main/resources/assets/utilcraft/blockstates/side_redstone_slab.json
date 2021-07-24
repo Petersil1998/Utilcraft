@@ -1,22 +1,19 @@
 {
   "variants": {
     "type=east": {
-      "model": "utilcraft:block/redstone_slab",
-      "x": 90,
-      "y": 270
+      "model": "utilcraft:block/side_redstone_slab",
+      "y": 90
     },
     "type=north": {
-      "model": "utilcraft:block/redstone_slab",
-      "x": 270
+      "model": "utilcraft:block/side_redstone_slab"
     },
     "type=west": {
-      "model": "utilcraft:block/redstone_slab",
-      "x": 270,
+      "model": "utilcraft:block/side_redstone_slab",
       "y": 270
     },
     "type=south": {
-      "model": "utilcraft:block/redstone_slab",
-      "x": 90
+      "model": "utilcraft:block/side_redstone_slab",
+      "y": 180
     },
     "type=double": {
       "model": "minecraft:block/redstone_block"

@@ -1,33 +1,33 @@
 package net.petersil98.utilcraft.container;
 
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.entity.package-info;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.inventory.ShulkerBoxMenu;
-import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 
-public class SecureChestContainer extends FoodProperties {
+public class SecureChestContainer extends AbstractContainerMenu {
 
     private final IItemHandler inventory;
     private final int numRows;
 
-    public SecureChestContainer(int id, package-info playerInventory) {
+    public SecureChestContainer(int id, Inventory playerInventory) {
         this(id, playerInventory, new ItemStackHandler(27));
     }
 
-    public SecureChestContainer(int id, package-info playerInventory, IItemHandler inventory) {
+    public SecureChestContainer(int id, Inventory playerInventory, IItemHandler inventory) {
         super(UtilcraftContainer.SECURE_CHEST_CONTAINER, id);
         this.inventory = inventory;
         this.numRows = 3;
         addSlots(playerInventory);
     }
 
-    protected void addSlots(package-info playerInventory)
+    protected void addSlots(Inventory playerInventory)
     {
         int i = (this.numRows - 4) * 18;
 
@@ -38,19 +38,19 @@ public class SecureChestContainer extends FoodProperties {
         }
         for(int l = 0; l < 3; ++l) {
             for(int j1 = 0; j1 < 9; ++j1) {
-                this.addSlot(new ShulkerBoxMenu(playerInventory, j1 + l * 9 + 9, 8 + j1 * 18, 103 + l * 18 + i));
+                this.addSlot(new Slot(playerInventory, j1 + l * 9 + 9, 8 + j1 * 18, 103 + l * 18 + i));
             }
         }
 
         for(int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new ShulkerBoxMenu(playerInventory, i1, 8 + i1 * 18, 161 + i));
+            this.addSlot(new Slot(playerInventory, i1, 8 + i1 * 18, 161 + i));
         }
     }
 
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean stillValid(@Nonnull Abilities player) {
+    public boolean stillValid(@Nonnull Player player) {
         return true;
     }
 
@@ -59,22 +59,22 @@ public class SecureChestContainer extends FoodProperties {
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemCooldowns quickMoveStack(@Nonnull Abilities player, int index) {
-        ItemCooldowns itemstack = ItemCooldowns.EMPTY;
-        ShulkerBoxMenu slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemCooldowns itemstack1 = slot.getItem();
+    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index < this.numRows * 9) {
                 if (!this.moveItemStackTo(itemstack1, this.numRows * 9, this.slots.size(), true)) {
-                    return ItemCooldowns.EMPTY;
+                    return ItemStack.EMPTY;
                 }
             } else if (!this.moveItemStackTo(itemstack1, 0, this.numRows * 9, false)) {
-                return ItemCooldowns.EMPTY;
+                return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
-                slot.set(ItemCooldowns.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }
@@ -86,7 +86,7 @@ public class SecureChestContainer extends FoodProperties {
     /**
      * Called when the container is closed.
      */
-    public void removed(@Nonnull Abilities player) {
+    public void removed(@Nonnull Player player) {
         super.removed(player);
     }
 

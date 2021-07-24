@@ -6,10 +6,10 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.stats.StatFormatter;
+import net.minecraft.stats.Stats;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.storage.DerivedLevelData;
+import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.UsernameCache;
 import net.petersil98.utilcraft.data.capabilities.last_death.DefaultLastDeath;
 import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
@@ -28,14 +28,14 @@ public class PlayerUtils {
     private static boolean veinMinerActive = false;
 
     public static void setPlayerDeaths(@Nonnull MinecraftServer server, @Nonnull ServerPlayer playerEntity) {
-        playerDeaths.put(playerEntity.getName().getString(), playerEntity.getStats().getValue(StatFormatter.CUSTOM.get(StatFormatter.DEATHS)));
+        playerDeaths.put(playerEntity.getName().getString(), playerEntity.getStats().getValue(Stats.CUSTOM.get(Stats.DEATHS)));
         List<ServerPlayer> onlinePlayers = server.getPlayerList().getPlayers();
         for(ServerPlayer onlinePlayer: onlinePlayers) {
-            int deaths = onlinePlayer.getStats().getValue(StatFormatter.CUSTOM.get(StatFormatter.DEATHS));
+            int deaths = onlinePlayer.getStats().getValue(Stats.CUSTOM.get(Stats.DEATHS));
             playerDeaths.put(onlinePlayer.getName().getString(), deaths);
         }
         try {
-            File statsFolder = server.getWorldPath(DerivedLevelData.PLAYER_STATS_DIR).toFile();
+            File statsFolder = server.getWorldPath(LevelResource.PLAYER_STATS_DIR).toFile();
             if(statsFolder.isDirectory() && statsFolder.listFiles() != null && statsFolder.listFiles().length > 0) {
                 for (File playerStatFile : statsFolder.listFiles()) {
                     String uuid = FilenameUtils.removeExtension(playerStatFile.getName());
@@ -45,8 +45,8 @@ public class PlayerUtils {
                         JsonElement element = parser.parse(new FileReader(playerStatFile));
                         JsonObject object = element.getAsJsonObject();
                         JsonObject stats = object.getAsJsonObject("stats");
-                        JsonObject customStats = stats.getAsJsonObject(StatFormatter.CUSTOM.getRegistryName().toString());
-                        JsonPrimitive deaths = customStats.getAsJsonPrimitive(StatFormatter.DEATHS.toString());
+                        JsonObject customStats = stats.getAsJsonObject(Stats.CUSTOM.getRegistryName().toString());
+                        JsonPrimitive deaths = customStats.getAsJsonPrimitive(Stats.DEATHS.toString());
                         playerDeaths.put(username, deaths == null ? 0 : deaths.getAsInt());
                     }
                 }

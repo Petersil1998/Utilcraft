@@ -2,19 +2,19 @@ package net.petersil98.utilcraft.loot_modifiers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.world.item.enchantment.DiggingEnchantment;
-import net.minecraft.world.effect.package-info;
-import net.minecraft.world.entity.boss.BossMob;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.monster.Ravager;
-import net.minecraft.world.entity.monster.Vex;
-import net.minecraft.world.entity.monster.Witch;
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.world.item.ItemNameBlockItem;
-import net.minecraft.world.level.storage.loot.Deserializers;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
-import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.WitherSkeleton;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -26,55 +26,55 @@ import java.util.List;
 import java.util.Random;
 
 public class BeheadingModifier extends LootModifier {
-    public BeheadingModifier(InvertedLootItemCondition[] conditions) {
+    public BeheadingModifier(LootItemCondition[] conditions) {
         super(conditions);
     }
 
     @Nonnull
     @Override
-    public List<ItemCooldowns> doApply(List<ItemCooldowns> generatedLoot, @Nonnull Deserializers context) {
-        package-info killer = context.getParamOrNull(LootContextParam.KILLER_ENTITY);
-        if (killer instanceof Abilities) {
-            Abilities player = ((Abilities) killer);
-            if(DiggingEnchantment.getEnchantments(player.getMainHandItem()).containsKey(UtilcraftEnchantments.BEHEADING)){
-                package-info entity = context.getParamOrNull(LootContextParam.THIS_ENTITY);
-                int enchantmentLevel = DiggingEnchantment.getItemEnchantmentLevel(UtilcraftEnchantments.BEHEADING, player.getMainHandItem());
+    public List<ItemStack> doApply(List<ItemStack> generatedLoot, @Nonnull LootContext context) {
+        Entity killer = context.getParamOrNull(LootContextParams.KILLER_ENTITY);
+        if (killer instanceof Player) {
+            Player player = ((Player) killer);
+            if(EnchantmentHelper.getEnchantments(player.getMainHandItem()).containsKey(UtilcraftEnchantments.BEHEADING)){
+                Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
+                int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(UtilcraftEnchantments.BEHEADING, player.getMainHandItem());
                 int chance = BeheadingEnchantment.getHeadDropChance(enchantmentLevel);
                 Random random = player.getRandom();
-                if(entity instanceof Witch){
-                    if(!generatedLoot.contains(new ItemCooldowns(ItemNameBlockItem.ZOMBIE_HEAD))){
+                if(entity instanceof Zombie){
+                    if(!generatedLoot.contains(new ItemStack(Items.ZOMBIE_HEAD))){
                         if(chance >= random.nextDouble()*100){
-                            generatedLoot.add(new ItemCooldowns(ItemNameBlockItem.ZOMBIE_HEAD));
+                            generatedLoot.add(new ItemStack(Items.ZOMBIE_HEAD));
                         }
                     }
-                } else if(entity instanceof Ravager){
-                    if(!generatedLoot.contains(new ItemCooldowns(ItemNameBlockItem.SKELETON_SKULL))){
+                } else if(entity instanceof Skeleton){
+                    if(!generatedLoot.contains(new ItemStack(Items.SKELETON_SKULL))){
                         if(chance >= random.nextDouble()*100){
-                            generatedLoot.add(new ItemCooldowns(ItemNameBlockItem.SKELETON_SKULL));
+                            generatedLoot.add(new ItemStack(Items.SKELETON_SKULL));
                         }
                     }
-                } else if(entity instanceof AbstractSkeleton){
-                    if(!generatedLoot.contains(new ItemCooldowns(ItemNameBlockItem.CREEPER_HEAD))){
+                } else if(entity instanceof Creeper){
+                    if(!generatedLoot.contains(new ItemStack(Items.CREEPER_HEAD))){
                         if(chance >= random.nextDouble()*100){
-                            generatedLoot.add(new ItemCooldowns(ItemNameBlockItem.CREEPER_HEAD));
+                            generatedLoot.add(new ItemStack(Items.CREEPER_HEAD));
                         }
                     }
-                } else if(entity instanceof Vex){
-                    if(!generatedLoot.contains(new ItemCooldowns(ItemNameBlockItem.WITHER_SKELETON_SKULL))){
+                } else if(entity instanceof WitherSkeleton){
+                    if(!generatedLoot.contains(new ItemStack(Items.WITHER_SKELETON_SKULL))){
                         if(chance >= random.nextDouble()*100){
-                            generatedLoot.add(new ItemCooldowns(ItemNameBlockItem.WITHER_SKELETON_SKULL));
+                            generatedLoot.add(new ItemStack(Items.WITHER_SKELETON_SKULL));
                         }
                     }
-                } else if(entity instanceof Abilities){
-                    if(!generatedLoot.contains(new ItemCooldowns(ItemNameBlockItem.PLAYER_HEAD))){
+                } else if(entity instanceof Player){
+                    if(!generatedLoot.contains(new ItemStack(Items.PLAYER_HEAD))){
                         if(chance >= random.nextDouble()*100){
-                            generatedLoot.add(new ItemCooldowns(ItemNameBlockItem.PLAYER_HEAD));
+                            generatedLoot.add(new ItemStack(Items.PLAYER_HEAD));
                         }
                     }
-                } else if(entity instanceof BossMob){
-                    if(!generatedLoot.contains(new ItemCooldowns(ItemNameBlockItem.DRAGON_HEAD))){
+                } else if(entity instanceof EnderDragon){
+                    if(!generatedLoot.contains(new ItemStack(Items.DRAGON_HEAD))){
                         if(chance >= random.nextDouble()*100){
-                            generatedLoot.add(new ItemCooldowns(ItemNameBlockItem.DRAGON_HEAD));
+                            generatedLoot.add(new ItemStack(Items.DRAGON_HEAD));
                         }
                     }
                 }
@@ -85,7 +85,7 @@ public class BeheadingModifier extends LootModifier {
 
     public static class Serializer extends GlobalLootModifierSerializer<BeheadingModifier> {
         @Override
-        public BeheadingModifier read(ResourceLocation name, JsonObject object, InvertedLootItemCondition[] conditions) {
+        public BeheadingModifier read(ResourceLocation name, JsonObject object, LootItemCondition[] conditions) {
             return new BeheadingModifier(conditions);
         }
 

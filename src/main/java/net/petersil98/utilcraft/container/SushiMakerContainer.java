@@ -1,17 +1,13 @@
 package net.petersil98.utilcraft.container;
 
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.entity.package-info;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.RecipeBookMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.BossEvent;
-import net.minecraft.inventory.container.*;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.item.crafting.*;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.recipes.UtilcraftRecipeTypes;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
@@ -19,71 +15,67 @@ import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.MerchantMenu;
-import net.minecraft.world.inventory.MerchantResultSlot;
-import net.minecraft.world.inventory.RecipeBookType;
-import net.minecraft.world.inventory.ShulkerBoxMenu;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.item.crafting.Recipe;
 
-public class SushiMakerContainer extends MerchantMenu<ContainerData> {
-    private final ContainerData craftMatrix = new ContainerData(this, 4, 4);
-    private final RecipeBookMenu craftResult = new RecipeBookMenu();
-    private final ChestMenu worldPosCallable;
-    private final Abilities player;
+public class SushiMakerContainer extends RecipeBookMenu<CraftingContainer> {
+    private final CraftingContainer craftMatrix = new CraftingContainer(this, 4, 4);
+    private final ResultContainer craftResult = new ResultContainer();
+    private final ContainerLevelAccess worldPosCallable;
+    private final Player player;
 
-    public SushiMakerContainer(int id, package-info playerInventory) {
-        this(id, playerInventory, ChestMenu.NULL);
+    public SushiMakerContainer(int id, Inventory playerInventory) {
+        this(id, playerInventory, ContainerLevelAccess.NULL);
     }
 
-    public SushiMakerContainer(int id, @Nonnull package-info playerInventory, ChestMenu worldPosCallable) {
+    public SushiMakerContainer(int id, @Nonnull Inventory playerInventory, ContainerLevelAccess worldPosCallable) {
         super(UtilcraftContainer.SUSHI_MAKER_CONTAINER, id);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
-        this.addSlot(new RecipeBookType(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 44));
+        this.addSlot(new ResultSlot(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 44));
 
         for(int i = 0; i < 4; ++i) {
             for(int j = 0; j < 4; ++j) {
-                this.addSlot(new ShulkerBoxMenu(this.craftMatrix, j + i * 4, 12 + j * 18, 17 + i * 18));
+                this.addSlot(new Slot(this.craftMatrix, j + i * 4, 12 + j * 18, 17 + i * 18));
             }
         }
 
         for(int k = 0; k < 3; ++k) {
             for(int i1 = 0; i1 < 9; ++i1) {
-                this.addSlot(new ShulkerBoxMenu(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 102 + k * 18));
+                this.addSlot(new Slot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 102 + k * 18));
             }
         }
 
         for(int l = 0; l < 9; ++l) {
-            this.addSlot(new ShulkerBoxMenu(playerInventory, l, 8 + l * 18, 160));
+            this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 160));
         }
     }
 
-    protected static void updateCraftingResult(int id, @Nonnull GameType world, Abilities player, ContainerData inventory, RecipeBookMenu inventoryResult) {
+    protected static void updateCraftingResult(AbstractContainerMenu container, @Nonnull Level world, Player player, CraftingContainer inventory, ResultContainer inventoryResult) {
         if (!world.isClientSide) {
             ServerPlayer serverplayerentity = (ServerPlayer)player;
-            ItemCooldowns itemstack = ItemCooldowns.EMPTY;
+            ItemStack itemstack = ItemStack.EMPTY;
             Optional<SushiMakerRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE, inventory, world);
             if (optional.isPresent()) {
-                SushiMakerRecipe icraftingrecipe = optional.get();
-                if (inventoryResult.setRecipeUsed(world, serverplayerentity, icraftingrecipe)) {
-                    itemstack = icraftingrecipe.assemble(inventory);
+                SushiMakerRecipe recipe = optional.get();
+                if (inventoryResult.setRecipeUsed(world, serverplayerentity, recipe)) {
+                    itemstack = recipe.assemble(inventory);
                 }
             }
 
             inventoryResult.setItem(0, itemstack);
-            serverplayerentity.connection.send(new ClientboundContainerSetSlotPacket(id, 0, itemstack));
+            serverplayerentity.connection.send(new ClientboundContainerSetSlotPacket(container.containerId, container.incrementStateId(), 0, itemstack));
         }
     }
 
     /**
      * Callback for when the crafting matrix is changed.
      */
-    public void slotsChanged(@Nonnull BossEvent inventory) {
-        this.worldPosCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(this.containerId, p_217069_1_, this.player, this.craftMatrix, this.craftResult));
+    public void slotsChanged(@Nonnull Container inventory) {
+        this.worldPosCallable.execute((p_217069_1_, p_217069_2_) -> updateCraftingResult(this, p_217069_1_, this.player, this.craftMatrix, this.craftResult));
     }
 
-    public void fillCraftSlotsStackedContents(@Nonnull Inventory itemHelper) {
+    public void fillCraftSlotsStackedContents(@Nonnull StackedContents itemHelper) {
         this.craftMatrix.fillStackedContents(itemHelper);
     }
 
@@ -92,22 +84,22 @@ public class SushiMakerContainer extends MerchantMenu<ContainerData> {
         this.craftResult.clearContent();
     }
 
-    public boolean recipeMatches(@Nonnull Ingredient<? super ContainerData> recipe) {
+    public boolean recipeMatches(@Nonnull Recipe<? super CraftingContainer> recipe) {
         return recipe.matches(this.craftMatrix, this.player.level);
     }
 
     /**
      * Called when the container is closed.
      */
-    public void removed(@Nonnull Abilities player) {
+    public void removed(@Nonnull Player player) {
         super.removed(player);
-        this.worldPosCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(player, p_217068_2_, this.craftMatrix));
+        this.worldPosCallable.execute((p_217068_2_, p_217068_3_) -> this.clearContainer(player, this.craftMatrix));
     }
 
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean stillValid(@Nonnull Abilities player) {
+    public boolean stillValid(@Nonnull Player player) {
         return stillValid(this.worldPosCallable, player, UtilcraftBlocks.SUSHI_MAKER);
     }
 
@@ -116,16 +108,16 @@ public class SushiMakerContainer extends MerchantMenu<ContainerData> {
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemCooldowns quickMoveStack(@Nonnull Abilities player, int index) {
-        ItemCooldowns itemstack = ItemCooldowns.EMPTY;
-        ShulkerBoxMenu slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemCooldowns itemstack1 = slot.getItem();
+    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
                 this.worldPosCallable.execute((p_217067_2_, p_217067_3_) -> itemstack1.getItem().onCraftedBy(itemstack1, p_217067_2_, player));
                 if (!this.moveItemStackTo(itemstack1, getSize(), 53, true)) {
-                    return ItemCooldowns.EMPTY;
+                    return ItemStack.EMPTY;
                 }
 
                 slot.onQuickCraft(itemstack1, itemstack);
@@ -133,29 +125,29 @@ public class SushiMakerContainer extends MerchantMenu<ContainerData> {
                 if (!this.moveItemStackTo(itemstack1, 1, getSize(), false)) {
                     if (index < 44) {
                         if (!this.moveItemStackTo(itemstack1, 44, 53, false)) {
-                            return ItemCooldowns.EMPTY;
+                            return ItemStack.EMPTY;
                         }
                     } else if (!this.moveItemStackTo(itemstack1, getSize(), 44, false)) {
-                        return ItemCooldowns.EMPTY;
+                        return ItemStack.EMPTY;
                     }
                 }
             } else if (!this.moveItemStackTo(itemstack1, getSize(), 53, false)) {
-                return ItemCooldowns.EMPTY;
+                return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
-                slot.set(ItemCooldowns.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemCooldowns.EMPTY;
+                return ItemStack.EMPTY;
             }
 
-            ItemCooldowns itemstack2 = slot.onTake(player, itemstack1);
+            slot.onTake(player, itemstack1);
             if (index == 0) {
-                player.drop(itemstack2, false);
+                player.drop(itemstack1, false);
             }
         }
 
@@ -166,7 +158,7 @@ public class SushiMakerContainer extends MerchantMenu<ContainerData> {
      * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in is
      * null for the initial slot that was double-clicked.
      */
-    public boolean canTakeItemForPickAll(@Nonnull ItemCooldowns stack, @Nonnull ShulkerBoxMenu slot) {
+    public boolean canTakeItemForPickAll(@Nonnull ItemStack stack, @Nonnull Slot slot) {
         return slot.container != this.craftResult && super.canTakeItemForPickAll(stack, slot);
     }
 
@@ -187,7 +179,12 @@ public class SushiMakerContainer extends MerchantMenu<ContainerData> {
     }
 
     @Nonnull
-    public MerchantResultSlot getRecipeBookType() {
-        return MerchantResultSlot.CRAFTING;
+    public RecipeBookType getRecipeBookType() {
+        return RecipeBookType.CRAFTING;
+    }
+
+    @Override
+    public boolean shouldMoveToInventory(int index) {
+        return index != this.getResultSlotIndex();
     }
 }

@@ -1,17 +1,17 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.DiodeBlock;
-import net.minecraft.world.level.block.SnowyDirtBlock;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 
-public class SakuraDoor extends DiodeBlock {
+public class SakuraDoor extends DoorBlock {
 
     public SakuraDoor() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.WOOD, new SakuraPlanks().defaultMaterialColor())
+        super(BlockBehaviour.Properties
+                .of(Material.WOOD, new SakuraPlanks().defaultMaterialColor())
                 .strength(3.0F)
-                .sound(SnowyDirtBlock.WOOD)
+                .sound(SoundType.WOOD)
                 .noOcclusion());
     }
 }

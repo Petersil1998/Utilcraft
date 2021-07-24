@@ -1,22 +1,19 @@
 {
   "variants": {
     "type=east": {
-      "model": "minecraft:block/acacia_slab",
-      "x": 90,
-      "y": 270
+      "model": "utilcraft:block/side_acacia_slab",
+      "y": 90
     },
     "type=north": {
-      "model": "minecraft:block/acacia_slab",
-      "x": 270
+      "model": "utilcraft:block/side_acacia_slab"
     },
     "type=west": {
-      "model": "minecraft:block/acacia_slab",
-      "x": 270,
+      "model": "utilcraft:block/side_acacia_slab",
       "y": 270
     },
     "type=south": {
-      "model": "minecraft:block/acacia_slab",
-      "x": 90
+      "model": "utilcraft:block/side_acacia_slab",
+      "y": 180
     },
     "type=double": {
       "model": "minecraft:block/acacia_planks"

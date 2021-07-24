@@ -2,7 +2,6 @@ package net.petersil98.utilcraft.advancements;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.FrameType;
-import net.minecraft.advancements.criterion.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.petersil98.utilcraft.Utilcraft;

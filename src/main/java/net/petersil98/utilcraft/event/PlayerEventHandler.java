@@ -1,7 +1,7 @@
 package net.petersil98.utilcraft.event;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -19,7 +19,7 @@ import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath
 import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.network.PlayerDeathStats;
 import net.petersil98.utilcraft.network.SyncDeathPoint;
-import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 
@@ -37,7 +37,7 @@ public class PlayerEventHandler {
     public static void onPlayerRightClickBlock(@Nonnull PlayerInteractEvent.RightClickBlock event){
         if(event.getEntity() instanceof ServerPlayer){
             ServerPlayer player = (ServerPlayer)event.getEntity();
-            BeehiveBlockEntity te = player.getLevel().getBlockEntity(event.getPos());
+            BlockEntity te = player.getLevel().getBlockEntity(event.getPos());
             if(te instanceof SecureChestTileEntity){
                 UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
                 UUID playerUUID = player.getGameProfile().getId();
@@ -85,8 +85,8 @@ public class PlayerEventHandler {
             AtomicReference<IModInfo> modInfo = new AtomicReference<>();
             ModList.get().getModContainerById(Utilcraft.MOD_ID).ifPresent(modContainer -> modInfo.set(modContainer.getModInfo()));
             VersionChecker.CheckResult result = VersionChecker.getResult(modInfo.get());
-            if(result.status == VersionChecker.Status.OUTDATED) {
-                List<ComparableVersion> sortedKeys = new ArrayList<>(result.changes.keySet());
+            if(result.status() == VersionChecker.Status.OUTDATED) {
+                List<ComparableVersion> sortedKeys = new ArrayList<>(result.changes().keySet());
                 Collections.sort(sortedKeys);
                 player.displayClientMessage(new TranslatableComponent(String.format("version.%s.new", Utilcraft.MOD_ID), sortedKeys.get(0).toString()), false);
             }

@@ -1,10 +1,12 @@
 package net.petersil98.utilcraft.data.capabilities.home;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,17 +32,24 @@ public class HomeProvider implements ICapabilitySerializable<CompoundTag> {
 
     @Override
     public CompoundTag serializeNBT() {
-        if (CapabilityHome.HOME_CAPABILITY == null) {
-            return new CompoundTag();
-        } else {
-            return (CompoundTag) CapabilityHome.HOME_CAPABILITY.writeNBT(home, null);
+        IHome instance = homeOptional.orElseThrow(() -> new IllegalArgumentException("Lazy optional is uninitialized"));
+        CompoundTag tag = new CompoundTag();
+        BlockPos home = instance.getHome();
+        if(home != null) {
+            int[] cords = {home.getX(), home.getY(), home.getZ()};
+            tag.putIntArray("home", cords);
         }
+        return tag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        if (CapabilityHome.HOME_CAPABILITY != null) {
-            CapabilityHome.HOME_CAPABILITY.readNBT(home, null, nbt);
+        IHome instance = homeOptional.orElseThrow(() -> new IllegalArgumentException("Lazy optional is uninitialized"));
+        int[] cords = nbt.getIntArray("home");
+        BlockPos home = BlockPos.ZERO;
+        if(cords.length == 3) {
+            home = new BlockPos(cords[0], cords[1], cords[2]);
         }
+        instance.setHome(home);
     }
 }

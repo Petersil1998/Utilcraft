@@ -1,13 +1,13 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.NoteBlock;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.material.Material;
 
-public class RoseQuartzOre extends NoteBlock {
+public class RoseQuartzOre extends OreBlock {
     public RoseQuartzOre() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.STONE)
+        super(BlockBehaviour.Properties
+                .of(Material.STONE)
                 .requiresCorrectToolForDrops()
                 .strength(3.0F, 3.0F)
                 .harvestLevel(4)

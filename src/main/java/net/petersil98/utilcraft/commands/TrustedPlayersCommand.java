@@ -6,7 +6,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.Util;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -47,7 +47,7 @@ public class TrustedPlayersCommand {
         player.sendMessage(new TranslatableComponent(String.format("player_trusted.%s.player_added", Utilcraft.MOD_ID), affectedPlayer.getName()), Util.NIL_UUID);
     }
 
-    private static void revokeTrust(@Nonnull CommandSourceStack source, @Nonnull Abilities affectedPlayer) throws CommandSyntaxException {
+    private static void revokeTrust(@Nonnull CommandSourceStack source, @Nonnull Player affectedPlayer) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         UtilcraftWorldSavedData worldSavedData = UtilcraftWorldSavedData.get(player.getLevel());
         worldSavedData.removedTrustedPlayer(player.getGameProfile().getId(), affectedPlayer.getGameProfile().getId());

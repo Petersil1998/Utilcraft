@@ -8,9 +8,9 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 import net.minecraft.server.level.TicketType;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
@@ -65,17 +65,17 @@ public class HomeCommand {
         set.add(ClientboundPlayerPositionPacket.RelativeArgument.X_ROT);
         set.add(ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT);
 
-        BlockAndTintGetter chunkpos = new BlockAndTintGetter(position);
+        ChunkPos chunkpos = new ChunkPos(position);
         player.getLevel().getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, player.getId());
         player.stopRiding();
         if (player.isSleeping()) {
             player.stopSleepInBed(true, true);
         }
 
-        if (player.getServer().getLevel(GameType.OVERWORLD).equals(player.getLevel())) {
+        if (player.getServer().getLevel(Level.OVERWORLD).equals(player.getLevel())) {
             player.connection.teleport(position.getX(), position.getY(), position.getZ(), 0, 0, set);
         } else {
-            player.teleportTo(player.getServer().getLevel(GameType.OVERWORLD), position.getX(), position.getY(), position.getZ(), 0, 0);
+            player.teleportTo(player.getServer().getLevel(Level.OVERWORLD), position.getX(), position.getY(), position.getZ(), 0, 0);
         }
 
         player.setYHeadRot(0);

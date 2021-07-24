@@ -1,31 +1,31 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SnowyDirtBlock;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BaseSpawner;
+import net.minecraft.world.level.BlockGetter;
 
-public class SakuraFence extends FaceAttachedHorizontalDirectionalBlock {
+public class SakuraFence extends FenceBlock {
 
     public SakuraFence() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.WOOD, new SakuraPlanks().defaultMaterialColor())
+        super(BlockBehaviour.Properties
+                .of(Material.WOOD, new SakuraPlanks().defaultMaterialColor())
                 .strength(2.0F, 3.0F)
-                .sound(SnowyDirtBlock.WOOD)
+                .sound(SoundType.WOOD)
         );
     }
 
     @Override
-    public int getFlammability(PistonStructureResolver state, BaseSpawner world, BlockPos pos, Direction face) {
+    public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
         return 20;
     }
 
     @Override
-    public int getFireSpreadSpeed(PistonStructureResolver state, BaseSpawner world, BlockPos pos, Direction face) {
+    public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
         return 5;
     }
 }

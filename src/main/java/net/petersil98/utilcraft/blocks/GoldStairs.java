@@ -1,11 +1,11 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.SpreadingSnowyDirtBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.StairBlock;
 
-public class GoldStairs extends SpreadingSnowyDirtBlock {
+public class GoldStairs extends StairBlock {
 
     public GoldStairs() {
-        super(() -> new GoldBrick().defaultBlockState(), PistonMovingBlockEntity.Properties.copy(new GoldBrick()));
+        super(() -> new GoldBrick().defaultBlockState(), BlockBehaviour.Properties.copy(new GoldBrick()));
     }
 }

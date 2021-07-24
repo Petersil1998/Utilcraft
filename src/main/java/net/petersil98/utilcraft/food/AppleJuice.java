@@ -1,19 +1,16 @@
 package net.petersil98.utilcraft.food;
 
-import net.minecraft.item.*;
 
 import net.petersil98.utilcraft.Utilcraft;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
 
-import net.minecraft.world.entity.vehicle.package-info;
-import net.minecraft.world.item.HoeItem;
-
-public class AppleJuice extends HoeItem {
+public class AppleJuice extends Item {
 
     public AppleJuice(){
         super(new Properties()
-            .food(new package-info.Builder()
+            .food(new FoodProperties.Builder()
                 .nutrition(8)
                 .fast()
                 .saturationMod(3)

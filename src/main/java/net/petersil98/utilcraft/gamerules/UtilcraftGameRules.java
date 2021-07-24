@@ -1,12 +1,12 @@
 package net.petersil98.utilcraft.gamerules;
 
-import net.minecraft.world.level.ExplosionDamageCalculator;
+import net.minecraft.world.level.GameRules;
 
 public class UtilcraftGameRules {
 
-    public static ExplosionDamageCalculator.RuleKey<ExplosionDamageCalculator.BooleanValue> DO_ALL_PLAYERS_NEED_SLEEP;
+    public static GameRules.Key<GameRules.BooleanValue> DO_ALL_PLAYERS_NEED_SLEEP;
 
     public static void register() {
-        DO_ALL_PLAYERS_NEED_SLEEP = ExplosionDamageCalculator.register("doAllPlayersNeedSleep", ExplosionDamageCalculator.Category.UPDATES, ExplosionDamageCalculator.BooleanValue.create(false));
+        DO_ALL_PLAYERS_NEED_SLEEP = GameRules.register("doAllPlayersNeedSleep", GameRules.Category.UPDATES, GameRules.BooleanValue.create(false));
     }
 }

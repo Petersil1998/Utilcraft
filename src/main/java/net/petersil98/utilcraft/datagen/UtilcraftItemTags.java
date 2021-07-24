@@ -2,8 +2,8 @@ package net.petersil98.utilcraft.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.stats.StatsCounter;
-import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.petersil98.utilcraft.Utilcraft;
@@ -18,19 +18,19 @@ public class UtilcraftItemTags extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
-        this.copy(StatsCounter.LEAVES, EntityTypeTags.LEAVES);
-        this.copy(StatsCounter.LOGS_THAT_BURN, EntityTypeTags.LOGS_THAT_BURN);
-        this.copy(StatsCounter.PLANKS, EntityTypeTags.PLANKS);
-        this.copy(StatsCounter.SAPLINGS, EntityTypeTags.SAPLINGS);
-        this.copy(StatsCounter.SLABS, EntityTypeTags.SLABS);
-        this.copy(StatsCounter.STAIRS, EntityTypeTags.STAIRS);
-        this.copy(StatsCounter.WALLS, EntityTypeTags.WALLS);
-        this.copy(StatsCounter.WOODEN_BUTTONS, EntityTypeTags.WOODEN_BUTTONS);
-        this.copy(StatsCounter.WOODEN_DOORS, EntityTypeTags.WOODEN_DOORS);
-        this.copy(StatsCounter.WOODEN_FENCES, EntityTypeTags.WOODEN_FENCES);
-        this.copy(StatsCounter.WOODEN_PRESSURE_PLATES, EntityTypeTags.WOODEN_PRESSURE_PLATES);
-        this.copy(StatsCounter.WOODEN_SLABS, EntityTypeTags.WOODEN_SLABS);
-        this.copy(StatsCounter.WOODEN_TRAPDOORS, EntityTypeTags.WOODEN_TRAPDOORS);
+        this.copy(BlockTags.LEAVES, ItemTags.LEAVES);
+        this.copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
+        this.copy(BlockTags.PLANKS, ItemTags.PLANKS);
+        this.copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
+        this.copy(BlockTags.SLABS, ItemTags.SLABS);
+        this.copy(BlockTags.STAIRS, ItemTags.STAIRS);
+        this.copy(BlockTags.WALLS, ItemTags.WALLS);
+        this.copy(BlockTags.WOODEN_BUTTONS, ItemTags.WOODEN_BUTTONS);
+        this.copy(BlockTags.WOODEN_DOORS, ItemTags.WOODEN_DOORS);
+        this.copy(BlockTags.WOODEN_FENCES, ItemTags.WOODEN_FENCES);
+        this.copy(BlockTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_PRESSURE_PLATES);
+        this.copy(BlockTags.WOODEN_SLABS, ItemTags.WOODEN_SLABS);
+        this.copy(BlockTags.WOODEN_TRAPDOORS, ItemTags.WOODEN_TRAPDOORS);
 
         this.copy(Tags.Blocks.ORES, Tags.Items.ORES);
         this.copy(Tags.Blocks.FENCE_GATES_WOODEN, Tags.Items.FENCE_GATES_WOODEN);
@@ -38,6 +38,6 @@ public class UtilcraftItemTags extends ItemTagsProvider {
 
         this.copy(UtilcraftTags.BlockTags.SAKURA_LOGS, UtilcraftTags.ItemTags.SAKURA_LOGS);
 
-        this.tag(EntityTypeTags.BEACON_PAYMENT_ITEMS).add(UtilcraftItems.ROSE_QUARTZ);
+        this.tag(ItemTags.BEACON_PAYMENT_ITEMS).add(UtilcraftItems.ROSE_QUARTZ);
     }
 }

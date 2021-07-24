@@ -3,16 +3,15 @@ package net.petersil98.utilcraft.recipes;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.*;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.item.crafting.*;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
@@ -20,40 +19,27 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.world.item.crafting.FireworkRocketRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.MapExtendingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 
-public class SushiMakerRecipe implements Ingredient<ContainerData> {
-
-    private final int recipeWidth;
-    private final int recipeHeight;
-    private final NonNullList<FireworkRocketRecipe> ingredients;
-    private final ItemCooldowns result;
-    private final ResourceLocation id;
-    private final String group;
-
-    public SushiMakerRecipe(ResourceLocation id, String group, int recipeWidth, int recipeHeight, NonNullList<FireworkRocketRecipe> ingredients, ItemCooldowns result) {
-        this.id = id;
-        this.group = group;
-        this.recipeWidth = recipeWidth;
-        this.recipeHeight = recipeHeight;
-        this.ingredients = ingredients;
-        this.result = result;
-    }
+public record SushiMakerRecipe(ResourceLocation id, String group, int recipeWidth,
+                               int recipeHeight,
+                               NonNullList<Ingredient> ingredients,
+                               ItemStack result) implements Recipe<CraftingContainer> {
 
     @Nonnull
     @Override
-    public ItemCooldowns assemble(@Nonnull ContainerData inv) {
+    public ItemStack assemble(@Nonnull CraftingContainer inv) {
         return this.getResultItem().copy();
     }
 
     @Override
-    public boolean matches(@Nonnull ContainerData inv, @Nonnull GameType world) {
-        for(int i = 0; i <= inv.getWidth() - this.recipeWidth; ++i) {
-            for(int j = 0; j <= inv.getHeight() - this.recipeHeight; ++j) {
+    public boolean matches(@Nonnull CraftingContainer inv, @Nonnull Level world) {
+        for (int i = 0; i <= inv.getWidth() - this.recipeWidth; ++i) {
+            for (int j = 0; j <= inv.getHeight() - this.recipeHeight; ++j) {
                 if (this.checkMatch(inv, i, j, true)) {
                     return true;
                 }
@@ -66,12 +52,12 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
         return false;
     }
 
-    private boolean checkMatch(@Nonnull ContainerData craftingInventory, int width, int height, boolean p_77573_4_) {
+    private boolean checkMatch(@Nonnull CraftingContainer craftingInventory, int width, int height, boolean p_77573_4_) {
         for (int i = 0; i < craftingInventory.getWidth(); ++i) {
             for (int j = 0; j < craftingInventory.getHeight(); ++j) {
                 int k = i - width;
                 int l = j - height;
-                FireworkRocketRecipe ingredient = FireworkRocketRecipe.EMPTY;
+                Ingredient ingredient = Ingredient.EMPTY;
                 if (k >= 0 && l >= 0 && k < this.recipeWidth && l < this.recipeHeight) {
                     if (p_77573_4_) {
                         ingredient = this.ingredients.get(this.recipeWidth - k - 1 + l * this.recipeWidth);
@@ -96,13 +82,13 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
 
     @Nonnull
     @Override
-    public ItemCooldowns getResultItem() {
+    public ItemStack getResultItem() {
         return this.result;
     }
 
     @Nonnull
     @Override
-    public NonNullList<FireworkRocketRecipe> getIngredients() {
+    public NonNullList<Ingredient> getIngredients() {
         return this.ingredients;
     }
 
@@ -119,8 +105,8 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
 
     @Nonnull
     @Override
-    public ItemCooldowns getToastSymbol() {
-        return new ItemCooldowns(new BannerItem(UtilcraftBlocks.SUSHI_MAKER, new HoeItem.Properties()));
+    public ItemStack getToastSymbol() {
+        return new ItemStack(new BlockItem(UtilcraftBlocks.SUSHI_MAKER, new Item.Properties()));
     }
 
     @Nonnull
@@ -131,26 +117,26 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
 
     @Nonnull
     @Override
-    public MapExtendingRecipe<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
     }
 
     @Nonnull
     @Override
-    public Recipe<?> getType() {
+    public RecipeType<?> getType() {
         return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE;
     }
 
     @Nonnull
-    private static NonNullList<FireworkRocketRecipe> deserializeIngredients(@Nonnull String[] pattern, @Nonnull Map<String, FireworkRocketRecipe> keys, int patternWidth, int patternHeight) {
-        NonNullList<FireworkRocketRecipe> nonnulllist = NonNullList.withSize(patternWidth * patternHeight, FireworkRocketRecipe.EMPTY);
+    private static NonNullList<Ingredient> deserializeIngredients(@Nonnull String[] pattern, @Nonnull Map<String, Ingredient> keys, int patternWidth, int patternHeight) {
+        NonNullList<Ingredient> nonnulllist = NonNullList.withSize(patternWidth * patternHeight, Ingredient.EMPTY);
         Set<String> set = Sets.newHashSet(keys.keySet());
         set.remove(" ");
 
-        for(int i = 0; i < pattern.length; ++i) {
-            for(int j = 0; j < pattern[i].length(); ++j) {
+        for (int i = 0; i < pattern.length; ++i) {
+            for (int j = 0; j < pattern[i].length(); ++j) {
                 String s = pattern[i].substring(j, j + 1);
-                FireworkRocketRecipe ingredient = keys.get(s);
+                Ingredient ingredient = keys.get(s);
                 if (ingredient == null) {
                     throw new JsonSyntaxException("Pattern references symbol '" + s + "' but it's not defined in the key");
                 }
@@ -174,7 +160,7 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
         int k = 0;
         int l = 0;
 
-        for(int i1 = 0; i1 < toShrink.length; ++i1) {
+        for (int i1 = 0; i1 < toShrink.length; ++i1) {
             String s = toShrink[i1];
             i = Math.min(i, firstNonSpace(s));
             int j1 = lastNonSpace(s);
@@ -195,7 +181,7 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
         } else {
             String[] astring = new String[toShrink.length - l - k];
 
-            for(int k1 = 0; k1 < astring.length; ++k1) {
+            for (int k1 = 0; k1 < astring.length; ++k1) {
                 astring[k1] = toShrink[k1 + k].substring(i, j + 1);
             }
 
@@ -205,7 +191,7 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
 
     private static int firstNonSpace(@Nonnull String str) {
         int i;
-        for(i = 0; i < str.length() && str.charAt(i) == ' '; ++i) {
+        for (i = 0; i < str.length() && str.charAt(i) == ' '; ++i) {
         }
 
         return i;
@@ -213,7 +199,7 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
 
     private static int lastNonSpace(@Nonnull String str) {
         int i;
-        for(i = str.length() - 1; i >= 0 && str.charAt(i) == ' '; --i) {
+        for (i = str.length() - 1; i >= 0 && str.charAt(i) == ' '; --i) {
         }
 
         return i;
@@ -227,8 +213,8 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
         } else if (astring.length == 0) {
             throw new JsonSyntaxException("Invalid pattern: empty pattern not allowed");
         } else {
-            for(int i = 0; i < astring.length; ++i) {
-                String s = FormattedCharSequence.convertToString(jsonArr.get(i), "pattern[" + i + "]");
+            for (int i = 0; i < astring.length; ++i) {
+                String s = GsonHelper.convertToString(jsonArr.get(i), "pattern[" + i + "]");
                 if (s.length() > 4) {
                     throw new JsonSyntaxException("Invalid pattern: too many columns, " + 4 + " is maximum");
                 }
@@ -248,10 +234,10 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
      * Returns a key json object as a Java HashMap.
      */
     @Nonnull
-    private static Map<String, FireworkRocketRecipe> deserializeKey(@Nonnull JsonObject json) {
-        Map<String, FireworkRocketRecipe> map = Maps.newHashMap();
+    private static Map<String, Ingredient> deserializeKey(@Nonnull JsonObject json) {
+        Map<String, Ingredient> map = Maps.newHashMap();
 
-        for(Map.Entry<String, JsonElement> entry : json.entrySet()) {
+        for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
             if (entry.getKey().length() != 1) {
                 throw new JsonSyntaxException("Invalid key entry: '" + entry.getKey() + "' is an invalid symbol (must be 1 character only).");
             }
@@ -260,23 +246,23 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
                 throw new JsonSyntaxException("Invalid key entry: ' ' is a reserved symbol.");
             }
 
-            map.put(entry.getKey(), FireworkRocketRecipe.fromJson(entry.getValue()));
+            map.put(entry.getKey(), Ingredient.fromJson(entry.getValue()));
         }
 
-        map.put(" ", FireworkRocketRecipe.EMPTY);
+        map.put(" ", Ingredient.EMPTY);
         return map;
     }
 
-    public static class Serializer extends ForgeRegistryEntry<MapExtendingRecipe<?>> implements MapExtendingRecipe<SushiMakerRecipe> {
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<SushiMakerRecipe> {
         @Nonnull
         public SushiMakerRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-            String group = FormattedCharSequence.getAsString(json, "group", "");
-            Map<String, FireworkRocketRecipe> map = SushiMakerRecipe.deserializeKey(FormattedCharSequence.getAsJsonObject(json, "key"));
-            String[] astring = SushiMakerRecipe.shrink(SushiMakerRecipe.patternFromJson(FormattedCharSequence.getAsJsonArray(json, "pattern")));
+            String group = GsonHelper.getAsString(json, "group", "");
+            Map<String, Ingredient> map = SushiMakerRecipe.deserializeKey(GsonHelper.getAsJsonObject(json, "key"));
+            String[] astring = SushiMakerRecipe.shrink(SushiMakerRecipe.patternFromJson(GsonHelper.getAsJsonArray(json, "pattern")));
             int width = astring[0].length();
             int height = astring.length;
-            NonNullList<FireworkRocketRecipe> nonnulllist = SushiMakerRecipe.deserializeIngredients(astring, map, width, height);
-            ItemCooldowns result = RecipeSerializer.itemFromJson(FormattedCharSequence.getAsJsonObject(json, "result"));
+            NonNullList<Ingredient> nonnulllist = SushiMakerRecipe.deserializeIngredients(astring, map, width, height);
+            ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
             return new SushiMakerRecipe(recipeId, group, width, height, nonnulllist, result);
         }
 
@@ -284,13 +270,13 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
             int width = buffer.readVarInt();
             int height = buffer.readVarInt();
             String group = buffer.readUtf(32767);
-            NonNullList<FireworkRocketRecipe> ingredients = NonNullList.withSize(width * height, FireworkRocketRecipe.EMPTY);
+            NonNullList<Ingredient> ingredients = NonNullList.withSize(width * height, Ingredient.EMPTY);
 
-            for(int i = 0; i < ingredients.size(); ++i) {
-                ingredients.set(i, FireworkRocketRecipe.fromNetwork(buffer));
+            for (int i = 0; i < ingredients.size(); ++i) {
+                ingredients.set(i, Ingredient.fromNetwork(buffer));
             }
 
-            ItemCooldowns result = buffer.readItem();
+            ItemStack result = buffer.readItem();
             return new SushiMakerRecipe(recipeId, group, width, height, ingredients, result);
         }
 
@@ -299,7 +285,7 @@ public class SushiMakerRecipe implements Ingredient<ContainerData> {
             buffer.writeVarInt(recipe.recipeHeight);
             buffer.writeUtf(recipe.group);
 
-            for(FireworkRocketRecipe ingredient : recipe.ingredients) {
+            for (Ingredient ingredient : recipe.ingredients) {
                 ingredient.toNetwork(buffer);
             }
 

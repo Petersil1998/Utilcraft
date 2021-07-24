@@ -1,17 +1,17 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SnowyDirtBlock;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 
-public class SakuraSapling extends RotatedPillarBlock {
+public class SakuraSapling extends SaplingBlock {
     public SakuraSapling() {
-        super(new SakuraTree(), PistonMovingBlockEntity.Properties
-                .of(FluidState.PLANT)
+        super(new SakuraTree(), BlockBehaviour.Properties
+                .of(Material.PLANT)
                 .noCollission()
                 .randomTicks()
                 .instabreak()
-                .sound(SnowyDirtBlock.GRASS));
+                .sound(SoundType.GRASS));
     }
 }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "utilcraft:silver_ore"
+            "items": [
+              "utilcraft:silver_ore"
+            ]
           }
         ]
       }

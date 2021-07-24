@@ -1,12 +1,12 @@
 package net.petersil98.utilcraft.event;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.item.enchantment.DiggingEnchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -18,7 +18,7 @@ import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.SimplePlayer;
 import net.petersil98.utilcraft.data.UtilcraftWorldSavedData;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
-import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
+import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -33,12 +33,12 @@ public class BlockEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void veinMiner(@Nonnull final BlockEvent.BreakEvent event) {
-        BeetrootBlock minedBlock = event.getState().getBlock();
+        Block minedBlock = event.getState().getBlock();
         AtomicBoolean veinMinerActive = new AtomicBoolean(false);
         if(event.getPlayer().getCommandSenderWorld() instanceof ServerLevel) {
             ServerPlayer player = (ServerPlayer)event.getPlayer();
             ServerLevel world = player.getLevel();
-            ItemCooldowns mainItem = player.getMainHandItem();
+            ItemStack mainItem = player.getMainHandItem();
             player.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
                 veinMinerActive.set(iVeinMiner.getVeinMiner());
             });
@@ -56,15 +56,15 @@ public class BlockEventHandler {
                 }
                 blocksToHarvest.remove(event.getPos());
                 for (BlockPos blockpos : blocksToHarvest) {
-                    PistonStructureResolver blockstate = world.getBlockState(blockpos);
+                    BlockState blockstate = world.getBlockState(blockpos);
                     if (playerCanHarvestBlock(blockstate, mainItem, blockpos, world, player)) {
                         if (mainItem.getMaxDamage() > mainItem.getDamageValue() + 1) {
                             if (blockstate.removedByPlayer(world, blockpos, player, true, world.getFluidState(blockpos))) {
-                                BeetrootBlock block = blockstate.getBlock();
+                                Block block = blockstate.getBlock();
                                 block.playerDestroy(world, player, blockpos, blockstate, null, player.getMainHandItem());
                                 block.playerWillDestroy(world, blockpos, blockstate, player);
-                                int bonusLevel = DiggingEnchantment.getItemEnchantmentLevel(EnchantmentCategory.BLOCK_FORTUNE, mainItem);
-                                int silkLevel = DiggingEnchantment.getItemEnchantmentLevel(EnchantmentCategory.SILK_TOUCH, mainItem);
+                                int bonusLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, mainItem);
+                                int silkLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, mainItem);
                                 event.setExpToDrop(event.getExpToDrop()+blockstate.getExpDrop(world, blockpos, bonusLevel, silkLevel));
                                 if (!blockpos.equals(event.getPos())) {
                                     player.getMainHandItem().hurtAndBreak(1, player, (onBroken) -> onBroken.broadcastBreakEvent(player.getUsedItemHand()));
@@ -81,7 +81,7 @@ public class BlockEventHandler {
     public static void blockProtector(@Nonnull final BlockEvent.BreakEvent event) {
         if(event.getPlayer() instanceof ServerPlayer) {
             ServerPlayer player = (ServerPlayer)event.getPlayer();
-            BeehiveBlockEntity te = player.getCommandSenderWorld().getBlockEntity(event.getPos());
+            BlockEntity te = player.getCommandSenderWorld().getBlockEntity(event.getPos());
             if (te instanceof SecureChestTileEntity) {
                 UUID ownerUUID = ((SecureChestTileEntity)te).getOwner();
                 UUID playerUUID = player.getUUID();

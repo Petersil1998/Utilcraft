@@ -1,22 +1,19 @@
 {
   "variants": {
     "type=east": {
-      "model": "utilcraft:block/sakura_slab",
-      "x": 90,
-      "y": 270
+      "model": "utilcraft:block/side_sakura_slab",
+      "y": 90
     },
     "type=north": {
-      "model": "utilcraft:block/sakura_slab",
-      "x": 270
+      "model": "utilcraft:block/side_sakura_slab"
     },
     "type=west": {
-      "model": "utilcraft:block/sakura_slab",
-      "x": 270,
+      "model": "utilcraft:block/side_sakura_slab",
       "y": 270
     },
     "type=south": {
-      "model": "utilcraft:block/sakura_slab",
-      "x": 90
+      "model": "utilcraft:block/side_sakura_slab",
+      "y": 180
     },
     "type=double": {
       "model": "utilcraft:block/sakura_planks"

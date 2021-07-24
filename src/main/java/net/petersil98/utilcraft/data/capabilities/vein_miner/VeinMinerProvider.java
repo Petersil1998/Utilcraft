@@ -30,17 +30,16 @@ public class VeinMinerProvider implements ICapabilitySerializable<CompoundTag> {
 
     @Override
     public CompoundTag serializeNBT() {
-        if (CapabilityVeinMiner.VEIN_MINER_CAPABILITY == null) {
-            return new CompoundTag();
-        } else {
-            return (CompoundTag) CapabilityVeinMiner.VEIN_MINER_CAPABILITY.writeNBT(veinMiner, null);
-        }
+        IVeinMiner instance = veinMinerOptional.orElseThrow(() -> new IllegalArgumentException("Lazy optional is uninitialized"));
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("active", instance.getVeinMiner());
+        return tag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        if (CapabilityVeinMiner.VEIN_MINER_CAPABILITY != null) {
-            CapabilityVeinMiner.VEIN_MINER_CAPABILITY.readNBT(veinMiner, null, nbt);
-        }
+        IVeinMiner instance = veinMinerOptional.orElseThrow(() -> new IllegalArgumentException("Lazy optional is uninitialized"));
+        boolean charge = nbt.getBoolean("active");
+        instance.setVeinMiner(charge);
     }
 }

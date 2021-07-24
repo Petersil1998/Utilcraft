@@ -1,15 +1,13 @@
-package net.petersil98.utilcraft.tile_entities;
+package net.petersil98.utilcraft.block_entities;
 
-import net.minecraft.block.Block;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.entity.package-info;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.tileentity.*;
 import net.minecraft.util.*;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,20 +23,16 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.Music;
-import net.minecraft.sounds.Musics;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
-import net.minecraft.world.level.block.entity.BellBlockEntity;
-import net.minecraft.world.level.block.entity.JigsawBlockEntity;
-import net.minecraft.world.level.block.entity.StructureBlockEntity;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.LidBlockEntity;
 
 @OnlyIn(
         value = Dist.CLIENT,
-        _interface = JigsawBlockEntity.class
+        _interface = LidBlockEntity.class
 )
-public class SecureChestTileEntity extends BeehiveBlockEntity implements JigsawBlockEntity, StructureBlockEntity, InteractionResultHolder, InteractionResult {
+public class SecureChestTileEntity extends BlockEntity implements LidBlockEntity, Nameable, MenuProvider {
     ItemStackHandler inventory = new ItemStackHandler(27);
     /** The current angle of the lid (between 0 and 1) */
     protected float lidAngle;
@@ -51,28 +45,29 @@ public class SecureChestTileEntity extends BeehiveBlockEntity implements JigsawB
 
     private Component customName;
 
-    protected SecureChestTileEntity(BellBlockEntity<?> type) {
-        super(type);
+    protected SecureChestTileEntity(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState) {
+        super(type, blockPos, blockState);
     }
 
-    public SecureChestTileEntity() {
-        this(UtilcraftTileEntities.SECURE_CHEST);
+    public SecureChestTileEntity(BlockPos blockPos, BlockState blockState) {
+        this(UtilcraftTileEntities.SECURE_CHEST, blockPos, blockState);
     }
 
     @Nonnull
     @Override
-    public BellBlockEntity<?> getType() {
+    public BlockEntityType<?> getType() {
         return UtilcraftTileEntities.SECURE_CHEST;
     }
 
     @Override
-    public FoodProperties createMenu(int id, @Nonnull package-info playerInventory, @Nonnull Abilities player) {
+    public AbstractContainerMenu createMenu(int id, @Nonnull Inventory playerInventory, @Nonnull Player player) {
         setChanged();
         return new SecureChestContainer(id, playerInventory, this.inventory);
     }
 
-    public void load(@Nonnull PistonStructureResolver state, @Nonnull CompoundTag nbt) {
-        super.load(state, nbt);
+    @Override
+    public void load(@Nonnull CompoundTag nbt) {
+        super.load(nbt);
         if(nbt.contains("items")) {
             this.inventory.deserializeNBT((CompoundTag) nbt.get("items"));
         }
@@ -118,49 +113,9 @@ public class SecureChestTileEntity extends BeehiveBlockEntity implements JigsawB
     @Override
     public Component getDisplayName()
     {
-        return InteractionResultHolder.super.getDisplayName();
+        return Nameable.super.getDisplayName();
     }
 
-    public void tick() {
-        this.prevLidAngle = this.lidAngle;
-        if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-            this.playSound(Musics.CHEST_OPEN);
-        }
-
-        if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-            float f1 = this.lidAngle;
-            if (this.numPlayersUsing > 0) {
-                this.lidAngle += 0.1F;
-            } else {
-                this.lidAngle -= 0.1F;
-            }
-
-            if (this.lidAngle > 1.0F) {
-                this.lidAngle = 1.0F;
-            }
-
-            if (this.lidAngle < 0.5F && f1 >= 0.5F) {
-                this.playSound(Musics.CHEST_CLOSE);
-            }
-
-            if (this.lidAngle < 0.0F) {
-                this.lidAngle = 0.0F;
-            }
-        }
-
-    }
-
-    private void playSound(Music sound) {
-        double d0 = (double)this.worldPosition.getX() + 0.5D;
-        double d1 = (double)this.worldPosition.getY() + 0.5D;
-        double d2 = (double)this.worldPosition.getZ() + 0.5D;
-        this.level.playSound(null, d0, d1, d2, sound, SoundEvent.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
-    }
-
-    /**
-     * See {@link Block#eventReceived} for more information. This must return true serverside before it is called
-     * clientside.
-     */
     public boolean triggerEvent(int id, int type) {
         if (id == 1) {
             this.numPlayersUsing = type;
@@ -171,7 +126,7 @@ public class SecureChestTileEntity extends BeehiveBlockEntity implements JigsawB
     }
 
     public float getOpenNess(float partialTicks) {
-        return LimitedCapacityList.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
+        return Mth.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 
     @Nonnull

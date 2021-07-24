@@ -1,33 +1,35 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.block.*;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
-import net.minecraft.world.level.BaseSpawner;
-import net.petersil98.utilcraft.tile_entities.UtilcraftSignTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.BlockGetter;
+import net.petersil98.utilcraft.block_entities.UtilcraftSignTileEntity;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-import net.minecraft.world.level.block.SnowyDirtBlock;
-import net.minecraft.world.level.block.StainedGlassBlock;
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
-public class SakuraSign extends StainedGlassBlock {
+public class SakuraSign extends StandingSignBlock implements EntityBlock {
 
     public SakuraSign() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.WOOD)
+        super(BlockBehaviour.Properties
+                .of(Material.WOOD)
                 .noCollission()
                 .strength(1.0F)
-                .sound(SnowyDirtBlock.WOOD),
-                StairsShape.OAK);
+                .sound(SoundType.WOOD),
+                WoodType.OAK);
     }
 
-    @Nullable
     @Override
-    public BeehiveBlockEntity createTileEntity(PistonStructureResolver state, BaseSpawner world) {
-        return new UtilcraftSignTileEntity();
+    @ParametersAreNonnullByDefault
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new UtilcraftSignTileEntity(blockPos, blockState);
     }
 }

@@ -4,8 +4,8 @@ import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.loot_modifiers.BeheadingModifier;
@@ -20,8 +20,8 @@ public class UtilcraftGlobalLootModifiers extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add(UtilcraftLootModifiers.BEHEADING_SERIALIZER.getRegistryName().getPath(), UtilcraftLootModifiers.BEHEADING_SERIALIZER, new BeheadingModifier(new InvertedLootItemCondition[]{
-                LootItemKilledByPlayerCondition.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(UtilcraftEnchantments.BEHEADING, MinMaxBounds.Ints.atLeast(1)))).build()
+        add(UtilcraftLootModifiers.BEHEADING_SERIALIZER.getRegistryName().getPath(), UtilcraftLootModifiers.BEHEADING_SERIALIZER, new BeheadingModifier(new LootItemCondition[]{
+                MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(UtilcraftEnchantments.BEHEADING, MinMaxBounds.Ints.atLeast(1)))).build()
         }));
     }
 }

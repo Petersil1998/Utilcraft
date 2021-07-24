@@ -1,8 +1,8 @@
 package net.petersil98.utilcraft.screen;
 
-import com.mojang.blaze3d.vertex.BufferVertexConsumer;
-import net.minecraft.client.gui.screens.PresetFlatWorldScreen;
-import net.minecraft.client.gui.components.ComponentRenderUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.petersil98.utilcraft.Utilcraft;
@@ -12,35 +12,35 @@ import net.petersil98.utilcraft.utils.TextUtils;
 
 import javax.annotation.Nonnull;
 
-public class ConfigScreen extends PresetFlatWorldScreen {
+public class ConfigScreen extends Screen {
 
-    private ComponentRenderUtils deaths;
+    private EditBox deaths;
     private ColorChooser colorChooser;
-    private final PresetFlatWorldScreen previousScreen;
+    private final Screen previousScreen;
     private final TranslatableComponent GUI_SECTION = new TranslatableComponent("config.section.gui");
     private final TranslatableComponent PLAYER_DEATHS_DESCRIPTION = new TranslatableComponent("config.number_player_deaths.description");
     private final TranslatableComponent PLAYER_DEATHS_TITLE = new TranslatableComponent("config.number_player_deaths.title");
 
-    public ConfigScreen(PresetFlatWorldScreen previousScreen) {
+    public ConfigScreen(Screen previousScreen) {
         super(new TranslatableComponent(String.format("screen.%s.config", Utilcraft.MOD_ID)));
         this.previousScreen = previousScreen;
     }
 
     @Override
     protected void init() {
-        this.deaths = new ComponentRenderUtils(this.font, this.width / 2 - 100, 116, 200, 20, new TranslatableComponent("config.number_player_deaths"));
+        this.deaths = new EditBox(this.font, this.width / 2 - 100, 116, 200, 20, new TranslatableComponent("config.number_player_deaths"));
         this.deaths.setMaxLength(2);
         this.deaths.setFocus(true);
         this.deaths.setValue(String.valueOf(Config.DEATHS_OVERLAY_PLAYERS.get()));
-        this.children.add(this.deaths);
+        this.addWidget(this.deaths);
         this.setInitialFocus(this.deaths);
 
         this.colorChooser = new ColorChooser(this.font, this.width/2 - 50,200, 100, 20,new TextComponent("Death Point Ray Color"));
-        this.children.add(this.colorChooser);
+        this.addWidget(this.colorChooser);
     }
 
     @Override
-    public void render(@Nonnull BufferVertexConsumer matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrixStack);
         TextUtils.drawCenterText(matrixStack, this.font, this.title.getString(),  this.width, 2, 0xFFFFFF);
         drawString(matrixStack, this.font, this.GUI_SECTION, this.width / 2 - this.font.width(this.GUI_SECTION.getString())/2, 60, 0xCCF7B5);

@@ -1,12 +1,12 @@
 package net.petersil98.utilcraft.items;
 
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.petersil98.utilcraft.Utilcraft;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
-public class Juicer extends HoeItem {
+public class Juicer extends Item {
 
     public Juicer() {
         super(new Properties()
@@ -17,12 +17,12 @@ public class Juicer extends HoeItem {
     }
 
     @Override
-    public ItemCooldowns getContainerItem(ItemCooldowns itemStack) {
-        return new ItemCooldowns(UtilcraftItems.JUICER);
+    public ItemStack getContainerItem(ItemStack itemStack) {
+        return new ItemStack(UtilcraftItems.JUICER);
     }
 
     @Override
-    public boolean hasContainerItem(ItemCooldowns stack) {
+    public boolean hasContainerItem(ItemStack stack) {
         return true;
     }
 }

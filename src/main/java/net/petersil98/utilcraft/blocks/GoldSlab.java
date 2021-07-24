@@ -1,11 +1,11 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.SignBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.SlabBlock;
 
-public class GoldSlab extends SignBlock {
+public class GoldSlab extends SlabBlock {
 
     public GoldSlab() {
-        super(PistonMovingBlockEntity.Properties.copy(new GoldBrick()));
+        super(BlockBehaviour.Properties.copy(new GoldBrick()));
     }
 }

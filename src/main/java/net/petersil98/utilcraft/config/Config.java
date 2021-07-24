@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.petersil98.utilcraft.Utilcraft;
 
-@Mod.EventBusSubscriber(modid = Utilcraft.MOD_ID)
 public class Config {
 
     public static final String CATEGORY_GUI = "GUI";
@@ -24,13 +23,5 @@ public class Config {
         DEATH_RAY_COLOR = CLIENT_BUILDER.comment("The color, with which the \"last death point\"-ray is rendered").defineInRange("deathRayColor",0xFFFFFF00,Integer.MIN_VALUE,Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
         CLIENT_CONFIG = CLIENT_BUILDER.build();
-    }
-
-    @SubscribeEvent
-    public static void onLoad(final ModConfig.Loading configEvent) {
-    }
-
-    @SubscribeEvent
-    public static void onReload(final ModConfig.Reloading configEvent) {
     }
 }

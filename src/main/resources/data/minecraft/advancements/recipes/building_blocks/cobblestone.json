@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "utilcraft:compressed_cobblestone"
+            "items": [
+              "utilcraft:compressed_cobblestone"
+            ]
           }
         ]
       }

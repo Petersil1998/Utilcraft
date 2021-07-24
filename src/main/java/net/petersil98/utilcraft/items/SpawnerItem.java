@@ -1,46 +1,46 @@
 package net.petersil98.utilcraft.items;
 
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.level.block.BellBlock;
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SpawnerItem extends BannerItem {
+public class SpawnerItem extends BlockItem {
 
     public SpawnerItem() {
-        super(BellBlock.SPAWNER, new HoeItem.Properties());
+        super(Blocks.SPAWNER, new Item.Properties());
     }
 
-    protected boolean updateCustomBlockEntityTag(@Nonnull BlockPos pos, @Nonnull GameType world, @Nullable Abilities player, @Nonnull ItemCooldowns stack, @Nonnull PistonStructureResolver state) {
+    protected boolean updateCustomBlockEntityTag(@Nonnull BlockPos pos, @Nonnull Level world, @Nullable Player player, @Nonnull ItemStack stack, @Nonnull BlockState state) {
         return setTileEntityNBT(world, pos, stack);
     }
 
-    public static boolean setTileEntityNBT(@Nonnull GameType world, @Nonnull BlockPos pos, @Nonnull ItemCooldowns stack) {
+    public static boolean setTileEntityNBT(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
         MinecraftServer minecraftserver = world.getServer();
         if (minecraftserver != null) {
-            CompoundTag compoundnbt = stack.getTagElement("BlockEntityTag");
-            if (compoundnbt != null) {
-                BeehiveBlockEntity tileentity = world.getBlockEntity(pos);
-                if (tileentity != null) {
-                    CompoundTag original = tileentity.save(new CompoundTag());
+            CompoundTag entityTag = stack.getTagElement("BlockEntityTag");
+            if (entityTag != null) {
+                BlockEntity blockEntity = world.getBlockEntity(pos);
+                if (blockEntity != null) {
+                    CompoundTag original = blockEntity.save(new CompoundTag());
                     CompoundTag old = original.copy();
-                    original.merge(compoundnbt);
+                    original.merge(entityTag);
                     original.putInt("x", pos.getX());
                     original.putInt("y", pos.getY());
                     original.putInt("z", pos.getZ());
                     if (!original.equals(old)) {
-                        tileentity.load(world.getBlockState(pos), original);
-                        tileentity.setChanged();
+                        blockEntity.load(original);
+                        blockEntity.setChanged();
                         return true;
                     }
                 }

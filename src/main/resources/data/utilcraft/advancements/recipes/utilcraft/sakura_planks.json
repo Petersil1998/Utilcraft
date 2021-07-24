@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "utilcraft:sakura_log"
+            "items": [
+              "utilcraft:sakura_log"
+            ]
           }
         ]
       }

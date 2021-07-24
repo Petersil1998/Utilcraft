@@ -1,15 +1,15 @@
 package net.petersil98.utilcraft.utils;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.stats.StatsCounter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.timers.package-info;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.Tags;
 import net.petersil98.utilcraft.items.AbstractSuperTool;
@@ -20,55 +20,49 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 public class VeinMinerUtils {
-    public static boolean isSuperTool(HoeItem item){
+    public static boolean isSuperTool(Item item){
         return item instanceof RoseQuartzSuperHammer || item instanceof RoseQuartzSuperShovel;
     }
 
-    public static void get3x3FieldAroundTargetedBlock(final Abilities player, ArrayList<BlockPos> affectedBlocks)
+    public static void get3x3FieldAroundTargetedBlock(final Player player, ArrayList<BlockPos> affectedBlocks)
     {
-        final package-info rayTrace = AbstractSuperTool.rayTracer(player.level, player, BlockGetter.FluidMode.NONE);
+        final BlockHitResult rayTrace = AbstractSuperTool.rayTracer(player.level, player, ClipContext.Fluid.NONE);
         final BlockPos center = rayTrace.getBlockPos();
         switch (rayTrace.getDirection()) {
-            case DOWN:
-            case UP:
+            case DOWN, UP -> {
                 affectedBlocks.add(center.west());
                 affectedBlocks.add(center.east());
                 affectedBlocks.add(center.north());
                 affectedBlocks.add(center.south());
-
                 affectedBlocks.add(center.west().north());
                 affectedBlocks.add(center.west().south());
                 affectedBlocks.add(center.east().north());
                 affectedBlocks.add(center.east().south());
-                break;
-            case NORTH:
-            case SOUTH:
+            }
+            case NORTH, SOUTH -> {
                 affectedBlocks.add(center.above());
                 affectedBlocks.add(center.below());
                 affectedBlocks.add(center.west());
                 affectedBlocks.add(center.east());
-
                 affectedBlocks.add(center.west().above());
                 affectedBlocks.add(center.west().below());
                 affectedBlocks.add(center.east().above());
                 affectedBlocks.add(center.east().below());
-                break;
-            case EAST:
-            case WEST:
+            }
+            case EAST, WEST -> {
                 affectedBlocks.add(center.above());
                 affectedBlocks.add(center.below());
                 affectedBlocks.add(center.north());
                 affectedBlocks.add(center.south());
-
                 affectedBlocks.add(center.north().above());
                 affectedBlocks.add(center.north().below());
                 affectedBlocks.add(center.south().above());
                 affectedBlocks.add(center.south().below());
-                break;
+            }
         }
     }
 
-    public static void getVein(BlockPos pos, ArrayList<BlockPos> vein, GameType world){
+    public static void getVein(BlockPos pos, ArrayList<BlockPos> vein, Level world){
         if (!vein.contains(pos.south()) && areSameBlock(pos, pos.south(), world)) {
             vein.add(pos.south());
             getVein(pos.south(), vein, world);
@@ -95,7 +89,7 @@ public class VeinMinerUtils {
         }
     }
 
-    public static void getTree(@Nonnull BlockPos pos, @Nonnull ArrayList<BlockPos> tree, GameType world){
+    public static void getTree(@Nonnull BlockPos pos, @Nonnull ArrayList<BlockPos> tree, Level world){
         BlockPos posToCheck = pos.south();
         if (!tree.contains(posToCheck) && areSameBlock(pos, posToCheck, world)) {
             tree.add(posToCheck);
@@ -231,19 +225,19 @@ public class VeinMinerUtils {
         }
     }
 
-    public static boolean playerCanHarvestBlock(PistonStructureResolver block, ItemCooldowns item, BlockPos pos, GameType world, Abilities player){
+    public static boolean playerCanHarvestBlock(BlockState block, ItemStack item, BlockPos pos, Level world, Player player){
         return ForgeHooks.canHarvestBlock(block, player, world, pos) || item.isCorrectToolForDrops(block);
     }
 
-    public static boolean areSameBlock(BlockPos pos1, BlockPos pos2, @Nonnull GameType world){
+    public static boolean areSameBlock(BlockPos pos1, BlockPos pos2, @Nonnull Level world){
         return world.getBlockState(pos1).getBlock().equals(world.getBlockState(pos2).getBlock());
     }
 
-    public static boolean isLogBlock(@Nonnull BeetrootBlock block){
-        return block.is(StatsCounter.LOGS);
+    public static boolean isLogBlock(@Nonnull Block block){
+        return BlockTags.LOGS.contains(block);
     }
 
-    public static boolean isOreBlock(@Nonnull BeetrootBlock block) {
-        return block.is(Tags.Blocks.ORES);
+    public static boolean isOreBlock(@Nonnull Block block) {
+        return Tags.Blocks.ORES.contains(block);
     }
 }

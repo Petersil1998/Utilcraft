@@ -1,19 +1,19 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.SnowyDirtBlock;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 
-import net.minecraft.block.AbstractBlock.Properties;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
-public class SilverBlock extends BeetrootBlock {
+public class SilverBlock extends Block {
     public SilverBlock() {
         super(Properties
-                .of(FluidState.METAL, Fluids.TERRACOTTA_WHITE)
+                .of(Material.METAL, MaterialColor.TERRACOTTA_WHITE)
                 .requiresCorrectToolForDrops()
                 .strength(3.0F, 3.0F)
-                .sound(SnowyDirtBlock.METAL)
+                .sound(SoundType.METAL)
         );
     }
 }

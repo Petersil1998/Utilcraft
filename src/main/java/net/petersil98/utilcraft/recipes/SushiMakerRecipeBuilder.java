@@ -11,11 +11,11 @@ import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.crafting.MapExtendingRecipe;
-import net.minecraft.world.item.crafting.FireworkRocketRecipe;
-import net.minecraft.tags.StaticTagHelper;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -27,14 +27,14 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public class SushiMakerRecipeBuilder {
-    private final HoeItem result;
+    private final Item result;
     private final int count;
     private final List<String> pattern = Lists.newArrayList();
-    private final Map<Character, FireworkRocketRecipe> key = Maps.newLinkedHashMap();
+    private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
     private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
     private String group;
 
-    public SushiMakerRecipeBuilder(@Nonnull GameRules result, int count) {
+    public SushiMakerRecipeBuilder(@Nonnull ItemLike result, int count) {
         this.result = result.asItem();
         this.count = count;
     }
@@ -43,7 +43,7 @@ public class SushiMakerRecipeBuilder {
      * Creates a new builder for a shaped recipe.
      */
     @Nonnull
-    public static SushiMakerRecipeBuilder sushiMakerRecipe(GameRules result) {
+    public static SushiMakerRecipeBuilder sushiMakerRecipe(ItemLike result) {
         return sushiMakerRecipe(result, 1);
     }
 
@@ -51,28 +51,28 @@ public class SushiMakerRecipeBuilder {
      * Creates a new builder for a shaped recipe.
      */
     @Nonnull
-    public static SushiMakerRecipeBuilder sushiMakerRecipe(GameRules result, int count) {
+    public static SushiMakerRecipeBuilder sushiMakerRecipe(ItemLike result, int count) {
         return new SushiMakerRecipeBuilder(result, count);
     }
 
     /**
      * Adds a key to the recipe pattern.
      */
-    public SushiMakerRecipeBuilder key(Character symbol, StaticTagHelper<HoeItem> tag) {
-        return this.key(symbol, FireworkRocketRecipe.of(tag));
+    public SushiMakerRecipeBuilder key(Character symbol, Tag<Item> tag) {
+        return this.key(symbol, Ingredient.of(tag));
     }
 
     /**
      * Adds a key to the recipe pattern.
      */
-    public SushiMakerRecipeBuilder key(Character symbol, GameRules item) {
-        return this.key(symbol, FireworkRocketRecipe.of(item));
+    public SushiMakerRecipeBuilder key(Character symbol, ItemLike item) {
+        return this.key(symbol, Ingredient.of(item));
     }
 
     /**
      * Adds a key to the recipe pattern.
      */
-    public SushiMakerRecipeBuilder key(Character symbol, FireworkRocketRecipe ingredient) {
+    public SushiMakerRecipeBuilder key(Character symbol, Ingredient ingredient) {
         if (this.key.containsKey(symbol)) {
             throw new IllegalArgumentException("Symbol '" + symbol + "' is already defined!");
         } else if (symbol == ' ') {
@@ -109,14 +109,14 @@ public class SushiMakerRecipeBuilder {
     }
 
     /**
-     * Builds this recipe into an {@link IFinishedRecipe}.
+     * Builds this recipe into an {@link FinishedRecipe}.
      */
     public void build(Consumer<FinishedRecipe> consumer) {
         this.build(consumer, ForgeRegistries.ITEMS.getKey(this.result));
     }
 
     /**
-     * Builds this recipe into an {@link IFinishedRecipe}. Use {@link #build(Consumer)} if save is the same as the ID for
+     * Builds this recipe into an {@link FinishedRecipe}. Use {@link #build(Consumer)} if save is the same as the ID for
      * the result.
      */
     public void build(Consumer<FinishedRecipe> consumer, String save) {
@@ -129,7 +129,7 @@ public class SushiMakerRecipeBuilder {
     }
 
     /**
-     * Builds this recipe into an {@link IFinishedRecipe}.
+     * Builds this recipe into an {@link FinishedRecipe}.
      */
     public void build(@Nonnull Consumer<FinishedRecipe> consumer, ResourceLocation id) {
         this.validate(id);
@@ -170,15 +170,15 @@ public class SushiMakerRecipeBuilder {
 
     public static class Result implements FinishedRecipe {
         private final ResourceLocation id;
-        private final HoeItem result;
+        private final Item result;
         private final int count;
         private final String group;
         private final List<String> pattern;
-        private final Map<Character, FireworkRocketRecipe> key;
+        private final Map<Character, Ingredient> key;
         private final Advancement.Builder advancementBuilder;
         private final ResourceLocation advancementId;
 
-        public Result(ResourceLocation id, HoeItem result, int count, String group, List<String> pattern, Map<Character, FireworkRocketRecipe> key, Advancement.Builder advancementBuilder, ResourceLocation advancementId) {
+        public Result(ResourceLocation id, Item result, int count, String group, List<String> pattern, Map<Character, Ingredient> key, Advancement.Builder advancementBuilder, ResourceLocation advancementId) {
             this.id = id;
             this.result = result;
             this.count = count;
@@ -203,7 +203,7 @@ public class SushiMakerRecipeBuilder {
             json.add("pattern", jsonarray);
             JsonObject jsonobject = new JsonObject();
 
-            for(Map.Entry<Character, FireworkRocketRecipe> entry : this.key.entrySet()) {
+            for(Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
                 jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
             }
 
@@ -218,7 +218,7 @@ public class SushiMakerRecipeBuilder {
         }
 
         @Nonnull
-        public MapExtendingRecipe<?> getType() {
+        public RecipeSerializer<?> getType() {
             return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
         }
 
@@ -238,10 +238,6 @@ public class SushiMakerRecipeBuilder {
             return this.advancementBuilder.serializeToJson();
         }
 
-        /**
-         * Gets the ID for the advancement associated with this recipe. Should not be null if {@link #getAdvancementJson}
-         * is non-null.
-         */
         @Nullable
         public ResourceLocation getAdvancementId() {
             return this.advancementId;

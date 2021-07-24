@@ -1,78 +1,78 @@
 package net.petersil98.utilcraft.items;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.BellBlock;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.alchemy.package-info;
-import net.minecraft.world.Difficulty;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.SushiMaker;
 
 import javax.annotation.Nonnull;
 
-public class ButchersKnife extends HoeItem {
+public class ButchersKnife extends Item {
 
     public ButchersKnife() {
-        super(new HoeItem.Properties().tab(Utilcraft.ITEM_GROUP));
+        super(new Item.Properties().tab(Utilcraft.ITEM_GROUP));
     }
 
     @Nonnull
     @Override
-    public Difficulty useOn(@Nonnull package-info context) {
+    public InteractionResult useOn(@Nonnull UseOnContext context) {
         BlockPos pos = context.getClickedPos();
-        GameType world = context.getLevel();
-        BeetrootBlock block = world.getBlockState(pos).getBlock();
-        if(block.is(BellBlock.FURNACE)) {
-            BeetrootBlock toCheck = world.getBlockState(pos.north()).getBlock();
-            if(toCheck.is(BellBlock.CRAFTING_TABLE)) {
+        Level world = context.getLevel();
+        Block block = world.getBlockState(pos).getBlock();
+        if(block.equals(Blocks.FURNACE)) {
+            Block toCheck = world.getBlockState(pos.north()).getBlock();
+            if(toCheck.equals(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.NORTH, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             toCheck = world.getBlockState(pos.south()).getBlock();
-            if (toCheck.is(BellBlock.CRAFTING_TABLE)) {
+            if (toCheck.equals(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.SOUTH, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             toCheck = world.getBlockState(pos.east()).getBlock();
-            if (toCheck.is(BellBlock.CRAFTING_TABLE)) {
+            if (toCheck.equals(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.EAST, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             toCheck = world.getBlockState(pos.west()).getBlock();
-            if (toCheck.is(BellBlock.CRAFTING_TABLE)) {
+            if (toCheck.equals(Blocks.CRAFTING_TABLE)) {
                 replaceBlocks(pos, Direction.WEST, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
-        } else if (block.getBlock().is(BellBlock.CRAFTING_TABLE)) {
-            BeetrootBlock toCheck = world.getBlockState(pos.north()).getBlock();
-            if(toCheck.is(BellBlock.FURNACE)) {
+        } else if (block.equals(Blocks.CRAFTING_TABLE)) {
+            Block toCheck = world.getBlockState(pos.north()).getBlock();
+            if(toCheck.equals(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.NORTH, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             toCheck = world.getBlockState(pos.south()).getBlock();
-            if (toCheck.is(BellBlock.FURNACE)) {
+            if (toCheck.equals(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.SOUTH, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             toCheck = world.getBlockState(pos.east()).getBlock();
-            if (toCheck.is(BellBlock.FURNACE)) {
+            if (toCheck.equals(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.EAST, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             toCheck = world.getBlockState(pos.west()).getBlock();
-            if (toCheck.is(BellBlock.FURNACE)) {
+            if (toCheck.equals(Blocks.FURNACE)) {
                 replaceBlocks(pos, Direction.WEST, world);
-                return Difficulty.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
         return super.useOn(context);
     }
 
-    private void replaceBlocks(BlockPos firstBlock, Direction secondBlock, @Nonnull GameType world) {
+    private void replaceBlocks(BlockPos firstBlock, Direction secondBlock, @Nonnull Level world) {
         world.setBlockAndUpdate(firstBlock, UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock));
         world.setBlockAndUpdate(firstBlock.offset(secondBlock.getNormal()), UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock.getOpposite()));
     }

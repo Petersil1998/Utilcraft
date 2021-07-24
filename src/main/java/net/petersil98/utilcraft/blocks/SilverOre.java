@@ -1,14 +1,14 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.NoteBlock;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 
-public class SilverOre extends NoteBlock {
+public class SilverOre extends OreBlock {
     public SilverOre() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.STONE, Fluids.TERRACOTTA_WHITE)
+        super(BlockBehaviour.Properties
+                .of(Material.STONE, MaterialColor.TERRACOTTA_WHITE)
                 .requiresCorrectToolForDrops()
                 .strength(3.0F, 3.0F)
         );

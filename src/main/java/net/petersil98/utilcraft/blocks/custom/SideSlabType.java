@@ -1,11 +1,11 @@
 package net.petersil98.utilcraft.blocks.custom;
 
 import net.minecraft.core.Direction;
-import net.minecraft.util.SmoothDouble;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
 
-public enum SideSlabType implements SmoothDouble {
+public enum SideSlabType implements StringRepresentable {
     EAST("east"),
     NORTH("north"),
     WEST("west"),

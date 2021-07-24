@@ -1,72 +1,67 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.entity.ItemBasedSteering;
-import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEventListener;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.block.entity.EnchantmentTableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.Nameable;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.world.level.pathfinder.Node;
-import net.minecraft.world.level.block.entity.DaylightDetectorBlockEntity;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.timers.package-info;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.BaseSpawner;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.petersil98.utilcraft.block_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
-import net.petersil98.utilcraft.tile_entities.DisenchantmentTableTileEntity;
+import net.petersil98.utilcraft.block_entities.DisenchantmentTableTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-public class DisenchantmentTable extends BeetrootBlock {
+public class DisenchantmentTable extends Block implements EntityBlock {
     public DisenchantmentTable() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.STONE, Fluids.COLOR_RED)
+        super(BlockBehaviour.Properties
+                .of(Material.STONE, MaterialColor.COLOR_RED)
                 .requiresCorrectToolForDrops()
                 .strength(5.0F, 1200.0F)
         );
     }
 
-    @Override
-    public boolean hasTileEntity(PistonStructureResolver state) {
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public BeehiveBlockEntity createTileEntity(PistonStructureResolver state, BaseSpawner world) {
-        return new DisenchantmentTableTileEntity();
-    }
-
     @Nonnull
     @Override
     @SuppressWarnings("deprecation")
-    public Difficulty use(@Nonnull PistonStructureResolver state, @Nonnull GameType world, @Nonnull BlockPos pos, @Nonnull Abilities player, @Nonnull Containers hand, package-info hit) {
+    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, BlockHitResult hit) {
         if (world.isClientSide) {
-            return Difficulty.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
             player.openMenu(state.getMenuProvider(world, pos));
-            return Difficulty.CONSUME;
+            return InteractionResult.CONSUME;
         }
     }
 
 
     @Nullable
-    public InteractionResult getMenuProvider(@Nonnull PistonStructureResolver state, @Nonnull GameType world, @Nonnull BlockPos pos) {
-        BeehiveBlockEntity tileentity = world.getBlockEntity(pos);
+    public MenuProvider getMenuProvider(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos) {
+        BlockEntity tileentity = world.getBlockEntity(pos);
         if (tileentity instanceof DisenchantmentTableTileEntity) {
-            Component itextcomponent = ((InteractionResultHolder)tileentity).getDisplayName();
-            return new Nameable((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, ChestMenu.create(world, pos)), itextcomponent);
+            Component itextcomponent = ((Nameable)tileentity).getDisplayName();
+            return new SimpleMenuProvider((id, inventory, player) -> new DisenchantmentTableContainer(id, inventory, ContainerLevelAccess.create(world, pos)), itextcomponent);
         } else {
             return null;
         }
@@ -75,17 +70,24 @@ public class DisenchantmentTable extends BeetrootBlock {
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
-    public void setPlacedBy(@Nonnull GameType world, @Nonnull BlockPos pos, @Nonnull PistonStructureResolver state, ItemBasedSteering placer, @Nonnull ItemCooldowns stack) {
+    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         if (stack.hasCustomHoverName()) {
-            BeehiveBlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof DaylightDetectorBlockEntity) {
-                ((DaylightDetectorBlockEntity)tileentity).setCustomName(stack.getHoverName());
+            BlockEntity tileentity = world.getBlockEntity(pos);
+            if (tileentity instanceof EnchantmentTableBlockEntity) {
+                ((EnchantmentTableBlockEntity)tileentity).setCustomName(stack.getHoverName());
             }
         }
 
     }
 
-    public boolean isPathfindable(@Nonnull PistonStructureResolver state, @Nonnull BaseSpawner world, @Nonnull BlockPos pos, @Nonnull Node type) {
+    public boolean isPathfindable(@Nonnull BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull PathComputationType type) {
         return false;
+    }
+
+    @Nullable
+    @Override
+    @ParametersAreNonnullByDefault
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new DisenchantmentTableTileEntity(blockPos, blockState);
     }
 }

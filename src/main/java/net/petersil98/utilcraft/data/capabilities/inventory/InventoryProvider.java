@@ -1,22 +1,20 @@
 package net.petersil98.utilcraft.data.capabilities.inventory;
 
-import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class InventoryProvider implements ICapabilitySerializable<Tag> {
+public class InventoryProvider implements ICapabilitySerializable<CompoundTag> {
 
     private ItemStackHandler inventory;
-    private final LazyOptional<IItemHandler> inventoryOptional = LazyOptional.of(() -> inventory);
+    private final LazyOptional<ItemStackHandler> inventoryOptional = LazyOptional.of(() -> inventory);
 
     public InventoryProvider(int size) {
         inventory = new ItemStackHandler(size);
@@ -33,18 +31,14 @@ public class InventoryProvider implements ICapabilitySerializable<Tag> {
     }
 
     @Override
-    public Tag serializeNBT() {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY == null) {
-            return new ListTag();
-        } else {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null);
-        }
+    public CompoundTag serializeNBT() {
+        ItemStackHandler instance = inventoryOptional.orElseThrow(() -> new IllegalArgumentException("Lazy optional is uninitialized"));
+        return instance.serializeNBT();
     }
 
     @Override
-    public void deserializeNBT(Tag nbt) {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null) {
-            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, nbt);
-        }
+    public void deserializeNBT(CompoundTag nbt) {
+        ItemStackHandler instance = inventoryOptional.orElseThrow(() -> new IllegalArgumentException("Lazy optional is uninitialized"));
+        instance.deserializeNBT(nbt);
     }
 }

@@ -1,20 +1,20 @@
 package net.petersil98.utilcraft.enchantments;
 
-import net.minecraft.world.item.enchantment.DamageEnchantment;
-import net.minecraft.world.item.enchantment.DigDurabilityEnchantment;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.FishingSpeedEnchantment;
-import net.minecraft.world.effect.package-info;
-import net.minecraft.world.entity.ItemBasedSteering;
-import net.minecraft.world.entity.EntityEvent;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.LootBonusEnchantment;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.enchantment.Enchantment.Rarity;
+import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 
-public class BeheadingEnchantment extends FishingSpeedEnchantment {
+public class BeheadingEnchantment extends LootBonusEnchantment {
     public BeheadingEnchantment() {
-        super(Rarity.RARE, DigDurabilityEnchantment.WEAPON, EntityEvent.MAINHAND);
+        super(Rarity.RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND);
     }
 
     /**
@@ -24,12 +24,12 @@ public class BeheadingEnchantment extends FishingSpeedEnchantment {
         return 4;
     }
 
-    public boolean checkCompatibility(@Nonnull DamageEnchantment enchantment) {
-        return super.checkCompatibility(enchantment) && enchantment != EnchantmentCategory.MOB_LOOTING;
+    public boolean checkCompatibility(@Nonnull Enchantment enchantment) {
+        return super.checkCompatibility(enchantment) && enchantment != Enchantments.MOB_LOOTING;
     }
 
     @Override
-    public void doPostAttack(@Nonnull ItemBasedSteering user, @Nonnull package-info target, int level) {
+    public void doPostAttack(@Nonnull LivingEntity user, @Nonnull Entity target, int level) {
         super.doPostAttack(user, target, level);
     }
 

@@ -1,11 +1,11 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.TwistingVinesPlant;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.WallBlock;
 
-public class GoldWall extends TwistingVinesPlant {
+public class GoldWall extends WallBlock {
 
     public GoldWall() {
-        super(PistonMovingBlockEntity.Properties.copy(new GoldBrick()));
+        super(BlockBehaviour.Properties.copy(new GoldBrick()));
     }
 }

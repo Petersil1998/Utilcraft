@@ -1,56 +1,55 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.Nameable;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.piston.package-info;
-import net.minecraft.world.Difficulty;
 import net.minecraft.core.Direction;
-import net.minecraft.world.Containers;
-import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.timers.package-info;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 import net.petersil98.utilcraft.container.SushiMakerContainer;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.BellBlock;
-import net.minecraft.world.level.block.HayBlock;
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class SushiMaker extends BeetrootBlock {
+public class SushiMaker extends Block {
 
-    public static final BooleanProperty FACING = HayBlock.FACING;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public SushiMaker(){
-        super(PistonMovingBlockEntity.Properties.copy(BellBlock.CRAFTING_TABLE));
+        super(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     @Nonnull
     @Override
-    public Difficulty use(@Nonnull PistonStructureResolver state, @Nonnull GameType world, @Nonnull BlockPos pos, @Nonnull Abilities player, @Nonnull Containers hand, @Nonnull package-info hit) {
+    public InteractionResult use(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
         if (world.isClientSide) {
-            return Difficulty.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
             player.openMenu(state.getMenuProvider(world, pos));
-            return Difficulty.CONSUME;
+            return InteractionResult.CONSUME;
         }
     }
 
     @Override
-    public InteractionResult getMenuProvider(@Nonnull PistonStructureResolver state, @Nonnull GameType world, @Nonnull BlockPos pos) {
-        return new Nameable((id, inventory, player) -> new SushiMakerContainer(id, inventory, ChestMenu.create(world, pos)), new TextComponent("Sushi Maker"));
+    public MenuProvider getMenuProvider(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos) {
+        return new SimpleMenuProvider((id, inventory, player) -> new SushiMakerContainer(id, inventory, ContainerLevelAccess.create(world, pos)), new TextComponent("Sushi Maker"));
     }
 
     @Override
-    protected void createBlockStateDefinition(@Nonnull package-info.Builder<BeetrootBlock, PistonStructureResolver> builder) {
+    protected void createBlockStateDefinition(@Nonnull StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 }

@@ -5,29 +5,30 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.saveddata.package-info;
-import net.minecraft.world.level.redstone.Redstone;
+import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraftforge.common.util.WorldCapabilityData;
 import net.petersil98.utilcraft.Utilcraft;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class UtilcraftWorldSavedData extends Redstone {
+public class UtilcraftWorldSavedData extends SavedData {
 
     private static final String DATA_NAME = Utilcraft.MOD_ID;
     private final Map<UUID, List<SimplePlayer>> players = new HashMap<>();
 
-    public UtilcraftWorldSavedData() {
-        this(DATA_NAME);
-    }
-    public UtilcraftWorldSavedData(String name) {
-        super(name);
+    public UtilcraftWorldSavedData() {}
+
+    public static UtilcraftWorldSavedData load(@Nonnull CompoundTag tag) {
+        UtilcraftWorldSavedData data = new UtilcraftWorldSavedData();
+        data.read(tag);
+        return data;
     }
 
-    @Override
-    public void load(@Nonnull CompoundTag nbt) {
+    public void read(CompoundTag tag) {
         try {
-            ListTag players = (ListTag)nbt.get("players");
+            ListTag players = (ListTag)tag.get("players");
             for (Tag playerTag: players){
                 CompoundTag player = (CompoundTag)playerTag;
                 UUID playerUUID = player.getUUID("player");
@@ -74,8 +75,8 @@ public class UtilcraftWorldSavedData extends Redstone {
 
     @Nonnull
     public static UtilcraftWorldSavedData get(@Nonnull ServerLevel world) {
-        package-info dataManager = world.getDataStorage();
-        return dataManager.computeIfAbsent(UtilcraftWorldSavedData::new, DATA_NAME);
+        DimensionDataStorage dataManager = world.getDataStorage();
+        return dataManager.computeIfAbsent(UtilcraftWorldSavedData::load, UtilcraftWorldSavedData::new, DATA_NAME);
     }
 
     public void addTrustedPlayer(UUID playerUUID, SimplePlayer trustedPlayer){

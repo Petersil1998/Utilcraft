@@ -1,7 +1,7 @@
 package net.petersil98.utilcraft.event;
 
-import net.minecraft.world.effect.package-info;
-import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AttachCapabilities {
 
     @SubscribeEvent
-    public static void attachVeinMinerCapability(@Nonnull AttachCapabilitiesEvent<package-info> event) {
+    public static void attachVeinMinerCapability(@Nonnull AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof ServerPlayer) {
             VeinMinerProvider provider = new VeinMinerProvider();
             event.addCapability(new ResourceLocation(Utilcraft.MOD_ID, "active"), provider);
@@ -32,7 +32,7 @@ public class AttachCapabilities {
     }
 
     @SubscribeEvent
-    public static void attachHomeCapability(@Nonnull AttachCapabilitiesEvent<package-info> event) {
+    public static void attachHomeCapability(@Nonnull AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof ServerPlayer) {
             HomeProvider provider = new HomeProvider();
             event.addCapability(new ResourceLocation(Utilcraft.MOD_ID, "home"), provider);
@@ -41,7 +41,7 @@ public class AttachCapabilities {
     }
 
     @SubscribeEvent
-    public static void attachLastDeathCapability(@Nonnull AttachCapabilitiesEvent<package-info> event) {
+    public static void attachLastDeathCapability(@Nonnull AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof ServerPlayer) {
             LastDeathProvider provider = new LastDeathProvider();
             event.addCapability(new ResourceLocation(Utilcraft.MOD_ID, "last_death"), provider);
@@ -49,7 +49,7 @@ public class AttachCapabilities {
         }
     }
 
-    public static void adjustCapabilities(@Nonnull Abilities original, @Nonnull Abilities clone) {
+    public static void adjustCapabilities(@Nonnull Player original, @Nonnull Player clone) {
         AtomicReference<Boolean> veinMiner = new AtomicReference<>();
 
         original.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {

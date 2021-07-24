@@ -1,12 +1,12 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.BellBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
-public class CompressedCobblestone extends BeetrootBlock {
+public class CompressedCobblestone extends Block {
 
     public CompressedCobblestone() {
-        super(PistonMovingBlockEntity.Properties.copy(BellBlock.COBBLESTONE));
+        super(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE));
     }
 }

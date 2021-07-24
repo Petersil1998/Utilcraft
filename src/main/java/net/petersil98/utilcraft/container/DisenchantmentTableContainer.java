@@ -1,23 +1,23 @@
 package net.petersil98.utilcraft.container;
 
-import net.minecraft.world.item.enchantment.DiggingEnchantment;
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.entity.package-info;
-import net.minecraft.world.inventory.RecipeBookMenu;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.inventory.ShulkerBoxMenu;
-import net.minecraft.world.item.ItemCooldowns;
-import net.minecraft.world.item.ItemNameBlockItem;
-import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ResultContainer;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import javax.annotation.Nonnull;
 
-public class DisenchantmentTableContainer extends FoodProperties {
-    private final BossEvent outputInventory = new RecipeBookMenu();
-    private final BossEvent inputInventory = new MenuProvider(2) {
+public class DisenchantmentTableContainer extends AbstractContainerMenu {
+    private final Container outputInventory = new ResultContainer();
+    private final Container inputInventory = new SimpleContainer(2) {
         /**
          * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think
          * it hasn't changed and skip it.
@@ -27,21 +27,21 @@ public class DisenchantmentTableContainer extends FoodProperties {
             DisenchantmentTableContainer.this.slotsChanged(this);
         }
     };
-    ChestMenu worldPosCallable;
+    ContainerLevelAccess worldPosCallable;
 
-    public DisenchantmentTableContainer(int windowId, package-info playerInventory) {
-        this(windowId, playerInventory, ChestMenu.NULL);
+    public DisenchantmentTableContainer(int windowId, Inventory playerInventory) {
+        this(windowId, playerInventory, ContainerLevelAccess.NULL);
     }
 
-    public DisenchantmentTableContainer(int id, package-info playerInventory, ChestMenu worldPosCallable) {
+    public DisenchantmentTableContainer(int id, Inventory playerInventory, ContainerLevelAccess worldPosCallable) {
         super(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER, id);
         this.worldPosCallable = worldPosCallable;
-        this.addSlot(new ShulkerBoxMenu(this.inputInventory, 0, 15, 25) {
+        this.addSlot(new Slot(this.inputInventory, 0, 15, 25) {
             /**
              * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
              */
-            public boolean mayPlace(@Nonnull ItemCooldowns stack) {
-                return DiggingEnchantment.getEnchantments(stack).size() > 0;
+            public boolean mayPlace(@Nonnull ItemStack stack) {
+                return EnchantmentHelper.getEnchantments(stack).size() > 0;
             }
 
             /**
@@ -52,12 +52,12 @@ public class DisenchantmentTableContainer extends FoodProperties {
                 return 1;
             }
         });
-        this.addSlot(new ShulkerBoxMenu(this.inputInventory, 1, 35, 25) {
+        this.addSlot(new Slot(this.inputInventory, 1, 35, 25) {
             /**
              * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
              */
-            public boolean mayPlace(@Nonnull ItemCooldowns stack) {
-                return ItemNameBlockItem.BOOK.equals(stack.getItem());
+            public boolean mayPlace(@Nonnull ItemStack stack) {
+                return Items.BOOK.equals(stack.getItem());
             }
 
             /**
@@ -69,38 +69,36 @@ public class DisenchantmentTableContainer extends FoodProperties {
             }
         });
 
-        this.addSlot(new ShulkerBoxMenu(this.outputInventory, 2, 145, 25) {
+        this.addSlot(new Slot(this.outputInventory, 2, 145, 25) {
             /**
              * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
              */
-            public boolean mayPlace(@Nonnull ItemCooldowns stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return false;
             }
 
-            @Nonnull
-            public ItemCooldowns onTake(@Nonnull Abilities thePlayer, @Nonnull ItemCooldowns stack) {
-                ItemCooldowns enchantedItem = DisenchantmentTableContainer.this.inputInventory.getItem(0);
+            public void onTake(@Nonnull Player thePlayer, @Nonnull ItemStack stack) {
+                ItemStack enchantedItem = DisenchantmentTableContainer.this.inputInventory.getItem(0);
                 DisenchantmentTableContainer.this.inputInventory.setItem(0, removeEnchantments(enchantedItem));
-                DisenchantmentTableContainer.this.inputInventory.setItem(1, ItemCooldowns.EMPTY);
-                return stack;
+                DisenchantmentTableContainer.this.inputInventory.setItem(1, ItemStack.EMPTY);
             }
         });
 
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 9; ++j) {
-                this.addSlot(new ShulkerBoxMenu(playerInventory, j + i * 9 + 9, 8 + j * 18, 62 + i * 18));
+                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 62 + i * 18));
             }
         }
 
         for(int k = 0; k < 9; ++k) {
-            this.addSlot(new ShulkerBoxMenu(playerInventory, k, 8 + k * 18, 120));
+            this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 120));
         }
     }
 
     /**
      * Callback for when the crafting matrix is changed.
      */
-    public void slotsChanged(@Nonnull BossEvent inventory) {
+    public void slotsChanged(@Nonnull Container inventory) {
         super.slotsChanged(inventory);
         if (inventory == this.inputInventory) {
             this.updateRecipeOutput();
@@ -109,28 +107,28 @@ public class DisenchantmentTableContainer extends FoodProperties {
     }
 
     private void updateRecipeOutput() {
-        ItemCooldowns enchantedItem = this.inputInventory.getItem(0);
-        ItemCooldowns book = this.inputInventory.getItem(1);
+        ItemStack enchantedItem = this.inputInventory.getItem(0);
+        ItemStack book = this.inputInventory.getItem(1);
         boolean ready = !enchantedItem.isEmpty() && !book.isEmpty();
         if (!ready) {
-            this.outputInventory.setItem(0, ItemCooldowns.EMPTY);
+            this.outputInventory.setItem(0, ItemStack.EMPTY);
         } else {
-            ItemCooldowns enchantedBook = new ItemCooldowns(ItemNameBlockItem.ENCHANTED_BOOK);
-            DiggingEnchantment.setEnchantments(DiggingEnchantment.getEnchantments(enchantedItem), enchantedBook);
+            ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
+            EnchantmentHelper.setEnchantments(EnchantmentHelper.getEnchantments(enchantedItem), enchantedBook);
             this.outputInventory.setItem(0, enchantedBook);
         }
         this.broadcastChanges();
     }
 
-    public void removed(@Nonnull Abilities player) {
+    public void removed(@Nonnull Player player) {
         super.removed(player);
-        this.worldPosCallable.execute((p_217004_2_, p_217004_3_) -> this.clearContainer(player, player.level, this.inputInventory));
+        this.worldPosCallable.execute((p_217004_2_, p_217004_3_) -> this.clearContainer(player, this.inputInventory));
     }
 
     /**
      * Determines whether supplied player can use this container
      */
-    public boolean stillValid(@Nonnull Abilities player) {
+    public boolean stillValid(@Nonnull Player player) {
         return stillValid(this.worldPosCallable, player, UtilcraftBlocks.DISENCHANTMENT_TABLE);
     }
 
@@ -139,43 +137,43 @@ public class DisenchantmentTableContainer extends FoodProperties {
      * inventory and the other inventory(s).
      */
     @Nonnull
-    public ItemCooldowns quickMoveStack(@Nonnull Abilities player, int index) {
-        ItemCooldowns itemstack = ItemCooldowns.EMPTY;
-        ShulkerBoxMenu slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemCooldowns itemstack1 = slot.getItem();
+    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index == 0) {
                 if (!this.moveItemStackTo(itemstack1, 2, 38, true)) {
-                    return ItemCooldowns.EMPTY;
+                    return ItemStack.EMPTY;
                 }
             } else if (index == 1) {
                 if (!this.moveItemStackTo(itemstack1, 2, 38, true)) {
-                    return ItemCooldowns.EMPTY;
+                    return ItemStack.EMPTY;
                 }
-            } else if (itemstack1.getItem() == ItemNameBlockItem.BOOK) {
+            } else if (itemstack1.getItem() == Items.BOOK) {
                 if (!this.moveItemStackTo(itemstack1, 1, 2, true)) {
-                    return ItemCooldowns.EMPTY;
+                    return ItemStack.EMPTY;
                 }
             } else {
                 if (this.slots.get(0).hasItem() || !this.slots.get(0).mayPlace(itemstack1)) {
-                    return ItemCooldowns.EMPTY;
+                    return ItemStack.EMPTY;
                 }
 
-                ItemCooldowns itemstack2 = itemstack1.copy();
+                ItemStack itemstack2 = itemstack1.copy();
                 itemstack2.setCount(1);
                 itemstack1.shrink(1);
                 this.slots.get(0).set(itemstack2);
             }
 
             if (itemstack1.isEmpty()) {
-                slot.set(ItemCooldowns.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemCooldowns.EMPTY;
+                return ItemStack.EMPTY;
             }
 
             slot.onTake(player, itemstack1);
@@ -188,8 +186,8 @@ public class DisenchantmentTableContainer extends FoodProperties {
      * Removes all enchantments from the ItemStack. Note that the curses are not removed.
      */
     @Nonnull
-    private ItemCooldowns removeEnchantments(@Nonnull ItemCooldowns stack) {
-        ItemCooldowns itemstack = stack.copy();
+    private ItemStack removeEnchantments(@Nonnull ItemStack stack) {
+        ItemStack itemstack = stack.copy();
         itemstack.removeTagKey("Enchantments");
         itemstack.removeTagKey("StoredEnchantments");
         if (stack.getDamageValue() > 0) {

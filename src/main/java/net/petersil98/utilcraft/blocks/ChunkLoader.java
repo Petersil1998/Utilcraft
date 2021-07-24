@@ -1,44 +1,44 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.piston.PistonStructureResolver;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.entity.ItemBasedSteering;
-import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.chunk.GlobalPalette;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ChunkLoader extends BeetrootBlock {
+public class ChunkLoader extends Block {
 
     public static final int RADIUS = 1;
 
     public ChunkLoader() {
-        super(PistonMovingBlockEntity.Properties
-                .of(FluidState.STONE)
+        super(BlockBehaviour.Properties
+                .of(Material.STONE)
         );
     }
 
     @Override
-    public void setPlacedBy(@Nonnull GameType world, @Nonnull BlockPos pos, @Nonnull PistonStructureResolver state, @Nullable ItemBasedSteering placer, @Nonnull ItemCooldowns stack) {
+    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable LivingEntity placer, @Nonnull ItemStack stack) {
         if(world instanceof ServerLevel) {
             for(int i = 0; i < RADIUS; i++) {
-                GlobalPalette chunk = world.getChunkAt(pos);
+                LevelChunk chunk = world.getChunkAt(pos);
                 ((ServerLevel) world).setChunkForced(chunk.getPos().x, chunk.getPos().z, true);
             }
         }
     }
 
     @Override
-    public void onRemove(@Nonnull PistonStructureResolver state, @Nonnull GameType world, @Nonnull BlockPos pos, @Nonnull PistonStructureResolver newState, boolean isMoving) {
+    public void onRemove(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if(world instanceof ServerLevel) {
             for(int i = 0; i < RADIUS; i++) {
-                GlobalPalette chunk = world.getChunkAt(pos);
+                LevelChunk chunk = world.getChunkAt(pos);
                 ((ServerLevel) world).setChunkForced(chunk.getPos().x, chunk.getPos().z, false);
             }
         }
