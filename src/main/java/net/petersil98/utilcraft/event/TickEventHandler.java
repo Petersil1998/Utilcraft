@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Mod.EventBusSubscriber(modid = Utilcraft.MOD_ID)
 public class TickEventHandler {
 
-    private static final Method resetRainAndThunder = ObfuscationReflectionHelper.findMethod(ServerWorld.class, "stopWeather");
+    private static final Method resetRainAndThunder = ObfuscationReflectionHelper.findMethod(ServerWorld.class, "func_73051_P");
 
     @SubscribeEvent
     public static void onWorldTick(@Nonnull TickEvent.WorldTickEvent event) {

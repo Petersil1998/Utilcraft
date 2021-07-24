@@ -4,8 +4,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.petersil98.utilcraft.Utilcraft;
 
-import net.minecraft.item.Item.Properties;
-
 public class Juicer extends Item {
 
     public Juicer() {

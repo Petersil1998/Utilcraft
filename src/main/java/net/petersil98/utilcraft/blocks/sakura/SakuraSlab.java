@@ -1,6 +1,5 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SoundType;
@@ -13,7 +12,7 @@ import net.minecraft.world.IBlockReader;
 public class SakuraSlab extends SlabBlock {
 
     public SakuraSlab(){
-        super(AbstractBlock.Properties
+        super(Properties
                 .of(Material.WOOD, MaterialColor.WOOD)
                 .strength(2.0F, 3.0F)
                 .sound(SoundType.WOOD)

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 public class SakuraWallSign extends WallSignBlock {
 
     public SakuraWallSign(Block sign) {
-        super(AbstractBlock.Properties
+        super(Properties
                 .of(Material.WOOD)
                 .noCollission()
                 .strength(1.0F)

@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
@@ -18,7 +17,7 @@ import javax.annotation.Nullable;
 public class SpawnerItem extends BlockItem {
 
     public SpawnerItem() {
-        super(Blocks.SPAWNER, new Item.Properties());
+        super(Blocks.SPAWNER, new Properties());
     }
 
     protected boolean updateCustomBlockEntityTag(@Nonnull BlockPos pos, @Nonnull World world, @Nullable PlayerEntity player, @Nonnull ItemStack stack, @Nonnull BlockState state) {

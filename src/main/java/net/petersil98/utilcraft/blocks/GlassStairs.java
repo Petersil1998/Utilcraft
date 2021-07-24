@@ -1,6 +1,8 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.block.*;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -13,7 +15,7 @@ import javax.annotation.Nonnull;
 public class GlassStairs extends StairsBlock {
 
     public GlassStairs() {
-        super(Blocks.GLASS::defaultBlockState, AbstractBlock.Properties.copy(Blocks.GLASS));
+        super(Blocks.GLASS::defaultBlockState, Properties.copy(Blocks.GLASS));
     }
 
     @Nonnull

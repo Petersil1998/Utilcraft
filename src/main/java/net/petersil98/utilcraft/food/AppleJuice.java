@@ -4,8 +4,6 @@ import net.minecraft.item.*;
 
 import net.petersil98.utilcraft.Utilcraft;
 
-import net.minecraft.item.Item.Properties;
-
 public class AppleJuice extends Item {
 
     public AppleJuice(){

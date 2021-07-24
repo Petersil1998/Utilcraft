@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockReader;
 public class SakuraTrapdoor extends TrapDoorBlock {
 
     public SakuraTrapdoor() {
-        super(AbstractBlock.Properties
+        super(Properties
                 .of(Material.WOOD, MaterialColor.WOOD)
                 .strength(3.0F)
                 .sound(SoundType.WOOD)

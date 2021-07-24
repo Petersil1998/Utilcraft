@@ -1,6 +1,5 @@
 package net.petersil98.utilcraft.items;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.SignItem;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
@@ -8,7 +7,7 @@ import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 public class SakuraSignItem extends SignItem {
 
     public SakuraSignItem() {
-        super(new Item.Properties()
+        super(new Properties()
                 .stacksTo(16)
                 .tab(Utilcraft.ITEM_GROUP),
                 UtilcraftBlocks.SAKURA_SIGN,

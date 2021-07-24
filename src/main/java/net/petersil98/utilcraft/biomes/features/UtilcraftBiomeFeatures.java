@@ -1,7 +1,6 @@
 package net.petersil98.utilcraft.biomes.features;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
@@ -9,8 +8,6 @@ import net.minecraft.world.gen.feature.FeatureSpread;
 import net.minecraft.world.gen.feature.TwoLayerFeature;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliageplacer.FancyFoliagePlacer;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraft.world.gen.trunkplacer.FancyTrunkPlacer;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;

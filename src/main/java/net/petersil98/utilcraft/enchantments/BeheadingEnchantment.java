@@ -10,8 +10,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.enchantment.Enchantment.Rarity;
-
 public class BeheadingEnchantment extends LootBonusEnchantment {
     public BeheadingEnchantment() {
         super(Rarity.RARE, EnchantmentType.WEAPON, EquipmentSlotType.MAINHAND);

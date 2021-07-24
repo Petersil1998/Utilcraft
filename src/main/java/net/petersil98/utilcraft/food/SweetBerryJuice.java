@@ -4,8 +4,6 @@ import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.petersil98.utilcraft.Utilcraft;
 
-import net.minecraft.item.Item.Properties;
-
 public class SweetBerryJuice extends Item {
 
     public SweetBerryJuice(){

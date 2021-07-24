@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 
 public class SakuraLeaves extends LeavesBlock {
     public SakuraLeaves() {
-        super(AbstractBlock.Properties
+        super(Properties
                 .of(Material.LEAVES)
                 .strength(0.2F)
                 .randomTicks()

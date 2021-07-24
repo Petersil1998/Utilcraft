@@ -1,6 +1,9 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -23,7 +26,7 @@ public class SushiMaker extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
     public SushiMaker(){
-        super(AbstractBlock.Properties.copy(Blocks.CRAFTING_TABLE));
+        super(Properties.copy(Blocks.CRAFTING_TABLE));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
