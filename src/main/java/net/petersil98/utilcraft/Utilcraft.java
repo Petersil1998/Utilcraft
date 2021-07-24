@@ -277,7 +277,9 @@ public class Utilcraft {
         public static void registerBiomeAddons(@Nonnull BiomeLoadingEvent event){
             WorldGeneration.addSilverOre(event.getGeneration());
             WorldGeneration.addRoseQuartzOre(event.getGeneration());
-            WorldGeneration.addSakuraTrees(event.getGeneration(), event.getName());
+            if(WorldGeneration.SAKURA_SPAWN_BIOMES.contains(event.getName())) {
+                WorldGeneration.addSakuraTrees(event.getGeneration());
+            }
         }
     }
 }

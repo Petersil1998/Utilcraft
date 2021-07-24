@@ -21,6 +21,7 @@ public class EntropyTableScreen extends ContainerScreen<EntropyTableContainer> {
         super(screenContainer, inv, title);
     }
 
+    @Override
     protected void init() {
         super.init();
         this.widthTooNarrow = this.width < 379;
@@ -30,10 +31,7 @@ public class EntropyTableScreen extends ContainerScreen<EntropyTableContainer> {
         this.imageHeight += 18;
     }
 
-    public void tick() {
-        super.tick();
-    }
-
+    @Override
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         if (this.widthTooNarrow) {
@@ -45,34 +43,27 @@ public class EntropyTableScreen extends ContainerScreen<EntropyTableContainer> {
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
+    @Override
     protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(this.SUSHI_MAKER_GUI_TEXTURES);
+        this.minecraft.getTextureManager().bind(SUSHI_MAKER_GUI_TEXTURES);
         int i = this.leftPos;
         int j = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
     }
 
+    @Override
     protected boolean isHovering(int x, int y, int width, int height, double mouseX, double mouseY) {
         return !this.widthTooNarrow && super.isHovering(x, y, width, height, mouseX, mouseY);
     }
 
+    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         return this.widthTooNarrow || super.mouseClicked(mouseX, mouseY, button);
     }
 
+    @Override
     protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
         return mouseX < (double)guiLeft || mouseY < (double)guiTop || mouseX >= (double)(guiLeft + this.imageWidth) || mouseY >= (double)(guiTop + this.imageHeight);
-    }
-
-    /**
-     * Called when the mouse is clicked over a slot or outside the gui.
-     */
-    protected void slotClicked(@Nonnull Slot slot, int slotId, int mouseButton, @Nonnull ClickType type) {
-        super.slotClicked(slot, slotId, mouseButton, type);
-    }
-
-    public void removed() {
-        super.removed();
     }
 }

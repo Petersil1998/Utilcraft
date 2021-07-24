@@ -30,17 +30,11 @@ public class VeinMinerProvider implements ICapabilitySerializable<CompoundNBT> {
 
     @Override
     public CompoundNBT serializeNBT() {
-        if (CapabilityVeinMiner.VEIN_MINER_CAPABILITY == null) {
-            return new CompoundNBT();
-        } else {
-            return (CompoundNBT) CapabilityVeinMiner.VEIN_MINER_CAPABILITY.writeNBT(veinMiner, null);
-        }
+        return (CompoundNBT) CapabilityVeinMiner.VEIN_MINER_CAPABILITY.writeNBT(veinMiner, null);
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        if (CapabilityVeinMiner.VEIN_MINER_CAPABILITY != null) {
-            CapabilityVeinMiner.VEIN_MINER_CAPABILITY.readNBT(veinMiner, null, nbt);
-        }
+        CapabilityVeinMiner.VEIN_MINER_CAPABILITY.readNBT(veinMiner, null, nbt);
     }
 }

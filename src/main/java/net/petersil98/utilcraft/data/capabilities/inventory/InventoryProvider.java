@@ -34,17 +34,11 @@ public class InventoryProvider implements ICapabilitySerializable<INBT> {
 
     @Override
     public INBT serializeNBT() {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY == null) {
-            return new ListNBT();
-        } else {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null);
-        }
+        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null);
     }
 
     @Override
     public void deserializeNBT(INBT nbt) {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY != null) {
-            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, nbt);
-        }
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, nbt);
     }
 }

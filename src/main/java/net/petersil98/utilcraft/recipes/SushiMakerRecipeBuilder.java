@@ -238,10 +238,6 @@ public class SushiMakerRecipeBuilder {
             return this.advancementBuilder.serializeToJson();
         }
 
-        /**
-         * Gets the ID for the advancement associated with this recipe. Should not be null if {@link #getAdvancementJson}
-         * is non-null.
-         */
         @Nullable
         public ResourceLocation getAdvancementId() {
             return this.advancementId;

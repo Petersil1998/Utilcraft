@@ -30,17 +30,11 @@ public class HomeProvider implements ICapabilitySerializable<CompoundNBT> {
 
     @Override
     public CompoundNBT serializeNBT() {
-        if (CapabilityHome.HOME_CAPABILITY == null) {
-            return new CompoundNBT();
-        } else {
-            return (CompoundNBT) CapabilityHome.HOME_CAPABILITY.writeNBT(home, null);
-        }
+        return (CompoundNBT) CapabilityHome.HOME_CAPABILITY.writeNBT(home, null);
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        if (CapabilityHome.HOME_CAPABILITY != null) {
-            CapabilityHome.HOME_CAPABILITY.readNBT(home, null, nbt);
-        }
+        CapabilityHome.HOME_CAPABILITY.readNBT(home, null, nbt);
     }
 }

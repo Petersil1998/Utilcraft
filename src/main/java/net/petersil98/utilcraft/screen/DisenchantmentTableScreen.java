@@ -16,22 +16,25 @@ import javax.annotation.Nonnull;
 
 public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTableContainer> {
 
-    private final ResourceLocation GUI = new ResourceLocation(Utilcraft.MOD_ID, "textures/gui/disenchantment_table_gui.png");
+    private static final ResourceLocation GUI = new ResourceLocation(Utilcraft.MOD_ID, "textures/gui/disenchantment_table_gui.png");
 
     public DisenchantmentTableScreen(DisenchantmentTableContainer screenContainer, PlayerInventory inv, ITextComponent title) {
         super(screenContainer, inv, title);
     }
 
+    @Override
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
+    @Override
     public void renderBackground(@Nonnull MatrixStack matrixStack) {
         this.renderBackground(matrixStack, 0);
     }
 
+    @Override
     public void renderBackground(@Nonnull MatrixStack matrixStack, int vOffset) {
         if (this.minecraft.level != null) {
             this.fillGradient(matrixStack, 0, 0, this.width, this.height, -1072689136, -804253680);
@@ -41,7 +44,8 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
         }
     }
 
-    protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
+    @Override
+    protected void renderTooltip(@Nonnull MatrixStack matrixStack, int x, int y) {
         if (this.minecraft.player.inventory.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
             this.renderTooltip(matrixStack, this.hoveredSlot.getItem(), x, y);
         }
@@ -52,9 +56,10 @@ public class DisenchantmentTableScreen extends ContainerScreen<DisenchantmentTab
         drawString(matrixStack, Minecraft.getInstance().font, "Disenchant", 10, 10, 0xffffff);
     }
 
+    @Override
     protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(this.GUI);
+        this.minecraft.getTextureManager().bind(GUI);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight);

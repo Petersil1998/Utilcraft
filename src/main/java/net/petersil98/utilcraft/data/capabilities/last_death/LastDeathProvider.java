@@ -30,17 +30,11 @@ public class LastDeathProvider implements ICapabilitySerializable<CompoundNBT> {
 
     @Override
     public CompoundNBT serializeNBT() {
-        if (CapabilityLastDeath.LAST_DEATH_CAPABILITY == null) {
-            return new CompoundNBT();
-        } else {
-            return (CompoundNBT) CapabilityLastDeath.LAST_DEATH_CAPABILITY.writeNBT(lastDeath, null);
-        }
+        return (CompoundNBT) CapabilityLastDeath.LAST_DEATH_CAPABILITY.writeNBT(lastDeath, null);
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        if (CapabilityLastDeath.LAST_DEATH_CAPABILITY != null) {
-            CapabilityLastDeath.LAST_DEATH_CAPABILITY.readNBT(lastDeath, null, nbt);
-        }
+        CapabilityLastDeath.LAST_DEATH_CAPABILITY.readNBT(lastDeath, null, nbt);
     }
 }
