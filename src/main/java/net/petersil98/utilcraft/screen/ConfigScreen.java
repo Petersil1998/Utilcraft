@@ -32,11 +32,11 @@ public class ConfigScreen extends Screen {
         this.deaths.setMaxLength(2);
         this.deaths.setFocus(true);
         this.deaths.setValue(String.valueOf(Config.DEATHS_OVERLAY_PLAYERS.get()));
-        this.addWidget(this.deaths);
+        this.addRenderableWidget(this.deaths);
         this.setInitialFocus(this.deaths);
 
         this.colorChooser = new ColorChooser(this.font, this.width/2 - 50,200, 100, 20,new TextComponent("Death Point Ray Color"));
-        this.addWidget(this.colorChooser);
+        this.addRenderableWidget(this.colorChooser);
     }
 
     @Override
