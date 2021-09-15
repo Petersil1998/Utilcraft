@@ -46,10 +46,13 @@ public class TickEventHandler {
                     if (world.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
                         try {
                             resetRainAndThunder.invoke(world);
-                        } catch (IllegalAccessException | InvocationTargetException ignored) {}
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Utilcraft.LOGGER.error("Couldn't reset rain and thunder timers after skipping night", e);
+                        }
                     }
 
-                    world.players().stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> p_241131_0_.stopSleepInBed(false, false));
+                    world.players().stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((playerEntity) -> playerEntity.stopSleepInBed(false, false));
+                    return;
                 }
             }
         }

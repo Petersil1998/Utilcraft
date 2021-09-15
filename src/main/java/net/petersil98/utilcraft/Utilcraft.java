@@ -54,6 +54,8 @@ import net.petersil98.utilcraft.generation.WorldGeneration;
 import net.petersil98.utilcraft.items.*;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 import net.petersil98.utilcraft.utils.ClientSetup;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 
@@ -70,6 +72,8 @@ public class Utilcraft {
             return new ItemStack(UtilcraftBlocks.GOLD_BRICK);
         }
     };
+
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public Utilcraft() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

@@ -7,6 +7,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
+import net.minecraftforge.fml.loading.LogMarkers;
 import net.petersil98.utilcraft.Utilcraft;
 
 import javax.annotation.Nonnull;
@@ -40,7 +41,8 @@ public class UtilcraftWorldSavedData extends WorldSavedData {
                 }
                 this.players.put(playerUUID, trustedPlayersList);
             }
-        } catch (Exception ignored){
+        } catch (Exception e){
+            Utilcraft.LOGGER.error("Failed to load the Trusted Player List from world save", e);
         }
     }
 
