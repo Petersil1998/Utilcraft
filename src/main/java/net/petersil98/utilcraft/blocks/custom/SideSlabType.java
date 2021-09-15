@@ -4,6 +4,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public enum SideSlabType implements IStringSerializable {
     EAST("east"),
@@ -27,29 +28,24 @@ public enum SideSlabType implements IStringSerializable {
         return this.name;
     }
 
-    public static SideSlabType forFacings(Direction clickedSide, Direction entityFacing) {
-        if(clickedSide == Direction.UP || clickedSide == Direction.DOWN) {
-            if(entityFacing == Direction.NORTH)
-                return SideSlabType.NORTH;
-            if(entityFacing == Direction.EAST)
-                return SideSlabType.EAST;
-            if(entityFacing == Direction.SOUTH)
-                return SideSlabType.SOUTH;
-            if(entityFacing == Direction.WEST)
-                return SideSlabType.WEST;
+    @Nullable
+    public Direction getFacingDirection() {
+        switch (this){
+            case EAST: {
+                return Direction.EAST;
+            }
+            case NORTH: {
+                return Direction.NORTH;
+            }
+            case WEST: {
+                return Direction.WEST;
+            }
+            case SOUTH: {
+                return Direction.SOUTH;
+            }
+            default: {
+                return null;
+            }
         }
-        if(clickedSide == Direction.NORTH) {
-            return SideSlabType.SOUTH;
-        }
-        if(clickedSide == Direction.EAST) {
-            return SideSlabType.WEST;
-        }
-        if(clickedSide == Direction.SOUTH) {
-            return SideSlabType.NORTH;
-        }
-        if(clickedSide == Direction.WEST) {
-            return SideSlabType.EAST;
-        }
-        return SideSlabType.NORTH;
     }
 }
