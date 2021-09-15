@@ -33,8 +33,7 @@ public class TickEventHandler {
 
     @SubscribeEvent
     public static void onWorldTick(@Nonnull TickEvent.WorldTickEvent event) {
-        if(event.world instanceof ServerLevel && !event.world.getGameRules().getBoolean(UtilcraftGameRules.DO_ALL_PLAYERS_NEED_SLEEP)) {
-            ServerLevel world = (ServerLevel) event.world;
+        if(event.world instanceof ServerLevel world && !event.world.getGameRules().getBoolean(UtilcraftGameRules.DO_ALL_PLAYERS_NEED_SLEEP)) {
             List<ServerPlayer> players = world.getServer().getPlayerList().getPlayers();
             for (ServerPlayer player : players) {
                 if (player.isSleepingLongEnough()) {
@@ -46,10 +45,13 @@ public class TickEventHandler {
                     if (world.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
                         try {
                             resetRainAndThunder.invoke(world);
-                        } catch (IllegalAccessException | InvocationTargetException ignored) {}
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            Utilcraft.LOGGER.error("Couldn't reset rain and thunder timers after skipping night", e);
+                        }
                     }
 
                     world.players().stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach((p_241131_0_) -> p_241131_0_.stopSleepInBed(false, false));
+                    return;
                 }
             }
         }

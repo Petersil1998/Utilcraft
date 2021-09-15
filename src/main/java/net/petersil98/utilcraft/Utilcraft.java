@@ -63,6 +63,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(Utilcraft.MOD_ID)
 public class Utilcraft {
@@ -77,6 +79,8 @@ public class Utilcraft {
             return new ItemStack(UtilcraftBlocks.GOLD_BRICK);
         }
     };
+
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public Utilcraft() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

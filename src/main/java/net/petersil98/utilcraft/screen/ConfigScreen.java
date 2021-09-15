@@ -63,7 +63,9 @@ public class ConfigScreen extends Screen {
                 Config.DEATHS_OVERLAY_PLAYERS.set(config);
                 Config.DEATHS_OVERLAY_PLAYERS.save();
             }
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException e) {
+            Utilcraft.LOGGER.error("Couldn't parse input to Deaths Overlay Limit in Config", e);
+        }
         Config.DEATH_RAY_COLOR.set(this.colorChooser.getColor());
         Config.DEATH_RAY_COLOR.save();
     }

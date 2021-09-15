@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.UsernameCache;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.data.capabilities.last_death.DefaultLastDeath;
 import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
 import org.apache.commons.io.FilenameUtils;
@@ -52,7 +53,7 @@ public class PlayerUtils {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Utilcraft.LOGGER.error("Failed to update the Player Death Count", e);
         }
         sort();
     }

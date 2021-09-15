@@ -4,6 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
 import javax.annotation.Nonnull;
@@ -23,7 +24,8 @@ public class SyncDeathPoint {
         try {
             this.deathPoint = packetBuffer.readBlockPos();
             this.dimension = packetBuffer.readResourceLocation();
-        } catch (IndexOutOfBoundsException ignored) {
+        } catch (IndexOutOfBoundsException e) {
+            Utilcraft.LOGGER.error("Error when reading SyncDeathPoint Packet", e);
             this.deathPoint = null;
             this.dimension = null;
         }

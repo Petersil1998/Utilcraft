@@ -41,7 +41,8 @@ public class UtilcraftWorldSavedData extends SavedData {
                 }
                 this.players.put(playerUUID, trustedPlayersList);
             }
-        } catch (Exception ignored){
+        } catch (Exception e){
+            Utilcraft.LOGGER.error("Failed to load the Trusted Player List from world save", e);
         }
     }
 
