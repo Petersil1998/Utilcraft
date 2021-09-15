@@ -4,6 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public enum SideSlabType implements StringRepresentable {
     EAST("east"),
@@ -27,29 +28,14 @@ public enum SideSlabType implements StringRepresentable {
         return this.name;
     }
 
-    public static SideSlabType forFacings(Direction clickedSide, Direction entityFacing) {
-        if(clickedSide == Direction.UP || clickedSide == Direction.DOWN) {
-            if(entityFacing == Direction.NORTH)
-                return SideSlabType.NORTH;
-            if(entityFacing == Direction.EAST)
-                return SideSlabType.EAST;
-            if(entityFacing == Direction.SOUTH)
-                return SideSlabType.SOUTH;
-            if(entityFacing == Direction.WEST)
-                return SideSlabType.WEST;
-        }
-        if(clickedSide == Direction.NORTH) {
-            return SideSlabType.SOUTH;
-        }
-        if(clickedSide == Direction.EAST) {
-            return SideSlabType.WEST;
-        }
-        if(clickedSide == Direction.SOUTH) {
-            return SideSlabType.NORTH;
-        }
-        if(clickedSide == Direction.WEST) {
-            return SideSlabType.EAST;
-        }
-        return SideSlabType.NORTH;
+    @Nullable
+    public Direction getFacingDirection() {
+        return switch (this) {
+            case EAST -> Direction.EAST;
+            case NORTH -> Direction.NORTH;
+            case WEST -> Direction.WEST;
+            case SOUTH -> Direction.SOUTH;
+            default -> null;
+        };
     }
 }

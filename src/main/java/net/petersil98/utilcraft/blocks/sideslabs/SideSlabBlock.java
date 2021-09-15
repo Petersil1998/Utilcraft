@@ -27,7 +27,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.petersil98.utilcraft.blocks.custom.UtilcraftBlockStateProperties;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
-import org.jetbrains.annotations.NotNull;
 
 public class SideSlabBlock extends Block implements SimpleWaterloggedBlock {
     public static final EnumProperty<SideSlabType> TYPE = UtilcraftBlockStateProperties.SIDE_SLAB_TYPE;
