@@ -1,7 +1,6 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -10,25 +9,16 @@ import net.minecraft.world.IBlockReader;
 import javax.annotation.Nonnull;
 
 public class SakuraLeaves extends LeavesBlock {
-    public SakuraLeaves() {
-        super(Properties
-                .of(Material.LEAVES)
-                .strength(0.2F)
-                .randomTicks()
-                .sound(SoundType.GRASS)
-                .noOcclusion()
-                .isValidSpawn(SakuraLeaves::allowsSpawnOnLeaves)
-                .isSuffocating(SakuraLeaves::isntSolid)
-                .isViewBlocking(SakuraLeaves::isntSolid)
-        );
+    public SakuraLeaves(Properties properties) {
+        super(properties);
     }
 
     @Nonnull
-    private static Boolean allowsSpawnOnLeaves(BlockState state, IBlockReader reader, BlockPos pos, EntityType<?> entity) {
+    public static Boolean allowsSpawnOnLeaves(BlockState state, IBlockReader reader, BlockPos pos, EntityType<?> entity) {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }
 
-    private static boolean isntSolid(BlockState state, IBlockReader reader, BlockPos pos) {
+    public static boolean isntSolid(BlockState state, IBlockReader reader, BlockPos pos) {
         return false;
     }
 

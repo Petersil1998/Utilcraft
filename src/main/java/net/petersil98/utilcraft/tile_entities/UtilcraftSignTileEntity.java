@@ -10,6 +10,6 @@ public class UtilcraftSignTileEntity extends SignTileEntity {
     @Nonnull
     @Override
     public TileEntityType<?> getType() {
-        return UtilcraftTileEntities.UTILCRAFT_SIGN;
+        return UtilcraftTileEntities.UTILCRAFT_SIGN.get();
     }
 }

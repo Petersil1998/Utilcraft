@@ -14,8 +14,8 @@ import javax.annotation.Nonnull;
 
 public class GlassStairs extends StairsBlock {
 
-    public GlassStairs() {
-        super(Blocks.GLASS::defaultBlockState, Properties.copy(Blocks.GLASS));
+    public GlassStairs(Properties properties) {
+        super(Blocks.GLASS::defaultBlockState, properties);
     }
 
     @Nonnull

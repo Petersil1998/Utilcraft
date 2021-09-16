@@ -29,7 +29,7 @@ public class WorldGeneration {
                 Feature.ORE.configured(
                         new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                                UtilcraftBlocks.SILVER_ORE.defaultBlockState(),
+                                UtilcraftBlocks.SILVER_ORE.get().defaultBlockState(),
                                 17
                         )
                 ).range(128).squared()
@@ -42,7 +42,7 @@ public class WorldGeneration {
                 Feature.ORE.configured(
                         new OreFeatureConfig(
                                 OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                                UtilcraftBlocks.ROSE_QUARTZ_ORE.defaultBlockState(),
+                                UtilcraftBlocks.ROSE_QUARTZ_ORE.get().defaultBlockState(),
                                 4
                         )
                 ).range(20).squared()

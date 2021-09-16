@@ -1,7 +1,6 @@
 package net.petersil98.utilcraft.blocks;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -11,8 +10,8 @@ import javax.annotation.Nonnull;
 
 public class RedstoneSlab extends SlabBlock {
 
-    public RedstoneSlab() {
-        super(Properties.copy(Blocks.REDSTONE_BLOCK));
+    public RedstoneSlab(Properties properties) {
+        super(properties);
     }
 
     @Override

@@ -1,13 +1,15 @@
 package net.petersil98.utilcraft.tile_entities;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.*;
+import net.minecraft.tileentity.IChestLid;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -46,13 +48,13 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
     }
 
     public SecureChestTileEntity() {
-        this(UtilcraftTileEntities.SECURE_CHEST);
+        this(UtilcraftTileEntities.SECURE_CHEST.get());
     }
 
     @Nonnull
     @Override
     public TileEntityType<?> getType() {
-        return UtilcraftTileEntities.SECURE_CHEST;
+        return UtilcraftTileEntities.SECURE_CHEST.get();
     }
 
     @Override
@@ -147,10 +149,6 @@ public class SecureChestTileEntity extends TileEntity implements IChestLid, ITic
         this.level.playSound(null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
     }
 
-    /**
-     * See {@link Block#eventReceived} for more information. This must return true serverside before it is called
-     * clientside.
-     */
     public boolean triggerEvent(int id, int type) {
         if (id == 1) {
             this.numPlayersUsing = type;

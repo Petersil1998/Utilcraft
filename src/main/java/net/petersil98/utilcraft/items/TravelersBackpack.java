@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.TravelersBackpackContainer;
 import net.petersil98.utilcraft.data.capabilities.inventory.InventoryProvider;
 
@@ -23,8 +22,8 @@ import javax.annotation.Nullable;
 
 public class TravelersBackpack extends Item {
 
-    public TravelersBackpack() {
-        super(new Properties().tab(Utilcraft.ITEM_GROUP).stacksTo(1));
+    public TravelersBackpack(Properties properties) {
+        super(properties);
     }
 
     @Nonnull

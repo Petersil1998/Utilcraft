@@ -114,7 +114,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     @Nonnull
     @Override
     public ItemStack getToastSymbol() {
-        return new ItemStack(new BlockItem(UtilcraftBlocks.SUSHI_MAKER, new Item.Properties()));
+        return new ItemStack(new BlockItem(UtilcraftBlocks.SUSHI_MAKER.get(), new Item.Properties()));
     }
 
     @Nonnull
@@ -126,7 +126,7 @@ public class SushiMakerRecipe implements IRecipe<CraftingInventory> {
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
+        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER.get();
     }
 
     @Nonnull

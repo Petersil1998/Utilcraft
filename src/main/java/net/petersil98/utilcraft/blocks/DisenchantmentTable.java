@@ -2,8 +2,6 @@ package net.petersil98.utilcraft.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -28,12 +26,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class DisenchantmentTable extends Block {
-    public DisenchantmentTable() {
-        super(Properties
-                .of(Material.STONE, MaterialColor.COLOR_RED)
-                .requiresCorrectToolForDrops()
-                .strength(5.0F, 1200.0F)
-        );
+
+    public DisenchantmentTable(Properties properties) {
+        super(properties);
     }
 
     @Override

@@ -30,12 +30,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class SecureChest extends Block implements IWaterLoggable {
+
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
-    public SecureChest() {
-        super(Properties.copy(Blocks.CHEST));
+    public SecureChest(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.FALSE));
     }
 

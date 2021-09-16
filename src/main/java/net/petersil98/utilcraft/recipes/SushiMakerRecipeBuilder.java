@@ -219,7 +219,7 @@ public class SushiMakerRecipeBuilder {
 
         @Nonnull
         public IRecipeSerializer<?> getType() {
-            return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
+            return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER.get();
         }
 
         /**

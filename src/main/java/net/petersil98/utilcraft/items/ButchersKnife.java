@@ -8,7 +8,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.SushiMaker;
 
@@ -16,8 +15,8 @@ import javax.annotation.Nonnull;
 
 public class ButchersKnife extends Item {
 
-    public ButchersKnife() {
-        super(new Properties().tab(Utilcraft.ITEM_GROUP));
+    public ButchersKnife(Properties properties) {
+        super(properties);
     }
 
     @Nonnull
@@ -73,7 +72,7 @@ public class ButchersKnife extends Item {
     }
 
     private void replaceBlocks(BlockPos firstBlock, Direction secondBlock, @Nonnull World world) {
-        world.setBlockAndUpdate(firstBlock, UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock));
-        world.setBlockAndUpdate(firstBlock.offset(secondBlock.getNormal()), UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock.getOpposite()));
+        world.setBlockAndUpdate(firstBlock, UtilcraftBlocks.SUSHI_MAKER.get().defaultBlockState().setValue(SushiMaker.FACING, secondBlock));
+        world.setBlockAndUpdate(firstBlock.offset(secondBlock.getNormal()), UtilcraftBlocks.SUSHI_MAKER.get().defaultBlockState().setValue(SushiMaker.FACING, secondBlock.getOpposite()));
     }
 }

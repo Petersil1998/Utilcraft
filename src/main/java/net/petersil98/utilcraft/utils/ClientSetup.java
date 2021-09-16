@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 public class ClientSetup {
 
     public static void registerItemProperties() {
-        ItemModelsProperties.register(UtilcraftItems.TNT_FINDER, new ResourceLocation("angle"), new IItemPropertyGetter() {
+        ItemModelsProperties.register(UtilcraftItems.TNT_FINDER.get(), new ResourceLocation("angle"), new IItemPropertyGetter() {
             private final Angle wobble = new Angle();
             private final Angle wobbleRandom = new Angle();
 

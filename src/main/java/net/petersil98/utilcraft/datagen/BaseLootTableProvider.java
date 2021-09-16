@@ -188,7 +188,7 @@ public abstract class BaseLootTableProvider extends ForgeLootTableProvider {
         LootPool.Builder builder = LootPool.lootPool()
                 .name(BlockItemUtils.name(Blocks.SPAWNER))
                 .setRolls(ConstantRange.exactly(1))
-                .add(ItemLootEntry.lootTableItem(UtilcraftItems.SPAWNER_ITEM).apply(
+                .add(ItemLootEntry.lootTableItem(UtilcraftItems.SPAWNER_ITEM.get()).apply(
                         CopyNbt.copyData(CopyNbt.Source.BLOCK_ENTITY).copy("", "BlockEntityTag", CopyNbt.Action.REPLACE)
                 ).when(MatchTool.toolMatches(ItemPredicate.Builder.item()
                         .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))

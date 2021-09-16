@@ -21,7 +21,7 @@ public class SecureChestContainer extends Container {
     }
 
     public SecureChestContainer(int id, PlayerInventory playerInventory, IItemHandler inventory) {
-        super(UtilcraftContainer.SECURE_CHEST_CONTAINER, id);
+        super(UtilcraftContainer.SECURE_CHEST_CONTAINER.get(), id);
         this.inventory = inventory;
         this.numRows = 3;
         addSlots(playerInventory);

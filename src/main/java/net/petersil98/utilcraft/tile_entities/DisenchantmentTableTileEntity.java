@@ -16,7 +16,7 @@ public class DisenchantmentTableTileEntity extends TileEntity implements INameab
     private ITextComponent customName;
 
     public DisenchantmentTableTileEntity() {
-        super(UtilcraftTileEntities.DISENCHANTMENT_BLOCK);
+        super(UtilcraftTileEntities.DISENCHANTMENT_BLOCK.get());
     }
 
     @Nonnull

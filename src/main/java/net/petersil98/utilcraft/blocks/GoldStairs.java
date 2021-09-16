@@ -4,7 +4,7 @@ import net.minecraft.block.StairsBlock;
 
 public class GoldStairs extends StairsBlock {
 
-    public GoldStairs() {
-        super(() -> new GoldBrick().defaultBlockState(), Properties.copy(new GoldBrick()));
+    public GoldStairs(Properties properties) {
+        super(() -> UtilcraftBlocks.GOLD_BRICK.get().defaultBlockState(), properties);
     }
 }

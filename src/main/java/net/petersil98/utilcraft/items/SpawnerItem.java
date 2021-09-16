@@ -16,8 +16,8 @@ import javax.annotation.Nullable;
 
 public class SpawnerItem extends BlockItem {
 
-    public SpawnerItem() {
-        super(Blocks.SPAWNER, new Properties());
+    public SpawnerItem(Properties properties) {
+        super(Blocks.SPAWNER, properties);
     }
 
     protected boolean updateCustomBlockEntityTag(@Nonnull BlockPos pos, @Nonnull World world, @Nullable PlayerEntity player, @Nonnull ItemStack stack, @Nonnull BlockState state) {

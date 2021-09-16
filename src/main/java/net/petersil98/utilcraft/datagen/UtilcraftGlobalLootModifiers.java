@@ -20,8 +20,8 @@ public class UtilcraftGlobalLootModifiers extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add(UtilcraftLootModifiers.BEHEADING_SERIALIZER.getRegistryName().getPath(), UtilcraftLootModifiers.BEHEADING_SERIALIZER, new BeheadingModifier(new ILootCondition[]{
-                MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(UtilcraftEnchantments.BEHEADING, MinMaxBounds.IntBound.atLeast(1)))).build()
+        add(UtilcraftLootModifiers.BEHEADING_SERIALIZER.getId().getPath(), UtilcraftLootModifiers.BEHEADING_SERIALIZER.get(), new BeheadingModifier(new ILootCondition[]{
+                MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(UtilcraftEnchantments.BEHEADING.get(), MinMaxBounds.IntBound.atLeast(1)))).build()
         }));
     }
 }

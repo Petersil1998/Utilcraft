@@ -1,15 +1,14 @@
 package net.petersil98.utilcraft.blocks.sideslabs;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
 public class SideSpruceSlab extends SideSlabBlock {
 
-    public SideSpruceSlab() {
-        super(Properties.copy(Blocks.SPRUCE_WOOD));
+    public SideSpruceSlab(Properties properties) {
+        super(properties);
     }
 
     @Override

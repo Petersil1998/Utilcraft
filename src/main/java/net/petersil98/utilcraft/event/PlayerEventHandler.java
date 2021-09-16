@@ -1,11 +1,21 @@
 package net.petersil98.utilcraft.event;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -92,4 +102,29 @@ public class PlayerEventHandler {
             }
         }
     }
+
+    /*@SubscribeEvent
+    public static void onChunkLoaded(@Nonnull ChunkEvent.Load event){
+        BlockPos.Mutable blockPos = new BlockPos.Mutable(0,0,0);
+        for(int i = 0; i < event.getChunk().getHeight(Heightmap.Type.WORLD_SURFACE, 0, 0); i++) {
+            event.getChunk().setBlockState(blockPos.move(Direction.UP), Blocks.AIR.defaultBlockState(), true);
+        }
+    }*/
+
+    //TODO
+    /*@SubscribeEvent
+    public static void onPlayerKnockBack(@Nonnull LivingKnockBackEvent event) {
+        if(event.getEntity() instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+            for(ItemStack armorSlot: player.getArmorSlots()) {
+                if(armorSlot.getItem() instanceof ArmorItem) {
+                    ArmorItem item = (ArmorItem) armorSlot.getItem();
+                    if(item.getMaterial().equals(ArmorMaterial.DIAMOND)) {
+                        event.setCanceled(true);
+                        return;
+                    }
+                }
+            }
+        }
+    }*/
 }

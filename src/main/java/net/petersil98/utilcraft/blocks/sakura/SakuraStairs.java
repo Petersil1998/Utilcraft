@@ -5,11 +5,12 @@ import net.minecraft.block.StairsBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 public class SakuraStairs extends StairsBlock {
 
-    public SakuraStairs(){
-        super(() -> new SakuraPlanks().defaultBlockState(), Properties.copy(new SakuraPlanks()));
+    public SakuraStairs(Properties properties){
+        super(() -> UtilcraftBlocks.SAKURA_PLANKS.get().defaultBlockState(), properties);
     }
 
     @Override

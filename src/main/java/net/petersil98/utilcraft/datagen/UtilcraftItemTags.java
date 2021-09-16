@@ -38,6 +38,6 @@ public class UtilcraftItemTags extends ItemTagsProvider {
 
         this.copy(UtilcraftTags.BlockTags.SAKURA_LOGS, UtilcraftTags.ItemTags.SAKURA_LOGS);
 
-        this.tag(ItemTags.BEACON_PAYMENT_ITEMS).add(UtilcraftItems.ROSE_QUARTZ);
+        this.tag(ItemTags.BEACON_PAYMENT_ITEMS).add(UtilcraftItems.ROSE_QUARTZ.get());
     }
 }

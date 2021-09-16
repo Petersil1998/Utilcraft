@@ -10,6 +10,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.Lazy;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.tile_entities.SecureChestTileEntity;
 
@@ -17,15 +18,15 @@ import javax.annotation.Nonnull;
 
 public class SecureChestItemTileEntityRenderer extends ItemStackTileEntityRenderer {
 
-    private final SecureChestTileEntity chest = new SecureChestTileEntity();
+    private final Lazy<SecureChestTileEntity> chest = Lazy.of(SecureChestTileEntity::new);
 
-    public void renderByItem(@Nonnull ItemStack stack, @Nonnull ItemCameraTransforms.TransformType p_239207_2_, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+    public void renderByItem(@Nonnull ItemStack stack, @Nonnull ItemCameraTransforms.TransformType transformType, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         Item item = stack.getItem();
         if (item instanceof BlockItem) {
             Block block = ((BlockItem)item).getBlock();
             TileEntity tileentity;
             if (block instanceof SecureChest) {
-                tileentity = this.chest;
+                tileentity = this.chest.get();
             } else {
                 return;
             }

@@ -30,7 +30,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
     }
 
     public SushiMakerContainer(int id, @Nonnull PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
-        super(UtilcraftContainer.SUSHI_MAKER_CONTAINER, id);
+        super(UtilcraftContainer.SUSHI_MAKER_CONTAINER.get(), id);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
         this.addSlot(new CraftingResultSlot(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 44));
@@ -101,7 +101,7 @@ public class SushiMakerContainer extends RecipeBookContainer<CraftingInventory> 
      * Determines whether supplied player can use this container
      */
     public boolean stillValid(@Nonnull PlayerEntity player) {
-        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.SUSHI_MAKER);
+        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.SUSHI_MAKER.get());
     }
 
     /**

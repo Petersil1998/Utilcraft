@@ -1,14 +1,14 @@
 package net.petersil98.utilcraft.blocks.sideslabs;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
 public class SideBirchSlab extends SideSlabBlock {
-    public SideBirchSlab() {
-        super(Properties.copy(Blocks.BIRCH_WOOD));
+
+    public SideBirchSlab(Properties properties) {
+        super(properties);
     }
 
     @Override

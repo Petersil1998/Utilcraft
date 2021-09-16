@@ -34,7 +34,7 @@ public class DisenchantmentTableContainer extends Container {
     }
 
     public DisenchantmentTableContainer(int id, PlayerInventory playerInventory, IWorldPosCallable worldPosCallable) {
-        super(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER, id);
+        super(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER.get(), id);
         this.worldPosCallable = worldPosCallable;
         this.addSlot(new Slot(this.inputInventory, 0, 15, 25) {
             /**
@@ -131,7 +131,7 @@ public class DisenchantmentTableContainer extends Container {
      * Determines whether supplied player can use this container
      */
     public boolean stillValid(@Nonnull PlayerEntity player) {
-        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.DISENCHANTMENT_TABLE);
+        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.DISENCHANTMENT_TABLE.get());
     }
 
     /**

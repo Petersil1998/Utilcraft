@@ -10,10 +10,10 @@ import java.util.function.Supplier;
 
 public enum UtilcraftItemTier implements IItemTier {
     ROSE_QUARTZ(5,3021,10.0F,5.0F, 20,()-> {
-        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ.get());
     }),
     SUPER_ROSE_QUARTZ(5,3021*9,10.0F,5.0F, 20,()-> {
-        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ.get());
     });
 
     private final int harvestLevel;

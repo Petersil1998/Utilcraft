@@ -2,7 +2,6 @@ package net.petersil98.utilcraft.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -17,10 +16,8 @@ public class ChunkLoader extends Block {
 
     public static final int RADIUS = 1;
 
-    public ChunkLoader() {
-        super(Properties
-                .of(Material.STONE)
-        );
+    public ChunkLoader(Properties properties) {
+        super(properties);
     }
 
     @Override

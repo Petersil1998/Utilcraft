@@ -1,12 +1,10 @@
 package net.petersil98.utilcraft.items;
 
 import net.minecraft.item.Item;
-import net.petersil98.utilcraft.Utilcraft;
 
 public class RoseQuartz extends Item {
-    public RoseQuartz() {
-        super(new Properties()
-                .tab(Utilcraft.ITEM_GROUP)
-        );
+
+    public RoseQuartz(Properties properties) {
+        super(properties);
     }
 }

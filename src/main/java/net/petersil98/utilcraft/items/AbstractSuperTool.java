@@ -8,8 +8,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.item.Item.Properties;
-
 public abstract class AbstractSuperTool extends Item {
 
     public AbstractSuperTool(Properties properties) {

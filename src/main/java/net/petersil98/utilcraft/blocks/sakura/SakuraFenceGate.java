@@ -2,20 +2,14 @@ package net.petersil98.utilcraft.blocks.sakura;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
 public class SakuraFenceGate extends FenceGateBlock {
 
-    public SakuraFenceGate() {
-        super(Properties
-                .of(Material.WOOD, new SakuraPlanks().defaultMaterialColor())
-                .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
-        );
+    public SakuraFenceGate(Properties properties) {
+        super(properties);
     }
 
     @Override

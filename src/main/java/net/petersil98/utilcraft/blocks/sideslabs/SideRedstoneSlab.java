@@ -1,7 +1,6 @@
 package net.petersil98.utilcraft.blocks.sideslabs;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -11,8 +10,8 @@ import javax.annotation.Nullable;
 
 public class SideRedstoneSlab extends SideSlabBlock {
 
-    public SideRedstoneSlab() {
-        super(Properties.copy(Blocks.REDSTONE_BLOCK));
+    public SideRedstoneSlab(Properties properties) {
+        super(properties);
     }
 
     @Override

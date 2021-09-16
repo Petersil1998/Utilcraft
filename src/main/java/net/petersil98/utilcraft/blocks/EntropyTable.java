@@ -2,7 +2,6 @@ package net.petersil98.utilcraft.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -19,8 +18,8 @@ import javax.annotation.Nonnull;
 
 public class EntropyTable extends Block {
 
-    public EntropyTable(){
-        super(Properties.copy(Blocks.CRAFTING_TABLE));
+    public EntropyTable(Properties properties){
+        super(properties);
     }
 
     @Nonnull
