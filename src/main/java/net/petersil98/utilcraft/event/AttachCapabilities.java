@@ -50,7 +50,7 @@ public class AttachCapabilities {
     }
 
     public static void adjustCapabilities(@Nonnull Player original, @Nonnull Player clone) {
-        AtomicReference<Boolean> veinMiner = new AtomicReference<>();
+        AtomicReference<Boolean> veinMiner = new AtomicReference<>(false);
 
         original.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
             veinMiner.set(iVeinMiner.getVeinMiner());
@@ -60,7 +60,7 @@ public class AttachCapabilities {
             iVeinMiner.setVeinMiner(veinMiner.get());
         });
 
-        AtomicReference<BlockPos> blockPos = new AtomicReference<>();
+        AtomicReference<BlockPos> blockPos = new AtomicReference<>(BlockPos.ZERO);
         AtomicReference<ResourceLocation> resourceLocation = new AtomicReference<>();
 
         original.getCapability(CapabilityHome.HOME_CAPABILITY).ifPresent(iHome -> {
