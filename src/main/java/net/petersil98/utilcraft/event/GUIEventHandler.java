@@ -1,20 +1,21 @@
 package net.petersil98.utilcraft.event;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.platform.Window;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import com.mojang.math.Matrix4f;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -87,8 +88,9 @@ public class GUIEventHandler {
                 MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
                 Matrix4f matrix = matrixStack.last().pose();
+                Matrix3f normal = matrixStack.last().normal();
 
-                drawLine(buffer.getBuffer(RenderType.LINES), matrix, lastDeath.getDeathPoint(), new Color(Config.DEATH_RAY_COLOR.get(), true));
+                drawLine(buffer.getBuffer(RenderType.LINES), matrix, normal, lastDeath.getDeathPoint(), new Color(Config.DEATH_RAY_COLOR.get(), true));
 
                 matrixStack.popPose();
 
@@ -97,12 +99,14 @@ public class GUIEventHandler {
         }
     }
 
-    private static void drawLine(@Nonnull VertexConsumer builder, Matrix4f positionMatrix, @Nonnull BlockPos pos, @Nonnull Color color) {
+    private static void drawLine(@Nonnull VertexConsumer builder, Matrix4f positionMatrix, Matrix3f normal, @Nonnull BlockPos pos, @Nonnull Color color) {
         builder.vertex(positionMatrix, pos.getX(), pos.getY(), pos.getZ())
                 .color(color.getRed(), color.getGreen(),color.getBlue(),color.getAlpha())
+                .normal(normal,0, 1,0)
                 .endVertex();
         builder.vertex(positionMatrix, pos.getX(), pos.getY()+200, pos.getZ())
                 .color(color.getRed(), color.getGreen(),color.getBlue(),color.getAlpha())
+                .normal(normal, 0,1,0)
                 .endVertex();
     }
 }
