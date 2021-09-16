@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.petersil98.utilcraft.data.capabilities.last_death.ILastDeath;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

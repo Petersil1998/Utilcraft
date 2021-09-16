@@ -9,6 +9,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -65,6 +66,7 @@ public class Utilcraft {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(this::setup);
         eventBus.addListener(this::clientSetup);
+        eventBus.addListener(this::registerCapabilities);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
 
         UtilcraftBlocks.BLOCKS.register(eventBus);
@@ -78,9 +80,6 @@ public class Utilcraft {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        CapabilityVeinMiner.register();
-        CapabilityHome.register();
-        CapabilityLastDeath.register();
         NetworkManager.registerMessages();
         UtilcraftGameRules.register();
         event.enqueueWork(() -> ((FlowerPotBlock)Blocks.FLOWER_POT).addPlant(UtilcraftBlocks.SAKURA_SAPLING.getId(), UtilcraftBlocks.POTTED_SAKURA_SAPLING));
@@ -104,6 +103,12 @@ public class Utilcraft {
             MenuScreens.register(UtilcraftContainer.ENTROPY_TABLE_CONTAINER.get(), EntropyTableScreen::new);
             ClientSetup.registerItemProperties();
         });
+    }
+
+    private void registerCapabilities(final RegisterCapabilitiesEvent event) {
+        CapabilityVeinMiner.register(event);
+        CapabilityHome.register(event);
+        CapabilityLastDeath.register(event);
     }
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE)
