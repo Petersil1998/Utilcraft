@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "utilcraft:gold_brick",
+    "utilcraft:gold_stairs",
+    "utilcraft:gold_slab",
+    "utilcraft:gold_wall",
+    "utilcraft:compressed_cobblestone",
+    "utilcraft:silver_ore",
+    "utilcraft:silver_block",
+    "utilcraft:rose_quartz_ore",
+    "utilcraft:rose_quartz_block",
+    "utilcraft:side_stone_slab",
+    "utilcraft:side_cobblestone_slab",
+    "utilcraft:side_gold_slab",
+    "utilcraft:disenchantment_table",
+    "utilcraft:redstone_slab",
+    "utilcraft:redstone_stairs",
+    "utilcraft:side_redstone_slab",
+    "utilcraft:chunk_loader"
+  ]
+}

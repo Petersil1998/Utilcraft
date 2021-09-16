@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "utilcraft:side_oak_slab",
+    "utilcraft:side_spruce_slab",
+    "utilcraft:side_birch_slab",
+    "utilcraft:side_jungle_slab",
+    "utilcraft:side_acacia_slab",
+    "utilcraft:side_dark_oak_slab",
+    "utilcraft:side_sakura_slab",
+    "utilcraft:secure_chest",
+    "utilcraft:entropy_table"
+  ]
+}
