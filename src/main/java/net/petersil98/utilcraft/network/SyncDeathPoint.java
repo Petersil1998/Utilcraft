@@ -4,7 +4,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.utils.PlayerUtils;
 
 import javax.annotation.Nonnull;
@@ -25,7 +24,7 @@ public class SyncDeathPoint {
             this.deathPoint = packetBuffer.readBlockPos();
             this.dimension = packetBuffer.readResourceLocation();
         } catch (IndexOutOfBoundsException e) {
-            Utilcraft.LOGGER.error("Error when reading SyncDeathPoint Packet", e);
+            //DeathPoint and Dimension are getting reset to null because Player ran over the deathPoint
             this.deathPoint = null;
             this.dimension = null;
         }
