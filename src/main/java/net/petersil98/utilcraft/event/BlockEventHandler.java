@@ -42,7 +42,7 @@ public class BlockEventHandler {
             player.getCapability(CapabilityVeinMiner.VEIN_MINER_CAPABILITY).ifPresent(iVeinMiner -> {
                 veinMinerActive.set(iVeinMiner.getVeinMiner());
             });
-            if (playerCanHarvestBlock(event.getState(), mainItem, event.getPos(), world, player)) {
+            if (playerCanHarvestBlock(event.getState(), mainItem, player)) {
                 ArrayList<BlockPos> blocksToHarvest = new ArrayList<>();
                 if (isSuperTool(mainItem.getItem())) {
                     get3x3FieldAroundTargetedBlock(player, blocksToHarvest);
@@ -57,7 +57,7 @@ public class BlockEventHandler {
                 blocksToHarvest.remove(event.getPos());
                 for (BlockPos blockpos : blocksToHarvest) {
                     BlockState blockstate = world.getBlockState(blockpos);
-                    if (playerCanHarvestBlock(blockstate, mainItem, blockpos, world, player)) {
+                    if (playerCanHarvestBlock(blockstate, mainItem, player)) {
                         if (mainItem.getMaxDamage() > mainItem.getDamageValue() + 1) {
                             if (blockstate.removedByPlayer(world, blockpos, player, true, world.getFluidState(blockpos))) {
                                 Block block = blockstate.getBlock();

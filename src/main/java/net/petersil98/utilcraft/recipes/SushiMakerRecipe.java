@@ -2,15 +2,19 @@ package net.petersil98.utilcraft.recipes;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
@@ -18,12 +22,6 @@ import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 
 public record SushiMakerRecipe(ResourceLocation id, String group, int recipeWidth,
                                int recipeHeight,
@@ -106,7 +104,7 @@ public record SushiMakerRecipe(ResourceLocation id, String group, int recipeWidt
     @Nonnull
     @Override
     public ItemStack getToastSymbol() {
-        return new ItemStack(new BlockItem(UtilcraftBlocks.SUSHI_MAKER, new Item.Properties()));
+        return new ItemStack(new BlockItem(UtilcraftBlocks.SUSHI_MAKER.get(), new Item.Properties()));
     }
 
     @Nonnull
@@ -118,7 +116,7 @@ public record SushiMakerRecipe(ResourceLocation id, String group, int recipeWidt
     @Nonnull
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER;
+        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE_SERIALIZER.get();
     }
 
     @Nonnull

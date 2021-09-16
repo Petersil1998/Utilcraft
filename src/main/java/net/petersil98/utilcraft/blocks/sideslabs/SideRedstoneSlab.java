@@ -3,15 +3,14 @@ package net.petersil98.utilcraft.blocks.sideslabs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 
 public class SideRedstoneSlab extends SideSlabBlock {
 
-    public SideRedstoneSlab() {
-        super(Properties.copy(Blocks.REDSTONE_BLOCK));
+    public SideRedstoneSlab(Properties properties) {
+        super(properties);
     }
 
     @Override
@@ -21,10 +20,11 @@ public class SideRedstoneSlab extends SideSlabBlock {
 
     @Override
     public int getSignal(@Nonnull BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos blockPos, @Nonnull Direction direction) {
+        return shouldEmitSignal(state, direction) ? 10 : 0;
+    }
+
+    private boolean shouldEmitSignal(BlockState state, Direction direction){
         Direction facing = state.getValue(SideSlabBlock.TYPE).getFacingDirection();
-        if(facing != null && facing.getOpposite().equals(direction)) {
-            return 10;
-        }
-        return 0;
+        return facing != null && facing.getOpposite().equals(direction);
     }
 }

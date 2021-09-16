@@ -1,14 +1,13 @@
 package net.petersil98.utilcraft.blocks;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,10 +16,8 @@ public class ChunkLoader extends Block {
 
     public static final int RADIUS = 1;
 
-    public ChunkLoader() {
-        super(Properties
-                .of(Material.STONE)
-        );
+    public ChunkLoader(Properties properties) {
+        super(properties);
     }
 
     @Override

@@ -1,15 +1,15 @@
 package net.petersil98.utilcraft.utils;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.Tags;
 import net.petersil98.utilcraft.items.AbstractSuperTool;
@@ -225,8 +225,8 @@ public class VeinMinerUtils {
         }
     }
 
-    public static boolean playerCanHarvestBlock(BlockState block, ItemStack item, BlockPos pos, Level world, Player player){
-        return ForgeHooks.canHarvestBlock(block, player, world, pos) || item.isCorrectToolForDrops(block);
+    public static boolean playerCanHarvestBlock(BlockState block, ItemStack item, Player player){
+        return ForgeHooks.isCorrectToolForDrops(block, player) || item.isCorrectToolForDrops(block);
     }
 
     public static boolean areSameBlock(BlockPos pos1, BlockPos pos2, @Nonnull Level world){

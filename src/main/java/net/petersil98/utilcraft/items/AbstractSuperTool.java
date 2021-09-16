@@ -8,8 +8,6 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.world.item.Item.Properties;
-
 public abstract class AbstractSuperTool extends Item {
 
     public AbstractSuperTool(Properties properties) {

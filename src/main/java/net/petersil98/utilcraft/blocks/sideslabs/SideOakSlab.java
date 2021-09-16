@@ -1,15 +1,14 @@
 package net.petersil98.utilcraft.blocks.sideslabs;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class SideOakSlab extends SideSlabBlock{
+public class SideOakSlab extends SideSlabBlock {
 
-    public SideOakSlab() {
-        super(Properties.copy(Blocks.OAK_WOOD));
+    public SideOakSlab(Properties properties) {
+        super(properties);
     }
 
     @Override

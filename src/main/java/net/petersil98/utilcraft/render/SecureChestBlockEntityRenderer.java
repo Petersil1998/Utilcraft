@@ -45,7 +45,7 @@ public class SecureChestBlockEntityRenderer<T extends BlockEntity & LidBlockEnti
     public void render(@Nonnull T blockEntity, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         Level world = blockEntity.getLevel();
         boolean flag = world != null;
-        BlockState blockstate = flag ? blockEntity.getBlockState() : UtilcraftBlocks.SECURE_CHEST.defaultBlockState().setValue(SecureChest.FACING, Direction.SOUTH);
+        BlockState blockstate = flag ? blockEntity.getBlockState() : UtilcraftBlocks.SECURE_CHEST.get().defaultBlockState().setValue(SecureChest.FACING, Direction.SOUTH);
         Block block = blockstate.getBlock();
         if (block instanceof SecureChest) {
             matrixStack.pushPose();

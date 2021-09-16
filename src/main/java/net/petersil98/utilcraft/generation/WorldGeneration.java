@@ -1,22 +1,21 @@
 package net.petersil98.utilcraft.generation;
 
 import com.google.common.collect.Lists;
+import net.minecraft.data.worldgen.Features;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.placement.FrequencyWithExtraChanceDecoratorConfiguration;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraft.world.level.levelgen.placement.FrequencyWithExtraChanceDecoratorConfiguration;
 import net.petersil98.utilcraft.biomes.features.UtilcraftBiomeFeatures;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-
-import net.minecraft.data.worldgen.Features;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 
 public class WorldGeneration {
 
@@ -33,7 +32,7 @@ public class WorldGeneration {
                 Feature.ORE.configured(
                         new OreConfiguration(
                                 OreConfiguration.Predicates.NATURAL_STONE,
-                                UtilcraftBlocks.SILVER_ORE.defaultBlockState(),
+                                UtilcraftBlocks.SILVER_ORE.get().defaultBlockState(),
                                 17
                         )
                 ).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(128)).squared()
@@ -46,7 +45,7 @@ public class WorldGeneration {
                 Feature.ORE.configured(
                         new OreConfiguration(
                                 OreConfiguration.Predicates.NATURAL_STONE,
-                                UtilcraftBlocks.ROSE_QUARTZ_ORE.defaultBlockState(),
+                                UtilcraftBlocks.ROSE_QUARTZ_ORE.get().defaultBlockState(),
                                 4
                         )
                 ).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(20)).squared()

@@ -11,8 +11,8 @@ import javax.annotation.Nonnull;
 
 public class RedstoneStairs extends StairBlock {
 
-    public RedstoneStairs() {
-        super(Blocks.REDSTONE_BLOCK::defaultBlockState, Properties.copy(Blocks.REDSTONE_BLOCK));
+    public RedstoneStairs(Properties properties) {
+        super(Blocks.REDSTONE_BLOCK::defaultBlockState, properties);
     }
 
     @Override

@@ -4,7 +4,7 @@ import net.minecraft.world.level.block.WallBlock;
 
 public class GoldWall extends WallBlock {
 
-    public GoldWall() {
-        super(Properties.copy(new GoldBrick()));
+    public GoldWall(Properties properties) {
+        super(properties);
     }
 }

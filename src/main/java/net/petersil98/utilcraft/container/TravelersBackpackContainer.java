@@ -24,7 +24,7 @@ public class TravelersBackpackContainer extends AbstractContainerMenu {
     }
 
     public TravelersBackpackContainer(int id, Inventory playerInventory, IItemHandler inventory, int slotNumber) {
-        super(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER, id);
+        super(UtilcraftContainer.TRAVELERS_BACKPACK_CONTAINER.get(), id);
         this.inventory = inventory;
         this.numRows = inventory.getSlots()/9;
         this.slotNumber = slotNumber;

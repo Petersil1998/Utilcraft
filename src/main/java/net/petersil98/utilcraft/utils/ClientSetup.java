@@ -1,28 +1,26 @@
 package net.petersil98.utilcraft.utils;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.renderer.item.ItemPropertyFunction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.client.renderer.item.ItemPropertyFunction;
-import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.world.entity.vehicle.MinecartTNT;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fmlclient.ConfigGuiHandler;
-import net.minecraftforge.fmllegacy.network.FMLNetworkConstants;
-import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.items.TNTFinder;
+import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.screen.ConfigScreen;
 
 import javax.annotation.Nonnull;
@@ -35,7 +33,7 @@ import java.util.stream.Stream;
 public class ClientSetup {
 
     public static void registerItemProperties() {
-        ItemProperties.register(UtilcraftItems.TNT_FINDER, new ResourceLocation("angle"), new ItemPropertyFunction() {
+        ItemProperties.register(UtilcraftItems.TNT_FINDER.get(), new ResourceLocation("angle"), new ItemPropertyFunction() {
             private final Angle wobble = new Angle();
             private final Angle wobbleRandom = new Angle();
 

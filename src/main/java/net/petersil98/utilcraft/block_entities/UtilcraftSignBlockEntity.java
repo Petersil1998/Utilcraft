@@ -16,6 +16,6 @@ public class UtilcraftSignBlockEntity extends SignBlockEntity {
     @Nonnull
     @Override
     public BlockEntityType<?> getType() {
-        return UtilcraftBlockEntities.UTILCRAFT_SIGN;
+        return UtilcraftBlockEntities.UTILCRAFT_SIGN.get();
     }
 }

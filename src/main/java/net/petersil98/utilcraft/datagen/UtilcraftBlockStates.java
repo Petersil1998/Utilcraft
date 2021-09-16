@@ -1,35 +1,18 @@
 package net.petersil98.utilcraft.datagen;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.core.Direction;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.SushiMaker;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
-import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
 import net.petersil98.utilcraft.utils.BlockItemUtils;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.PressurePlateBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SaplingBlock;
-import net.minecraft.world.level.block.SignBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
-import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.block.WallSignBlock;
 
 public class UtilcraftBlockStates extends BlockStateProvider {
 
@@ -39,47 +22,47 @@ public class UtilcraftBlockStates extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(UtilcraftBlocks.COMPRESSED_COBBLESTONE);
-        simpleBlock(UtilcraftBlocks.DISENCHANTMENT_TABLE);
-        simpleBlock(UtilcraftBlocks.GOLD_BRICK);
-        registerSlab(UtilcraftBlocks.GOLD_SLAB, UtilcraftBlocks.GOLD_BRICK);
-        registerStairs(UtilcraftBlocks.GOLD_STAIRS, UtilcraftBlocks.GOLD_BRICK);
-        registerWall(UtilcraftBlocks.GOLD_WALL, UtilcraftBlocks.GOLD_BRICK);
-        registerSlab(UtilcraftBlocks.REDSTONE_SLAB, Blocks.REDSTONE_BLOCK);
-        registerStairs(UtilcraftBlocks.REDSTONE_STAIRS, Blocks.REDSTONE_BLOCK);
-        simpleBlock(UtilcraftBlocks.ROSE_QUARTZ_BLOCK);
-        simpleBlock(UtilcraftBlocks.ROSE_QUARTZ_ORE);
-        registerButton(UtilcraftBlocks.SAKURA_BUTTON, UtilcraftBlocks.SAKURA_PLANKS);
-        registerDoor(UtilcraftBlocks.SAKURA_DOOR, UtilcraftBlocks.SAKURA_DOOR);
-        registerFence(UtilcraftBlocks.SAKURA_FENCE, UtilcraftBlocks.SAKURA_PLANKS);
-        registerFenceGate(UtilcraftBlocks.SAKURA_FENCE_GATE, UtilcraftBlocks.SAKURA_PLANKS);
-        simpleBlock(UtilcraftBlocks.SAKURA_LEAVES);
-        registerLog(UtilcraftBlocks.SAKURA_LOG);
-        simpleBlock(UtilcraftBlocks.SAKURA_PLANKS);
-        registerPressurePlate(UtilcraftBlocks.SAKURA_PRESSURE_PLATE, UtilcraftBlocks.SAKURA_PLANKS);
-        registerSapling(UtilcraftBlocks.SAKURA_SAPLING);
-        registerSign(UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_PLANKS);
-        registerSlab(UtilcraftBlocks.SAKURA_SLAB, UtilcraftBlocks.SAKURA_PLANKS);
-        registerStairs(UtilcraftBlocks.SAKURA_STAIRS, UtilcraftBlocks.SAKURA_PLANKS);
-        registerTrapdoor(UtilcraftBlocks.SAKURA_TRAPDOOR);
-        registerWallSign(UtilcraftBlocks.SAKURA_WALL_SIGN, UtilcraftBlocks.SAKURA_SIGN, UtilcraftBlocks.SAKURA_PLANKS);
-        registerChest(UtilcraftBlocks.SECURE_CHEST, UtilcraftBlocks.SAKURA_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_ACACIA_SLAB, Blocks.ACACIA_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_BIRCH_SLAB, Blocks.BIRCH_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB, Blocks.COBBLESTONE);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_DARK_OAK_SLAB, Blocks.DARK_OAK_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_GOLD_SLAB, UtilcraftBlocks.GOLD_BRICK);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_JUNGLE_SLAB, Blocks.JUNGLE_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_OAK_SLAB, Blocks.OAK_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB, Blocks.REDSTONE_BLOCK);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_SAKURA_SLAB, UtilcraftBlocks.SAKURA_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB, Blocks.SPRUCE_PLANKS);
-        registerSideSlab(UtilcraftSideSlabs.SIDE_STONE_SLAB, Blocks.STONE);
-        simpleBlock(UtilcraftBlocks.SILVER_ORE);
+        simpleBlock(UtilcraftBlocks.COMPRESSED_COBBLESTONE.get());
+        simpleBlock(UtilcraftBlocks.DISENCHANTMENT_TABLE.get());
+        simpleBlock(UtilcraftBlocks.GOLD_BRICK.get());
+        registerSlab(UtilcraftBlocks.GOLD_SLAB.get(), UtilcraftBlocks.GOLD_BRICK.get());
+        registerStairs(UtilcraftBlocks.GOLD_STAIRS.get(), UtilcraftBlocks.GOLD_BRICK.get());
+        registerWall(UtilcraftBlocks.GOLD_WALL.get(), UtilcraftBlocks.GOLD_BRICK.get());
+        registerSlab(UtilcraftBlocks.REDSTONE_SLAB.get(), Blocks.REDSTONE_BLOCK);
+        registerStairs(UtilcraftBlocks.REDSTONE_STAIRS.get(), Blocks.REDSTONE_BLOCK);
+        simpleBlock(UtilcraftBlocks.ROSE_QUARTZ_BLOCK.get());
+        simpleBlock(UtilcraftBlocks.ROSE_QUARTZ_ORE.get());
+        registerButton(UtilcraftBlocks.SAKURA_BUTTON.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerDoor(UtilcraftBlocks.SAKURA_DOOR.get(), UtilcraftBlocks.SAKURA_DOOR.get());
+        registerFence(UtilcraftBlocks.SAKURA_FENCE.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerFenceGate(UtilcraftBlocks.SAKURA_FENCE_GATE.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        simpleBlock(UtilcraftBlocks.SAKURA_LEAVES.get());
+        registerLog(UtilcraftBlocks.SAKURA_LOG.get());
+        simpleBlock(UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerPressurePlate(UtilcraftBlocks.SAKURA_PRESSURE_PLATE.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerSapling(UtilcraftBlocks.SAKURA_SAPLING.get());
+        registerSign(UtilcraftBlocks.SAKURA_SIGN.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerSlab(UtilcraftBlocks.SAKURA_SLAB.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerStairs(UtilcraftBlocks.SAKURA_STAIRS.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerTrapdoor(UtilcraftBlocks.SAKURA_TRAPDOOR.get());
+        registerWallSign(UtilcraftBlocks.SAKURA_WALL_SIGN.get(), UtilcraftBlocks.SAKURA_SIGN.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerChest(UtilcraftBlocks.SECURE_CHEST.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerSideSlab(UtilcraftBlocks.SIDE_ACACIA_SLAB.get(), Blocks.ACACIA_PLANKS);
+        registerSideSlab(UtilcraftBlocks.SIDE_BIRCH_SLAB.get(), Blocks.BIRCH_PLANKS);
+        registerSideSlab(UtilcraftBlocks.SIDE_COBBLESTONE_SLAB.get(), Blocks.COBBLESTONE);
+        registerSideSlab(UtilcraftBlocks.SIDE_DARK_OAK_SLAB.get(), Blocks.DARK_OAK_PLANKS);
+        registerSideSlab(UtilcraftBlocks.SIDE_GOLD_SLAB.get(), UtilcraftBlocks.GOLD_BRICK.get());
+        registerSideSlab(UtilcraftBlocks.SIDE_JUNGLE_SLAB.get(), Blocks.JUNGLE_PLANKS);
+        registerSideSlab(UtilcraftBlocks.SIDE_OAK_SLAB.get(), Blocks.OAK_PLANKS);
+        registerSideSlab(UtilcraftBlocks.SIDE_REDSTONE_SLAB.get(), Blocks.REDSTONE_BLOCK);
+        registerSideSlab(UtilcraftBlocks.SIDE_SAKURA_SLAB.get(), UtilcraftBlocks.SAKURA_PLANKS.get());
+        registerSideSlab(UtilcraftBlocks.SIDE_SPRUCE_SLAB.get(), Blocks.SPRUCE_PLANKS);
+        registerSideSlab(UtilcraftBlocks.SIDE_STONE_SLAB.get(), Blocks.STONE);
+        simpleBlock(UtilcraftBlocks.SILVER_ORE.get());
         registerSushiMaker();
-        registerStairs(UtilcraftBlocks.GLASS_STAIRS, Blocks.GLASS);
-        registerPottedBlock(UtilcraftBlocks.POTTED_SAKURA_SAPLING);
-        simpleBlock(UtilcraftBlocks.SILVER_BLOCK);
+        registerStairs(UtilcraftBlocks.GLASS_STAIRS.get(), Blocks.GLASS);
+        registerPottedBlock(UtilcraftBlocks.POTTED_SAKURA_SAPLING.get());
+        simpleBlock(UtilcraftBlocks.SILVER_BLOCK.get());
     }
 
     private void registerSlab(SlabBlock block, Block texture) {
@@ -111,24 +94,16 @@ public class UtilcraftBlockStates extends BlockStateProvider {
             int xRot = 0;
             boolean uvlock = false;
             switch (facing) {
-                case EAST -> {
-                    yRot = 270;
-                }
-                case WEST -> {
-                    yRot = 90;
-                }
-                case NORTH -> {
-                    yRot = 180;
-                }
+                case EAST -> yRot = 270;
+                case WEST -> yRot = 90;
+                case NORTH -> yRot = 180;
             }
             switch (face) {
                 case WALL -> {
                     xRot = 90;
                     uvlock = true;
                 }
-                case CEILING -> {
-                    xRot = 180;
-                }
+                case CEILING -> xRot = 180;
             }
             return ConfiguredModel.builder()
                     .modelFile(powered ? pressed : button)
@@ -212,9 +187,9 @@ public class UtilcraftBlockStates extends BlockStateProvider {
     }
 
     private void registerSushiMaker() {
-        ResourceLocation corner = new ResourceLocation(BlockItemUtils.namespace(UtilcraftBlocks.SUSHI_MAKER), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER)+"_corner");
-        ResourceLocation front = new ResourceLocation(BlockItemUtils.namespace(UtilcraftBlocks.SUSHI_MAKER), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER)+"_front");
-        ModelFile modelFile = models().withExistingParent(BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER), "cube")
+        ResourceLocation corner = new ResourceLocation(BlockItemUtils.namespace(UtilcraftBlocks.SUSHI_MAKER.get()), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER.get())+"_corner");
+        ResourceLocation front = new ResourceLocation(BlockItemUtils.namespace(UtilcraftBlocks.SUSHI_MAKER.get()), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER.get())+"_front");
+        ModelFile modelFile = models().withExistingParent(BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER.get()), "cube")
                 .texture("corner", corner)
                 .texture("front", front)
                 .element().face(Direction.DOWN).texture("#corner").rotation(ModelBuilder.FaceRotation.COUNTERCLOCKWISE_90).end().end()
@@ -223,20 +198,14 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                 .element().face(Direction.SOUTH).texture("#front").end().end()
                 .element().face(Direction.EAST).texture("#corner").rotation(ModelBuilder.FaceRotation.UPSIDE_DOWN).end().end()
                 .element().face(Direction.WEST).texture("#corner").end().end();
-        getVariantBuilder(UtilcraftBlocks.SUSHI_MAKER).forAllStates(blockState -> {
+        getVariantBuilder(UtilcraftBlocks.SUSHI_MAKER.get()).forAllStates(blockState -> {
             Direction facing = blockState.getValue(SushiMaker.FACING);
             int rotX = 0;
             int rotY = 0;
             switch (facing) {
-                case EAST -> {
-                    rotY = 90;
-                }
-                case SOUTH -> {
-                    rotX = 180;
-                }
-                case WEST -> {
-                    rotY = 270;
-                }
+                case EAST -> rotY = 90;
+                case SOUTH -> rotX = 180;
+                case WEST -> rotY = 270;
             }
             return ConfiguredModel.builder()
                     .modelFile(modelFile)
@@ -244,7 +213,7 @@ public class UtilcraftBlockStates extends BlockStateProvider {
                     .rotationY(rotY)
                     .build();
         });
-        models().cubeAll(BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER)+"_inventory", front);
+        models().cubeAll(BlockItemUtils.name(UtilcraftBlocks.SUSHI_MAKER.get())+"_inventory", front);
     }
 
     private void registerPottedBlock(FlowerPotBlock block) {

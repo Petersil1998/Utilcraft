@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public enum UtilcraftArmorMaterial implements ArmorMaterial {
     ROSE_QUARTZ(Utilcraft.MOD_ID+":rose_quartz", 40, new int[]{4, 7, 9, 4}, 20, SoundEvents.ARMOR_EQUIP_DIAMOND, 5.0F, 0.1F, () -> {
-        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ);
+        return Ingredient.of(UtilcraftItems.ROSE_QUARTZ.get());
     });
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};

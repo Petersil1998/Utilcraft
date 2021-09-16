@@ -34,11 +34,10 @@ public class BeheadingModifier extends LootModifier {
     @Override
     public List<ItemStack> doApply(List<ItemStack> generatedLoot, @Nonnull LootContext context) {
         Entity killer = context.getParamOrNull(LootContextParams.KILLER_ENTITY);
-        if (killer instanceof Player) {
-            Player player = ((Player) killer);
-            if(EnchantmentHelper.getEnchantments(player.getMainHandItem()).containsKey(UtilcraftEnchantments.BEHEADING)){
+        if (killer instanceof Player player) {
+            if(EnchantmentHelper.getEnchantments(player.getMainHandItem()).containsKey(UtilcraftEnchantments.BEHEADING.get())){
                 Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
-                int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(UtilcraftEnchantments.BEHEADING, player.getMainHandItem());
+                int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(UtilcraftEnchantments.BEHEADING.get(), player.getMainHandItem());
                 int chance = BeheadingEnchantment.getHeadDropChance(enchantmentLevel);
                 Random random = player.getRandom();
                 if(entity instanceof Zombie){

@@ -1,25 +1,24 @@
 package net.petersil98.utilcraft.container;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.*;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import net.minecraft.world.entity.player.StackedContents;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 
 public class EntropyTableContainer extends RecipeBookMenu<CraftingContainer> {
     private final CraftingContainer craftMatrix = new CraftingContainer(this, 4, 4);
@@ -32,7 +31,7 @@ public class EntropyTableContainer extends RecipeBookMenu<CraftingContainer> {
     }
 
     public EntropyTableContainer(int id, @Nonnull Inventory playerInventory, ContainerLevelAccess worldPosCallable) {
-        super(UtilcraftContainer.ENTROPY_TABLE_CONTAINER, id);
+        super(UtilcraftContainer.ENTROPY_TABLE_CONTAINER.get(), id);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
         this.addSlot(new ResultSlot(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 44));
@@ -113,7 +112,7 @@ public class EntropyTableContainer extends RecipeBookMenu<CraftingContainer> {
      * Determines whether supplied player can use this container
      */
     public boolean stillValid(@Nonnull Player player) {
-        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.ENTROPY_TABLE);
+        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.ENTROPY_TABLE.get());
     }
 
     /**

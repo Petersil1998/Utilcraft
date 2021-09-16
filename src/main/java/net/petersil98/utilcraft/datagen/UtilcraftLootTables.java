@@ -2,18 +2,10 @@ package net.petersil98.utilcraft.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.*;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
-import net.petersil98.utilcraft.blocks.sideslabs.UtilcraftSideSlabs;
 import net.petersil98.utilcraft.blocks.sideslabs.SideSlabBlock;
 import net.petersil98.utilcraft.items.UtilcraftItems;
-
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.SaplingBlock;
-import net.minecraft.world.level.block.SlabBlock;
 
 public class UtilcraftLootTables extends BaseLootTableProvider {
 
@@ -23,45 +15,45 @@ public class UtilcraftLootTables extends BaseLootTableProvider {
 
     @Override
     protected void addTables() {
-        addSimpleBlock(UtilcraftBlocks.COMPRESSED_COBBLESTONE);
-        addSimpleBlock(UtilcraftBlocks.DISENCHANTMENT_TABLE);
-        addSimpleBlock(UtilcraftBlocks.GOLD_BRICK);
-        addSlab(UtilcraftBlocks.GOLD_SLAB);
-        addSimpleBlock(UtilcraftBlocks.GOLD_STAIRS);
-        addSimpleBlock(UtilcraftBlocks.GOLD_WALL);
-        addSlab(UtilcraftBlocks.REDSTONE_SLAB);
-        addSimpleBlock(UtilcraftBlocks.REDSTONE_STAIRS);
-        addSimpleBlock(UtilcraftBlocks.ROSE_QUARTZ_BLOCK);
-        addOreBlock(UtilcraftBlocks.ROSE_QUARTZ_ORE, UtilcraftItems.ROSE_QUARTZ);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_BUTTON);
-        addDoor(UtilcraftBlocks.SAKURA_DOOR);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_FENCE);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_FENCE_GATE);
-        addLeave(UtilcraftBlocks.SAKURA_LEAVES, UtilcraftBlocks.SAKURA_SAPLING,true, true);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_LOG);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_PLANKS);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_PRESSURE_PLATE);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_SAPLING);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_SIGN);
-        addSlab(UtilcraftBlocks.SAKURA_SLAB);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_STAIRS);
-        addSimpleBlock(UtilcraftBlocks.SAKURA_TRAPDOOR);
-        addSimpleBlockWithName(UtilcraftBlocks.SECURE_CHEST);
-        addSideSlab(UtilcraftSideSlabs.SIDE_ACACIA_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_BIRCH_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_COBBLESTONE_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_DARK_OAK_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_GOLD_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_JUNGLE_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_OAK_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_REDSTONE_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_SAKURA_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_SPRUCE_SLAB);
-        addSideSlab(UtilcraftSideSlabs.SIDE_STONE_SLAB);
-        addSimpleBlock(UtilcraftBlocks.SILVER_ORE);
-        addPottedFlower(UtilcraftBlocks.POTTED_SAKURA_SAPLING, UtilcraftBlocks.SAKURA_SAPLING);
+        addSimpleBlock(UtilcraftBlocks.COMPRESSED_COBBLESTONE.get());
+        addSimpleBlock(UtilcraftBlocks.DISENCHANTMENT_TABLE.get());
+        addSimpleBlock(UtilcraftBlocks.GOLD_BRICK.get());
+        addSlab(UtilcraftBlocks.GOLD_SLAB.get());
+        addSimpleBlock(UtilcraftBlocks.GOLD_STAIRS.get());
+        addSimpleBlock(UtilcraftBlocks.GOLD_WALL.get());
+        addSlab(UtilcraftBlocks.REDSTONE_SLAB.get());
+        addSimpleBlock(UtilcraftBlocks.REDSTONE_STAIRS.get());
+        addSimpleBlock(UtilcraftBlocks.ROSE_QUARTZ_BLOCK.get());
+        addOreBlock(UtilcraftBlocks.ROSE_QUARTZ_ORE.get(), UtilcraftItems.ROSE_QUARTZ.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_BUTTON.get());
+        addDoor(UtilcraftBlocks.SAKURA_DOOR.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_FENCE.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_FENCE_GATE.get());
+        addLeave(UtilcraftBlocks.SAKURA_LEAVES.get(), UtilcraftBlocks.SAKURA_SAPLING.get(),true, true);
+        addSimpleBlock(UtilcraftBlocks.SAKURA_LOG.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_PLANKS.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_PRESSURE_PLATE.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_SAPLING.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_SIGN.get());
+        addSlab(UtilcraftBlocks.SAKURA_SLAB.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_STAIRS.get());
+        addSimpleBlock(UtilcraftBlocks.SAKURA_TRAPDOOR.get());
+        addSimpleBlockWithName(UtilcraftBlocks.SECURE_CHEST.get());
+        addSideSlab(UtilcraftBlocks.SIDE_ACACIA_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_BIRCH_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_COBBLESTONE_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_DARK_OAK_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_GOLD_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_JUNGLE_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_OAK_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_REDSTONE_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_SAKURA_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_SPRUCE_SLAB.get());
+        addSideSlab(UtilcraftBlocks.SIDE_STONE_SLAB.get());
+        addSimpleBlock(UtilcraftBlocks.SILVER_ORE.get());
+        addPottedFlower(UtilcraftBlocks.POTTED_SAKURA_SAPLING.get(), UtilcraftBlocks.SAKURA_SAPLING.get());
         addSpawnerLootTable();
-        addSilkTouchBlock(UtilcraftBlocks.GLASS_STAIRS);
+        addSilkTouchBlock(UtilcraftBlocks.GLASS_STAIRS.get());
     }
 
     private void addSimpleBlock(Block block) {

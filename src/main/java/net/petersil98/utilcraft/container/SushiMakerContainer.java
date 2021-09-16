@@ -1,22 +1,21 @@
 package net.petersil98.utilcraft.container;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.*;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
-import net.petersil98.utilcraft.recipes.UtilcraftRecipeTypes;
 import net.petersil98.utilcraft.recipes.SushiMakerRecipe;
+import net.petersil98.utilcraft.recipes.UtilcraftRecipeTypes;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
-
-import net.minecraft.world.entity.player.StackedContents;
-import net.minecraft.world.item.crafting.Recipe;
 
 public class SushiMakerContainer extends RecipeBookMenu<CraftingContainer> {
     private final CraftingContainer craftMatrix = new CraftingContainer(this, 4, 4);
@@ -29,7 +28,7 @@ public class SushiMakerContainer extends RecipeBookMenu<CraftingContainer> {
     }
 
     public SushiMakerContainer(int id, @Nonnull Inventory playerInventory, ContainerLevelAccess worldPosCallable) {
-        super(UtilcraftContainer.SUSHI_MAKER_CONTAINER, id);
+        super(UtilcraftContainer.SUSHI_MAKER_CONTAINER.get(), id);
         this.worldPosCallable = worldPosCallable;
         this.player = playerInventory.player;
         this.addSlot(new ResultSlot(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 44));
@@ -100,7 +99,7 @@ public class SushiMakerContainer extends RecipeBookMenu<CraftingContainer> {
      * Determines whether supplied player can use this container
      */
     public boolean stillValid(@Nonnull Player player) {
-        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.SUSHI_MAKER);
+        return stillValid(this.worldPosCallable, player, UtilcraftBlocks.SUSHI_MAKER.get());
     }
 
     /**

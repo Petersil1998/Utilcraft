@@ -1,23 +1,22 @@
 package net.petersil98.utilcraft.items;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.petersil98.utilcraft.Utilcraft;
-import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.petersil98.utilcraft.blocks.SushiMaker;
+import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 
 import javax.annotation.Nonnull;
 
 public class ButchersKnife extends Item {
 
-    public ButchersKnife() {
-        super(new Properties().tab(Utilcraft.ITEM_GROUP));
+    public ButchersKnife(Properties properties) {
+        super(properties);
     }
 
     @Nonnull
@@ -73,7 +72,7 @@ public class ButchersKnife extends Item {
     }
 
     private void replaceBlocks(BlockPos firstBlock, Direction secondBlock, @Nonnull Level world) {
-        world.setBlockAndUpdate(firstBlock, UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock));
-        world.setBlockAndUpdate(firstBlock.offset(secondBlock.getNormal()), UtilcraftBlocks.SUSHI_MAKER.defaultBlockState().setValue(SushiMaker.FACING, secondBlock.getOpposite()));
+        world.setBlockAndUpdate(firstBlock, UtilcraftBlocks.SUSHI_MAKER.get().defaultBlockState().setValue(SushiMaker.FACING, secondBlock));
+        world.setBlockAndUpdate(firstBlock.offset(secondBlock.getNormal()), UtilcraftBlocks.SUSHI_MAKER.get().defaultBlockState().setValue(SushiMaker.FACING, secondBlock.getOpposite()));
     }
 }

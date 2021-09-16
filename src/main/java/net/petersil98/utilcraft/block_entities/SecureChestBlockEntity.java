@@ -1,15 +1,20 @@
 package net.petersil98.utilcraft.block_entities;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.LidBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -21,12 +26,6 @@ import net.petersil98.utilcraft.container.SecureChestContainer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
-
-import net.minecraft.core.Direction;
-import net.minecraft.world.Nameable;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.LidBlockEntity;
 
 @OnlyIn(
         value = Dist.CLIENT,
@@ -50,13 +49,13 @@ public class SecureChestBlockEntity extends BlockEntity implements LidBlockEntit
     }
 
     public SecureChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-        this(UtilcraftBlockEntities.SECURE_CHEST, blockPos, blockState);
+        this(UtilcraftBlockEntities.SECURE_CHEST.get(), blockPos, blockState);
     }
 
     @Nonnull
     @Override
     public BlockEntityType<?> getType() {
-        return UtilcraftBlockEntities.SECURE_CHEST;
+        return UtilcraftBlockEntities.SECURE_CHEST.get();
     }
 
     @Override

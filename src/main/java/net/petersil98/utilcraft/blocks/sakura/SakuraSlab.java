@@ -1,22 +1,15 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class SakuraSlab extends SlabBlock {
 
-    public SakuraSlab(){
-        super(Properties
-                .of(Material.WOOD, MaterialColor.WOOD)
-                .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
-        );
+    public SakuraSlab(Properties properties){
+        super(properties);
     }
 
     @Override

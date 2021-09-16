@@ -17,7 +17,7 @@ public class DisenchantmentTableBlockEntity extends BlockEntity implements Namea
     private Component customName;
 
     public DisenchantmentTableBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(UtilcraftBlockEntities.DISENCHANTMENT_BLOCK, blockPos, blockState);
+        super(UtilcraftBlockEntities.DISENCHANTMENT_BLOCK.get(), blockPos, blockState);
     }
 
     @Nonnull

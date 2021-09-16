@@ -1,21 +1,15 @@
 package net.petersil98.utilcraft.blocks.sakura;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class SakuraFence extends FenceBlock {
 
-    public SakuraFence() {
-        super(Properties
-                .of(Material.WOOD, new SakuraPlanks().defaultMaterialColor())
-                .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
-        );
+    public SakuraFence(Properties properties) {
+        super(properties);
     }
 
     @Override

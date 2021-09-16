@@ -13,6 +13,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.util.Lazy;
 import net.petersil98.utilcraft.blocks.SecureChest;
 import net.petersil98.utilcraft.block_entities.SecureChestBlockEntity;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
@@ -24,7 +25,7 @@ public class SecureChestItemBlockEntityRenderer extends BlockEntityWithoutLevelR
 
     public static final BlockEntityWithoutLevelRenderer SECURE_CHEST_ITEM_RENDERER = new SecureChestItemBlockEntityRenderer(() -> Minecraft.getInstance().getBlockEntityRenderDispatcher(), () -> Minecraft.getInstance().getEntityModels());
 
-    private final SecureChestBlockEntity chest = new SecureChestBlockEntity(BlockPos.ZERO, UtilcraftBlocks.SECURE_CHEST.defaultBlockState());
+    private final Lazy<SecureChestBlockEntity> chest = Lazy.of(() -> new SecureChestBlockEntity(BlockPos.ZERO, UtilcraftBlocks.SECURE_CHEST.get().defaultBlockState()));
     private final Supplier<BlockEntityRenderDispatcher> renderDispatcher;
 
     private SecureChestItemBlockEntityRenderer(Supplier<BlockEntityRenderDispatcher> renderDispatcher, Supplier<EntityModelSet> modelSet) {
@@ -38,7 +39,7 @@ public class SecureChestItemBlockEntityRenderer extends BlockEntityWithoutLevelR
             Block block = ((BlockItem)item).getBlock();
             BlockEntity blockEntity;
             if (block instanceof SecureChest) {
-                blockEntity = this.chest;
+                blockEntity = this.chest.get();
             } else {
                 return;
             }
