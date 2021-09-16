@@ -44,8 +44,10 @@ public class BlockEventHandler {
             });
             if (playerCanHarvestBlock(event.getState(), mainItem, event.getPos(), world, player)) {
                 ArrayList<BlockPos> blocksToHarvest = new ArrayList<>();
+                boolean shouldReduceDurability = true;
                 if (isSuperTool(mainItem.getItem())) {
                     get3x3FieldAroundTargetedBlock(player, blocksToHarvest);
+                    shouldReduceDurability = false;
                 }
                 if(veinMinerActive.get()) {
                     if (isOreBlock(minedBlock)) {
@@ -66,7 +68,7 @@ public class BlockEventHandler {
                                 int bonusLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, mainItem);
                                 int silkLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, mainItem);
                                 event.setExpToDrop(event.getExpToDrop()+blockstate.getExpDrop(world, blockpos, bonusLevel, silkLevel));
-                                if (!blockpos.equals(event.getPos())) {
+                                if (!blockpos.equals(event.getPos()) && shouldReduceDurability) {
                                     player.getMainHandItem().hurtAndBreak(1, player, (onBroken) -> onBroken.broadcastBreakEvent(player.getUsedItemHand()));
                                 }
                             }
