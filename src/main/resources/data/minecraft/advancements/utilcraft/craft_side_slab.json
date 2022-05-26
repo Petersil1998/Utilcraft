@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:utilcraft/root",
+  "display": {
+    "icon": {
+      "item": "utilcraft:side_oak_slab"
+    },
+    "title": {
+      "translate": "advancements.utilcraft.craft_side_slab.title"
+    },
+    "description": {
+      "translate": "advancements.utilcraft.craft_side_slab.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "craft_side_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "utilcraft:side_slabs"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "craft_side_slab"
+    ]
+  ]
+}

@@ -1,14 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "utilcraft",
-  "pattern": [
-    "##"
-  ],
-  "key": {
-    "#": {
+  "ingredients": [
+    {
+      "item": "minecraft:wheat"
+    },
+    {
       "item": "minecraft:wheat"
     }
-  },
+  ],
   "result": {
     "item": "utilcraft:flour"
   }

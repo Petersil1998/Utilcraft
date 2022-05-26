@@ -122,7 +122,7 @@ public record SushiMakerRecipe(ResourceLocation id, String group, int recipeWidt
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE;
+        return UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE.get();
     }
 
     @Nonnull

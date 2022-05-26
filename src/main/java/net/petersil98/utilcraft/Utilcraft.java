@@ -1,6 +1,10 @@
 package net.petersil98.utilcraft;
 
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -9,6 +13,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -20,7 +27,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import net.petersil98.utilcraft.block_entities.UtilcraftBlockEntities;
 import net.petersil98.utilcraft.blocks.UtilcraftBlocks;
 import net.petersil98.utilcraft.commands.UtilcraftCommands;
@@ -31,16 +37,19 @@ import net.petersil98.utilcraft.data.capabilities.home.CapabilityHome;
 import net.petersil98.utilcraft.data.capabilities.last_death.CapabilityLastDeath;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 import net.petersil98.utilcraft.enchantments.UtilcraftEnchantments;
+import net.petersil98.utilcraft.entities.UtilcraftEntities;
 import net.petersil98.utilcraft.gamerules.UtilcraftGameRules;
-import net.petersil98.utilcraft.generation.WorldGeneration;
 import net.petersil98.utilcraft.items.UtilcraftItems;
 import net.petersil98.utilcraft.loot_modifiers.UtilcraftLootModifiers;
 import net.petersil98.utilcraft.network.NetworkManager;
 import net.petersil98.utilcraft.paintings.UtilcraftPaintings;
 import net.petersil98.utilcraft.recipes.UtilcraftRecipeTypes;
+import net.petersil98.utilcraft.render.EmptyRenderer;
 import net.petersil98.utilcraft.render.SecureChestBlockEntityRenderer;
 import net.petersil98.utilcraft.screen.*;
 import net.petersil98.utilcraft.utils.ClientSetup;
+import net.petersil98.utilcraft.worldgen.UtilcraftFeatures;
+import net.petersil98.utilcraft.worldgen.WorldGeneration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,12 +80,15 @@ public class Utilcraft {
 
         UtilcraftBlocks.BLOCKS.register(eventBus);
         UtilcraftItems.ITEMS.register(eventBus);
+        UtilcraftEntities.ENTITIES.register(eventBus);
         UtilcraftEnchantments.ENCHANTMENTS.register(eventBus);
         UtilcraftLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(eventBus);
-        UtilcraftBlockEntities.BLOCK_ENTITIES.register(eventBus);
-        UtilcraftContainer.CONTAINERS.register(eventBus);
+        UtilcraftBlockEntities.BLOCK_ENTITY_TYPES.register(eventBus);
+        UtilcraftContainer.CONTAINER_TYPES.register(eventBus);
         UtilcraftRecipeTypes.RECIPE_SERIALIZERS.register(eventBus);
         UtilcraftPaintings.PAINTING_TYPES.register(eventBus);
+        UtilcraftFeatures.CONFIGURED_FEATURES.register(eventBus);
+        UtilcraftFeatures.PLACED_FEATURES.register(eventBus);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -94,6 +106,7 @@ public class Utilcraft {
         BlockEntityRenderers.register(UtilcraftBlockEntities.UTILCRAFT_SIGN.get(), SignRenderer::new);
         BlockEntityRenderers.register(UtilcraftBlockEntities.SECURE_CHEST.get(), SecureChestBlockEntityRenderer::new);
         ClientRegistry.registerKeyBinding(KeyBindings.VEIN_MINER);
+        ClientRegistry.registerKeyBinding(KeyBindings.PING);
         ClientSetup.registerExtensionPoint();
         event.enqueueWork(() -> {
             MenuScreens.register(UtilcraftContainer.DISENCHANTMENT_BLOCK_CONTAINER.get(), DisenchantmentTableScreen::new);
@@ -126,6 +139,22 @@ public class Utilcraft {
             if(WorldGeneration.SAKURA_SPAWN_BIOMES.contains(event.getName())) {
                 WorldGeneration.addSakuraTrees(event.getGeneration());
             }
+        }
+    }
+
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD,value= Dist.CLIENT)
+    public static class RegistryClient {
+
+        @SubscribeEvent
+        public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(UtilcraftEntities.EMPTY_ENTITY.get(), EmptyRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void entityRenderers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            MeshDefinition mesh = new MeshDefinition();
+            mesh.getRoot().addOrReplaceChild("cube", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
+            event.registerLayerDefinition(EmptyRenderer.MODEL_LAYER_LOCATION, () -> LayerDefinition.create(mesh, 64, 32));
         }
     }
 }

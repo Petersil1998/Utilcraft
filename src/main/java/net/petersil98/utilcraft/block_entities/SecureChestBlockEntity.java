@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.SecureChestContainer;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -78,9 +79,9 @@ public class SecureChestBlockEntity extends BlockEntity implements LidBlockEntit
         }
     }
 
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.put("items", this.inventory.serializeNBT());
         if(this.owner != null) {
             compound.putUUID("owner", this.owner);
@@ -88,7 +89,6 @@ public class SecureChestBlockEntity extends BlockEntity implements LidBlockEntit
         if (this.hasCustomName()) {
             compound.putString("CustomName", Component.Serializer.toJson(this.customName));
         }
-        return compound;
     }
 
     @Nonnull

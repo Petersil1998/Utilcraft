@@ -12,7 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.petersil98.utilcraft.container.TravelersBackpackContainer;
 import net.petersil98.utilcraft.data.capabilities.inventory.InventoryProvider;

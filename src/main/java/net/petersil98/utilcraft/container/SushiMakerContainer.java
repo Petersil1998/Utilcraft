@@ -54,7 +54,7 @@ public class SushiMakerContainer extends RecipeBookMenu<CraftingContainer> {
         if (!world.isClientSide) {
             ServerPlayer serverplayerentity = (ServerPlayer)player;
             ItemStack itemstack = ItemStack.EMPTY;
-            Optional<SushiMakerRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE, inventory, world);
+            Optional<SushiMakerRecipe> optional = world.getServer().getRecipeManager().getRecipeFor(UtilcraftRecipeTypes.SUSHI_MAKER_RECIPE.get(), inventory, world);
             if (optional.isPresent()) {
                 SushiMakerRecipe recipe = optional.get();
                 if (inventoryResult.setRecipeUsed(world, serverplayerentity, recipe)) {

@@ -1,32 +1,33 @@
 package net.petersil98.utilcraft.blocks.sideslabs;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.petersil98.utilcraft.blocks.custom.UtilcraftBlockStateProperties;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.petersil98.utilcraft.blocks.custom.SideSlabType;
+import net.petersil98.utilcraft.blocks.custom.UtilcraftBlockStateProperties;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SideSlabBlock extends Block implements SimpleWaterloggedBlock {
     public static final EnumProperty<SideSlabType> TYPE = UtilcraftBlockStateProperties.SIDE_SLAB_TYPE;
@@ -126,15 +127,15 @@ public class SideSlabBlock extends Block implements SimpleWaterloggedBlock {
     @Nonnull
     public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
 
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
-    public boolean isPathfindable(@Nonnull BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull PathComputationType type) {
-        if (type == PathComputationType.WATER) {
-            return world.getFluidState(pos).is(FluidTags.WATER);
+    public boolean isPathfindable(@NotNull BlockState p_56376_, @NotNull BlockGetter p_56377_, @NotNull BlockPos p_56378_, @NotNull PathComputationType p_56379_) {
+        if (p_56379_ == PathComputationType.WATER) {
+            return p_56377_.getFluidState(p_56378_).m_205070_(FluidTags.WATER);
         }
         return false;
     }

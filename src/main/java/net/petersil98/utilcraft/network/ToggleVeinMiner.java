@@ -2,7 +2,7 @@ package net.petersil98.utilcraft.network;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 import net.petersil98.utilcraft.data.capabilities.vein_miner.CapabilityVeinMiner;
 
 import javax.annotation.Nonnull;

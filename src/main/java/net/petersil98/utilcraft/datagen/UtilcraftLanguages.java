@@ -68,6 +68,8 @@ public class UtilcraftLanguages {
             add(UtilcraftBlocks.SUSHI_MAKER.get(), "Sushi Maker");
             add(UtilcraftBlocks.GLASS_STAIRS.get(), "Glass Stairs");
             add(UtilcraftBlocks.SILVER_BLOCK.get(), "Silver Block");
+            add(UtilcraftBlocks.ENTROPY_TABLE.get(), "Entropy Table");
+            add(UtilcraftBlocks.CHUNK_LOADER.get(), "Chunk Loader");
 
             add(UtilcraftItems.JUICER.get(), "Juicer");
             add(UtilcraftItems.APPLE_JUICE.get(), "Apple Juice");
@@ -102,6 +104,9 @@ public class UtilcraftLanguages {
             add("advancements.utilcraft.mine_rose_quartz.title", "Mine Rose Quartz");
             add("advancements.utilcraft.mine_rose_quartz.description", "Find and mine some Rose Quartz");
 
+            add("advancements.utilcraft.craft_side_slab.title", "Is this even possible?");
+            add("advancements.utilcraft.craft_side_slab.description", "Craft a Side Slab Block");
+
             add("config.section.gui", "GUI Config");
             add("config.number_player_deaths.description", "First x Players are shown in the Death-Scoreboard (0 to disable feature)");
             add("config.number_player_deaths.title", "Death-Scoreboard Length (0 - 20)");
@@ -124,6 +129,7 @@ public class UtilcraftLanguages {
 
             add("key_bindings.utilcraft.category", "Utilcraft");
             add("key_bindings.utilcraft.vein_miner", "Toggle Vein Miner");
+            add("key_bindings.utilcraft.ping", "Ping Block");
 
             add("version.utilcraft.new", "[Utilcraft] New Version %s available!");
         }
@@ -176,6 +182,8 @@ public class UtilcraftLanguages {
             add(UtilcraftBlocks.SUSHI_MAKER.get(), "Sushi Maker");
             add(UtilcraftBlocks.GLASS_STAIRS.get(), "Glastreppe");
             add(UtilcraftBlocks.SILVER_BLOCK.get(), "Silberblock");
+            add(UtilcraftBlocks.ENTROPY_TABLE.get(), "Entropietisch");
+            add(UtilcraftBlocks.CHUNK_LOADER.get(), "Chunk Lader");
 
             add(UtilcraftItems.JUICER.get(), "Entsafter");
             add(UtilcraftItems.APPLE_JUICE.get(), "Apfelsaft");
@@ -210,6 +218,9 @@ public class UtilcraftLanguages {
             add("advancements.utilcraft.mine_rose_quartz.title", "Baue Rosenquarz ab");
             add("advancements.utilcraft.mine_rose_quartz.description", "Finde und baue Rosenquarz ab");
 
+            add("advancements.utilcraft.craft_side_slab.title", "Ist das überhaupt erlaubt?");
+            add("advancements.utilcraft.craft_side_slab.description", "Stelle eine seitliche Stufe her");
+
             add("config.section.gui", "GUI Konfiguration");
             add("config.number_player_deaths.description", "Die Ersten x Spieler werden in dem Death-Scoreboard (0 um das Feature deaktivieren)");
             add("config.number_player_deaths.title", "Death-Scoreboard Länge (0 - 20)");
@@ -232,6 +243,7 @@ public class UtilcraftLanguages {
 
             add("key_bindings.utilcraft.category", "Utilcraft");
             add("key_bindings.utilcraft.vein_miner", "Vein Miner ein/ausschalten");
+            add("key_bindings.utilcraft.ping", "Markieren");
 
             add("version.utilcraft.new", "[Utilcraft] Neue Version %s verfügbar!");
         }

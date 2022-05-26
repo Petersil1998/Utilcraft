@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.petersil98.utilcraft.Utilcraft;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,14 +21,12 @@ public class DisenchantmentTableBlockEntity extends BlockEntity implements Namea
         super(UtilcraftBlockEntities.DISENCHANTMENT_BLOCK.get(), blockPos, blockState);
     }
 
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag compound) {
+        super.saveAdditional(compound);
         if (this.hasCustomName()) {
             compound.putString("CustomName", Component.Serializer.toJson(this.customName));
         }
-
-        return compound;
     }
 
     @Override

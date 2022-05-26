@@ -31,7 +31,7 @@ public class SpawnerItem extends BlockItem {
             if (entityTag != null) {
                 BlockEntity blockEntity = world.getBlockEntity(pos);
                 if (blockEntity != null) {
-                    CompoundTag original = blockEntity.save(new CompoundTag());
+                    CompoundTag original = blockEntity.saveWithoutMetadata();
                     CompoundTag old = original.copy();
                     original.merge(entityTag);
                     original.putInt("x", pos.getX());

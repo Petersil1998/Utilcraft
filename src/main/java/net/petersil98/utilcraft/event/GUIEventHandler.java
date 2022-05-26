@@ -18,7 +18,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.petersil98.utilcraft.Utilcraft;
@@ -75,12 +75,12 @@ public class GUIEventHandler {
     }
 
     @SubscribeEvent
-    public static void renderDeathPointRay(@Nonnull RenderWorldLastEvent event) {
+    public static void renderDeathPointRay(@Nonnull RenderLevelLastEvent event) {
         ILastDeath lastDeath = PlayerUtils.getLastDeath();
         if(lastDeath != null && lastDeath.getDeathPoint() != null && lastDeath.getDeathDimension() != null) {
             LocalPlayer player = Minecraft.getInstance().player;
             if(player.level.dimension().location().equals(lastDeath.getDeathDimension())) {
-                PoseStack matrixStack = event.getMatrixStack();
+                PoseStack matrixStack = event.getPoseStack();
                 matrixStack.pushPose();
 
                 Vec3 projectedView = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();

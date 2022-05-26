@@ -3,7 +3,7 @@ package net.petersil98.utilcraft.items;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.petersil98.utilcraft.Utilcraft;
@@ -14,7 +14,7 @@ import net.petersil98.utilcraft.items.food.SweetBerryJuice;
 
 public class UtilcraftItems {
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Utilcraft.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.Keys.ITEMS, Utilcraft.MOD_ID);
 
     public static final RegistryObject<BlockItem> GOLD_BRICK = ITEMS.register("gold_brick", () -> new BlockItem(UtilcraftBlocks.GOLD_BRICK.get(), new Item.Properties().tab(Utilcraft.ITEM_GROUP)));
     public static final RegistryObject<BlockItem> GOLD_STAIRS = ITEMS.register("gold_stairs", () -> new BlockItem(UtilcraftBlocks.GOLD_STAIRS.get(), new Item.Properties().tab(Utilcraft.ITEM_GROUP)));

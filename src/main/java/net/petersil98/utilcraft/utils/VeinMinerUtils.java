@@ -7,7 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.ForgeHooks;
@@ -233,11 +232,11 @@ public class VeinMinerUtils {
         return world.getBlockState(pos1).getBlock().equals(world.getBlockState(pos2).getBlock());
     }
 
-    public static boolean isLogBlock(@Nonnull Block block){
-        return BlockTags.LOGS.contains(block);
+    public static boolean isLogBlock(@Nonnull BlockState block){
+        return block.m_204336_(BlockTags.LOGS);
     }
 
-    public static boolean isOreBlock(@Nonnull Block block) {
-        return Tags.Blocks.ORES.contains(block);
+    public static boolean isOreBlock(@Nonnull BlockState block) {
+        return block.m_204336_(Tags.Blocks.ORES);
     }
 }

@@ -3,10 +3,13 @@ package net.petersil98.utilcraft.event;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
@@ -33,10 +36,9 @@ import java.util.concurrent.atomic.AtomicReference;
 @Mod.EventBusSubscriber(modid = Utilcraft.MOD_ID)
 public class PlayerEventHandler {
 
-    @SubscribeEvent
-    public static void onPlayerRightClickBlock(@Nonnull PlayerInteractEvent.RightClickBlock event){
-        if(event.getEntity() instanceof ServerPlayer){
-            ServerPlayer player = (ServerPlayer)event.getEntity();
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void blockProtector(@Nonnull PlayerInteractEvent.RightClickBlock event){
+        if(event.getEntity() instanceof ServerPlayer player){
             BlockEntity te = player.getLevel().getBlockEntity(event.getPos());
             if(te instanceof SecureChestBlockEntity){
                 UUID ownerUUID = ((SecureChestBlockEntity)te).getOwner();
@@ -50,6 +52,15 @@ public class PlayerEventHandler {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void signEditor(@Nonnull PlayerInteractEvent.RightClickBlock event){
+        if(event.getPlayer() instanceof ServerPlayer player
+                && event.getHitVec().getType() == HitResult.Type.BLOCK
+                && event.getWorld().getBlockEntity(event.getPos()) instanceof SignBlockEntity sign) {
+            player.openTextEdit(sign);
         }
     }
 
@@ -72,8 +83,7 @@ public class PlayerEventHandler {
 
     @SubscribeEvent
     public static void onPlayerLoginEvent(@Nonnull EntityJoinWorldEvent event) {
-        if(event.getEntity() instanceof ServerPlayer) {
-            ServerPlayer player = (ServerPlayer) event.getEntity();
+        if(event.getEntity() instanceof ServerPlayer player) {
             PlayerUtils.setPlayerDeaths(player.getServer(), player);
             NetworkManager.sendToClients(new PlayerDeathStats());
             event.getEntity().getCapability(CapabilityLastDeath.LAST_DEATH_CAPABILITY).ifPresent(iLastDeath -> {

@@ -1,6 +1,7 @@
 package net.petersil98.utilcraft.event;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SpawnerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -33,7 +34,7 @@ public class BlockEventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void veinMiner(@Nonnull final BlockEvent.BreakEvent event) {
-        Block minedBlock = event.getState().getBlock();
+        BlockState minedBlock = event.getState();
         AtomicBoolean veinMinerActive = new AtomicBoolean(false);
         if(event.getPlayer().getCommandSenderWorld() instanceof ServerLevel) {
             ServerPlayer player = (ServerPlayer)event.getPlayer();
@@ -61,7 +62,7 @@ public class BlockEventHandler {
                     BlockState blockstate = world.getBlockState(blockpos);
                     if (playerCanHarvestBlock(blockstate, mainItem, player)) {
                         if (mainItem.getMaxDamage() > mainItem.getDamageValue() + 1) {
-                            if (blockstate.removedByPlayer(world, blockpos, player, true, world.getFluidState(blockpos))) {
+                            if (blockstate.onDestroyedByPlayer(world, blockpos, player, true, world.getFluidState(blockpos))) {
                                 Block block = blockstate.getBlock();
                                 block.playerDestroy(world, player, blockpos, blockstate, null, player.getMainHandItem());
                                 block.playerWillDestroy(world, blockpos, blockstate, player);
@@ -81,8 +82,7 @@ public class BlockEventHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void blockProtector(@Nonnull final BlockEvent.BreakEvent event) {
-        if(event.getPlayer() instanceof ServerPlayer) {
-            ServerPlayer player = (ServerPlayer)event.getPlayer();
+        if(event.getPlayer() instanceof ServerPlayer player) {
             BlockEntity te = player.getCommandSenderWorld().getBlockEntity(event.getPos());
             if (te instanceof SecureChestBlockEntity) {
                 UUID ownerUUID = ((SecureChestBlockEntity)te).getOwner();
@@ -96,6 +96,16 @@ public class BlockEventHandler {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void preventSpawnerFromDroppingXP(BlockEvent.BreakEvent event) {
+        ItemStack itemUsed = event.getPlayer().getItemInHand(event.getPlayer().getUsedItemHand());
+        if(event.getPlayer() instanceof ServerPlayer && event.getState().getBlock() instanceof SpawnerBlock
+            && playerCanHarvestBlock(event.getState(), itemUsed, event.getPlayer())
+            && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, itemUsed) > 0) {
+            event.setExpToDrop(0);
         }
     }
 }

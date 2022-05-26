@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.petersil98.utilcraft.Utilcraft;
 import net.petersil98.utilcraft.container.DisenchantmentTableContainer;
@@ -41,7 +41,7 @@ public class DisenchantmentTableScreen extends AbstractContainerScreen<Disenchan
     public void renderBackground(@Nonnull PoseStack matrixStack, int vOffset) {
         if (this.minecraft.level != null) {
             this.fillGradient(matrixStack, 0, 0, this.width, this.height, -1072689136, -804253680);
-            MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.BackgroundDrawnEvent(this, matrixStack));
+            MinecraftForge.EVENT_BUS.post(new ScreenEvent.BackgroundDrawnEvent(this, matrixStack));
         } else {
             this.renderDirtBackground(vOffset);
         }

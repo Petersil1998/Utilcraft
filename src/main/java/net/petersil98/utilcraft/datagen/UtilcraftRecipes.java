@@ -34,7 +34,6 @@ public class UtilcraftRecipes extends RecipeProvider {
         registerButchersKnife(consumer);
         registerCompressedCobblestone(consumer);
         registerDisenchantmentTable(consumer);
-        registerFlour(consumer);
         registerGoldBrick(consumer);
         registerGoldSlab(consumer);
         registerGoldStairs(consumer);
@@ -74,6 +73,7 @@ public class UtilcraftRecipes extends RecipeProvider {
         registerSideSakuraSlab(consumer);
         registerSideSpruceSlab(consumer);
         registerSideStoneSlab(consumer);
+        registerSilverBlock(consumer);
         registerTNTFinder(consumer);
         registerTravelersBackpack(consumer);
         registerGlassStairs(consumer);
@@ -82,6 +82,7 @@ public class UtilcraftRecipes extends RecipeProvider {
     private void registerShapelessRecipes(Consumer<FinishedRecipe> consumer) {
         registerAppleJuice(consumer);
         registerCobblestone(consumer);
+        registerFlour(consumer);
         registerRoseQuartz(consumer);
         registerSakuraButton(consumer);
         registerSakuraPlanks(consumer);
@@ -136,15 +137,6 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .unlockedBy("book", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BOOK))
                 .unlockedBy("rose_quartz", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.ROSE_QUARTZ.get()))
                 .unlockedBy("obsidian", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.OBSIDIAN))
-                .save(consumer);
-    }
-
-    private void registerFlour(Consumer<FinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shaped(UtilcraftItems.FLOUR.get())
-                .pattern("##")
-                .define('#', Items.WHEAT)
-                .group(Utilcraft.MOD_ID)
-                .unlockedBy("wheat", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WHEAT))
                 .save(consumer);
     }
 
@@ -454,10 +446,10 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .pattern("###")
                 .pattern("#*#")
                 .pattern("###")
-                .define('#', Ingredient.of(ItemTags.PLANKS))
+                .define('#', Ingredient.m_204132_(ItemTags.PLANKS))
                 .define('*', UtilcraftItems.SILVER_INGOT.get())
                 .group(Utilcraft.MOD_ID)
-                .unlockedBy("planks", has(ItemTags.PLANKS))
+                .unlockedBy("planks", m_206406_(ItemTags.PLANKS))
                 .unlockedBy("silver_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.SILVER_INGOT.get()))
                 .save(consumer);
     }
@@ -583,6 +575,17 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .save(consumer);
     }
 
+    private void registerSilverBlock(Consumer<FinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shaped(UtilcraftBlocks.SILVER_BLOCK.get())
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .define('#', UtilcraftItems.SILVER_INGOT.get())
+                .group(Utilcraft.MOD_ID)
+                .unlockedBy("silver_ingot", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftItems.SILVER_INGOT.get()))
+                .save(consumer);
+    }
+
     private void registerTNTFinder(Consumer<FinishedRecipe> consumer) {
         ShapedRecipeBuilder.shaped(UtilcraftItems.TNT_FINDER.get())
                 .pattern(" + ")
@@ -640,6 +643,14 @@ public class UtilcraftRecipes extends RecipeProvider {
                 .requires(UtilcraftBlocks.COMPRESSED_COBBLESTONE.get())
                 .group(Utilcraft.MOD_ID)
                 .unlockedBy("compressed_cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(UtilcraftBlocks.COMPRESSED_COBBLESTONE.get()))
+                .save(consumer);
+    }
+
+    private void registerFlour(Consumer<FinishedRecipe> consumer) {
+        ShapelessRecipeBuilder.shapeless(UtilcraftItems.FLOUR.get())
+                .requires(Items.WHEAT, 2)
+                .group(Utilcraft.MOD_ID)
+                .unlockedBy("wheat", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WHEAT))
                 .save(consumer);
     }
 

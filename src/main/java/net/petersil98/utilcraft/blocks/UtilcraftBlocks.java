@@ -4,7 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.petersil98.utilcraft.Utilcraft;
@@ -13,7 +13,7 @@ import net.petersil98.utilcraft.blocks.sideslabs.*;
 
 public class UtilcraftBlocks {
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Utilcraft.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.Keys.BLOCKS, Utilcraft.MOD_ID);
 
     public static final RegistryObject<GoldBrick> GOLD_BRICK = BLOCKS.register("gold_brick", () -> new GoldBrick(Block.Properties.of(Material.METAL).sound(SoundType.METAL).strength(3,6)));
     public static final RegistryObject<GoldStairs> GOLD_STAIRS = BLOCKS.register("gold_stairs", () -> new GoldStairs(Block.Properties.copy(GOLD_BRICK.get())));
